@@ -1,0 +1,204 @@
+# Goal
+Study a conjecture about the sharp Lieb–Thirring constant for the Neumann problem on the
+half-line, working in Lean 4 + Mathlib. Set up the project, check the literature, search for
+counterexamples numerically, formalize everything exact, and attempt a proof if the evidence
+supports one. Keep a strict line between what is proved, what is cited, what is numerical
+evidence and what is conjecture.
+
+## Ground rules
+1. Lean only. Proofs use Mathlib; numerics are compiled Lean programs (`lake exe`) using `Float`.
+   Do not use Python or any other language. If something seems impossible in Lean, stop and
+   ask me before reaching for another tool.
+2. `Float` output is numerical evidence, never proof, even though it comes from Lean.
+3. Mathlib has no spectral theory of Schrödinger operators; don't try to build it. Spectral
+   facts enter Lean as explicitly named hypotheses.
+4. Label every claim you report:
+   [Lean]             proved, compiles, no `sorry`; `#print axioms` shows only propext,
+                      Classical.choice, Quot.sound
+   [Lean | hyp: H]    proved in Lean from the named hypotheses H
+   [paper: ref, Thm]  or [preprint: ref, Thm] — a source you opened; quote the statement
+   [numerical ± err]  a Lean `Float` computation with an error estimate
+   [conjecture]
+5. Never say something compiles or holds without running it. Never cite a paper you haven't
+   opened.
+6. Keep a running log in `NOTES.md`: labelled claims, open `sorry`s, numerical tables with
+   errors, decisions. Commit after each task.
+
+## Environment (Windows 11)
+- Shell: Windows PowerShell 5.1. There is no `&&`; chain with `;` and check `$LASTEXITCODE`.
+  Git Bash is also available.
+- elan is installed in `%USERPROFILE%\.elan\bin` but may not be on your PATH. Begin each
+  PowerShell command with `$env:Path = "$env:USERPROFILE\.elan\bin;$env:Path"`.
+- Don't run installers or change system settings. If a tool is missing, stop and ask.
+- Long paths are disabled on this machine: keep the project at
+  `C:\Users\nicho\leaning\halfline_lt` and never build under `%TEMP%`.
+- This folder is a git repo. `lake new` creates a nested `.git` inside the new project; delete
+  it so this repo tracks the project, and make sure `.lake/` (several GB) is ignored.
+
+## Task 0 — Lean setup (verify each step)
+These steps were tested on this machine on 2026-11-24 with Lean and Mathlib v4.37.0-rc1. If
+`halfline_lt` exists, check each step instead of redoing it. As of 2026-11-24, steps 1–7 are
+done and `Search.lean` is a placeholder.
+1. In this folder: `lake +leanprover-community/mathlib4:lean-toolchain new halfline_lt math`.
+   This also downloads Mathlib's prebuilt files. Decompression errors ("The system cannot find
+   the path specified") mean the path is too long; drive mappings and junctions don't help,
+   because Lake resolves them to the real path.
+2. Delete `halfline_lt\.git`; check that `halfline_lt\.gitignore` ignores `/.lake`.
+3. In `halfline_lt\lakefile.toml`, set `weak.linter.mathlibStandardSet = false`; Mathlib's style
+   linters are noise for this project.
+4. In `halfline_lt`: `lake exe cache get` (it finishes anything step 1 left incomplete), then
+   `lake build`.
+5. Replace the contents of `HalflineLt/Basic.lean` with the block below and confirm that
+   `lake build` succeeds. (It is Read–Schulz's pointwise identity; see Task 5.)
+   ```lean
+   import Mathlib
+   example (u v Q Qp : ℝ) :
+       v^2 - (u^3*v*Q + (1/4)*u^6*Qp) = (v - (1/2)*u^3*Q)^2 - (1/4)*u^6*(Qp + Q^2) := by ring
+   ```
+6. Copy `HalflineSpec.lean` (in this folder) to `halfline_lt/HalflineLt/Spec.lean`, import it
+   from `HalflineLt.lean`, and confirm it builds. It holds the definitions and theorem
+   statements for this project. It should build with exactly 8 `sorry`s, the Task 3 targets;
+   everything else is proved and depends only on the standard axioms. If a newer Mathlib breaks
+   a proof, repair the proof without changing the statement.
+7. Add an executable target `search` whose modules import only Lean core, not Mathlib, so it
+   compiles fast. Confirm `lake build search` and `lake exe search` work.
+8. Record the Lean and Mathlib versions in `NOTES.md`. Expected warnings: the 8 `sorry`s, and
+   "consider adding `module`" for each file that imports Mathlib, which you can ignore.
+
+## Background
+Conventions: H = -d²/dx² - V with V ≥ 0; negative eigenvalues E_j, counted with multiplicity.
+
+Whole line (d = 1): Σ|E_j|^γ ≤ L_γ ∫_ℝ V^{γ+1/2}, with L_γ finite iff γ ≥ 1/2.
+- One-bound-state constant:
+  L1(γ) = Γ(γ+1) / (√π Γ(γ+1/2) (γ+1/2)) · ((γ-1/2)/(γ+1/2))^{γ-1/2},
+  attained by V = (γ²-1/4) sech²(x).
+- Semiclassical constant: Lcl(γ) = Γ(γ+1) / (2√π Γ(γ+3/2)).
+- r(γ) = L1/Lcl = 2((γ-1/2)/(γ+1/2))^{γ-1/2} is strictly decreasing on (1/2, ∞), with
+  r(3/2) = 1 and r → 2/e. So L1 > Lcl on (1/2, 3/2), L1 < Lcl on (3/2, ∞), and 2·L1 > Lcl always.
+- Known: L_γ = Lcl for γ ≥ 3/2 (KdV trace formula at 3/2 [Gardner–Greene–Kruskal–Miura,
+  Buslaev–Faddeev, Zakharov–Faddeev; Lieb–Thirring 1976], all γ > 3/2 by Aizenman–Lieb 1978).
+  L_{1/2} = 1/2 (Hundertmark–Lieb–Thomas 1998). L_1 = L1(1) = 4/(3√3π) (Read–Schulz,
+  arXiv:2609.10478, v2 14 Sep 2026: an unrefereed preprint). Open for γ ∈ (1/2, 1) ∪ (1, 3/2).
+
+Pöschl–Teller: V = ν(ν+1) sech² has bound states E_k = -(ν-k)² for integers 0 ≤ k < ν, and the
+k-th eigenfunction has parity (-1)^k. Even ones: ψ_0 = sech^ν and
+ψ_2 = sech^{ν-2} · ((2ν-1) tanh² - 1), the latter a bound state iff ν > 2.
+With ν = γ - 1/2 we get ν(ν+1) = γ² - 1/4.
+
+## The Neumann half-line problem
+H on L²(0,∞) with u'(0) = 0. L^N_γ is the best constant in
+Σ|E_j|^γ ≤ L^N_γ ∫_0^∞ V^{γ+1/2}. Write M = ∫_0^∞ V^{γ+1/2}.
+(a) L^N_γ ≤ 2 L_γ. Neumann eigenfunctions are the even eigenfunctions of the even extension
+    V(|x|) on ℝ, and ∫_ℝ V(|x|)^p dx = 2 ∫_0^∞ V^p.
+(b) L^N_γ ≥ 2 L1(γ). The soliton centred at 0, restricted to (0,∞), keeps its even ground state
+    and half its mass.
+(c) Hence L^N_γ = 2 L1(γ) at γ = 1/2, γ = 3/2, and γ = 1 (the last rests on Read–Schulz).
+(d) For γ > 5/2, L^N_γ > 2 L1(γ): with ν = γ - 1/2 > 2, the soliton's even k = 2 state adds
+    |E_2|^γ to the sum.
+(e) Exner–Laptev–Usman, Comm. Math. Phys. 326 (2014) 531–541, arXiv:1301.4986, Cor. 1.3 and
+    eq. (1.6): for scalar V ≥ 0 with Neumann condition and γ ≥ 3/2,
+        (1/2)|E_1|^γ + Σ_{n≥2} |E_n|^γ ≤ Lcl(γ) · M.
+    Together with |E_1|^γ ≤ 2 L1(γ) M (the one-bound-state bound for the even extension) this
+    gives L^N_γ ≤ Lcl(γ) + L1(γ), which beats (a) for γ > 3/2.
+(f) Consequence of (e): if Σ|E_n|^γ > 2 L1 M, then the ground-state efficiency
+    e = |E_1|^γ / (2 L1 M) exceeds 2 - 1/r(γ). That threshold is 7/8 at γ = 5/2, about 0.924 at
+    γ = 2, and tends to 1 as γ ↓ 3/2: any counterexample has a nearly optimal ground state.
+(g) Schimmer, arXiv:1912.13264 (J. Spectral Theory): double commutation for Robin conditions at
+    γ = 3/2; Neumann is the case σ_0 = 0. He notes (after his Thm 1.3) that removing E_1 by
+    single commutation leaves a Dirichlet problem, which cannot give a sharp bound when V has
+    more than one eigenvalue.
+
+## The conjecture
+L^N_γ = 2 L1(γ) for all 3/2 ≤ γ ≤ 5/2; the endpoint 5/2 is sharp by (d).
+- Known at γ = 3/2. On [1/2, 3/2] it would follow from the whole-line conjecture via (a).
+- On (3/2, 5/2] the best bounds we know are 2 L1 ≤ L^N ≤ Lcl + L1.
+
+## Earlier numerics (unverified; the script that produced them is not available)
+- γ = 1: optimum 0.49007 (2 L1(1) = 0.490070). γ = 2: optimum 0.31559 with one bound state
+  (2 L1(2) = 0.315599).
+- γ = 3: "best/soliton ≈ 1.00007". γ = 5: "≈ 1.0016, with 8 bound states". The baseline was
+  never defined. Relative to 2 L1, the soliton's own extra even levels already give
+  1 + (1/25)³ = 1.000064 at γ = 3 and 1 + (25/81)⁵ + (1/81)⁵ ≈ 1.00280 at γ = 5, so treat both
+  values as unreliable.
+- Only γ = 2 lies in the new range (3/2, 5/2].
+- Lesson kept: optimizing V pointwise on the grid exploits the finite-difference Laplacian and
+  gives values above proven upper bounds. Optimize over smooth parametrizations only.
+
+## Task 1 — Literature (then stop)
+Question: is L^N_γ known for any γ ∈ (3/2, 5/2], or is any upper bound better than Lcl + L1?
+- Read ELU (e) and Schimmer (g) in full. Confirm the exact hypotheses of ELU (1.6), and work out
+  what Schimmer's Thm 1.1 gives at σ_0 = 0, including for γ > 3/2 via Aizenman–Lieb.
+- Read Read–Schulz: does the method say anything about the half-line or about γ ≠ 1?
+- Check Frank–Laptev–Weidl, "Schrödinger Operators: Eigenvalues and Lieb–Thirring
+  Inequalities" (CUP, 2022), for half-line or Robin results.
+- Search arXiv, including works citing ELU and Schimmer (2014–2026). Names to try: Frank, Laptev,
+  Weidl, Ekholm, Hundertmark, Schimmer, Exner.
+Report each relevant result with its exact statement and theorem number. Then stop and wait for
+my reply.
+
+## Task 2 — Numerics in Lean (then stop)
+Write the `search` executable (core Lean, `Float`). Run it compiled, never through `#eval`.
+- Solver: Neumann problem on [0, L] by finite differences on a cell-centred grid (ghost point for
+  u'(0) = 0, Dirichlet at L), giving a symmetric tridiagonal matrix; find all negative
+  eigenvalues by Sturm-sequence bisection. Lean core has no Gamma function; use a Lanczos
+  approximation.
+- Validate before any search: reproduce the Neumann levels -(ν-k)², k even, for
+  ν ∈ {0.75, 1.5, 2.5, 4.5} to relative error ≤ 1e-6 after extrapolation, and the soliton ratio
+  2 L1(γ) at several γ.
+- Convergence: Richardson extrapolation in the grid size h (check that the observed order is 2).
+  The error from the box length L shrinks exponentially, so don't extrapolate in L; increase it
+  until results change by less than the tolerance. Weakly bound states need large L.
+- Report R(V)/(2 L1(γ)), where R(V) = Σ|E_j|^γ / M, with the number of bound states and the
+  efficiency e from (f).
+- γ ∈ {1.75, 2, 2.25, 2.4, 2.5, 2.6, 3}, plus sanity checks at γ = 1 and 3/2. For γ > 5/2 also
+  report the best sech² potential (optimize ν, full Neumann sum).
+- Keep V ≥ 0 through a smooth parametrization, e.g. squares or exponentials of smooth
+  expansions. Families: centred sech² with free ν, off-centre bumps, two-well configurations,
+  general smooth expansions. Use many random starts and record the seeds.
+- Checks that must hold: R ≤ Lcl + L1 for γ ≥ 3/2 (theorem (e)) and R ≤ 2 L_γ; any apparent
+  counterexample must have e > 2 - 1/r(γ). A violation means a numerical artefact.
+- "Beats 2 L1" means R/(2 L1) - 1 exceeds ten times the estimated error and survives refinement
+  in h and L.
+- Keep single runs under about ten minutes; many short runs beat one long one.
+- Run independent starts and γ values in parallel on CPU cores with `IO.asTask`. Don't use the
+  GPU: Lean can't drive one without non-Lean code, these problems are small, and they need
+  64-bit floats.
+Save tables to `results/` as CSV and summarize in `NOTES.md`. If anything beats 2 L1 for some
+γ ≤ 5/2, stop at once and report it. Otherwise stop when done and wait for my reply.
+
+## Task 3 — Lean spec (Mathlib)
+Prove every `sorry` in `HalflineLt/Spec.lean`:
+- the Pöschl–Teller ODE identities for ψ_0 and ψ_2 (calculus with cosh, tanh and rpow), and
+  ψ_2 ∈ L²(0,∞) for ν > 2;
+- one-state sech² optimality: ν^a/(ν+1)^{a+1} ≤ a^a/(a+1)^{a+1} (weighted AM–GM);
+- closed forms L1(1) = 4/(3√3π) and L1(2) = (16/(15π))·(3/5)^{3/2}, then the bounds
+  2 L1(1) ∈ (0.49006, 0.49008) and 2 L1(2) ∈ (0.31559, 0.31561) via Mathlib's bounds on π.
+Keep everything else proved. Don't weaken a statement to make it provable; if one is wrong, say
+so and propose a fix. Run `#print axioms` on the main theorems.
+
+## Task 4 — Certify a counterexample (only if Task 2 finds one)
+Turn it into a theorem: L^N_γ > 2 L1(γ) for that γ.
+- The Neumann form domain is H¹(0,∞), so trial functions need no boundary condition. By
+  min–max the j-th Rayleigh–Ritz value satisfies μ_j ≥ E_j, so
+  Σ_{μ_j<0} |μ_j|^γ ≤ Σ|E_j|^γ.
+- Use a piecewise-polynomial V and trial functions with rational coefficients, so the Ritz
+  matrices are exact rationals. Certify μ_j ≤ q_j (rational) from the inertia of K - q_j B via
+  an exact LDLᵀ checked in Lean, and bound M above by a rational.
+- The min–max principle for this operator enters as a named hypothesis; everything else is exact.
+
+## Task 5 — Proof attempt (only if Task 2 supports the conjecture)
+Start just above γ = 3/2.
+- By (f), a counterexample needs e > 2 - 1/r(γ), which tends to 1, so near 3/2 it must be close
+  to the half-soliton. Parts of V far from the boundary have ratio at most L_γ = Lcl < 2 L1.
+  Aim for L^N_γ = 2 L1(γ) on (3/2, 3/2 + ε), with ε explicit if you can.
+- Other routes: Schimmer's double commutation with σ_0 = 0, and the Benguria–Loss / Read–Schulz
+  cumulative-mass identity from Task 0 (v = u', Q = q(a), Qp = q'(a), a(x) = ∫_{-∞}^x u²). That
+  identity produces the Riccati combination q' + q² only at exponent m = 3, i.e. γ = 1, where
+  m = (γ+1/2)/(γ-1/2); on (3/2, 5/2], m ∈ [3/2, 2) (see `riccati_match_iff` and
+  `mExp_new_range` in the spec). A mass variable with b' = u^{m-1} restores a Riccati form for
+  any m but loses the normalization a ∈ [0, 1].
+Write arguments in `NOTES.md` with every gap marked, and formalize self-contained lemmas in Lean.
+
+## Final report
+A table of every claim with its label, the numerical results with errors, the open `sorry`s,
+what changed in our understanding, and suggested next steps.

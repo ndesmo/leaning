@@ -17,6 +17,9 @@ rev = "v4.37.0-rc1"
 [[lean_lib]]
 name = "HalflineLt"
 
+[[lean_lib]]
+name = "HalflineNum"
+
 [[lean_exe]]
 name = "search"
 root = "Search"

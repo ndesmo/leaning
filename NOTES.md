@@ -34,6 +34,9 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | L^N_γ ≤ 2L_γ, γ ≥ 1/2 | [paper: Demirel-Frank, Lemma 3] | Task 1 §4 |
 | Schimmer Thm 1.1 at σ₀ = 0 (γ = 3/2), equality at the half-soliton | [paper: Schimmer, Thm 1.1] + hand check | Task 1 §3 |
 | L_{1,1} = 4/(3√3π) | [preprint: Read–Schulz, Thm 1] | Task 1 §5 |
+| No tested potential beats 2·L1 for γ ∈ {1, 1.5, 1.75, 2, 2.25, 2.4, 2.5} (4 families + sech²) | [numerical ± 1e-10..3e-6] | Task 2, `results/` |
+| γ = 3: R/(2L1) ≥ 1.000118753 for an explicit potential | [numerical ± 3.6e-8] | `results/checks.csv` |
+| One Neumann bound state ⇒ R ≤ 2·L1; counterexamples need ≥ 2 states | [paper: one-bound-state bound] + one line | Task 2 |
 | Conjecture: L^N_γ = 2·L1(γ) on [3/2, 5/2] | [conjecture] | — |
 
 ## Open `sorry`s (8, all Task 3)
@@ -125,3 +128,102 @@ paper I read states it.
 - Bounds to use in Task 2's checks: 2L1 ≤ L^N ≤ Lcl + L1 on (3/2, 5/2].
 - Schimmer's exact identity (before dropping ∫V_N²) is tight at the half-soliton at γ = 3/2.
   This suggests a perturbative route for Task 5 just above 3/2.
+
+## Task 2: numerics in Lean (2026-11-24)
+
+Everything in this section is [numerical]: `Float` computations, evidence and not proof.
+
+**Code.**
+- `halfline_lt/HalflineNum/` (core Lean only):
+  - log-Gamma (Lanczos) and the constants L1, Lcl, r;
+  - a SplitMix64 random generator;
+  - the finite-difference solver: cell-centred grid, Neumann ghost point at 0, Dirichlet at
+    L, negative eigenvalues by Sturm bisection;
+  - Nelder–Mead.
+- `halfline_lt/Search.lean`: subcommands `validate`, `sech2`, `run`, `check`, `bench`.
+- Build with `lake build search`, run `halfline_lt\.lake\build\bin\search.exe <cmd>` from
+  this folder; output goes to `results/`.
+- Starts run in parallel via `Task.spawn` (22 cores).
+
+**Validation** (`results/validation.csv`).
+- Constants: correct to ≤ 2e-15.
+- Pöschl–Teller Neumann levels for ν ∈ {0.75, 1.5, 2.5, 4.5}: within 6.6e-9 relative after
+  Richardson (L = 40, h down to 0.0025). Observed order 2.000.
+- Soliton ratios: within 7e-9, including the predicted 1.000064 at γ = 3.
+
+**Centred sech² family** (closed form, FD cross-check to 9 digits; `results/sech2_family.csv`).
+
+| γ | best ν | R/(2L1) |
+|---|---|---|
+| ≤ 5/2 | γ − 1/2 (one state) | exactly 1 |
+| 2.6 | 2.100043 (two states) | 1.000000133 |
+| 3 | 2.505617 | 1.000065723 |
+
+**Searches.** Nelder–Mead from 64 (bump, two-well) or 48 (expansion, dressed) random starts
+per γ, with recorded seeds. The best start for each γ is refined by Richardson on two boxes
+(L = 30, 45). Files: `results/search_*.csv`, `results/verified_*.csv`. Families:
+- bump: e^a sech²(x − c);
+- two-well: a well at the wall plus a second well;
+- expansion: (Σ of 8 Gaussians)²;
+- dressed: the half-soliton times exp(Σ of 8 Gaussians), so c = 0 is the soliton.
+
+Best refined R/(2L1):
+
+| γ | bump | two-well | expansion | dressed |
+|---|---|---|---|---|
+| 1.00 | 0.999999829 | 0.999999930 | 0.999850271 | 0.999991866 |
+| 1.50 | 0.999999478 | 0.999997503 | 0.999819323 | 0.999991889 |
+| 1.75 | 0.999999193 | 0.999997760 | 0.999856196 | 0.999980446 |
+| 2.00 | 0.999998907 | 0.999998078 | 0.999857632 | 0.999973037 |
+| 2.25 | 0.999998582 | 0.999991375 | 0.999849328 | 0.999989688 |
+| 2.40 | 0.999998329 | 0.999999006 | 0.999842234 | 0.999987456 |
+| 2.50 | 0.999998195 | 0.999999141 | 0.999837618 | 0.999987448 |
+| 2.60 | 0.999998107 | 0.999999264 | 0.999832810 | 0.999988580 |
+| 3.00 | 1.000064153 | 1.000064561 | 0.999891764 | 1.000065155 |
+
+- Error estimates (Richardson plus box) are 1e-10 to 3e-6, and the observed order is 2.00
+  throughout.
+- Every known-bound check passes: R ≤ (Lcl + L1)/(2L1) for γ ≥ 3/2, and R ≤ 1 at γ = 1.
+
+**Result.**
+- No potential in any family beats 2·L1 for γ ≤ 5/2. Each family's best is (a scaled copy of)
+  the half-soliton or lies below it. [numerical]
+- Above 5/2 better shapes exist. At γ = 3 the best found is 1.000118753 ± 3.6e-8 (expansion
+  family, 3 bound states, `results/checks.csv`), against 1.000064 for the soliton.
+
+**Lessons.**
+1. *Grid exploitation.* With one coarse grid inside the optimiser, the best values reached
+   1.0028 for γ ≤ 5/2, from narrow under-resolved potentials, and all refined to below 1. The
+   fix: maximise a two-grid Richardson value minus a penalty on the grid difference. The γ = 3
+   maxima of the biased runs were re-verified from their parameters (`results/checks.csv`).
+2. *Speed.* Lean rebuilds a float literal via `Float.ofScientific` at every use (about 3 µs for
+   `1e-300`), which made the first solver 350× slower. Hot code now uses the top-level
+   constants in `HalflineNum.Basic`.
+3. Searches cannot prove the conjecture. Their value is calibration and the absence of
+   counterexamples in the families tried.
+
+**Derived along the way (not searched).**
+- A potential with a single Neumann bound state satisfies R ≤ 2·L1: its sum is |E₁|^γ, which
+  the one-bound-state bound for the even extension controls. So a counterexample needs at least
+  two Neumann bound states, and e > 2 − 1/r(γ) by ELU. [paper: one-bound-state bound
+  (Lieb–Thirring 1976) + ELU (1.6); the algebra is in Lean]
+- For γ < 5/2 the half-soliton should be a local maximiser: nearby potentials keep a single
+  even bound state, since the even-sector threshold resonance occurs only at ν = 2.
+  [conjecture: argument sketch]
+- The supremum of R over potentials with at least two Neumann states is 1: take a soliton plus a
+  small distant bump. So there is no uniform "two-state gap", and ELU-type bounds alone cannot
+  reach γ = 2. For example, sech² with ν just above 2 at γ = 2 has two Neumann states and
+  e ≈ 0.976, above ELU's threshold 0.924, though its true ratio is only ≈ 0.976.
+  [hand computation]
+- The γ = 5/2 KdV trace formula gives a lower bound on the eigenvalue sum: by my expansion of
+  the dispersion relation, its scattering term has the opposite sign to the one at γ = 3/2. It
+  is no direct route to the endpoint. [hand derivation, unverified]
+
+**Suggested next step: Task 5, starting at γ = 3/2.**
+1. Uniqueness at 3/2: equality in the trace formula forces a reflectionless even extension with
+   no odd states, i.e. the centred soliton.
+2. Compactness just above 3/2: near-optimisers have e → 1, and splitting is excluded because
+   far pieces have ratio ≤ Lcl < 2L1 ([Lean] r > 2/e).
+3. Near the soliton there is only one Neumann state.
+
+Expected outcome: L^N_γ = 2L1(γ) on [3/2, 3/2 + ε), with ε not explicit.

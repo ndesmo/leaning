@@ -8,6 +8,8 @@ param(
   [switch]$DryRun
 )
 $runner = Join-Path $PSScriptRoot 'run-agent.ps1'
+# Full path: Windows Terminal resolves bare names with its own long-lived PATH, which can fail.
+$powershell = Join-Path $env:WINDIR 'System32\WindowsPowerShell\v1.0\powershell.exe'
 $running = @(Get-CimInstance Win32_Process -Filter "Name='claude.exe'" | ForEach-Object { $_.CommandLine })
 
 $tabs = @()
@@ -17,7 +19,7 @@ foreach ($r in $Roles) {
     continue
   }
   Write-Output "starting $r"
-  $tabs += , @('new-tab', '--title', $r, 'powershell.exe', '-NoExit', '-NoProfile', '-File', $runner,
+  $tabs += , @('new-tab', '--title', $r, $powershell, '-NoExit', '-NoProfile', '-File', $runner,
     '-Role', $r, '-Model', $Model)
 }
 if (-not $tabs -or $DryRun) { return }

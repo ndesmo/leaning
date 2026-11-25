@@ -5,8 +5,9 @@ description: Search all of mathematics for open problems this harness can make r
 
 # /scout: find new problems worth working on
 
-Follow the shared rules in `/prove`. The scout proposes; the user chooses. Nothing in
-`PROBLEMS.md` is worked on until the user marks it **approved**.
+Follow the shared rules in `/prove`. The scout proposes; the user chooses. Each candidate gets a
+GitHub issue labelled `problem`, and nothing is worked on until the owner adds the label
+`approved` to it.
 
 ## 1. Gather candidates, any area, in parallel
 
@@ -77,10 +78,10 @@ publishable.
   searched and the date, known partial results, first target, risks.
 
 **Status** is one of:
-- `candidate`;
-- `approved` (only the user sets this);
-- `taken` (it has a slug in `LEDGER.md`);
-- `rejected: <reason>`.
+- `candidate (#<issue>)`: an open issue labelled `problem` and a priority, never `approved`.
+  Approval lives only on the issue, where the owner adds the label.
+- `taken (#<issue>)`: it has a slug in `LEDGER.md`.
+- `rejected: <reason>`: no issue, or the issue closed with the reason.
 
 **Keep the record.** Rejected candidates stay listed, with their reason, so later scouts don't
 redo them.

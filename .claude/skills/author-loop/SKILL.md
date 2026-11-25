@@ -22,6 +22,8 @@ work, leave all state in files and PRs, then schedule the next wakeup.
 
 - `git fetch origin`, then list your open PRs: `gh pr list --state open --json number,title,headRefName`.
 - Work only in this worktree. Never edit `.claude/settings*.json` or `.github/workflows/`.
+- Tidy the queue. For each open issue labelled `in-progress` with no open PR of yours (its PR was
+  merged or closed), remove `in-progress`, so its next unit can be picked again.
 
 ## 2. Reviewer comments come first
 
@@ -39,15 +41,23 @@ That is the whole iteration. Go to step 5.
 
 - **If 2 or more of your PRs are open, do nothing.** The user merges at their own pace. Go to
   step 5.
-- **Pick the target.** Read `LEDGER.md` and `PROBLEMS.md`. Eligible targets are the ledger's open
-  gaps and ideas, and the `PROBLEMS.md` candidates whose status is `approved`. Only the user sets
-  `approved`; you never change a candidate to or from it. Prefer small, checkable units: a citation
-  to verify, one Lean lemma, one literature pass, one attack on a precisely stated gap.
-- **Starting an approved problem.** First re-check that it is still open: search for solutions
-  dated after the scout's check.
-  - If it has been solved, open a PR that marks it `rejected: solved by <ref>` and nothing else.
+- **Pick the target from the issue queue.** List
+  `gh issue list --state open --label approved --json number,title,labels`. Skip issues labelled
+  `in-progress` or `blocked`. Take the highest priority (`priority:high`, then normal, then low),
+  oldest first. Only issues the owner labelled `approved` are eligible. You never add or remove
+  `approved`, and you never work on an unapproved issue.
+- **Claim it.** Add the label `in-progress` and comment on the issue with your branch name.
+- **One unit only.** An issue may need several PRs. Each PR does one small, checkable unit: a
+  citation to verify, one Lean lemma, one literature pass, one attack on a precisely stated gap.
+- **Starting a new problem** (an issue labelled `problem`). First re-check that it is still open:
+  search for solutions dated after the scout's check.
+  - If it has been solved, open a PR that marks it `rejected: solved by <ref>` in `PROBLEMS.md`,
+    with `Closes #<n>`.
   - Otherwise give it a slug, a `LEDGER.md` entry and a `notes/<slug>.md` file, mark it `taken` in
     `PROBLEMS.md`, and make its first unit the scout's first target.
+- **File what you defer.** Anything you notice but don't do in this unit goes in a new issue
+  labelled `follow-up` (never `approved`), with its source and what "done" means. Don't bury it in
+  prose.
 - **Branch.** Create `agent/<slug>-<short-stage>` from `origin/main`.
 - **Do one stage** using the stage skills (`/conjecture`, `/literature`, `/attack`, `/lean-check`,
   `/proof-page`), in a subagent (see "Keep this session small").
@@ -62,6 +72,7 @@ That is the whole iteration. Go to step 5.
 
 - Commit, using a message file and the Co-Authored-By trailer.
 - Push the branch, then `gh pr create`. The body states:
+  - `Closes #<n>` if this PR finishes the issue, otherwise `Part of #<n>`;
   - which stage this is;
   - what is claimed, with labels;
   - what Lean checks;
@@ -94,6 +105,7 @@ PRs.
 
 ## Never
 
+- Add or remove the `approved` label, or work on an issue without it.
 - Merge a PR.
 - Push to `main`.
 - Force-push.

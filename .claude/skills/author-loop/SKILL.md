@@ -44,7 +44,10 @@ That is the whole iteration. Go to step 5.
   precisely stated gap.
 - **Branch.** Create `agent/<slug>-<short-stage>` from `origin/main`.
 - **Do one stage** using the stage skills (`/conjecture`, `/literature`, `/attack`, `/lean-check`,
-  `/proof-page`). For any stage that changes a page, run `/review` before opening the PR.
+  `/proof-page`), in a subagent (see "Keep this session small").
+- **Run `/review` before opening the PR** whenever the PR adds or changes a mathematical argument,
+  a citation verdict or a claim label, in any file: pages, notes and `LEDGER.md` alike. Only purely
+  mechanical PRs skip it.
 - **If the attempt fails, still open the PR.** Record the honest negative result: the gap,
   stated precisely, and the failed approach in `LEDGER.md`. A failed attempt that is recorded is
   progress.
@@ -60,6 +63,20 @@ That is the whole iteration. Go to step 5.
   - `/review` status;
   - "Merging publishes to the live site" if `docs/` changed.
 - Add a dated line to the notes' Log.
+- **Notify the reviewer.** After opening a PR, or pushing to one in step 2, find the reviewer
+  session with `ListAgents`: the one named `reviewer`, or else the one working in `C:\w\reviewer`.
+  Send it, with `SendMessage`, exactly: `PR #<n> has a new commit <sha>. Please review.` Nothing
+  else. If no such session is listed, skip this; the reviewer's hourly check will find the PR.
+
+## Keep this session small
+
+This loop runs for weeks, so its own context must stay small. Do the heavy work of each stage
+(reading papers, deriving, writing Lean, running checks) in a fresh `general-purpose` subagent.
+- **Brief it with:** the target, the files and skills to follow, and what to return: the files it
+  changed, a short summary, and each claim with its label.
+- **Keep for yourself:** choosing the target, committing, opening the PR and notifying the reviewer.
+- **Check its report before committing.** Read the diff yourself, and correct any label that claims
+  more than the work shows.
 
 ## 5. Schedule the next iteration
 

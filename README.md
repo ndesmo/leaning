@@ -68,6 +68,19 @@ cd C:\w\reviewer; claude --model claude-opus-5-5 --name reviewer "/loop /reviewe
 .\tools\teardown-worktrees.ps1   # removes them; refuses if any work would be lost
 ```
 
+**Keep them running unattended.** `.\tools\start-agents.ps1` opens both loops in one Windows
+Terminal window, one tab each. It skips a loop that is already running and moves a clean worktree
+to the latest `main` first. To restart the loops after a reboot, register it to run at login (once,
+in PowerShell):
+
+```
+Register-ScheduledTask -TaskName "Proofs agents" -Trigger (New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME) -Action (New-ScheduledTaskAction -Execute powershell.exe -Argument "-NoProfile -WindowStyle Hidden -File C:\Users\nicho\leaning\tools\start-agents.ps1")
+```
+
+Also stop the PC sleeping while plugged in (`powercfg /change standby-timeout-ac 0`). Loops end
+after 30 days, and a weekly usage limit stops them. Rerunning `start-agents.ps1` restarts whatever
+has stopped.
+
 The author opens one pull request per unit of work and messages the reviewer, which comments on
 each one within minutes. The reviewer also checks hourly. CI must pass before a pull request can
 merge. Stop a loop with Esc on an empty prompt. A loop ends by itself after 30 days, so restart it

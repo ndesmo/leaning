@@ -2,7 +2,7 @@
 
 Open problems this project could work on, found by `/scout`. **Only the owner sets a candidate to
 `approved`.** The author loop works only on `approved` candidates, and re-checks that a problem is
-still open before starting it.
+still open before starting it. Approved candidates are taken in table order.
 
 How this list was made:
 - **Scouted 2026-11-25** by five agents covering:
@@ -27,17 +27,17 @@ Scores are 0–2:
 
 | Id | Problem | Area | Open | Lean | Tract. | Value | Status |
 |---|---|---|---|---|---|---|---|
-| P1 | Weakly consecutive sequences start or end with 1 | combinatorics | 2 | 2 | 2 | 1 | candidate |
-| P2 | 2-adic valuation of central coefficients of (1+x+…+x¹⁵)ⁿ (OEIS A402341) | number theory | 1 | 2 | 2 | 1 | candidate |
-| P3 | Minimum modulus for valid residue sets (Fonollosa) | additive combinatorics | 2 | 2 | 2 | 1 | candidate |
-| P4 | Periodicity of 3-sumfree sequences S₁,d−1,2d−1 | combinatorial number theory | 1 | 2 | 2 | 1 | candidate |
-| P5 | Order reciprocity of prime pairs, case (3,3) | number theory | 1 | 2 | 1 | 1 | candidate |
-| P6 | Centered maximal function: Var(Mf) bound, small discrete cases | real analysis | 2 | 1 | 1 | 2 | candidate |
-| P7 | Intersecting families of triangulations (Kalai), 10-gon | combinatorics | 1 | 1 | 1 | 2 | candidate |
-| P8 | Catch-Up game draws for N ≡ 0, 3 mod 4 | combinatorial games | 2 | 1 | 1 | 1 | candidate |
-| P9 | Max queens each attacking exactly 3 (OEIS A051756) | combinatorics | 1 | 1 | 1 | 1 | candidate |
-| P10 | Helly numbers of composite grids | discrete geometry | 2 | 1 | 1 | 1 | candidate |
-| P11 | Colouring ℤ⁺ with n colours, multiples distinct, n = 195 | combinatorics | 2 | 1 | 0 | 2 | candidate |
+| P1 | Weakly consecutive sequences start or end with 1 | combinatorics | 2 | 2 | 2 | 1 | approved |
+| P2 | 2-adic valuation of central coefficients of (1+x+…+x¹⁵)ⁿ (OEIS A402341) | number theory | 1 | 2 | 2 | 1 | approved |
+| P3 | Minimum modulus for valid residue sets (Fonollosa) | additive combinatorics | 2 | 2 | 2 | 1 | approved |
+| P4 | Periodicity of 3-sumfree sequences S₁,d−1,2d−1 | combinatorial number theory | 1 | 2 | 2 | 1 | approved |
+| P5 | Order reciprocity of prime pairs, case (3,3) | number theory | 1 | 2 | 1 | 1 | approved |
+| P6 | Centered maximal function: Var(Mf) bound, small discrete cases | real analysis | 2 | 1 | 1 | 2 | approved |
+| P7 | Intersecting families of triangulations (Kalai), 10-gon | combinatorics | 1 | 1 | 1 | 2 | approved |
+| P8 | Catch-Up game draws for N ≡ 0, 3 mod 4 | combinatorial games | 2 | 1 | 1 | 1 | approved |
+| P9 | Max queens each attacking exactly 3 (OEIS A051756) | combinatorics | 1 | 1 | 1 | 1 | approved |
+| P10 | Helly numbers of composite grids | discrete geometry | 2 | 1 | 1 | 1 | approved |
+| P11 | Colouring ℤ⁺ with n colours, multiples distinct, n = 195 | combinatorics | 2 | 1 | 0 | 2 | approved |
 | P12 | Erdős #677: equal lcms of disjoint intervals | number theory | 1 | 2 | 1 | 0 | candidate (crowded) |
 | P13 | Erdős #287: gaps in Egyptian fractions of 1 | number theory | 1 | 2 | 1 | 0 | candidate (crowded) |
 | P14 | WOWII graph conjectures 61, 133, 199 | graph theory | 1 | 2 | 1 | 0 | candidate (crowded) |

@@ -525,4 +525,63 @@ theorem soliton_bonus_gamma5 :
     ((25/4 : ℝ) / (81/4)) ^ 5 + ((1/4 : ℝ) / (81/4)) ^ 5 < 281/10^5 := by
   norm_num
 
+/-! ## 7. Task 5: the endpoint γ = 3/2 and the approach from above
+
+Self-contained pieces of the argument in `NOTES.md` (Task 5). Spectral and scattering facts
+enter as hypotheses. -/
+
+/-- Uniqueness skeleton at `γ = 3/2`. For the even extension the trace formula reads
+`S_even + S_odd + T = (3/16) · 2M`, where the Dirichlet sum `S_odd` and the scattering term `T`
+are `≥ 0`. If the Neumann sum attains `(3/8) M`, both vanish: the extension is reflectionless
+with no odd bound states. -/
+theorem uniqueness_skeleton {Se So T M : ℝ} (htrace : Se + So + T = 3 / 16 * (2 * M))
+    (hSo : 0 ≤ So) (hT : 0 ≤ T) (heq : Se = 3 / 8 * M) : So = 0 ∧ T = 0 := by
+  constructor <;> linarith
+
+/-- A potential with a single Neumann bound state satisfies the conjectured bound: its sum is
+`|E₁|^γ`, which the one-bound-state bound controls. -/
+theorem single_state_ok {ι : Type*} (ev : Finset ι) (e : ι → ℝ) (i₀ : ι) (hev : ev = {i₀})
+    {l1 M : ℝ} (hOne : e i₀ ≤ 2 * l1 * M) : ∑ i ∈ ev, e i ≤ 2 * l1 * M := by
+  rw [hev, Finset.sum_singleton]; exact hOne
+
+theorem continuousOn_r : ContinuousOn r (Set.Ioi (1/2)) := by
+  have hphi : ContinuousOn phi (Set.Ioi 0) :=
+    fun x hx => (phi_hasDerivAt hx).continuousAt.continuousWithinAt
+  have hsub : ContinuousOn (fun γ : ℝ => γ - 1/2) (Set.Ioi (1/2)) :=
+    (continuous_id.sub continuous_const).continuousOn
+  have hmaps : Set.MapsTo (fun γ : ℝ => γ - 1/2) (Set.Ioi (1/2)) (Set.Ioi 0) := by
+    intro γ hγ
+    have : (1:ℝ)/2 < γ := hγ
+    show (0:ℝ) < γ - 1/2
+    linarith
+  have h : ContinuousOn (fun γ => 2 * exp (phi (γ - 1/2))) (Set.Ioi (1/2)) :=
+    continuousOn_const.mul (continuous_exp.comp_continuousOn (hphi.comp hsub hmaps))
+  exact h.congr fun γ hγ => r_eq_exp hγ
+
+/-- The counterexample threshold `2 - 1/r(γ)` tends to `1` as `γ ↓ 3/2`. -/
+theorem threshold_tendsto_one :
+    Filter.Tendsto (fun γ => 2 - 1 / r γ) (nhdsWithin (3/2) (Set.Ioi (3/2))) (nhds 1) := by
+  have hc : ContinuousAt r (3/2) :=
+    continuousOn_r.continuousAt (Ioi_mem_nhds (by norm_num))
+  have hr0 : r (3/2) ≠ 0 := by rw [r_three_halves]; norm_num
+  have h : ContinuousAt (fun γ => 2 - 1 / r γ) (3/2) :=
+    continuousAt_const.sub (continuousAt_const.div hc hr0)
+  have hv : (2:ℝ) - 1 / r (3/2) = 1 := by rw [r_three_halves]; norm_num
+  exact (h.tendsto.mono_left nhdsWithin_le_nhds).mono_right (le_of_eq (congrArg nhds hv))
+
+/-- Step 2 of the near-3/2 argument: for γ close enough to `3/2` from above, any potential
+beating `2·L1` has ground-state efficiency above `1 - η` (with
+`beating_needs_big_ground_state`). -/
+theorem threshold_eventually_gt (η : ℝ) (hη : 0 < η) :
+    ∀ᶠ γ in nhdsWithin (3/2) (Set.Ioi (3/2)), 1 - η < 2 - 1 / r γ :=
+  threshold_tendsto_one.eventually (lt_mem_nhds (by linarith))
+
+/-- Localization bookkeeping for Step 5: the near part is bounded with the one-bound-state
+constant, the far part with the whole-line constant `lcl`, and the two masses overlap by at most
+`η`. Far mass is paid for at the rate `2·l1 - lcl`, which is `> 0` by `two_exp_neg_one_lt_r`. -/
+theorem localization_bookkeeping {S Sn Sf M Mn Mf l1 lcl η : ℝ} (hl1 : 0 ≤ l1)
+    (hS : S ≤ Sn + Sf) (hn : Sn ≤ 2 * l1 * Mn) (hf : Sf ≤ lcl * Mf) (hM : Mn + Mf ≤ M + η) :
+    S ≤ 2 * l1 * M + 2 * l1 * η - (2 * l1 - lcl) * Mf := by
+  nlinarith [mul_le_mul_of_nonneg_left hM (by linarith : (0:ℝ) ≤ 2 * l1)]
+
 end HalflineLt

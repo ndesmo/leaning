@@ -42,7 +42,12 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | One-state sech² family is maximised at ν = γ − 1/2 | [Lean] | `Spec.lean` §5 |
 | No tested potential beats 2·L1 for γ ∈ {1, 1.5, 1.75, 2, 2.25, 2.4, 2.5} (4 families + sech²) | [numerical ± 1e-10..3e-6] | Task 2, `results/` |
 | γ = 3: R/(2L1) ≥ 1.000118753 for an explicit potential | [numerical ± 3.6e-8] | `results/checks.csv` |
-| One Neumann bound state ⇒ R ≤ 2·L1; counterexamples need ≥ 2 states | [paper: one-bound-state bound] + one line | Task 2 |
+| One Neumann bound state ⇒ R ≤ 2·L1; counterexamples need ≥ 2 states | [Lean \| hyp: one-bound-state bound] | `Spec.lean` §7 `single_state_ok` |
+| At γ = 3/2, equality forces no odd states and no reflection | [Lean \| hyp: trace formula] | `Spec.lean` §7 `uniqueness_skeleton` |
+| At γ = 3/2, equality holds only for the half-soliton 2κ² sech²(κx) | [paper: trace formula + reflectionless classification], sketch | Task 5 Step 1 |
+| Counterexample threshold 2 − 1/r(γ) → 1 as γ ↓ 3/2 | [Lean] | `Spec.lean` §7 |
+| Far mass is paid for at rate 2L1 − Lcl > 0 (bookkeeping) | [Lean] | `Spec.lean` §7 |
+| L^N_γ = 2·L1(γ) on [3/2, 3/2 + ε) for some ε > 0 | [conjecture: conditional on Task 5 Steps 3 and 5] | Task 5 |
 | Conjecture: L^N_γ = 2·L1(γ) on [3/2, 5/2] | [conjecture] | — |
 
 ## Open `sorry`s
@@ -256,3 +261,117 @@ and `#print axioms` on each target shows only `propext`, `Classical.choice`, `Qu
 What remains a hypothesis in (b) and (d): that ψ₀, ψ₂ lie in the domain of the Neumann operator
 (evenness gives ψ'(0) = 0; L² is proved), and that a sum over all eigenvalues dominates a sum over
 some of them. Both are spectral-theory facts Mathlib does not have.
+
+## Task 4: skipped
+
+Task 2 found no counterexample, so there was nothing to certify.
+
+## Task 5: proof attempt just above γ = 3/2 (2026-11-25)
+
+**Target.** Some ε > 0 with L^N_γ = 2·L1(γ) for all γ ∈ [3/2, 3/2 + ε].
+
+**Status: not proved.** Below is a five-step argument. Each step is marked [Lean],
+[standard: references still to check], or **GAP**. The Lean pieces are in `Spec.lean` §7.
+
+**Step 1: uniqueness at γ = 3/2.** Claim: for 0 ≤ V ∈ L¹ ∩ L²(0,∞),
+S_{3/2}(V) ≤ (3/8)∫V², with equality iff V(x) = 2κ² sech²(κx) for some κ > 0.
+- Trace formula for the even extension Ṽ (Buslaev–Faddeev, Zakharov–Faddeev; Schimmer eq. (1)):
+  Σ_all |E_j|^{3/2} + T = (3/16)∫_ℝ Ṽ², with T = (3/π)∫₀^∞ k² log|a(k)| dk ≥ 0.
+- Neumann states are the even states and Dirichlet states the odd ones, so
+  S^N + S^D + T = (3/8) M.
+- Equality forces S^D = 0 and T = 0. [Lean: `uniqueness_skeleton`]
+- T = 0 means Ṽ is reflectionless, hence a finite soliton (Kay–Moses). For an even potential
+  the bound states alternate in parity, so S^D = 0 leaves exactly one bound state, and an even
+  1-soliton is centred.
+- [standard: still to check the trace formula on L¹ ∩ L² (Deift–Killip-type results) and that
+  the equality case passes to that class.]
+
+**Step 2: a counterexample has a nearly optimal ground state.**
+- Any V beating 2·L1 at γ has efficiency e > 2 − 1/r(γ) (ELU plus the one-bound-state bound),
+  and that threshold tends to 1 as γ ↓ 3/2.
+  [Lean: `beating_needs_big_ground_state`, `threshold_tendsto_one`, `threshold_eventually_gt`]
+- It also needs at least two Neumann bound states. [Lean: `single_state_ok`]
+
+**Step 3: stability. GAP.**
+- Needed: if γ_k ↓ 3/2 and e_{γ_k}(V_k) → 1, then after scaling V_k converges to 2 sech² in
+  L^{γ_k + 1/2}.
+- Expected from concentration-compactness for the one-bound-state (Gagliardo–Nirenberg /
+  Sz.-Nagy) problem: optimizers are unique up to symmetries, and even extensions exclude
+  translations.
+- Must be written out uniformly in γ.
+
+**Step 4: local count near the soliton.** [standard: to cite]
+- For ν ∈ (1, 2), the even sector of ν(ν+1) sech² has exactly one bound state and no zero-energy
+  resonance.
+- The first even resonance is at ν = 2 (γ = 5/2): there ψ₂ = 3 tanh² − 1 is a bounded
+  zero-energy solution. [Lean: `pt_second_even_state` with ν = 2]
+- So perturbations small in ∫(1 + x)|W| keep exactly one Neumann eigenvalue (continuity of the
+  zero-energy solution plus Sturm oscillation). For such V the conjectured bound holds.
+  [Lean: `single_state_ok` + the one-bound-state bound]
+
+**Step 5: far mass. GAP, and the main obstacle.**
+- Step 3 gives closeness in L^p, which does not control ∫(1 + x)|W|: a small, distant tail can
+  bind a weak extra Neumann state.
+- Plan: split V with an IMS partition of unity at scale R using logarithmic cutoffs, so the
+  localization potential W_loc has ∫x W_loc → 0 and cannot bind by itself (Bargmann).
+  - The near part is handled by Step 4.
+  - The far part, with Dirichlet at its inner end, is bounded by whole-line LT with constant
+    L_γ = Lcl < 2L1 ([Lean] `two_exp_neg_one_lt_r`).
+- Bookkeeping gives S ≤ 2L1·M + 2L1·η − (2L1 − Lcl)·M_far. [Lean: `localization_bookkeeping`]
+- Missing: show the localization errors are o(M_far) whenever far states exist.
+- Alternative route:
+  - Prove optimizers exist via the dual formulation, as in Frank–Gontier–Lewin. Strict binding
+    holds, since L^N_γ ≥ 2L1 > Lcl = L_γ.
+  - Then use the Euler–Lagrange relation V = c·(Σ_j |E_j|^{γ−1}|ψ_j|²)^{1/(γ−1/2)}, which forces
+    exponential decay.
+  - Even then, optimizers with a self-consistent near-threshold tail (∫x V_tail = O(1)) still
+    have to be excluded.
+
+**Conclusion.** Steps 1, 3, 4 and 5 together give L^N_γ = 2·L1(γ) on [3/2, 3/2 + ε), with ε
+not explicit. [conjecture: conditional on Steps 3 and 5; Steps 1 and 4 need their citations
+checked]
+
+**Other routes considered.**
+- *Aizenman–Lieb with the γ = 3/2 deficit.* S_γ ≤ 2Lcl·M − C_γ∫ D((V − t)₊) t^{γ−5/2} dt, where D
+  is the Dirichlet sum plus the scattering term. The route needs the averaged deficit to be at
+  least 2Lcl(1 − r(γ))M. As γ ↓ 3/2, C_γ ~ (γ − 3/2) and small t dominate, so the averaged deficit
+  tends to D(V), which vanishes at the soliton. So this route cannot close near the optimizer
+  without Step 4. [heuristic]
+- *Cumulative mass* (Benguria–Loss / Read–Schulz) works at γ = 1 only.
+  [Lean: `riccati_match_iff`, `mExp_new_range`]
+- *γ = 5/2 trace formula:* the scattering term has the wrong sign for an upper bound (Task 2).
+
+## Final report (2026-11-25)
+
+**Proved in Lean** (no `sorry`, standard axioms only; `halfline_lt/HalflineLt/Spec.lean`):
+- the constants L1, Lcl, r and their properties: r decreasing, r > 2/e, closed forms at γ = 1, 2;
+- the bound L^N ≤ Lcl + L1 and the counterexample conditions, from ELU (1.6) and the
+  one-bound-state bound taken as hypotheses;
+- (a)–(d) in abstract form;
+- the Pöschl–Teller eigenfunctions ψ₀, ψ₂ and ψ₂ ∈ L² (the analytic content of (b) and (d));
+- optimality within the sech² family;
+- the Task 5 skeleton lemmas.
+
+**Literature.** Nothing settles L^N_γ on (3/2, 5/2]. The best published upper bound there is
+2Lcl. Lcl + L1 follows by combining ELU (1.6) with the one-bound-state bound, which no paper I
+read does.
+
+**Numerics** (Lean `Float`, evidence only):
+- no counterexample for γ ≤ 5/2 in four families plus the exact sech² family;
+- at γ = 3 the best found is 1.000119 × 2L1, above the soliton's 1.000064.
+
+**Open.** The conjecture itself. The near-3/2 theorem is conditional on Steps 3 (stability)
+and 5 (far mass).
+
+**What changed.**
+1. The known upper bound improves from 2Lcl to Lcl + L1.
+2. Counterexamples must have at least two Neumann states and ground-state efficiency above
+   2 − 1/r(γ).
+3. The numerical evidence is now robust to grid artefacts.
+4. There is a concrete proof architecture near 3/2 with the gaps named precisely.
+
+**Next steps.**
+1. Write out Step 3 (stability of the one-bound-state inequality, uniformly in γ).
+2. Attack Step 5: localization error control, or existence of optimizers plus Euler–Lagrange.
+3. Check the citations behind Steps 1 and 4.
+4. Optionally, test Step 5's key inequality numerically on distant-tail families.

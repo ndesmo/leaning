@@ -788,4 +788,37 @@ theorem half_soliton_fits_iff_gamma {γ b : ℝ} (hγ : 1/2 < γ) (hb : 0 < b) :
   rw [half_soliton_fits_iff hb]
   constructor <;> intro h <;> nlinarith
 
+/-! ## 9. Review follow-ups (`notes/halfline-lieb-thirring.md`, Review) -/
+
+theorem Lcl_pos {γ : ℝ} (hγ : 1/2 < γ) : 0 < Lcl γ := by
+  have h1 : 0 < Gamma (γ + 1) := Gamma_pos_of_pos (by linarith)
+  have h2 : 0 < Gamma (γ + 3/2) := Gamma_pos_of_pos (by linarith)
+  have hs : 0 < sqrt π := sqrt_pos.mpr pi_pos
+  unfold Lcl
+  exact div_pos h1 (mul_pos (mul_pos two_pos hs) h2)
+
+/-- `L1 < Lcl` for `γ > 3/2`, the hypothesis of `star_graph_bound_strict`. -/
+theorem L1_lt_Lcl {γ : ℝ} (hγ : 3/2 < γ) : L1 γ < Lcl γ := by
+  have hpos := Lcl_pos (by linarith : (1:ℝ)/2 < γ)
+  have h := mul_lt_mul_of_pos_right (r_lt_one hγ) hpos
+  rw [L1_eq_r_mul_Lcl (by linarith)]
+  linarith
+
+/-- Theorem 1's bound is strictly below the previous bound `2 Lcl` for `γ > 3/2`. -/
+theorem upper_bound_lt_two_Lcl {γ : ℝ} (hγ : 3/2 < γ) : Lcl γ + L1 γ < 2 * Lcl γ := by
+  linarith [L1_lt_Lcl hγ]
+
+/-- With `l1 = r · lcl`, the conclusion `2(2 l1 - lcl) M < e₁` of
+`beating_needs_big_ground_state` is `e₁ > (2 - 1/r) · 2 l1 M`, the form stated in Corollary 4. -/
+theorem threshold_identity {r lcl M : ℝ} (hr : r ≠ 0) :
+    2 * (2 * (r * lcl) - lcl) * M = (2 - 1 / r) * (2 * (r * lcl) * M) := by
+  field_simp
+
+/-- Both even Pöschl–Teller states satisfy the Neumann condition at `0`, for every `ν`. -/
+theorem psi0_neumann (ν : ℝ) : deriv (psi0 ν) 0 = 0 := by
+  rw [deriv_psi0]; simp
+
+theorem psi2_neumann (ν : ℝ) : deriv (psi2 ν) 0 = 0 := by
+  rw [deriv_psi2]; simp
+
 end HalflineLt

@@ -116,6 +116,22 @@ paper I read states it.
      > Lcl = L_γ ([Lean] `two_exp_neg_one_lt_r` + (b)). Demirel–Harrell put Dirichlet
      conditions at free ends and never treat a Neumann degree-one vertex, so there is no real
      conflict, only a loose "all N".
+   - **Verbatim quotations,** fetched 2026-11-25 from the ar5iv HTML of arXiv:1503.06915. The
+     fetch tool gave displayed formulas in plain text, and they are transcribed that way here:
+     - Prop. 4: "Let γ≥1/2. If N_0<N are both odd, then" L_{γ,N} ≤ ((N−N_0)/N)·L_γ +
+       (N_0/N)·L_{γ,N_0}. "In particular, if L_{γ,N_0} = L_γ for some odd N_0∈ℕ, then
+       L_{γ,N} = L_γ for all N ≥ N_0."
+     - Thm 1: "Let γ≥1/2. If N is even, then L_{γ,N} = L_γ" "and, if N is odd, then"
+       L_{γ,N} ≤ ((N+1)/N)·L_γ.
+     - Remark (3): "For N=1, our bound states L_{γ,1}≤2L_γ." "The proof of Lemma 3 shows that this
+       bound is optimal as long as the optimal potential for L_γ has a single bound state."
+     - Remark (4): "For odd N≥3 our bound uses the bound L_{γ,1}≤2L_γ for N=1." "If the latter
+       bound can be improved for some (large) γ, then also our bounds for arbitrary odd N≥3
+       improve automatically."
+     - Eq. (5): L_{γ,N} = L_γ for all γ≥2 and all N∈ℕ, introduced by "In [3] we have shown that"
+       ([3] = Demirel–Harrell, Rev. Math. Phys. 2010).
+     - L_{γ,N} is the sharp constant in Tr H_−^γ ≤ L_{γ,N} ∫_{Γ_N} V_−^{γ+1/2}, for the operator
+       defined by its form on H¹(Γ_N), i.e. with Kirchhoff conditions at the vertex.
 5. **Read–Schulz**, arXiv:2609.10478 v2 (14 Sep 2026). Read in full. [preprint]
    - Whole line, γ = 1 only. Nothing on the half-line or other γ.
    - The method: Benguria–Loss cumulative mass, q = −α tan(α(s − 1/2)), the condition
@@ -483,3 +499,167 @@ cleared by itself. A file importing only `Mathlib.Data.Real.Basic` still took 11
 slowdown, so the cost scales with the number of `.olean` files opened (8,747 for `Mathlib`). If it
 returns, an antivirus exclusion for `halfline_lt\.lake` would likely avoid it. Antivirus settings
 were not changed.
+
+
+## Review
+
+### 2026-11-25: first independent review (`/review`)
+
+**Setup.** Two `general-purpose` Claude subagents ran in parallel. Neither saw the derivation, this
+log, or any opinion on which parts were solid.
+- **Inputs:** `docs/halfline-lieb-thirring/index.html`, the "Task 1: literature" section of these
+  notes, and `halfline_lt/HalflineLt/Spec.lean`.
+- **Mathematics reviewer:** asked to check every step, the cited hypotheses, edge cases, hidden
+  uniformity, and gaps in "What remains open".
+- **Claims reviewer:** asked to check every Lean name against its statement, the evidence labels,
+  the novelty scope and the numbers.
+- **Citation search:** a third agent searched the works citing [DF15], because the claims reviewer
+  found that search missing.
+
+**Findings and responses.** "Fixed" means the page was changed. The page is
+`docs/halfline-lieb-thirring/index.html`; this list replaces its earlier copy in `RESULTS.md`.
+
+Mathematics reviewer:
+
+| # | Finding (abridged) | Severity | Response |
+|---|---|---|---|
+| M1 | "What remains open": the route does not prove the conjecture; Lᵖ-closeness does not keep V under an envelope | FIX | Fixed: rewritten as "one possible route" with each gap listed, including the missing bound on Σ_{j≥2}. Labeled Conjecture. |
+| M2 | (b) and (d) labeled Lean, but `fact_b` and `fact_d` are abstract | FIX | Fixed: relabeled Standard [PT33, LT76], with Lean shown for the eigenfunction equations, the new `psi0_neumann`/`psi2_neumann`, and L². |
+| M3 | Equality case needs uniqueness of one-bound-state optimizers; LT76 may not state it | FIX | Fixed: the converse is now conditional and marked "Unverified citation". The statement asserts only the "if" direction and the γ = ½ case. |
+| M4 | γ = ½ strictness argued only heuristically | FIX | Fixed: the Green's-function argument is now written out on the page. |
+| M5 | Novelty box omits Aljahili–Laptev and the FLW Comments gaps | FIX | Fixed: search scope and gaps now listed. |
+| M6 | "New range" assumes DF15 eq. (5) holds for odd N ≥ 3 | FIX | Fixed: now conditional ("we have not checked it for odd N ≥ 3"). |
+| M7 | Statement says every odd N; the proof needs N ≥ 3 | MINOR | Fixed: odd N ≥ 3, with N = 1 being Theorem 1. |
+| M8 | Bargmann/Hardy remark needs the Setting's V ∈ L^{γ+1/2} | MINOR | Fixed: "Within the Setting", and the remark is marked as not proved in detail. |
+| M9 | "Conjectured optimizer for every γ ≤ 5/2" fails at γ = ½ and outside the conjecture's range | MINOR | Fixed. |
+| M10 | 0⁰ at γ = ½ | MINOR | Fixed: the convention is stated. |
+| M11 | Pointwise conditions on an Lᵖ function | MINOR | Fixed: "almost every x" and "a set of positive measure". |
+| M12 | Corollary 4 item 1 does not follow from Theorem 3 as stated | MINOR | Fixed: now cites step 4 and N_D ≥ N_N − 1. |
+| M13 | Sturm count cited for Neumann without comment | MINOR | Fixed: [PT33] is now the primary argument; Sturm is a cross-check. |
+
+Claims reviewer:
+
+| # | Finding (abridged) | Severity | Response |
+|---|---|---|---|
+| C1 | (b) Lean chip on abstract `fact_b` | BLOCKER | Fixed, as for M2. |
+| C2 | (d) Lean chip on abstract `fact_d`; the Neumann condition is checked only at ν = 2 | BLOCKER | Fixed: relabeled, and `psi2_neumann` added for all ν. H¹ membership and ground-state identity stay Standard. |
+| C3 | How much the chips depend on hypotheses is disclosed only at the bottom | FIX | Fixed: new "Lean + cited" chip, a status-box sentence, and a paragraph in "What Lean checks". |
+| C4 | "64 theorems" counts unrelated results | FIX | Fixed: "70 in the file; this page cites 30" (counted by script). |
+| C5 | Strictness needs `L1_eq_r_mul_Lcl` and Lcl > 0, which was not in the file | FIX | Fixed: added `Lcl_pos`, `L1_lt_Lcl`, `upper_bound_lt_two_Lcl` and `threshold_identity`, all cited. |
+| C6 | Steps without chips | FIX | Fixed: chips added to scaling, step 4, step 5, the endpoints, Corollary 4 and the Remarks. |
+| C7 | LT76 uniqueness citation not in the literature record | FIX | Fixed, as for M3. |
+| C8 | Novelty scope larger than the record | FIX | Fixed: scope stated exactly. Works citing DF15 were searched (below). |
+| C9 | DF15 quotations not in the notes | FIX | Fixed: verbatim quotations added to the Task 1 section. They were fetched 2026-11-25. |
+| C10 | Strictness claim for γ ≥ 2, where DF15 states a sharper value | FIX | Fixed: the page now says the improvement for odd N ≥ 3 matters only for 3/2 < γ < 2, if eq. (5) holds there. The comparison of the two bounds is still stated; it is true. |
+| C11 | "Would prove" is an unproved roadmap | FIX | Fixed, as for M1. |
+| C12 | `pt_ground_state` gives the ODE only; Lean states the results for −u | MINOR | Fixed: the page says so. |
+| C13 | "Every γ ≤ 5/2" outside the conjecture's range | MINOR | Fixed, as for M9. |
+
+**Citation search** (works citing arXiv:1503.06915):
+- Semantic Scholar and OpenAlex each list one citing work: Band–Berkolaiko–Weyand,
+  arXiv:1503.07245. It is about nodal counts and is unrelated.
+- Web searches found no later improvement of L_{γ,1} ≤ 2L_γ for γ > 3/2, and no improvement of
+  the odd-N bound for 3/2 < γ < 2.
+- Not reachable: Google Scholar and the NASA ADS citation list.
+
+**Lean.** `check.ps1`: CLEAN, 70 theorems, standard axioms only.
+
+**Verbatim reports.** The full reports are kept below so the record can be checked. Their file
+paths are omitted.
+
+<details><summary>Mathematics reviewer</summary>
+
+I checked the core logic and found no blocking error in it. That covers Theorem 1's steps 1–3, the Corollary 2 algebra, Theorem 3's steps 1–4 and its equality "iff", Corollary 4 items 1–3, both tables, r(γ), L1, Lcl, 3/8 and 1. I confirmed DF15 Thm 1 and Prop. 4 ("N₀ < N both odd", γ ≥ ½) from the arXiv PDF. The problems are below.
+
+1. **Corollary 4 / "What remains open", last sentence.** Claim: "Excluding that would prove the conjecture on [3/2, 3/2+ε)." Being Lᵖ-close to a half-soliton says nothing about pointwise envelope bounds. A small spike or a far, thin tail stays Lᵖ-small but escapes every envelope, so "near-optimizer" plus "escapes every envelope" is not a contradiction. Nothing stated shows that near-optimizers have at most one Neumann state. The route as written does not give a proof. Also, CFL14 Thm 2.2 is a whole-line result; its γ-range and its use on the even extension Ṽ are not checked. **FIX.** Change to "one possible route", and name the missing step: a quantitative bound on Σ_{j≥2}|E_j|^γ for near-optimizers.
+
+2. **Known facts (b), label.** (b) is labeled only "Lean fact_b". In Spec.lean, `fact_b` is the abstract statement "c·M(V₀) ≤ S(V₀) ⇒ c ≤ C". The real content is not in Lean: the half-soliton gives |E₁|^γ = 2L1·M, and it has no second Neumann state for γ ≤ 5/2 (from [PT33]/[LT76]). **FIX.** Add Standard/Paper labels citing PT33 and LT76. The same applies to (d): that −ν² is the ground state uses "a positive eigenfunction is the ground state", which is not in Lean (**MINOR**).
+
+3. **Theorem 3, Equality step.** "For γ > ½ its optimizers are c²(γ²−¼)sech²(c(x−x₀)) [LT76]." The proof needs uniqueness of the optimizers up to translation and dilation, not just that they exist. Uniqueness comes from the Sz.-Nagy/Keller uniqueness for the 1D Gagliardo–Nirenberg problem; it is not clear LT76 states it. **FIX.** Cite a source that states uniqueness.
+
+4. **Theorem 3, Equality, γ = ½.** "That bound is strict for every potential, because its extremal is a δ." This is a heuristic with no citation. The statement is true: equality would need ψ = ψ_max·e^{−κ|x−x₀|}, which forces V = 0 a.e. **FIX.** Give this two-line argument or a reference.
+
+5. **Status box, "Novelty".** It says Theorem 1 and Corollary 2 "appear in no paper found". The literature notes record two gaps it does not mention: Aljahili–Laptev (J. Math. Sci. 2023) was not accessed, and the "Comments" sections of Frank–Laptev–Weidl were not checked. **FIX.** State these search gaps on the page.
+
+6. **Corollary 2, "new range".** "The new range is therefore odd N ≥ 3 with 3/2 < γ < 2." This assumes DF15 eq. (5), L_{γ,N} = L_γ for γ ≥ 2, holds for odd N ≥ 3. The page itself shows eq. (5) is false at N = 1, and the source [DH10] (per the notes) treats different vertex conditions. Its validity for odd N ≥ 3 is therefore unverified. **FIX.** Say "if eq. (5) holds for N ≥ 3".
+
+7. **Corollary 2, statement vs. proof.** The statement covers "every odd N", but Prop. 4 with N₀ = 1 needs N₀ < N, so the proof covers only N ≥ 3. **MINOR.** Say that N = 1 is Theorem 1.
+
+8. **Remarks, item 4 (Bargmann/Hardy classes).** "V(x) ≤ 1/(4x²)" and "∫xV < 1" do not by themselves make the Neumann form defined on H¹. Example: V ~ x^{−3/2} near 0 has ∫xV < ∞, but ∫V|u|² = ∞ when u(0) ≠ 0. The claim holds only together with the Setting's V ∈ L^{γ+½}. **MINOR.** Write "within the Setting".
+
+9. **Remarks, item 1.** "…the conjectured optimizer for every γ ≤ 5/2." This fails at γ = ½: there ν = 0 gives V ≡ 0, and the bound is never attained (the extremal is a δ). Also, the page's Conjecture covers only 3/2 ≤ γ ≤ 5/2. **MINOR.** Write "½ < γ ≤ 5/2", and for γ < 3/2 make it conditional on the whole-line conjecture.
+
+10. **Setting / L1 formula at γ = ½.** ((γ−½)/(γ+½))^{γ−½} is 0⁰ at γ = ½, but the page uses L1(½) = ½ (endpoint L^N_{1/2} = 1, and Theorem 3 at γ = ½). **MINOR.** State the convention 0⁰ = 1 (the limit as γ ↓ ½).
+
+11. **Theorem 3 hypothesis and Corollary 4(2).** "For all x > 0" and "there is an x > 0 with V(x) > …" are pointwise, but V ∈ Lᵖ is only defined almost everywhere. **MINOR.** Write "for a.e. x" in Theorem 3 and "on a set of positive measure" in Corollary 4(2).
+
+12. **Corollary 4, "Items 1 and 2 follow from Theorem 3".** Item 1 does not follow from Theorem 3 as stated, which is about the envelope class. It follows from step 4 ("one state suffices") together with N_D ≥ N_N − 1 from the Remarks. **MINOR.** Cite those instead.
+
+13. **Theorem 3, step 1 (Sturm).** [Sim05]'s zero-counting theorem is stated for the Dirichlet or whole-line problem, and the Neumann version is used without comment. The conclusion is already settled by the Pöschl–Teller cross-check [PT33], so nothing breaks. **MINOR.** Say it is the Neumann analogue, or rely on PT33 alone.
+
+</details>
+
+<details><summary>Claims reviewer</summary>
+
+The page's numbers all check out, but it overstates what Lean verifies in several places, leaves several steps without an evidence chip, and its novelty claim goes beyond the recorded search. 13 findings, numbered by severity.
+
+**Numbers I checked and found correct (check D):**
+- Both tables at γ = 3/2, 7/4, 2, 9/4, 5/2 recompute exactly.
+- x₀ = arsinh √(1/2) = 0.6585.
+- L^N_{3/2} = 3/8.
+- Spec.lean has exactly 64 `theorem` declarations.
+- The Lean and Mathlib versions match `lean-toolchain` and `lake-manifest.json`.
+
+**1. BLOCKER — Setting (b), Lean chip on `fact_b`.** The page claims "L^N_γ ≥ 2L₁(γ) … the half-soliton attains this for γ ≤ 5/2". In Lean, `fact_b` is an abstract three-line lemma: if some V₀ has c·M V₀ ≤ S V₀ and M V₀ > 0, then every admissible C is at least c. The actual content, that the half-soliton's S/M equals 2L₁, is the hypothesis `hV₀`. So is "attains for γ ≤ 5/2", which needs that state to be the only Neumann state. Fix: relabel as Standard/Paper (Pöschl–Teller plus a mass computation), with Lean covering only "test potential ⇒ lower bound".
+
+**2. BLOCKER — Setting (d), Lean chip on `fact_d`.** `fact_d` is a `linarith` step whose hypothesis `S V₀ = 2l₁M V₀ + δ`, δ > 0, carries everything. `pt_second_even_state` and `..._sq_integrable` do check the ODE and L²(0,∞) for ν > 2. They do not check:
+- the Neumann condition ψ₂′(0) = 0 for general ν (Lean proves it only at ν = 2, in `psi2_two_at_zero`);
+- H¹ membership;
+- that the ground-state term alone already gives 2L₁M.
+
+Fix: say "Lean checks the eigenfunction equation and L² membership; the rest is Standard".
+
+**3. FIX — How hypothesis-dependent the Lean chips are is only disclosed at the bottom.** `neumann_upper_ELU`, `beating_needs_big_ground_state`, `at_most_one_state_ok` and `star_graph_bound` are all `linarith` or Finset steps on real numbers. ELU (1.6), the one-bound-state bound and DF Prop. 4 enter as hypotheses. Lean has no operator, no supremum and no infinite eigenvalue sum. Yet the status box ("64 theorems … steps checked in Lean") and each chip read as if the results were verified. Fix: add "(modulo cited hypotheses)" to every such chip, and a status-box sentence saying the Lean files check only the arithmetic and calculus steps.
+
+**4. FIX — Status box, "64 theorems".** Many of the 64 are unrelated to these results: `complete_square*`, `mExp*`, `L1_one`, `two_L1_*_bounds`, `uniqueness_skeleton`, `localization_bookkeeping`, `add_rpow_ge_tangent`, `soliton_bonus_*`, `sech2_family_opt`. Fix: give the number actually used by the page (about 25), or say "64 in the file, N used here".
+
+**5. FIX — Theorem 1 statement and step 3, and Corollary 4(3).**
+- Going from `r_lt_one` to "Lcl + L₁ < 2Lcl" needs `L1_eq_r_mul_Lcl` and Lcl > 0. Neither is cited, and Lcl > 0 is not in the file.
+- The same applies to `star_graph_bound_strict`, whose hypothesis is l₁ < lcl.
+- Corollary 4(3) is stated with 2 − 1/r, but Lean's conclusion is 2(2l₁ − lcl)M. Equating the two also needs `L1_eq_r_mul_Lcl`.
+- Step 3 says "The bound is strict", which can be read as S < (Lcl + L₁)M.
+
+Fix: cite `L1_eq_r_mul_Lcl` and reword step 3 to "strictly below 2Lcl".
+
+**6. FIX — Missing or incomplete chips (check B).**
+- Theorem 3, step 2 (scaling): no label.
+- Step 4: Lean chip only, but it uses the one-bound-state bound, which is Standard.
+- Step 5: the optimizer characterization [LT76], "strict at γ = ½ because its extremal is a δ", and the converse (single eigenvalue −(γ−½)²b⁻²) have no label and no citation.
+- The Endpoints bullet, which depends on HLT98 and the RS26 preprint, has no label.
+- Corollary 4 items 1–2 have no label; the Dirichlet part relies on N_D ≥ N_N − 1, which is uncited.
+- The Remarks rely on Pöschl–Teller and Bar52 with no labels.
+
+**7. FIX — Step 5 citation.** The page cites [LT76] for uniqueness of the one-bound-state optimizers. The Task 1 record contains no quoted statement for this. Fix: quote the exact source (Gagliardo–Nirenberg optimizer uniqueness) or mark it unverified.
+
+**8. FIX — Novelty scope (check C).**
+- The page says the search "covered [DF15]". The notes say only pp. 1–4 and 8–10 were read.
+- Works citing DF15 were never searched, yet Corollary 2 is a star-graph result.
+- Not disclosed: Frank–Laptev–Weidl was checked by table of contents only (its Comments sections were not checked), and Aljahili–Laptev 2023 was not accessed.
+
+Fix: state the partial DF15 reading and these gaps, or search the works citing DF15 before claiming Corollary 2 is new.
+
+**9. FIX — Quotations not in the literature record.**
+- DF15 Thm 1's bound ((N+1)/N)Lcl and the statement of Prop. 4 are not quoted in the notes.
+- The quoted phrase "improve automatically" does not appear in the notes. The notes only paraphrase Remark (4).
+
+Fix: verify the text and quote it in the notes, or remove the quotation marks.
+
+**10. FIX — Corollary 2's "new range".** The page relies on DF eq. (5) (L_{γ,N} = L_γ for γ ≥ 2) for N ≥ 3 while also calling that equation unreliable for N = 1. It also says, for every odd N and γ > 3/2, that the bound is "strictly below Demirel-Frank's bound", even though for γ ≥ 2 a sharper value is known. Fix: limit the strictness claim to 3/2 < γ < 2 for N ≥ 3.
+
+**11. FIX — "What remains open".** "Excluding that would prove the conjecture on [3/2, 3/2+ε)" is an unproved roadmap stated as an implication. It also depends on an unchecked uniformity of the CFL14 stability constant. Fix: "might", plus a Conjecture chip.
+
+**12. MINOR — Theorem 3 step 1, `pt_ground_state`.** It proves the ODE for general ν only. L² membership of sech² and the claim that −4 is the only eigenvalue are not Lean (they come from Sturm). The Lean results are also stated for ψ₂ = −u, not for u. Fix: add a note.
+
+**13. MINOR — Remarks.** "Conjectured optimizer for every γ ≤ 5/2" should be "for 3/2 ≤ γ ≤ 5/2", since the conjecture covers only that range.
+
+</details>

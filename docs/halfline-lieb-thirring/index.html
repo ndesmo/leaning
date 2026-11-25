@@ -293,18 +293,34 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     </p>
     <dl class="status">
       <dt>Method</dt>
-      <dd>Published spectral theorems, combined with steps checked in Lean 4 and Mathlib.</dd>
+      <dd>Published spectral theorems, combined with steps checked in Lean 4 and Mathlib. Lean has no
+        theory of Schrödinger operators, so it checks the explicit functions, inequalities and the
+        algebra that combines the cited theorems, not the spectral theorems themselves.</dd>
       <dt>Lean</dt>
-      <dd>64 theorems, none using <code>sorry</code>; <code>#print axioms</code> shows only
-        <code>propext</code>, <code>Classical.choice</code> and <code>Quot.sound</code>.</dd>
+      <dd>The source file has 70 theorems, none using <code>sorry</code>; <code>#print axioms</code>
+        shows only <code>propext</code>, <code>Classical.choice</code> and <code>Quot.sound</code>. This page
+        cites 30 of them.</dd>
       <dt>Novelty</dt>
-      <dd>Theorem 1 and Corollary 2 appear in no paper found. The search covered [ELU14], [Sch19] and
-        [DF15], the works citing the first two, and web searches.</dd>
+      <dd>Theorem 1 and Corollary 2 were not found in the works searched.
+        <ul class="plain">
+          <li><b>Read:</b> [ELU14] and [Sch19] in full; [DF15] pp. 1–4 and 8–10, plus its Thm 1, Prop. 4 and
+            Remarks (3)–(4).</li>
+          <li><b>Citing works:</b> those of [ELU14] (13) and [Sch19] (3); for [DF15], Semantic Scholar and
+            OpenAlex list one citing work, which is unrelated.</li>
+          <li><b>Also:</b> web searches.</li>
+          <li><b>Not checked:</b> the Comments sections of Frank–Laptev–Weidl’s book (table of contents
+            only) and Aljahili–Laptev (2023), which was paywalled. Google Scholar’s citation lists were not
+            reachable.</li>
+        </ul></dd>
       <dt>Review</dt>
-      <dd>None yet. Each proof step is labeled by where it comes from.</dd>
+      <dd>No human review. On 25 November 2026 two independent Claude subagents reviewed the page,
+        one for the mathematics and one for whether the claims match the Lean code. They raised 26
+        findings, and each one was fixed or answered; the record is in the
+        <a href="https://github.com/ndesmo/leaning/blob/main/notes/halfline-lieb-thirring.md#review">notes</a>.</dd>
     </dl>
     <p class="legend-ev">
       <span class="item"><span class="ev lean">Lean</span> checked in Lean</span>
+      <span class="item"><span class="ev lean">Lean + cited</span> Lean checks the deduction; its inputs are cited theorems</span>
       <span class="item"><span class="ev paper">Paper</span> published theorem, cited</span>
       <span class="item"><span class="ev std">Standard</span> classical result, cited</span>
       <span class="item"><span class="ev conj">Conjecture</span> open</span>
@@ -331,6 +347,7 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       <span><var>L</var><sub>cl</sub>(<var>γ</var>) = <span class="frac"><span>Γ(<var>γ</var> + 1)</span><span>2√π Γ(<var>γ</var> + 3/2)</span></span></span>
     </div>
     <p>
+      At <var>γ</var> = ½ the factor 0<sup>0</sup> is read as 1, its limit, so <var>L</var><sub>1</sub>(½) = ½.
       Their ratio <var>r</var>(<var>γ</var>) = <var>L</var><sub>1</sub>/<var>L</var><sub>cl</sub> =
       2((<var>γ</var> − ½)/(<var>γ</var> + ½))<sup><var>γ</var> − ½</sup> decreases strictly on (½, ∞), with
       <var>r</var>(3/2) = 1 and <var>r</var> &gt; 2/<var>e</var>.
@@ -348,16 +365,26 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         <var>L</var><sub>cl</sub>(<var>γ</var>) for <var>γ</var> ≥ 3/2 [LT76, AL78], this gives 2<var>L</var><sub>cl</sub>(<var>γ</var>)
         there; [ELU14, Thm 1.6] reaches the same bound. <span class="ev paper">Paper</span></li>
       <li>(b) <var>L</var><span class="ss"><span><var>N</var></span><span><var>γ</var></span></span> ≥ 2<var>L</var><sub>1</sub>(<var>γ</var>)
-        for <var>γ</var> &gt; ½. The half-soliton (<var>γ</var>² − ¼) sech² <var>x</var> on (0, ∞) attains this
-        for <var>γ</var> ≤ 5/2. <span class="ev lean">Lean</span> <code>fact_b</code></li>
-      <li>Endpoints: <var>L</var><span class="ss"><span><var>N</var></span><span>1/2</span></span> = 1 [HLT98];
-        <var>L</var><span class="ss"><span><var>N</var></span><span>3/2</span></span> = 3/8, from (a) and (b);
-        <var>L</var><span class="ss"><span><var>N</var></span><span>1</span></span> = 2<var>L</var><sub>1</sub>(1), from (a), (b)
-        and the identity <var>L</var><sub><var>γ</var></sub> = <var>L</var><sub>1</sub>(<var>γ</var>) at <var>γ</var> = 1 [RS26, preprint].</li>
+        for <var>γ</var> &gt; ½. The half-soliton (<var>γ</var>² − ¼) sech² <var>x</var> on (0, ∞) has ground
+        state sech<sup><var>ν</var></sup> with <var>ν</var> = <var>γ</var> − ½, and |<var>E</var><sub>1</sub>|<sup><var>γ</var></sup> =
+        2<var>L</var><sub>1</sub>(<var>γ</var>) <var>M</var><sub><var>γ</var></sub> [LT76]. For <var>γ</var> ≤ 5/2 it has no
+        other Neumann state [PT33], so it attains 2<var>L</var><sub>1</sub>. <span class="ev std">Standard</span>
+        Lean checks the eigenfunction equation and the Neumann condition, and that one test potential
+        bounds the sharp constant below. <span class="ev lean">Lean</span> <code>pt_ground_state</code>,
+        <code>psi0_neumann</code>, <code>fact_b</code></li>
+      <li>Endpoints: <var>L</var><span class="ss"><span><var>N</var></span><span>1/2</span></span> = 1 [HLT98]
+        <span class="ev paper">Paper</span>; <var>L</var><span class="ss"><span><var>N</var></span><span>3/2</span></span> = 3/8,
+        from (a) and (b); <var>L</var><span class="ss"><span><var>N</var></span><span>1</span></span> = 2<var>L</var><sub>1</sub>(1),
+        from (a), (b) and the identity <var>L</var><sub><var>γ</var></sub> = <var>L</var><sub>1</sub>(<var>γ</var>) at
+        <var>γ</var> = 1, which comes from an unrefereed preprint [RS26].</li>
       <li>(d) <var>L</var><span class="ss"><span><var>N</var></span><span><var>γ</var></span></span> &gt; 2<var>L</var><sub>1</sub>(<var>γ</var>)
         for <var>γ</var> &gt; 5/2. The half-soliton then has a second Neumann state, the even <var>k</var> = 2
-        Pöschl–Teller state. <span class="ev lean">Lean</span> <code>fact_d</code>, <code>pt_second_even_state</code>,
-        <code>pt_second_even_state_sq_integrable</code></li>
+        Pöschl–Teller state with eigenvalue −(<var>ν</var> − 2)², on top of a ground state that already gives
+        2<var>L</var><sub>1</sub><var>M</var><sub><var>γ</var></sub>. <span class="ev std">Standard</span> Lean checks that
+        this state solves the eigenvalue equation, satisfies the Neumann condition and is in
+        <var>L</var>²(0, ∞) for <var>ν</var> &gt; 2, and that an extra positive term makes the bound strict.
+        <span class="ev lean">Lean + cited</span> <code>pt_second_even_state</code>, <code>psi2_neumann</code>,
+        <code>pt_second_even_state_sq_integrable</code>, <code>fact_d</code></li>
     </ul>
   </section>
 
@@ -387,11 +414,15 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         so the Neumann ground state is the ground state of −<var>d</var>² − <var>Ṽ</var> on ℝ. The sharp
         one-bound-state bound [LT76] and ∫<sub>ℝ</sub> <var>Ṽ</var><sup><var>γ</var>+1/2</sup> = 2<var>M</var><sub><var>γ</var></sub>(<var>V</var>)
         give |<var>E</var><sub>1</sub>|<sup><var>γ</var></sup> ≤ 2<var>L</var><sub>1</sub>(<var>γ</var>) <var>M</var><sub><var>γ</var></sub>(<var>V</var>).
-        <span class="ev std">Standard</span> <span class="ev lean">Lean</span> <code>even_extension_mass</code></li>
+        <span class="ev std">Standard</span> <span class="ev lean">Lean</span> <code>even_extension_mass</code> (the mass identity only)</li>
       <li>Add half of step 2 to step 1:
         <var>S</var><sub><var>γ</var></sub>(<var>V</var>) ≤ (<var>L</var><sub>cl</sub>(<var>γ</var>) + <var>L</var><sub>1</sub>(<var>γ</var>)) <var>M</var><sub><var>γ</var></sub>(<var>V</var>).
-        The bound is strict for <var>γ</var> &gt; 3/2 because <var>r</var>(<var>γ</var>) &lt; 1.
-        <span class="ev lean">Lean</span> <code>neumann_upper_ELU</code>, <code>r_lt_one</code> <span class="qed">∎</span></li>
+        <span class="ev lean">Lean + cited</span> <code>neumann_upper_ELU</code></li>
+      <li>For <var>γ</var> &gt; 3/2, <var>L</var><sub>1</sub>(<var>γ</var>) = <var>r</var>(<var>γ</var>) <var>L</var><sub>cl</sub>(<var>γ</var>) with
+        <var>r</var>(<var>γ</var>) &lt; 1 and <var>L</var><sub>cl</sub>(<var>γ</var>) &gt; 0, so the constant
+        <var>L</var><sub>cl</sub> + <var>L</var><sub>1</sub> is strictly below 2<var>L</var><sub>cl</sub>.
+        <span class="ev lean">Lean</span> <code>L1_eq_r_mul_Lcl</code>, <code>r_lt_one</code>, <code>Lcl_pos</code>,
+        <code>L1_lt_Lcl</code>, <code>upper_bound_lt_two_Lcl</code> <span class="qed">∎</span></li>
     </ol>
   </section>
 
@@ -404,19 +435,19 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       <var>L</var><span class="ss"><span><var>N</var></span><span><var>γ</var></span></span>.
     </p>
     <p class="statement">
-      For <var>γ</var> ≥ 3/2 and every odd <var>N</var>,
+      For <var>γ</var> ≥ 3/2 and every odd <var>N</var> ≥ 3,
       <var>L</var><sub><var>γ</var>,<var>N</var></sub> ≤ <var>L</var><sub>cl</sub>(<var>γ</var>) + <var>L</var><sub>1</sub>(<var>γ</var>)/<var>N</var>.
-      For <var>γ</var> &gt; 3/2 this is strictly below Demirel-Frank’s bound
-      ((<var>N</var> + 1)/<var>N</var>) <var>L</var><sub>cl</sub>(<var>γ</var>) [DF15, Thm 1].
+      For <var>γ</var> &gt; 3/2 this bound is strictly below Demirel-Frank’s
+      ((<var>N</var> + 1)/<var>N</var>) <var>L</var><sub>cl</sub>(<var>γ</var>) [DF15, Thm 1]. The case <var>N</var> = 1 is Theorem 1.
     </p>
     <p>
-      Demirel-Frank’s Remark (4) notes that her odd-<var>N</var> bounds “improve automatically” if
+      Demirel-Frank’s Remark (4) says that her odd-<var>N</var> bounds “improve automatically” if
       <var>L</var><sub><var>γ</var>,1</sub> ≤ 2<var>L</var><sub><var>γ</var></sub> can be improved; Theorem 1 is such an
-      improvement. Her eq. (5), <var>L</var><sub><var>γ</var>,<var>N</var></sub> = <var>L</var><sub><var>γ</var></sub> for
-      <var>γ</var> ≥ 2 “and all <var>N</var>”, quoted from [DH10], cannot include <var>N</var> = 1, since
-      <var>L</var><sub><var>γ</var>,1</sub> ≥ 2<var>L</var><sub>1</sub>(<var>γ</var>) &gt; <var>L</var><sub>cl</sub>(<var>γ</var>).
-      The new range is therefore odd <var>N</var> ≥ 3 with 3/2 &lt; <var>γ</var> &lt; 2, together with
-      <var>N</var> = 1 (Theorem 1) for all <var>γ</var> &gt; 3/2.
+      improvement. Her eq. (5) states <var>L</var><sub><var>γ</var>,<var>N</var></sub> = <var>L</var><sub><var>γ</var></sub> for
+      <var>γ</var> ≥ 2 and all <var>N</var>, citing [DH10]. That cannot hold for <var>N</var> = 1, since
+      <var>L</var><sub><var>γ</var>,1</sub> ≥ 2<var>L</var><sub>1</sub>(<var>γ</var>) &gt; <var>L</var><sub>cl</sub>(<var>γ</var>), and
+      we have not checked it for odd <var>N</var> ≥ 3. If it holds there, the improvement for odd
+      <var>N</var> ≥ 3 matters only for 3/2 &lt; <var>γ</var> &lt; 2.
     </p>
     <p class="proof">Proof.</p>
     <ol class="steps">
@@ -424,9 +455,10 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         <var>L</var><sub><var>γ</var>,<var>N</var></sub> ≤ ((<var>N</var> − <var>N</var><sub>0</sub>)/<var>N</var>) <var>L</var><sub><var>γ</var></sub>
         + (<var>N</var><sub>0</sub>/<var>N</var>) <var>L</var><sub><var>γ</var>,<var>N</var><sub>0</sub></sub>. Take <var>N</var><sub>0</sub> = 1.
         <span class="ev paper">Paper</span></li>
-      <li>Insert <var>L</var><sub><var>γ</var></sub> = <var>L</var><sub>cl</sub>(<var>γ</var>) and Theorem 1 for
-        <var>L</var><sub><var>γ</var>,1</sub>. <span class="ev lean">Lean</span> <code>star_graph_bound</code>,
-        <code>star_graph_bound_strict</code> <span class="qed">∎</span></li>
+      <li>Insert <var>L</var><sub><var>γ</var></sub> = <var>L</var><sub>cl</sub>(<var>γ</var>) [LT76, AL78] and Theorem 1 for
+        <var>L</var><sub><var>γ</var>,1</sub>. <span class="ev lean">Lean + cited</span> <code>star_graph_bound</code></li>
+      <li>Strictness: <var>L</var><sub>1</sub> &lt; <var>L</var><sub>cl</sub> for <var>γ</var> &gt; 3/2.
+        <span class="ev lean">Lean</span> <code>L1_lt_Lcl</code>, <code>star_graph_bound_strict</code> <span class="qed">∎</span></li>
     </ol>
   </section>
 
@@ -435,10 +467,15 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     <p class="statement">
       Let <var>γ</var> ≥ ½. Suppose that for some <var>a</var> &gt; 0,
       0 ≤ <var>V</var>(<var>x</var>) ≤ 6<var>a</var><sup>−2</sup> sech²(<var>x</var>/<var>a</var>)
-      for all <var>x</var> &gt; 0. Then
+      for almost every <var>x</var> &gt; 0. Then
       <var>S</var><sub><var>γ</var></sub>(<var>V</var>) ≤ 2<var>L</var><sub>1</sub>(<var>γ</var>) <var>M</var><sub><var>γ</var></sub>(<var>V</var>).
-      If <var>V</var> ≢ 0, equality holds if and only if ½ &lt; <var>γ</var> ≤ 5/2 and
-      <var>V</var>(<var>x</var>) = (<var>γ</var>² − ¼) <var>b</var><sup>−2</sup> sech²(<var>x</var>/<var>b</var>) for some <var>b</var> &gt; 0.
+      For ½ &lt; <var>γ</var> ≤ 5/2, equality holds for
+      <var>V</var>(<var>x</var>) = (<var>γ</var>² − ¼) <var>b</var><sup>−2</sup> sech²(<var>x</var>/<var>b</var>), <var>b</var> &gt; 0.
+      At <var>γ</var> = ½, equality holds only for <var>V</var> = 0.
+    </p>
+    <p>
+      If the one-bound-state optimizers are exactly the dilated translates of sech² (see step 5),
+      these are the only equality cases with <var>V</var> ≢ 0, and none exist for <var>γ</var> &gt; 5/2.
     </p>
 
     <figure class="fig">
@@ -464,63 +501,78 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
 
     <p class="proof">Proof.</p>
     <ol class="steps">
-      <li><b>One state for <var>U</var> = 6 sech² <var>x</var>.</b> The solution of −<var>u</var>″ − <var>Uu</var> = 0 with
-        <var>u</var>(0) = 1, <var>u</var>′(0) = 0 is <var>u</var>(<var>x</var>) = 1 − 3 tanh² <var>x</var>.
-        <span class="ev lean">Lean</span> <code>resonance_at_five_halves</code>, <code>psi2_two_at_zero</code>,
-        <code>psi2_two_formula</code>.
-        It has exactly one zero in (0, ∞), at <var>x</var><sub>0</sub> = arsinh √½ ≈ 0.658.
-        <span class="ev lean">Lean</span> <code>psi2_two_unique_zero</code>.
-        When ∫<span class="ss"><span>∞</span><span>0</span></span> (1 + <var>x</var>)|<var>U</var>| &lt; ∞, the number of negative eigenvalues equals the
-        number of zeros of this solution in (0, ∞) [Sim05]. <span class="ev std">Standard</span>
-        The eigenvalue is −4, with eigenfunction sech² <var>x</var>. <span class="ev lean">Lean</span>
-        <code>pt_ground_state</code>. As a cross-check, −<var>d</var>² − 6 sech² on ℝ has exactly the
-        eigenvalues −4 (even) and −1 (odd) [PT33], and the Neumann eigenvalues are the even ones.</li>
+      <li><b>One state for <var>U</var> = 6 sech² <var>x</var>.</b> On ℝ, −<var>d</var>² − 6 sech² has exactly
+        the eigenvalues −4 (even eigenfunction sech²) and −1 (odd) [PT33]. The Neumann eigenvalues
+        on (0, ∞) are the even ones, so there is exactly one, −4. <span class="ev std">Standard</span>
+        Lean checks the explicit functions behind this. sech² solves the equation with −4 and
+        satisfies the Neumann condition (<code>pt_ground_state</code>, <code>psi0_neumann</code>). The
+        zero-energy solution with <var>u</var>(0) = 1, <var>u</var>′(0) = 0 is <var>u</var> = 1 − 3 tanh² <var>x</var>;
+        Lean states this for −<var>u</var> (<code>psi2_two_formula</code>, <code>psi2_two_at_zero</code>,
+        <code>resonance_at_five_halves</code>). It has exactly one zero in (0, ∞), at
+        <var>x</var><sub>0</sub> = arsinh √½ ≈ 0.658 (<code>psi2_two_unique_zero</code>).
+        <span class="ev lean">Lean</span> By the Neumann form of Sturm oscillation [Sim05], that one zero
+        is a second, independent way to count one state.</li>
       <li><b>Scaling.</b> (<var>D</var><sub><var>a</var></sub><var>f</var>)(<var>x</var>) = <var>a</var><sup>−1/2</sup><var>f</var>(<var>x</var>/<var>a</var>)
         is unitary on <var>L</var>²(0, ∞), preserves the Neumann condition, and gives
         <var>D</var><span class="ss"><span>−1</span><span><var>a</var></span></span><var>H</var><sub><var>U<sub>a</sub></var></sub><var>D</var><sub><var>a</var></sub>
         = <var>a</var><sup>−2</sup><var>H</var><sub><var>U</var></sub>, where
         <var>U</var><sub><var>a</var></sub>(<var>x</var>) = <var>a</var><sup>−2</sup><var>U</var>(<var>x</var>/<var>a</var>). So
-        <var>H</var><sub><var>U<sub>a</sub></var></sub> also has exactly one negative eigenvalue.</li>
+        <var>H</var><sub><var>U<sub>a</sub></var></sub> also has exactly one negative eigenvalue.
+        <span class="ev std">Standard</span></li>
       <li><b>Monotonicity.</b> 0 ≤ <var>V</var> ≤ <var>U</var><sub><var>a</var></sub> gives
         <var>H</var><sub><var>V</var></sub> ≥ <var>H</var><sub><var>U<sub>a</sub></var></sub> as forms on <var>H</var>¹(0, ∞),
         so by min–max <var>H</var><sub><var>V</var></sub> has at most one negative eigenvalue.
         <span class="ev std">Standard</span></li>
       <li><b>One state suffices.</b> Then <var>S</var><sub><var>γ</var></sub>(<var>V</var>) ≤ |<var>E</var><sub>1</sub>|<sup><var>γ</var></sup>
         ≤ 2<var>L</var><sub>1</sub>(<var>γ</var>) <var>M</var><sub><var>γ</var></sub>(<var>V</var>), by the one-bound-state bound as
-        in Theorem 1. <span class="ev lean">Lean</span> <code>at_most_one_state_ok</code></li>
-      <li><b>Equality.</b> Let <var>V</var> ≢ 0. Equality forces exactly one eigenvalue and equality in the
-        one-bound-state bound for <var>Ṽ</var>. At <var>γ</var> = ½ that bound is strict for every potential,
-        because its extremal is a δ. For <var>γ</var> &gt; ½ its optimizers are
-        <var>c</var>²(<var>γ</var>² − ¼) sech²(<var>c</var>(<var>x</var> − <var>x</var><sub>0</sub>)), <var>c</var> &gt; 0 [LT76],
-        and evenness forces <var>x</var><sub>0</sub> = 0. Such a half-soliton fits under some envelope
-        6<var>a</var><sup>−2</sup> sech²(<var>x</var>/<var>a</var>) if and only if <var>γ</var> ≤ 5/2.
+        in Theorem 1. <span class="ev std">Standard</span> <span class="ev lean">Lean + cited</span>
+        <code>at_most_one_state_ok</code></li>
+      <li><b>Equality.</b> For ½ &lt; <var>γ</var> ≤ 5/2 the half-soliton
+        (<var>γ</var>² − ¼)<var>b</var><sup>−2</sup> sech²(<var>x</var>/<var>b</var>) lies under the envelope with
+        <var>a</var> = <var>b</var>, has the single Neumann eigenvalue −(<var>γ</var> − ½)²<var>b</var><sup>−2</sup>, and attains
+        the one-bound-state bound, so equality holds. <span class="ev std">Standard</span> [PT33, LT76]
+        <br>At <var>γ</var> = ½, let <var>κ</var> = |<var>E</var><sub>1</sub>|<sup>1/2</sup> and let <var>ψ</var> &gt; 0 be the
+        ground state of −<var>d</var>² − <var>Ṽ</var> on ℝ, with its maximum at <var>x</var><sub>0</sub>. From
+        <var>ψ</var> = (2<var>κ</var>)<sup>−1</sup> <var>e</var><sup>−<var>κ</var>|·|</sup> ∗ (<var>Ṽψ</var>) we get
+        <var>ψ</var>(<var>x</var><sub>0</sub>) ≤ (2<var>κ</var>)<sup>−1</sup> <var>ψ</var>(<var>x</var><sub>0</sub>) ∫<var>Ṽ</var>, so
+        <var>κ</var> ≤ ½∫<var>Ṽ</var> = <var>M</var><sub>1/2</sub>(<var>V</var>). Equality would need
+        <var>ψ</var>(<var>y</var>) = <var>ψ</var>(<var>x</var><sub>0</sub>) <var>e</var><sup><var>κ</var>|<var>x</var><sub>0</sub> − <var>y</var>|</sup>
+        &gt; <var>ψ</var>(<var>x</var><sub>0</sub>) wherever <var>Ṽ</var>(<var>y</var>) &gt; 0 and <var>y</var> ≠ <var>x</var><sub>0</sub>, which is
+        impossible. So <var>Ṽ</var> = 0 almost everywhere, and then there is no eigenvalue.
+        <br>Converse for <var>γ</var> &gt; ½ (conditional). Equality forces exactly one eigenvalue and
+        equality in the one-bound-state bound for <var>Ṽ</var>. If the optimizers of that bound are
+        exactly <var>c</var>²(<var>γ</var>² − ¼) sech²(<var>c</var>(<var>x</var> − <var>x</var><sub>0</sub>)), then evenness forces
+        <var>x</var><sub>0</sub> = 0. This uniqueness is classical, but we have not checked a source that
+        states it. <span class="ev conj">Unverified citation</span> Such a half-soliton fits under some
+        envelope 6<var>a</var><sup>−2</sup> sech²(<var>x</var>/<var>a</var>) if and only if <var>γ</var> ≤ 5/2.
         <span class="ev lean">Lean</span> <code>half_soliton_fits_iff_gamma</code>, <code>half_soliton_fits_iff</code>,
-        <code>envelope_excludes_large</code>.
-        For <var>γ</var>² − ¼ ≤ 6 take <var>a</var> = <var>b</var>. Otherwise the bound fails near
-        <var>x</var> = 0 when <var>b</var> ≤ <var>a</var>, and for large <var>x</var> when <var>a</var> &lt; <var>b</var>.
-        Conversely, for ½ &lt; <var>γ</var> ≤ 5/2 the half-soliton has the single Neumann eigenvalue
-        −(<var>γ</var> − ½)²<var>b</var><sup>−2</sup> and attains the one-bound-state bound. <span class="qed">∎</span></li>
+        <code>envelope_excludes_large</code>. <span class="qed">∎</span></li>
     </ol>
 
     <h3>Remarks</h3>
     <ul class="plain">
       <li>The class is invariant under <var>V</var> ↦ <var>λ</var>²<var>V</var>(<var>λ</var>·), as is
         <var>S</var><sub><var>γ</var></sub>/<var>M</var><sub><var>γ</var></sub>. It contains every half-soliton
-        <var>ν</var>(<var>ν</var> + 1) sech² <var>x</var> with <var>ν</var> ≤ 2, which is the conjectured optimizer for every
-        <var>γ</var> ≤ 5/2.</li>
+        <var>ν</var>(<var>ν</var> + 1) sech² <var>x</var> with 0 &lt; <var>ν</var> ≤ 2. For 3/2 ≤ <var>γ</var> ≤ 5/2 these are
+        the conjectured optimizers; for ½ &lt; <var>γ</var> &lt; 3/2 they would be optimizers if the whole-line
+        conjecture holds (next remark).</li>
       <li>The envelope is critical. At 6 sech² the even sector has a zero-energy resonance:
         <var>u</var> = 1 − 3 tanh² <var>x</var> is bounded and tends to −2. Every larger
-        <var>μ</var>(<var>μ</var> + 1) sech² with <var>μ</var> &gt; 2 has a second Neumann state, and for
-        <var>γ</var> &gt; 5/2 the half-soliton itself beats 2<var>L</var><sub>1</sub>(<var>γ</var>), by (d).</li>
+        <var>μ</var>(<var>μ</var> + 1) sech² with <var>μ</var> &gt; 2 has a second Neumann state [PT33], and for
+        <var>γ</var> &gt; 5/2 the half-soliton itself beats 2<var>L</var><sub>1</sub>(<var>γ</var>), by (d).
+        <span class="ev std">Standard</span></li>
       <li>For ½ ≤ <var>γ</var> &lt; 3/2, <var>L</var><span class="ss"><span><var>N</var></span><span><var>γ</var></span></span> =
         2<var>L</var><sub>1</sub>(<var>γ</var>) would follow from the whole-line conjecture
         <var>L</var><sub><var>γ</var></sub> = <var>L</var><sub>1</sub>(<var>γ</var>), by (a) and (b). Theorem 3 proves it
         unconditionally on the envelope class.</li>
-      <li>Only “at most one Neumann state” is used. That holds whenever the Dirichlet operator on (0, ∞)
-        has no negative eigenvalue, since the counts satisfy <var>N</var><sub>D</sub> ≥ <var>N</var><sub>N</sub> − 1.
-        Two standard sufficient conditions are ∫<span class="ss"><span>∞</span><span>0</span></span> <var>x</var><var>V</var>(<var>x</var>) <var>dx</var> &lt; 1 [Bar52] and
-        <var>V</var>(<var>x</var>) ≤ 1/(4<var>x</var>²), by Hardy’s inequality. Both classes are scale-invariant
-        and contain potentials under no sech² envelope.</li>
+      <li>Only “at most one Neumann state” is used. Within the Setting, that holds whenever the
+        Dirichlet operator on (0, ∞) has no negative eigenvalue. The reason is that the counts satisfy
+        <var>N</var><sub>D</sub> ≥ <var>N</var><sub>N</sub> − 1, since the Dirichlet form domain has codimension 1 in
+        <var>H</var>¹(0, ∞). <span class="ev std">Standard</span> Two sufficient conditions are
+        ∫<span class="ss"><span>∞</span><span>0</span></span> <var>x</var><var>V</var>(<var>x</var>) <var>dx</var> &lt; 1 [Bar52] and
+        <var>V</var>(<var>x</var>) ≤ 1/(4<var>x</var>²), by Hardy’s inequality. <span class="ev std">Standard</span>
+        Both classes are scale-invariant and contain potentials under no sech² envelope. This remark is
+        not proved in detail here.</li>
     </ul>
   </section>
 
@@ -533,15 +585,21 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     <ol class="items statement">
       <li><var>H</var><sub><var>V</var></sub> has at least two Neumann bound states, and the Dirichlet operator has
         at least one;</li>
-      <li>for every <var>a</var> &gt; 0 there is an <var>x</var> &gt; 0 with
-        <var>V</var>(<var>x</var>) &gt; 6<var>a</var><sup>−2</sup> sech²(<var>x</var>/<var>a</var>);</li>
+      <li>for every <var>a</var> &gt; 0, <var>V</var>(<var>x</var>) &gt; 6<var>a</var><sup>−2</sup> sech²(<var>x</var>/<var>a</var>)
+        on a set of positive measure;</li>
       <li>|<var>E</var><sub>1</sub>|<sup><var>γ</var></sup> &gt; (2 − 1/<var>r</var>(<var>γ</var>)) · 2<var>L</var><sub>1</sub>(<var>γ</var>) <var>M</var><sub><var>γ</var></sub>(<var>V</var>).</li>
     </ol>
     <p>
-      Items 1 and 2 follow from Theorem 3 and hold for every <var>γ</var> ≥ ½. For item 3, subtract
-      ELU (1.6) from <var>S</var><sub><var>γ</var></sub> &gt; 2<var>L</var><sub>1</sub><var>M</var><sub><var>γ</var></sub>; this needs
-      <var>γ</var> ≥ 3/2. <span class="ev lean">Lean</span> <code>beating_needs_big_ground_state</code>,
-      <code>threshold_tendsto_one</code>, <code>threshold_five_halves</code>
+      Item 1: two states, from step 4 of Theorem 3 (one state cannot beat the bound); one Dirichlet
+      state, from <var>N</var><sub>D</sub> ≥ <var>N</var><sub>N</sub> − 1 (see the Remarks).
+      <span class="ev std">Standard</span> <span class="ev lean">Lean + cited</span> <code>at_most_one_state_ok</code>.
+      Item 2 is the contrapositive of Theorem 3. Items 1 and 2 hold for every <var>γ</var> ≥ ½.
+      Item 3: subtract ELU (1.6) from <var>S</var><sub><var>γ</var></sub> &gt; 2<var>L</var><sub>1</sub><var>M</var><sub><var>γ</var></sub>, which
+      gives |<var>E</var><sub>1</sub>|<sup><var>γ</var></sup> &gt; 2(2<var>L</var><sub>1</sub> − <var>L</var><sub>cl</sub>)<var>M</var><sub><var>γ</var></sub>. With
+      <var>L</var><sub>1</sub> = <var>r</var><var>L</var><sub>cl</sub> this is the form stated. Item 3 needs <var>γ</var> ≥ 3/2.
+      <span class="ev lean">Lean + cited</span> <code>beating_needs_big_ground_state</code>,
+      <code>L1_eq_r_mul_Lcl</code>, <code>threshold_identity</code>. The table values and their limit:
+      <span class="ev lean">Lean</span> <code>threshold_tendsto_one</code>, <code>threshold_five_halves</code>
     </p>
     <div class="tbl-wrap">
       <table>
@@ -554,38 +612,55 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
   <section id="open">
     <h2>What remains open</h2>
     <p>
-      The conjecture itself. As <var>γ</var> ↓ 3/2, Corollary 4(3) pushes the ground state’s share of a
-      counterexample towards 1. Carlen–Frank–Lieb stability [CFL14, Thm 2.2] would then make the
-      counterexample <var>L</var><sup><var>p</var></sup>-close to a half-soliton after rescaling, provided the stability
-      constant is uniform in <var>γ</var> near 3/2, which has not been checked. By Corollary 4(2) the
-      counterexample must still escape every critical envelope, for instance through a spike or a slowly
-      decaying tail. Excluding that would prove the conjecture on [3/2, 3/2 + <var>ε</var>).
+      The conjecture itself. <span class="ev conj">Conjecture</span> One possible route near
+      <var>γ</var> = 3/2, with its gaps:
     </p>
+    <ul class="plain">
+      <li>As <var>γ</var> ↓ 3/2, Corollary 4(3) pushes the ground state’s share of a counterexample
+        towards 1.</li>
+      <li>Carlen–Frank–Lieb stability [CFL14, Thm 2.2] might then make the even extension
+        <var>L</var><sup><var>p</var></sup>-close to a soliton after rescaling. Not checked: whether its constant
+        stays bounded as <var>γ</var> ↓ 3/2, and how it applies to even extensions.</li>
+      <li>Being close in <var>L</var><sup><var>p</var></sup> does not keep a potential under an envelope. A thin spike or
+        a distant weak tail stays <var>L</var><sup><var>p</var></sup>-small and can create extra Neumann states. So
+        Corollary 4(2) gives no contradiction by itself.</li>
+      <li>The missing step is a quantitative bound on Σ<sub><var>j</var>≥2</sub> |<var>E</var><sub><var>j</var></sub>|<sup><var>γ</var></sup>
+        for near-optimizers, showing that the excited states cost more mass than they contribute. No such
+        bound is proved here.</li>
+    </ul>
   </section>
 
   <section id="lean">
     <h2>What Lean checks</h2>
     <p>
-      Lean 4.37.0-rc1 with Mathlib v4.37.0-rc1. Source: <a href="https://github.com/ndesmo/leaning/blob/main/halfline_lt/HalflineLt/Spec.lean"><code>halfline_lt/HalflineLt/Spec.lean</code></a>. <code>lake build</code> succeeds, all 64 theorems in the
-      specification are proved without <code>sorry</code>, and <code>#print axioms</code> shows only the
+      Lean 4.37.0-rc1 with Mathlib v4.37.0-rc1. Source: <a href="https://github.com/ndesmo/leaning/blob/main/halfline_lt/HalflineLt/Spec.lean"><code>halfline_lt/HalflineLt/Spec.lean</code></a>. <code>lake build</code> succeeds, all 70 theorems in the
+      file are proved without <code>sorry</code>, and <code>#print axioms</code> shows only the
       standard axioms.
+    </p>
+    <p>
+      Lean has no operators, eigenvalues or suprema here. Theorems marked “Lean + cited” take the cited
+      spectral facts as real-number hypotheses (for example ELU (1.6) as ½<var>e</var><sub>1</sub> + <var>S</var> ≤
+      <var>L</var><sub>cl</sub><var>M</var>) and check the deduction from them. Theorems marked “Lean” are complete
+      statements about explicit functions and constants.
     </p>
     <div class="tbl-wrap">
       <table class="lean">
         <thead><tr><th>Result</th><th>Lean theorems</th></tr></thead>
         <tbody>
-          <tr><td>Theorem 1</td><td><code>neumann_upper_ELU</code>, <code>even_extension_mass</code>, <code>r_lt_one</code></td></tr>
-          <tr><td>Corollary 2</td><td><code>star_graph_bound</code>, <code>star_graph_bound_strict</code></td></tr>
-          <tr><td>Theorem 3, steps 1 and 4</td><td><code>psi2_two_formula</code>, <code>psi2_two_at_zero</code>, <code>psi2_two_unique_zero</code>, <code>resonance_at_five_halves</code>, <code>pt_ground_state</code>, <code>at_most_one_state_ok</code></td></tr>
-          <tr><td>Theorem 3, equality</td><td><code>half_soliton_fits_iff_gamma</code>, <code>half_soliton_fits_iff</code>, <code>envelope_excludes_large</code></td></tr>
-          <tr><td>Corollary 4</td><td><code>beating_needs_big_ground_state</code>, <code>threshold_tendsto_one</code>, <code>threshold_five_halves</code></td></tr>
+          <tr><td>Setting</td><td>Lean: <code>r_strictAntiOn</code>, <code>r_lt_one</code>, <code>two_exp_neg_one_lt_r</code>, <code>pt_ground_state</code>, <code>psi0_neumann</code>, <code>pt_second_even_state</code>, <code>psi2_neumann</code>, <code>pt_second_even_state_sq_integrable</code>; Lean + cited: <code>fact_b</code>, <code>fact_d</code></td></tr>
+          <tr><td>Theorem 1</td><td>Lean + cited: <code>neumann_upper_ELU</code>; Lean: <code>even_extension_mass</code>, <code>L1_eq_r_mul_Lcl</code>, <code>Lcl_pos</code>, <code>L1_lt_Lcl</code>, <code>upper_bound_lt_two_Lcl</code></td></tr>
+          <tr><td>Corollary 2</td><td>Lean + cited: <code>star_graph_bound</code>; Lean: <code>star_graph_bound_strict</code></td></tr>
+          <tr><td>Theorem 3, steps 1 and 4</td><td>Lean: <code>psi2_two_formula</code>, <code>psi2_two_at_zero</code>, <code>psi2_two_unique_zero</code>, <code>resonance_at_five_halves</code>; Lean + cited: <code>at_most_one_state_ok</code></td></tr>
+          <tr><td>Theorem 3, equality</td><td>Lean: <code>half_soliton_fits_iff_gamma</code>, <code>half_soliton_fits_iff</code>, <code>envelope_excludes_large</code></td></tr>
+          <tr><td>Corollary 4</td><td>Lean + cited: <code>beating_needs_big_ground_state</code>; Lean: <code>threshold_identity</code>, <code>threshold_tendsto_one</code>, <code>threshold_five_halves</code></td></tr>
         </tbody>
       </table>
     </div>
     <p>
       Not formalized: the cited spectral theorems. These are ELU (1.6), the one-bound-state bound and its
-      optimizers, Sturm oscillation, min–max, Demirel-Frank’s Prop. 4 and the Pöschl–Teller spectrum.
-      Mathlib has no theory of Schrödinger operators, so they enter the Lean statements as hypotheses.
+      optimizers, Sturm oscillation, min–max, scaling, Demirel-Frank’s Prop. 4 and the Pöschl–Teller
+      spectrum, including which eigenvalue is the ground state. Mathlib has no theory of Schrödinger
+      operators, so they enter the Lean statements as hypotheses, or stay outside Lean.
     </p>
   </section>
 

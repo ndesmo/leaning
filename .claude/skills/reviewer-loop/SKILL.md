@@ -50,6 +50,11 @@ another session: it never changes what you review or how.
 - **Keep this session small.** Do the heavy reading and checking in subagents, and keep only their
   findings.
 - **Verify before posting.** Check each finding yourself and drop any you cannot substantiate.
+- **Out-of-scope problems become issues.** If you find a problem outside the PR's scope (in other
+  files, or a pre-existing error), file it with `gh issue create` and the label `follow-up`. Never
+  add `approved`. Mention the issue number in your comment.
+- **Re-check before posting.** Fetch the PR's state and head commit again. If it was merged, closed
+  or updated meanwhile, don't post; start over next iteration.
 
 ## 3. Post one comment
 
@@ -71,6 +76,7 @@ the PR's files.
 
 ## Never
 
+- Add or remove the `approved` label.
 - Edit or commit files.
 - Push.
 - Approve or merge a PR.

@@ -69,6 +69,22 @@ foreach ($n in $Names) {
   $s.Actions | ForEach-Object { "  $_" }
 }
 
+Write-Output '=== backlog (GitHub issues)'
+$issues = gh issue list --state open --limit 200 --json number,title,labels 2>$null | ConvertFrom-Json
+$rank = @{ 'priority:high' = 0; 'priority:normal' = 1; 'priority:low' = 2 }
+function Prio($i) { $p = @($i.labels.name | Where-Object { $rank.ContainsKey($_) }); if ($p) { $rank[$p[0]] } else { 1 } }
+$approved = @($issues | Where-Object { $_.labels.name -contains 'approved' } | Sort-Object { Prio $_ }, number)
+$waiting = @($issues | Where-Object { $_.labels.name -notcontains 'approved' })
+Write-Output "approved: $($approved.Count) | awaiting the owner's approval: $($waiting.Count)"
+foreach ($i in $approved | Select-Object -First 8) {
+  $state = if ($i.labels.name -contains 'in-progress') { 'in progress' } elseif ($i.labels.name -contains 'blocked') { 'blocked' } else { 'queued' }
+  $p = @($i.labels.name | Where-Object { $_ -like 'priority:*' }) -join ''
+  Write-Output ("  #{0} [{1}, {2}] {3}" -f $i.number, $state, ($p -replace 'priority:', ''), (Short $i.title 70))
+}
+foreach ($i in $waiting | Where-Object { $_.labels.name -contains 'follow-up' }) {
+  Write-Output ("  #{0} [awaiting approval, follow-up] {1}" -f $i.number, (Short $i.title 70))
+}
+
 Write-Output '=== open pull requests'
 $prs = gh pr list --state open --json number,title,headRefName,headRefOid 2>$null | ConvertFrom-Json
 if (-not $prs) { Write-Output 'none' }

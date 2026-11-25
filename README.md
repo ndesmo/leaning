@@ -34,6 +34,29 @@ The build should report no `sorry`. `#print axioms` on each theorem shows only `
 `Classical.choice` and `Quot.sound`. Spectral theorems that Mathlib lacks enter the Lean statements
 as explicit hypotheses; each proof page says which ones.
 
+## Backlog
+
+Work is tracked in [GitHub Issues](https://github.com/ndesmo/leaning/issues); knowledge is kept in
+files.
+
+| Label | Meaning |
+|---|---|
+| `approved` | The owner said yes. Only the owner adds it; agents work only on these. |
+| `priority:high` / `normal` / `low` | The order in which approved work is taken. |
+| `gap`, `problem`, `follow-up`, `tooling` | What kind of item it is. |
+| `in-progress`, `blocked` | Its current state. |
+
+- **Approving.** To approve something, add the `approved` label on GitHub; no pull request is
+  needed.
+- **Board.** The [project board](https://github.com/users/ndesmo/projects/1) shows the same
+  items in Todo / In Progress / In Review / Done. `tools\board-sync.ps1` keeps it in step, and the
+  author runs it after each iteration.
+- **Sub-issues.** Big items are split into sub-issues, one per pull request-sized unit. A sub-issue
+  is approved while its parent is.
+- **Linking.** Pull requests say `Closes #n` or `Part of #n`.
+- **Files.** `LEDGER.md` (results, gaps, failed approaches) and `PROBLEMS.md` (scouted candidates
+  and their evidence) link each item to its issue.
+
 ## Running the agents
 
 Two Claude Code loops run in their own worktrees. Only the owner merges.

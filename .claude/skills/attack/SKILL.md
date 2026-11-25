@@ -45,7 +45,8 @@ Check each of these explicitly:
 ## When stuck
 
 - **Write down the gap.** State it precisely in the notes, along with the step that would close it.
-  Add it to `LEDGER.md`'s open gaps. Add dead approaches to "Approaches that failed", with the
-  reason.
+  Add it to `LEDGER.md`'s open gaps, and file a GitHub issue for it (labels `gap`, `follow-up`;
+  never `approved`) whose number goes in the ledger row. Add dead approaches to "Approaches that
+  failed", with the reason.
 - **Look for a partial result.** Check whether what is proved forms one: if so, publish that.
   Otherwise go back to `/conjecture` for a weaker target.

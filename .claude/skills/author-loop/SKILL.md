@@ -22,6 +22,8 @@ work, leave all state in files and PRs, then schedule the next wakeup.
 
 - `git fetch origin`, then list your open PRs: `gh pr list --state open --json number,title,headRefName`.
 - Work only in this worktree. Never edit `.claude/settings*.json` or `.github/workflows/`.
+- Tidy the queue. For each open issue labelled `in-progress` with no open PR of yours (its PR was
+  merged or closed), remove `in-progress`, so its next unit can be picked again.
 
 ## 2. Reviewer comments come first
 
@@ -39,9 +41,35 @@ That is the whole iteration. Go to step 5.
 
 - **If 2 or more of your PRs are open, do nothing.** The user merges at their own pace. Go to
   step 5.
-- **Pick the target.** Read `LEDGER.md` and pick the most tractable open gap or idea. Prefer small,
-  checkable units: a citation to verify, one Lean lemma, one literature pass, one attack on a
-  precisely stated gap.
+- **Pick the target from the issue queue.** List
+  `gh issue list --state open --label approved --json number,title,labels`. Add the open
+  sub-issues of each listed issue (`gh api repos/ndesmo/leaning/issues/<n>/sub_issues`), which
+  carry no `approved` label of their own, and prefer them to their parent. Skip issues labelled
+  `in-progress` or `blocked`. Take the highest priority (`priority:high`, then normal, then low),
+  oldest first. Only issues the owner labelled `approved` are eligible. You never add or remove
+  `approved`, and you never work on an unapproved issue.
+- **Claim it.** Add the label `in-progress` and comment on the issue with your branch name.
+- **One unit only.** An issue may need several PRs. Each PR does one small, checkable unit: a
+  citation to verify, one Lean lemma, one literature pass, one attack on a precisely stated gap.
+- **Split big issues into sub-issues.** When an approved issue needs more than one unit, create a
+  sub-issue for each unit you identify:
+  - create it with `gh issue create`, with the parent's kind and priority labels, and never
+    `approved`;
+  - link it with `gh api -X POST repos/ndesmo/leaning/issues/<parent>/sub_issues -F sub_issue_id=<id>`,
+    where `<id>` comes from `gh api repos/ndesmo/leaning/issues/<n> --jq .id`.
+
+  A sub-issue is eligible only while its parent carries `approved`. Check the parent
+  (`gh api repos/ndesmo/leaning/issues/<n>/parent`) before working on it. Work the units one at a
+  time; the parent closes when its last unit lands.
+- **Starting a new problem** (an issue labelled `problem`). First re-check that it is still open:
+  search for solutions dated after the scout's check.
+  - If it has been solved, open a PR that marks it `rejected: solved by <ref>` in `PROBLEMS.md`,
+    with `Closes #<n>`.
+  - Otherwise give it a slug, a `LEDGER.md` entry and a `notes/<slug>.md` file, mark it `taken` in
+    `PROBLEMS.md`, and make its first unit the scout's first target.
+- **File what you defer.** Anything you notice but don't do in this unit goes in a new issue
+  labelled `follow-up` (never `approved`), with its source and what "done" means. Don't bury it in
+  prose.
 - **Branch.** Create `agent/<slug>-<short-stage>` from `origin/main`.
 - **Do one stage** using the stage skills (`/conjecture`, `/literature`, `/attack`, `/lean-check`,
   `/proof-page`), in a subagent (see "Keep this session small").
@@ -56,6 +84,7 @@ That is the whole iteration. Go to step 5.
 
 - Commit, using a message file and the Co-Authored-By trailer.
 - Push the branch, then `gh pr create`. The body states:
+  - `Closes #<n>` if this PR finishes the issue, otherwise `Part of #<n>`;
   - which stage this is;
   - what is claimed, with labels;
   - what Lean checks;
@@ -80,6 +109,8 @@ This loop runs for weeks, so its own context must stay small. Do the heavy work 
 
 ## 5. Schedule the next iteration
 
+- If you changed anything on GitHub this iteration (an issue, label or PR), run
+  `& .\tools\board-sync.ps1` so the project board matches.
 - Did something: wake in about 30 minutes.
 - Idle, or at the PR limit: wake in 60 minutes.
 
@@ -88,6 +119,7 @@ PRs.
 
 ## Never
 
+- Add or remove the `approved` label, or work on an issue without it.
 - Merge a PR.
 - Push to `main`.
 - Force-push.

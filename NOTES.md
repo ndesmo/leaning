@@ -34,15 +34,20 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | L^N_γ ≤ 2L_γ, γ ≥ 1/2 | [paper: Demirel-Frank, Lemma 3] | Task 1 §4 |
 | Schimmer Thm 1.1 at σ₀ = 0 (γ = 3/2), equality at the half-soliton | [paper: Schimmer, Thm 1.1] + hand check | Task 1 §3 |
 | L_{1,1} = 4/(3√3π) | [preprint: Read–Schulz, Thm 1] | Task 1 §5 |
+| L1(1) = 4/(3√3π), L1(2) = (16/(15π))(3/5)^{3/2} | [Lean] | `Spec.lean` §2 |
+| 2·L1(1) ∈ (0.49006, 0.49008), 2·L1(2) ∈ (0.31559, 0.31561) | [Lean] | `Spec.lean` §2 |
+| ψ₀ = sech^ν solves −ψ'' − ν(ν+1)sech²ψ = −ν²ψ | [Lean] | `Spec.lean` §5 |
+| ψ₂ = sech^{ν−2}((2ν−1)tanh² − 1) solves it with −(ν−2)² | [Lean] | `Spec.lean` §5 |
+| ψ₂ ∈ L²(0,∞) for ν > 2 | [Lean] | `Spec.lean` §5 |
+| One-state sech² family is maximised at ν = γ − 1/2 | [Lean] | `Spec.lean` §5 |
 | No tested potential beats 2·L1 for γ ∈ {1, 1.5, 1.75, 2, 2.25, 2.4, 2.5} (4 families + sech²) | [numerical ± 1e-10..3e-6] | Task 2, `results/` |
 | γ = 3: R/(2L1) ≥ 1.000118753 for an explicit potential | [numerical ± 3.6e-8] | `results/checks.csv` |
 | One Neumann bound state ⇒ R ≤ 2·L1; counterexamples need ≥ 2 states | [paper: one-bound-state bound] + one line | Task 2 |
 | Conjecture: L^N_γ = 2·L1(γ) on [3/2, 5/2] | [conjecture] | — |
 
-## Open `sorry`s (8, all Task 3)
+## Open `sorry`s
 
-`L1_one`, `L1_two`, `two_L1_one_bounds`, `two_L1_two_bounds`, `pt_ground_state`,
-`pt_second_even_state`, `pt_second_even_state_sq_integrable`, `sech2_family_opt`.
+None. Task 3 (2026-11-25) proved the 8 original targets.
 
 ## Task 1: literature (2026-11-24)
 
@@ -227,3 +232,27 @@ Best refined R/(2L1):
 3. Near the soliton there is only one Neumann state.
 
 Expected outcome: L^N_γ = 2L1(γ) on [3/2, 3/2 + ε), with ε not explicit.
+
+## Task 3: Lean spec (2026-11-25)
+
+All 8 targets are proved in `halfline_lt/HalflineLt/Spec.lean`. The file builds with no `sorry`,
+and `#print axioms` on each target shows only `propext`, `Classical.choice`, `Quot.sound`.
+[Lean] The top-level `HalflineSpec.lean` is synced with it.
+
+- `L1_one`, `L1_two`: closed forms, using Γ(s+1) = sΓ(s) and Γ(1/2) = √π.
+- `two_L1_one_bounds`, `two_L1_two_bounds`: Mathlib's six-digit bounds on π, plus square-root
+  bounds checked by squaring. This confirms the earlier numerics' 0.49007 and 0.31559.
+- `pt_ground_state`: explicit first and second derivatives of `cosh^(-ν)` via
+  `HasDerivAt.rpow_const`, then algebra with cosh² = sinh² + 1.
+- `pt_second_even_state`: write ψ₂ = ψ₀ · (2(ν−1) sinh² − 1) (`psi2_eq`), differentiate twice,
+  and express every term through B = cosh^(−ν−2). The identity is then a polynomial identity
+  modulo cosh² = sinh² + 1, closed by `linear_combination`. This machine-checks the even k = 2
+  eigenfunction I derived by hand.
+- `pt_second_even_state_sq_integrable`: ψ₂² ≤ (2ν−1)²·4^ν·e^{−(2ν−4)x} on (0, ∞), using
+  cosh x ≥ eˣ/2 and cosh x ≤ eˣ, then `exp_neg_integrableOn_Ioi`.
+- `sech2_family_opt`: weighted AM–GM (`Real.geom_mean_le_arith_mean2_weighted`) raised to the
+  power a + 1.
+
+What remains a hypothesis in (b) and (d): that ψ₀, ψ₂ lie in the domain of the Neumann operator
+(evenness gives ψ'(0) = 0; L² is proved), and that a sum over all eigenvalues dominates a sum over
+some of them. Both are spectral-theory facts Mathlib does not have.

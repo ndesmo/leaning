@@ -181,21 +181,67 @@ theorem half_lt_two_exp_neg_one : (1:ℝ)/2 < 2 * exp (-1) := by
   rw [exp_neg, ← div_eq_mul_inv, lt_div_iff₀ (exp_pos 1)]
   linarith [exp_one_lt_d9]
 
-/-- Task: closed form at `γ = 1` (Read–Schulz's constant). -/
+/-- Closed form at `γ = 1` (Read–Schulz's constant). -/
 theorem L1_one : L1 1 = 4 / (3 * sqrt 3 * π) := by
-  sorry
+  have hG32 : Gamma (1 + 1 / 2) = sqrt π / 2 := by
+    rw [show (1:ℝ) + 1 / 2 = 1 / 2 + 1 by norm_num, Gamma_add_one (s := 1 / 2) (by norm_num),
+      Gamma_one_half_eq]
+    ring
+  have hroot : (((1:ℝ) - 1 / 2) / (1 + 1 / 2)) ^ ((1:ℝ) - 1 / 2) = 1 / sqrt 3 := by
+    rw [show ((1:ℝ) - 1 / 2) / (1 + 1 / 2) = 3⁻¹ by norm_num,
+      show (1:ℝ) - 1 / 2 = 1 / 2 by norm_num, ← sqrt_eq_rpow, sqrt_inv, one_div]
+  have h3 : sqrt (3:ℝ) ≠ 0 := by positivity
+  have hpi : sqrt π ≠ 0 := (sqrt_pos.mpr pi_pos).ne'
+  unfold L1
+  rw [one_add_one_eq_two, Gamma_two, hG32, hroot]
+  conv_rhs => rw [← mul_self_sqrt pi_pos.le]
+  field_simp
+  ring
 
-/-- Task: closed form at `γ = 2`. -/
+/-- Closed form at `γ = 2`. -/
 theorem L1_two : L1 2 = 16 / (15 * π) * (3/5 : ℝ) ^ (3/2 : ℝ) := by
-  sorry
+  have hG3 : Gamma (2 + 1) = 2 := by
+    rw [Gamma_add_one (s := 2) (by norm_num), Gamma_two]; norm_num
+  have hG52 : Gamma (2 + 1 / 2) = 3 / 4 * sqrt π := by
+    rw [show (2:ℝ) + 1 / 2 = (1 / 2 + 1) + 1 by norm_num,
+      Gamma_add_one (s := 1 / 2 + 1) (by norm_num), Gamma_add_one (s := 1 / 2) (by norm_num),
+      Gamma_one_half_eq]
+    ring
+  have hbase : ((2:ℝ) - 1 / 2) / (2 + 1 / 2) = 3 / 5 := by norm_num
+  have hexp : (2:ℝ) - 1 / 2 = 3 / 2 := by norm_num
+  have hpi : sqrt π ≠ 0 := (sqrt_pos.mpr pi_pos).ne'
+  unfold L1
+  rw [hG3, hG52, hbase, hexp]
+  conv_rhs => rw [← mul_self_sqrt pi_pos.le]
+  field_simp
+  ring
 
-/-- Task: the earlier numerics' `0.49007`. -/
+/-- The earlier numerics' `0.49007`. -/
 theorem two_L1_one_bounds : 0.49006 < 2 * L1 1 ∧ 2 * L1 1 < 0.49008 := by
-  sorry
+  have hs1 : (1.7320508 : ℝ) < sqrt 3 := by rw [lt_sqrt (by norm_num)]; norm_num
+  have hs2 : sqrt 3 < (1.7320509 : ℝ) := by rw [sqrt_lt' (by norm_num)]; norm_num
+  have hlo : (1.7320508 : ℝ) * 3.141592 < sqrt 3 * π :=
+    mul_lt_mul'' hs1 pi_gt_d6 (by norm_num) (by norm_num)
+  have hhi : sqrt 3 * π < (1.7320509 : ℝ) * 3.141593 :=
+    mul_lt_mul'' hs2 pi_lt_d6 (sqrt_nonneg 3) pi_pos.le
+  have hpos : 0 < 3 * (sqrt 3 * π) := by positivity
+  rw [L1_one, show 2 * (4 / (3 * sqrt 3 * π)) = 8 / (3 * (sqrt 3 * π)) by ring]
+  constructor
+  · rw [lt_div_iff₀ hpos]; linarith
+  · rw [div_lt_iff₀ hpos]; linarith
 
-/-- Task: the earlier numerics' `0.31559`. -/
+/-- The earlier numerics' `0.31559`. -/
 theorem two_L1_two_bounds : 0.31559 < 2 * L1 2 ∧ 2 * L1 2 < 0.31561 := by
-  sorry
+  have hr : (3/5 : ℝ) ^ (3/2 : ℝ) = 3/5 * sqrt (3/5) := by
+    rw [show (3/2 : ℝ) = 1 + 1/2 by norm_num, rpow_add (by norm_num), rpow_one, ← sqrt_eq_rpow]
+  have hq1 : (0.7745966 : ℝ) < sqrt (3/5) := by rw [lt_sqrt (by norm_num)]; norm_num
+  have hq2 : sqrt (3/5) < (0.7745967 : ℝ) := by rw [sqrt_lt' (by norm_num)]; norm_num
+  have hpos : 0 < 25 * π := by positivity
+  rw [L1_two, hr,
+    show 2 * (16 / (15 * π) * (3/5 * sqrt (3/5))) = 32 * sqrt (3/5) / (25 * π) by ring]
+  constructor
+  · rw [lt_div_iff₀ hpos]; linarith [pi_lt_d6]
+  · rw [div_lt_iff₀ hpos]; linarith [pi_gt_d6]
 
 /-! ## 3. Upper bound from Exner–Laptev–Usman, CMP 326 (2014), eq. (1.6)
 
@@ -284,27 +330,188 @@ noncomputable def psi0 (ν y : ℝ) : ℝ := cosh y ^ (-ν)
 /-- Even Pöschl–Teller eigenfunction `ψ₂ = sech^(ν-2) ((2ν-1) tanh² - 1)`. -/
 noncomputable def psi2 (ν y : ℝ) : ℝ := cosh y ^ (2 - ν) * ((2*ν - 1) * tanh y ^ 2 - 1)
 
-/-- Task: `-ψ₀'' - ν(ν+1) sech² ψ₀ = -ν² ψ₀`. -/
+theorem psi0_hasDerivAt (ν y : ℝ) :
+    HasDerivAt (psi0 ν) (sinh y * (-ν) * cosh y ^ (-ν - 1)) y :=
+  (hasDerivAt_cosh y).rpow_const (Or.inl (cosh_pos y).ne')
+
+theorem deriv_psi0 (ν : ℝ) : deriv (psi0 ν) = fun y => sinh y * (-ν) * cosh y ^ (-ν - 1) :=
+  funext fun y => (psi0_hasDerivAt ν y).deriv
+
+theorem dpsi0_hasDerivAt (ν y : ℝ) :
+    HasDerivAt (fun y => sinh y * (-ν) * cosh y ^ (-ν - 1))
+      (cosh y * (-ν) * cosh y ^ (-ν - 1) +
+        sinh y * (-ν) * (sinh y * (-ν - 1) * cosh y ^ (-ν - 1 - 1))) y :=
+  ((hasDerivAt_sinh y).mul_const (-ν)).mul
+    ((hasDerivAt_cosh y).rpow_const (p := -ν - 1) (Or.inl (cosh_pos y).ne'))
+
+/-- `ψ₀ = sech^ν` solves `-ψ'' - ν(ν+1) sech² ψ = -ν² ψ`. -/
 theorem pt_ground_state (ν x : ℝ) :
     -deriv (deriv (psi0 ν)) x - ν * (ν + 1) / cosh x ^ 2 * psi0 ν x = -ν^2 * psi0 ν x := by
-  sorry
+  have hc : cosh x ≠ 0 := (cosh_pos x).ne'
+  have h1 : cosh x ^ (-ν - 1) = cosh x ^ (-ν) / cosh x := rpow_sub_one hc (-ν)
+  have h2 : cosh x ^ (-ν - 1 - 1) = cosh x ^ (-ν) / cosh x / cosh x := by
+    rw [rpow_sub_one hc, h1]
+  have hs : sinh x ^ 2 = cosh x ^ 2 - 1 := by rw [cosh_sq]; ring
+  rw [deriv_psi0, (dpsi0_hasDerivAt ν x).deriv, h1, h2]
+  unfold psi0
+  have key : sinh x * (-ν) * (sinh x * (-ν - 1) * (cosh x ^ (-ν) / cosh x / cosh x)) =
+      ν * (ν + 1) * cosh x ^ (-ν) * sinh x ^ 2 / cosh x ^ 2 := by ring
+  rw [key, hs]
+  field_simp
+  ring
 
-/-- Task: `-ψ₂'' - ν(ν+1) sech² ψ₂ = -(ν-2)² ψ₂`. -/
+/-- `ψ₂ = ψ₀ · (2(ν-1) sinh² - 1)`. -/
+theorem psi2_eq (ν : ℝ) :
+    psi2 ν = fun y => psi0 ν y * (2 * (ν - 1) * (sinh y * sinh y) - 1) := by
+  funext y
+  have hc : 0 < cosh y := cosh_pos y
+  have hc' : cosh y ≠ 0 := hc.ne'
+  have e1 : cosh y ^ (2 - ν) = cosh y ^ 2 * cosh y ^ (-ν) := by
+    rw [show (2:ℝ) - ν = 2 + -ν by ring, rpow_add hc, rpow_two]
+  have e2 : cosh y ^ 2 * ((2 * ν - 1) * (sinh y / cosh y) ^ 2 - 1) =
+      (2 * ν - 1) * sinh y ^ 2 - cosh y ^ 2 := by
+    field_simp
+  unfold psi2 psi0
+  rw [e1, tanh_eq_sinh_div_cosh]
+  calc cosh y ^ 2 * cosh y ^ (-ν) * ((2 * ν - 1) * (sinh y / cosh y) ^ 2 - 1)
+      = cosh y ^ (-ν) * (cosh y ^ 2 * ((2 * ν - 1) * (sinh y / cosh y) ^ 2 - 1)) := by ring
+    _ = cosh y ^ (-ν) * ((2 * ν - 1) * sinh y ^ 2 - cosh y ^ 2) := by rw [e2]
+    _ = cosh y ^ (-ν) * (2 * (ν - 1) * (sinh y * sinh y) - 1) := by rw [cosh_sq]; ring
+
+theorem hasDerivAt_q (ν y : ℝ) :
+    HasDerivAt (fun y => 2 * (ν - 1) * (sinh y * sinh y) - 1)
+      (2 * (ν - 1) * (cosh y * sinh y + sinh y * cosh y)) y :=
+  (((hasDerivAt_sinh y).mul (hasDerivAt_sinh y)).const_mul (2 * (ν - 1))).sub_const 1
+
+theorem hasDerivAt_dq (ν y : ℝ) :
+    HasDerivAt (fun y => 2 * (ν - 1) * (cosh y * sinh y + sinh y * cosh y))
+      (2 * (ν - 1) * (sinh y * sinh y + cosh y * cosh y + (cosh y * cosh y + sinh y * sinh y)))
+      y :=
+  (((hasDerivAt_cosh y).mul (hasDerivAt_sinh y)).add
+    ((hasDerivAt_sinh y).mul (hasDerivAt_cosh y))).const_mul (2 * (ν - 1))
+
+theorem psi2_hasDerivAt (ν y : ℝ) :
+    HasDerivAt (psi2 ν)
+      (sinh y * (-ν) * cosh y ^ (-ν - 1) * (2 * (ν - 1) * (sinh y * sinh y) - 1) +
+        cosh y ^ (-ν) * (2 * (ν - 1) * (cosh y * sinh y + sinh y * cosh y))) y := by
+  rw [psi2_eq]
+  exact (psi0_hasDerivAt ν y).mul (hasDerivAt_q ν y)
+
+theorem deriv_psi2 (ν : ℝ) : deriv (psi2 ν) = fun y =>
+    sinh y * (-ν) * cosh y ^ (-ν - 1) * (2 * (ν - 1) * (sinh y * sinh y) - 1) +
+      cosh y ^ (-ν) * (2 * (ν - 1) * (cosh y * sinh y + sinh y * cosh y)) :=
+  funext fun y => (psi2_hasDerivAt ν y).deriv
+
+theorem deriv2_psi2 (ν y : ℝ) : deriv (deriv (psi2 ν)) y =
+    (cosh y * (-ν) * cosh y ^ (-ν - 1) +
+        sinh y * (-ν) * (sinh y * (-ν - 1) * cosh y ^ (-ν - 1 - 1))) *
+          (2 * (ν - 1) * (sinh y * sinh y) - 1) +
+      sinh y * (-ν) * cosh y ^ (-ν - 1) * (2 * (ν - 1) * (cosh y * sinh y + sinh y * cosh y)) +
+    (sinh y * (-ν) * cosh y ^ (-ν - 1) * (2 * (ν - 1) * (cosh y * sinh y + sinh y * cosh y)) +
+      cosh y ^ (-ν) * (2 * (ν - 1) *
+        (sinh y * sinh y + cosh y * cosh y + (cosh y * cosh y + sinh y * sinh y)))) := by
+  rw [deriv_psi2]
+  exact (((dpsi0_hasDerivAt ν y).mul (hasDerivAt_q ν y)).add
+    ((psi0_hasDerivAt ν y).mul (hasDerivAt_dq ν y))).deriv
+
+/-- `ψ₂` solves `-ψ'' - ν(ν+1) sech² ψ = -(ν-2)² ψ`. With `B = cosh^(-ν-2)` every term is a
+polynomial in `sinh`, `cosh`, `B`, and the identity holds modulo `cosh² = sinh² + 1`. -/
 theorem pt_second_even_state (ν x : ℝ) :
     -deriv (deriv (psi2 ν)) x - ν * (ν + 1) / cosh x ^ 2 * psi2 ν x
       = -(ν - 2)^2 * psi2 ν x := by
-  sorry
+  have hc : cosh x ≠ 0 := (cosh_pos x).ne'
+  have hA1 : cosh x ^ (-ν - 1) = cosh x * cosh x ^ (-ν - 2) := by
+    have e : cosh x ^ (-ν - 1) = cosh x ^ ((-ν - 2) + 1) := by ring_nf
+    rw [e, rpow_add_one hc]; ring
+  have hA2 : cosh x ^ (-ν - 1 - 1) = cosh x ^ (-ν - 2) := by ring_nf
+  have hA : cosh x ^ (-ν) = cosh x ^ 2 * cosh x ^ (-ν - 2) := by
+    have e : cosh x ^ (-ν) = cosh x ^ ((-ν - 2) + 1 + 1) := by ring_nf
+    rw [e, rpow_add_one hc, rpow_add_one hc]; ring
+  rw [deriv2_psi2, psi2_eq]
+  simp only [psi0]
+  rw [hA2, hA1, hA]
+  have hV : ν * (ν + 1) / cosh x ^ 2 *
+      (cosh x ^ 2 * cosh x ^ (-ν - 2) * (2 * (ν - 1) * (sinh x * sinh x) - 1)) =
+      ν * (ν + 1) * cosh x ^ (-ν - 2) * (2 * (ν - 1) * (sinh x * sinh x) - 1) := by
+    rw [div_mul_eq_mul_div, div_eq_iff (pow_ne_zero 2 hc)]; ring
+  rw [hV]
+  linear_combination (cosh x ^ (-ν - 2) *
+    (ν * (ν + 1) * (2 * (ν - 1) * (sinh x * sinh x) - 1) - 4 * (ν - 1) * cosh x ^ 2)) *
+      cosh_sq x
 
-/-- Task: `ψ₂ ∈ L²(0, ∞)` when `ν > 2`, so `-(ν-2)²` is a genuine Neumann eigenvalue. -/
+/-- `ψ₂ ∈ L²(0, ∞)` when `ν > 2`, so `-(ν-2)²` is a genuine Neumann eigenvalue: `ψ₂²` is
+dominated by `(2ν-1)² 4^ν e^{-(2ν-4)x}`. -/
 theorem pt_second_even_state_sq_integrable {ν : ℝ} (hν : 2 < ν) :
     MeasureTheory.IntegrableOn (fun x => psi2 ν x ^ 2) (Set.Ioi 0) := by
-  sorry
+  have hb : 0 < 2 * ν - 4 := by linarith
+  have hint : MeasureTheory.IntegrableOn
+      (fun x => (2 * ν - 1) ^ 2 * exp (2 * ν * log 2) * exp (-(2 * ν - 4) * x)) (Set.Ioi 0) :=
+    MeasureTheory.Integrable.const_mul (exp_neg_integrableOn_Ioi 0 hb) _
+  have hcont : Continuous fun x => psi2 ν x ^ 2 := by
+    have hA : Continuous fun y => cosh y ^ (-ν) :=
+      continuous_cosh.rpow_const fun y => Or.inl (cosh_pos y).ne'
+    simp only [psi2_eq, psi0]
+    fun_prop
+  refine MeasureTheory.Integrable.mono' hint hcont.aestronglyMeasurable ?_
+  refine (MeasureTheory.ae_restrict_iff' measurableSet_Ioi).mpr
+    (MeasureTheory.ae_of_all _ fun x hx => ?_)
+  have hx' : 0 < x := hx
+  have hC : 0 < cosh x := cosh_pos x
+  have hCx : cosh x ≤ exp x := by
+    rw [cosh_eq]; linarith [exp_le_exp.mpr (show -x ≤ x by linarith)]
+  have hlog : x - log 2 ≤ log (cosh x) := by
+    have h2 : exp x / 2 ≤ cosh x := by rw [cosh_eq]; linarith [exp_pos (-x)]
+    have := log_le_log (by positivity) h2
+    rwa [log_div (exp_pos x).ne' two_ne_zero, log_exp] at this
+  have hA2 : (cosh x ^ (-ν)) ^ 2 ≤ exp (-(2 * ν) * (x - log 2)) := by
+    rw [rpow_def_of_pos hC, ← exp_natCast_mul]
+    apply exp_le_exp.mpr
+    push_cast
+    nlinarith [mul_le_mul_of_nonneg_left hlog (by linarith : (0:ℝ) ≤ 2 * ν)]
+  have hS : sinh x * sinh x ≤ cosh x ^ 2 := by rw [cosh_sq]; nlinarith
+  have hC1 : 1 ≤ cosh x ^ 2 := by rw [cosh_sq]; nlinarith [sq_nonneg (sinh x)]
+  have hq : (2 * (ν - 1) * (sinh x * sinh x) - 1) ^ 2 ≤ ((2 * ν - 1) * cosh x ^ 2) ^ 2 := by
+    have hn : 0 ≤ (ν - 1) * (cosh x ^ 2 - sinh x * sinh x) :=
+      mul_nonneg (by linarith) (by linarith)
+    apply sq_le_sq'
+    · nlinarith [mul_self_nonneg (sinh x)]
+    · nlinarith [mul_self_nonneg (sinh x)]
+  have hC4 : (cosh x ^ 2) ^ 2 ≤ exp (4 * x) := by
+    calc (cosh x ^ 2) ^ 2 = cosh x ^ 4 := by ring
+      _ ≤ exp x ^ 4 := pow_le_pow_left₀ hC.le hCx 4
+      _ = exp (4 * x) := by rw [← exp_natCast_mul]; norm_num
+  have hexp : exp (-(2 * ν) * (x - log 2)) * exp (4 * x) =
+      exp (2 * ν * log 2) * exp (-(2 * ν - 4) * x) := by
+    rw [← exp_add, ← exp_add]; congr 1; ring
+  show ‖psi2 ν x ^ 2‖ ≤ (2 * ν - 1) ^ 2 * exp (2 * ν * log 2) * exp (-(2 * ν - 4) * x)
+  rw [Real.norm_eq_abs, abs_of_nonneg (sq_nonneg _), psi2_eq]
+  simp only [psi0]
+  calc (cosh x ^ (-ν) * (2 * (ν - 1) * (sinh x * sinh x) - 1)) ^ 2
+      = (cosh x ^ (-ν)) ^ 2 * (2 * (ν - 1) * (sinh x * sinh x) - 1) ^ 2 := by ring
+    _ ≤ exp (-(2 * ν) * (x - log 2)) * ((2 * ν - 1) ^ 2 * exp (4 * x)) := by
+        apply mul_le_mul hA2 _ (sq_nonneg _) (exp_pos _).le
+        calc _ ≤ ((2 * ν - 1) * cosh x ^ 2) ^ 2 := hq
+          _ = (2 * ν - 1) ^ 2 * (cosh x ^ 2) ^ 2 := by ring
+          _ ≤ (2 * ν - 1) ^ 2 * exp (4 * x) := by gcongr
+    _ = (2 * ν - 1) ^ 2 * exp (2 * ν * log 2) * exp (-(2 * ν - 4) * x) := by
+        rw [mul_assoc ((2 * ν - 1) ^ 2), ← hexp]; ring
 
-/-- Task: within the one-state sech² family, `ν = a = γ - 1/2` is optimal (weighted AM–GM,
-`Real.geom_mean_le_arith_mean2_weighted` with weights `a/(a+1)`, `1/(a+1)`). -/
+/-- Within the one-state sech² family, `ν = a = γ - 1/2` is optimal (weighted AM–GM with
+weights `a/(a+1)`, `1/(a+1)`). -/
 theorem sech2_family_opt {a ν : ℝ} (ha : 0 < a) (hν : 0 < ν) :
     ν ^ a / (ν + 1) ^ (a + 1) ≤ a ^ a / (a + 1) ^ (a + 1) := by
-  sorry
+  have ha1 : 0 < a + 1 := by linarith
+  have ha1' : a + 1 ≠ 0 := ha1.ne'
+  have hw := geom_mean_le_arith_mean2_weighted (w₁ := a / (a + 1)) (w₂ := 1 / (a + 1))
+    (p₁ := ν / a) (p₂ := 1) (by positivity) (by positivity) (by positivity) (by norm_num)
+    (by field_simp)
+  rw [one_rpow, mul_one,
+    show a / (a + 1) * (ν / a) + 1 / (a + 1) * 1 = (ν + 1) / (a + 1) by field_simp] at hw
+  have hpow := rpow_le_rpow (by positivity) hw ha1.le
+  rw [← rpow_mul (by positivity), div_mul_cancel₀ a ha1', div_rpow hν.le ha.le,
+    div_rpow (by positivity) ha1.le] at hpow
+  rw [div_le_div_iff₀ (by positivity) (by positivity)] at hpow ⊢
+  linarith
 
 /-! ## 6. The earlier numerics, exactly
 

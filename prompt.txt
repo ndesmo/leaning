@@ -57,13 +57,13 @@ done and `Search.lean` is a placeholder.
    ```
 6. Copy `HalflineSpec.lean` (in this folder) to `halfline_lt/HalflineLt/Spec.lean`, import it
    from `HalflineLt.lean`, and confirm it builds. It holds the definitions and theorem
-   statements for this project. It should build with exactly 8 `sorry`s, the Task 3 targets;
-   everything else is proved and depends only on the standard axioms. If a newer Mathlib breaks
-   a proof, repair the proof without changing the statement.
+   statements for this project. Task 3 (2026-11-25) proved its 8 original `sorry`s, so it now
+   builds with none, and every theorem depends only on the standard axioms. If a newer Mathlib
+   breaks a proof, repair the proof without changing the statement.
 7. Add an executable target `search` whose modules import only Lean core, not Mathlib, so it
    compiles fast. Confirm `lake build search` and `lake exe search` work.
-8. Record the Lean and Mathlib versions in `NOTES.md`. Expected warnings: the 8 `sorry`s, and
-   "consider adding `module`" for each file that imports Mathlib, which you can ignore.
+8. Record the Lean and Mathlib versions in `NOTES.md`. Expected warnings: "consider adding
+   `module`" for each file that imports Mathlib, which you can ignore.
 
 ## Background
 Conventions: H = -d²/dx² - V with V ≥ 0; negative eigenvalues E_j, counted with multiplicity.

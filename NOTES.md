@@ -434,10 +434,13 @@ the ground state is not a free gain; it is paid for at first order.
    weak tails near the binding threshold.
 2. Handle W of both signs near the soliton (V < V_sol somewhere). That part is covered by the
    negative second variation (CFL) and has no excited states (Step 4).
-3. Check that the Darboux-transformed tail has (V₁)₊ no larger in L^p than the tail itself. In
-   the far linearized regime, V₁ ≈ −W + 4κ (K ∗ W) with K(s) = e^{−2κs} 1_{s>0}.
-   - For slowly varying W, V₁ ≈ W, so nothing is lost.
+3. Bound the L^p mass of (V₁)₊ on the tail by the tail's own mass times a factor below
+   2L1/Lcl = 2r(γ). In the far linearized regime, V₁ ≈ −W + 4κ (K ∗ W) with
+   K(s) = e^{−2κs} 1_{s>0}.
+   - For slowly varying W, V₁ ≈ W, so the factor tends to 1.
    - For narrow W, V₁ is spread out and small.
+   - Sharp edges contribute O(1/κ) corrections of either sign. By hand, for a box the net
+     correction is negative at p = 2 but slightly positive at p = 3. [hand computation]
    - Young's inequality alone loses a factor up to 2^p, which is too much.
 
 **Other references found.** Frank–Simon–Weidl, CMP 282 (2008), arXiv:0707.0998: comparison

@@ -1,14 +1,17 @@
 # Compile a Lean file from halfline_lt/ with `#print axioms` for every theorem and lemma, then
 # report errors, sorry warnings and non-standard axioms. Exit code 0 means clean.
+# Runs on Windows PowerShell 5.1 and on pwsh (Linux CI).
 param(
-  [Parameter(Mandatory = $true)][string]$File,   # path relative to halfline_lt/, e.g. HalflineLt\Spec.lean
+  [Parameter(Mandatory = $true)][string]$File,   # path relative to halfline_lt/, e.g. HalflineLt/Spec.lean
   [int]$TimeoutSec = 1500
 )
 $ErrorActionPreference = 'Stop'
-$env:Path = "$env:USERPROFILE\.elan\bin;$env:Path"
+$elanBin = Join-Path (Join-Path $HOME '.elan') 'bin'
+if (Test-Path $elanBin) { $env:PATH = $elanBin + [IO.Path]::PathSeparator + $env:PATH }
 
-$proj = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..\halfline_lt')).Path
-$src = Join-Path $proj $File
+$root = Split-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) -Parent
+$proj = Join-Path $root 'halfline_lt'
+$src = Join-Path $proj ($File -replace '\\', '/')
 if (-not (Test-Path $src)) { Write-Output "No such file: $src"; exit 1 }
 
 $text = [System.IO.File]::ReadAllText($src)
@@ -16,7 +19,7 @@ $ns = [regex]::Match($text, '(?m)^namespace\s+(\S+)').Groups[1].Value
 $prefix = if ($ns) { "$ns." } else { '' }
 $names = @([regex]::Matches($text, '(?m)^(?:theorem|lemma)\s+(\S+)') | ForEach-Object { $_.Groups[1].Value })
 
-$tmp = Join-Path $env:TEMP 'lean-check'
+$tmp = Join-Path ([IO.Path]::GetTempPath()) 'lean-check'
 New-Item -ItemType Directory -Force $tmp | Out-Null
 $check = Join-Path $tmp 'AxiomCheck.lean'
 $tail = ($names | ForEach-Object { "#print axioms $prefix$_" }) -join "`n"
@@ -32,7 +35,7 @@ try {
   if (-not $p.WaitForExit($TimeoutSec * 1000)) {
     Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
     Get-Process lean -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-    Write-Output "Timed out after $TimeoutSec s. If Lean sat at low CPU, see the antivirus note in SKILL.md."
+    Write-Output "Timed out after $TimeoutSec s. If Lean sat at low CPU, see the antivirus note in reference.md."
     exit 1
   }
 } finally { Pop-Location }

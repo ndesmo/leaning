@@ -580,7 +580,7 @@ identities below].
      non-positive function 𝒱, which is unique up to translations and dilatons, such that" (2.2)
      M = {V ∈ L^{γ+d/2}(ℝ^d) : |λ(V)| = 𝒞_{γ,d}(∫V₋^{γ+d/2} dx)^{1/γ}} = {b²𝒱(b(· − a)) : b > 0,
      a ∈ ℝ^d}. (Formulas transcribed from the HTML as plain text.) Read literally, the first set
-     in (2.2) also contains V = 0; we use (2.2) only for V ≢ 0.
+     in (2.2) also contains every V ≥ 0; we use (2.2) only when V₋ ≢ 0.
    - §1: "Keller solved the d=1 problem and computed 𝒞γ,1 by explicitly computing the optimal
      potential, which cannot be explicitly computed for d≥2."
    - §4.1: "In contrast, for d=1 the optimizers where explicitly found by Keller [19] by solving the
@@ -622,8 +622,11 @@ identities below].
 ### Applying it to Theorem 3
 
 Let U₀ = (γ² − ¼) sech² x on ℝ and ν = γ − ½.
-1. U₀ has ground state sech^ν x with eigenvalue −ν². [Lean: `pt_ground_state`] + [paper: DEL15
-   Lemma 1, "ϕ(s) = (cosh s)^{1−q} generates the corresponding eigenspace", q − 1 = ν]
+1. U₀ has ground state sech^ν x with eigenvalue −ν². [Lean: `pt_ground_state` (eigen-equation only)] + [paper: DEL15
+   Lemma 1 (ground state, λ₁[V₁] = (q−1)²), "ϕ(s) = (cosh s)^{1−q} generates the corresponding
+   eigenspace", q − 1 = ν]. `pt_ground_state` proves only the pointwise ODE
+   −ψ″ − ν(ν+1) sech² ψ = −ν²ψ; that ψ ∈ H¹ and that −ν² is the form infimum come from DEL15.
+   Note ν(ν+1) = γ² − ¼.
 2. U₀ attains the sharp constant. [paper: DEL15 Lemma 1, λ^R_1[V_1] = (q−1)² with equality]
    Cross-check by hand, using ∫_ℝ sech^{2s} x dx = √π Γ(s)/Γ(s + ½) [standard: beta integral,
    B(s, ½)] at s = γ + ½, so ∫_ℝ U₀^{γ+1/2} = (γ²−¼)^{γ+½} √π Γ(γ+½)/Γ(γ+1). The Γ factors cancel
@@ -634,8 +637,8 @@ Let U₀ = (γ² − ¼) sech² x on ℝ and ν = γ − ½.
 3. So for γ > ½ the equality cases of |E₁(−d² − W)|^γ ≤ L1(γ)∫W^{γ+1/2} with 0 ≤ W ∈ L^{γ+1/2}(ℝ),
    W ≢ 0, are exactly W = c²(γ² − ¼) sech²(c(x − x₀)) a.e., c > 0, x₀ ∈ ℝ. Here E₁ means the form
    infimum, as in CFL (2.1). Proof: L1(γ) is the sharp constant [paper: DEL15 Lemma 1; Fra21
-   eq. (23)], so equality means −W lies in CFL's set M of (2.2). By step 2, −U₀ ∈ M, so by
-   [paper: CFL14 Thm 2.1] M ∖ {0} = {−b²U₀(b(· − a)) : b > 0, a ∈ ℝ}, and b²U₀(bx) =
+   eq. (23)], so equality means −W lies in CFL's set M of (2.2), and (−W)₋ = W ≢ 0. By step 2, −U₀ ∈ M, so by
+   [paper: CFL14 Thm 2.1] {V ∈ M : V₋ ≢ 0} = {−b²U₀(b(· − a)) : b > 0, a ∈ ℝ}, and b²U₀(bx) =
    b²(γ²−¼) sech²(bx). [own argument, reviewed 2026-11-25: combining the citations] DEL15 Lemma 1
    states the same family, up to its spurious constant multiple (see Verdict).
 4. Reduction to the line. Let V satisfy Theorem 3's hypotheses with γ > ½, V ≢ 0 and
@@ -914,3 +917,14 @@ Re-review of the changed parts:
 - Theorem 3 row: the bound's label now names its sources; γ = ½ gets its own
   [own argument, unreviewed] label (new, not a downgrade: it was unlabeled).
 - Step 4's ground-state identity: [standard] (no reference) → own argument, reviewed.
+
+### 2026-11-25: PR #9 reviewer-loop comment (commit f62877c)
+
+| # | Finding (abridged) | Severity | Response |
+|---|---|---|---|
+| PR9-1 | Read literally, CFL's M contains every V ≥ 0, so "M ∖ {0}" is not the soliton family | FIX | Fixed: step 3 uses {V ∈ M : V₋ ≢ 0} and notes (−W)₋ = W ≢ 0; the CFL bullet says "every V ≥ 0". Conclusion unchanged. |
+| PR9-2 | Step 1's [Lean: `pt_ground_state`] covers only the eigen-equation, not H¹ membership or the form infimum | FIX | Fixed: label now "[Lean: `pt_ground_state` (eigen-equation only)] + [paper: DEL15 Lemma 1 (ground state, λ₁[V₁] = (q−1)²)]", with ν(ν+1) = γ² − ¼ noted. |
+| PR9-3 | LEDGER G9 statement omits "γ > 1/2 and V ≢ 0" | MINOR | Fixed in LEDGER.md. |
+| PR9-4 | LEDGER G9 row understates the own-argument part | MINOR | Fixed: "Our own argument, reviewed 2026-11-25: G9 steps 2–5 and the constant identities", matching the notes and the claims row. |
+
+No label was strengthened; PR9-2 narrows a Lean label. No Lean changed.

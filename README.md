@@ -59,7 +59,44 @@ files.
 
 ## Running the agents
 
-Two Claude Code loops run in their own worktrees. Only the owner merges.
+An author and a reviewer agent work in separate git worktrees. Only the owner merges.
+
+### Supervisor (recommended, any OS)
+
+`tools/agents.py` (Python 3.9+, standard library only) runs each agent pass as a fresh,
+non-interactive `claude -p` session. It schedules the next pass, waits out usage limits, retries
+after failures, and starts a reviewer pass as soon as the author changes a pull request. It needs
+Claude Code, `git`, `gh` (signed in) and Lean's `elan`.
+
+```
+python tools/agents.py setup           # create the worktrees and build Lean (once)
+python tools/agents.py run             # run both agents until stopped
+python tools/agents.py status          # last pass, next pass, open pull requests
+python tools/agents.py once reviewer   # a single pass, for testing
+```
+
+- **Worktrees:** `C:\w\` on Windows, `~/proofs-worktrees/` elsewhere. Change with `--worktrees`.
+- **Logs:** every pass is logged in `.agent-logs/`.
+- **Permissions:** the agents' allow and deny rules always come from `main`'s
+  `.claude/settings.json`, and anything unlisted is denied, never left waiting on a prompt.
+
+**Start it at login:**
+- **Windows** (PowerShell, once):
+  `Register-ScheduledTask -TaskName "Proofs supervisor" -Trigger (New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME) -Action (New-ScheduledTaskAction -Execute pythonw.exe -Argument "C:\Users\nicho\leaning\tools\agents.py run" -WorkingDirectory C:\Users\nicho\leaning)`
+- **macOS:** a LaunchAgent plist whose `ProgramArguments` is `python3 <repo>/tools/agents.py run`,
+  with `RunAtLoad` and `KeepAlive` set.
+- **Linux:** a systemd user unit with `ExecStart=python3 <repo>/tools/agents.py run` and
+  `Restart=always`; enable it with `systemctl --user enable --now`.
+
+Keep the machine awake; on Windows, `powercfg /change standby-timeout-ac 0`.
+
+**Windows-only, so far:**
+- `board-sync.ps1` and `agent-status.ps1`; the author runs `board-sync.ps1` after each pass.
+- `setup-worktrees.ps1` and `teardown-worktrees.ps1`.
+
+These have yet to be ported to Python.
+
+### Interactive loops (Windows, alternative)
 
 ```
 .\tools\setup-worktrees.ps1      # creates C:\w\author and C:\w\reviewer; safe to rerun

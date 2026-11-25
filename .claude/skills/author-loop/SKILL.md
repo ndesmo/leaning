@@ -130,6 +130,10 @@ This loop runs for weeks, so its own context must stay small. Do the heavy work 
   uncommitted, leave it; preflight picks it up next time.
 - Did something: wake in about 30 minutes.
 - Idle, or at the PR limit: wake in 60 minutes.
+- **Under `/loop`:** schedule the wake with `ScheduleWakeup`.
+- **Started by the supervisor** (`tools/agents.py`; the arguments say `[supervisor]`): don't call
+  `ScheduleWakeup`, and skip "Notify the reviewer", since the supervisor wakes the reviewer itself.
+  End your final message with a line `NEXT: <minutes>`.
 
 A run cut off by a usage limit loses nothing, because the next run resumes from the files and the
 PRs.

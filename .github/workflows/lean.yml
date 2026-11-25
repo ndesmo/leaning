@@ -1,0 +1,21 @@
+name: Lean
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (lake build, with the Mathlib cache)
+        uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: halfline_lt
+          test: false
+          lint: false
+      - name: Axiom audit (no sorry, standard axioms only)
+        shell: pwsh
+        run: ./.claude/skills/lean-check/check.ps1 -File HalflineLt/Spec.lean

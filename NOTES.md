@@ -47,7 +47,10 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | At γ = 3/2, equality holds only for the half-soliton 2κ² sech²(κx) | [paper: trace formula + reflectionless classification], sketch | Task 5 Step 1 |
 | Counterexample threshold 2 − 1/r(γ) → 1 as γ ↓ 3/2 | [Lean] | `Spec.lean` §7 |
 | Far mass is paid for at rate 2L1 − Lcl > 0 (bookkeeping) | [Lean] | `Spec.lean` §7 |
-| L^N_γ = 2·L1(γ) on [3/2, 3/2 + ε) for some ε > 0 | [conjecture: conditional on Task 5 Steps 3 and 5] | Task 5 |
+| Stability: e(V) near 1 forces V near a soliton (Task 5 Step 3) | [paper: Carlen–Frank–Lieb, GAFA 2014, Thm 2.2] (fixed γ; uniformity near 3/2 to check) | Task 5 round 2 |
+| At ν = 2, ψ₂ = 3 tanh² − 1 is a bounded zero-energy solution (even resonance at γ = 5/2) | [Lean] | `Spec.lean` §7 `resonance_at_five_halves` |
+| (a + b)^p ≥ a^p + p·a^{p−1}·b + b^p for p ≥ 2, a, b ≥ 0 | [Lean] | `Spec.lean` §7 `add_rpow_ge_tangent` |
+| L^N_γ = 2·L1(γ) on [3/2, 3/2 + ε) for some ε > 0 | [conjecture: conditional on Task 5 Step 5, plus γ-uniformity in Step 3] | Task 5 |
 | Conjecture: L^N_γ = 2·L1(γ) on [3/2, 5/2] | [conjecture] | — |
 
 ## Open `sorry`s
@@ -375,3 +378,68 @@ and 5 (far mass).
 2. Attack Step 5: localization error control, or existence of optimizers plus Euler–Lagrange.
 3. Check the citations behind Steps 1 and 4.
 4. Optionally, test Step 5's key inequality numerically on distant-tail families.
+
+## Task 5, round 2 (2026-11-25)
+
+**Step 3 is a published theorem** at each fixed γ. Carlen–Frank–Lieb, "Stability estimates for the
+lowest eigenvalue of a Schrödinger operator", GAFA 24 (2014) 63–84, arXiv:1301.5032, Thm 2.2:
+- it covers d = 1 for every γ > 1/2;
+- the eigenvalue deficit bounds the distance to the optimizers (translates and dilates of the
+  soliton) in L^p, p = γ + 1/2, quadratically for p ≤ 2 and with power 2γ − 1 for p ≥ 2;
+- the constants are not explicit.
+
+For even extensions the nearest optimizer must be centred, since translates by ±x₀ are both
+close. Still to check: that the constant stays bounded below as γ ↓ 3/2.
+[paper: CFL Thm 2.2; read via the ar5iv HTML]
+
+CFL's power does not close Step 5 by itself. For a distant tail of mass m, it only gives a
+deficit of order m^{(2γ−1)/(γ+1/2)}, and that exponent is ≥ 1 for γ ≥ 3/2. So the deficit can be
+smaller than the m-sized contribution of the tail's bound states.
+
+**Step 4, made explicit.** At zero energy, t = tanh x turns the Pöschl–Teller equation into
+Legendre's equation of degree ν.
+- The Neumann solution is bounded exactly when P_ν'(0) = 0, i.e. ν ∈ {0, 2, 4, …}, by the
+  closed form P_ν'(0) = −2√π / (Γ((ν+1)/2) Γ(−ν/2)) (DLMF 14.5.2 with μ = 0).
+- So the even sector is non-resonant for ν ∈ (1, 2), and first resonant at ν = 2, i.e.
+  γ = 5/2, where ψ₂ = 3 tanh² − 1. [Lean: `resonance_at_five_halves`]
+- That bounded-perturbation statements hold at non-resonant thresholds is standard; references
+  are still to check.
+
+**Step 5: the missing mechanism.** Write V = V_sol + W, with V_sol the half-soliton, p = γ + 1/2
+and ψ₁ the ground state (normalized on (0, ∞)). Then
+
+  S(V) − 2L1·M(V) = [λ₁(V)^γ − 2L1·M(V)] + Σ_{n≥2} |E_n(V)|^γ.
+
+- *First order cancels.* The soliton is a maximizer of the one-bound-state functional, so
+  Euler–Lagrange holds: γ λ₁^{γ−1} ψ₁² = 2L1 · p · V_sol^{p−1}. The ground state's first-order gain
+  ∫ W ψ₁² is therefore exactly matched by the first-order mass cost p ∫ V_sol^{p−1} W.
+- *The self-mass is available.* For W ≥ 0 the tangent bound [Lean: `add_rpow_ge_tangent`] gives
+  M(V_sol + W) ≥ M(V_sol) + p ∫ V_sol^{p−1} W + M(W). Hence
+  λ₁(V)^γ − 2L1·M(V) ≤ R₂(W) − 2L1·M(W),
+  where R₂(W) ≥ 0 is the second-order ground-state gain, quadratic in W and exponentially small
+  when W is far away.
+- *Excited states.* They come only from the tail. Step 4 excludes excited states near the
+  soliton. The tail's states should be bounded by Lcl·M(W)·(1 + o(1)), via the commuted problem:
+  the excited Neumann states of V are the Dirichlet states of V₁ = V + 2(log ψ₁)'', and
+  V₁ ≈ PT(ν − 1) has no Dirichlet states and is non-resonant.
+- *Net.* S − 2L1·M ≤ R₂ + R₂' − (2L1 − Lcl)·M(W), where R₂' collects the excited-state error
+  terms. With 2L1 > Lcl ([Lean] `two_exp_neg_one_lt_r`), what remains is to show R₂ + R₂' = o(M(W)).
+
+This explains the earlier worry (Task 2's derived notes). A distant tail's first-order effect on
+the ground state is not a free gain; it is paid for at first order.
+
+**The remaining gap, stated precisely.**
+1. Control the second-order remainder R₂(W) and the excited-state error R₂'(W) by
+   o(M(W)), uniformly over tails that create extra Neumann states. The likely-hard regime is long,
+   weak tails near the binding threshold.
+2. Handle W of both signs near the soliton (V < V_sol somewhere). That part is covered by the
+   negative second variation (CFL) and has no excited states (Step 4).
+3. Check that the Darboux-transformed tail has (V₁)₊ no larger in L^p than the tail itself. In
+   the far linearized regime, V₁ ≈ −W + 4κ (K ∗ W) with K(s) = e^{−2κs} 1_{s>0}.
+   - For slowly varying W, V₁ ≈ W, so nothing is lost.
+   - For narrow W, V₁ is spread out and small.
+   - Young's inequality alone loses a factor up to 2^p, which is too much.
+
+**Other references found.** Frank–Simon–Weidl, CMP 282 (2008), arXiv:0707.0998: comparison
+theorems giving Lieb–Thirring bounds for perturbations of non-free operators with regular
+ground states. A possible tool for R₂', but its constants are not sharp.

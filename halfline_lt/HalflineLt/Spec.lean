@@ -584,4 +584,61 @@ theorem localization_bookkeeping {S Sn Sf M Mn Mf l1 lcl η : ℝ} (hl1 : 0 ≤ 
     S ≤ 2 * l1 * M + 2 * l1 * η - (2 * l1 - lcl) * Mf := by
   nlinarith [mul_le_mul_of_nonneg_left hM (by linarith : (0:ℝ) ≤ 2 * l1)]
 
+/-- At `ν = 2` (γ = 5/2) the even zero-energy solution `ψ₂ = 3 tanh² - 1` is bounded but does not
+decay: the even sector is resonant, which is why (d) starts exactly at γ = 5/2. -/
+theorem resonance_at_five_halves :
+    (∀ x, -deriv (deriv (psi2 2)) x - 2 * (2 + 1) / cosh x ^ 2 * psi2 2 x = 0) ∧
+      ∀ x, |psi2 2 x| ≤ 2 := by
+  refine ⟨fun x => by simpa using pt_second_even_state 2 x, fun x => ?_⟩
+  have ht := abs_tanh_lt_one x
+  have h2 : tanh x ^ 2 < 1 := by nlinarith [abs_nonneg (tanh x), sq_abs (tanh x)]
+  have h0 : 0 ≤ tanh x ^ 2 := sq_nonneg _
+  unfold psi2
+  rw [show (2:ℝ) - 2 = 0 by norm_num, rpow_zero, one_mul, abs_le]
+  constructor <;> nlinarith
+
+/-- Superadditivity of `t ↦ t^p` on `[0, ∞)` for `p ≥ 1` (Mathlib has it for `ℝ≥0`). -/
+theorem real_add_rpow_le {p : ℝ} (hp : 1 ≤ p) {a b : ℝ} (ha : 0 ≤ a) (hb : 0 ≤ b) :
+    a ^ p + b ^ p ≤ (a + b) ^ p := by
+  lift a to NNReal using ha
+  lift b to NNReal using hb
+  exact_mod_cast NNReal.add_rpow_le_rpow_add a b hp
+
+/-- Tangent-line bound for `t ↦ t^p`, `p ≥ 2`: `a^p + p a^{p-1} b + b^p ≤ (a + b)^p`. Integrated
+with `a = V_sol`, `b = W ≥ 0`, it says that adding `W` to the soliton raises the mass by at least
+the first-order term `p ∫ V_sol^{p-1} W` plus the full self-mass `∫ W^p`. The first-order term is
+exactly what the ground state can gain (Euler–Lagrange at the soliton), so the self-mass of a
+distant tail stays available to pay for its bound states. -/
+theorem add_rpow_ge_tangent {p : ℝ} (hp : 2 ≤ p) {a b : ℝ} (ha : 0 ≤ a) (hb : 0 ≤ b) :
+    a ^ p + p * a ^ (p - 1) * b + b ^ p ≤ (a + b) ^ p := by
+  have hp0 : 0 < p := by linarith
+  let f : ℝ → ℝ := fun t => (a + t) ^ p - a ^ p - p * a ^ (p - 1) * t - t ^ p
+  have hderiv : ∀ t, 0 < t →
+      HasDerivAt f (1 * p * (a + t) ^ (p - 1) - p * a ^ (p - 1) * 1 - p * t ^ (p - 1)) t := by
+    intro t ht
+    exact (((((hasDerivAt_id t).const_add a).rpow_const
+      (Or.inl (add_pos_of_nonneg_of_pos ha ht).ne')).sub_const (a ^ p)).sub
+      ((hasDerivAt_id t).const_mul (p * a ^ (p - 1)))).sub
+      (hasDerivAt_rpow_const (Or.inl ht.ne'))
+  have e0 : Continuous fun t : ℝ => a + t := continuous_const.add continuous_id
+  have e1 : Continuous fun t : ℝ => (a + t) ^ p := e0.rpow_const fun _ => Or.inr hp0.le
+  have e2 : Continuous fun t : ℝ => t ^ p := continuous_id.rpow_const fun _ => Or.inr hp0.le
+  have e3 : Continuous fun t : ℝ => p * a ^ (p - 1) * t := continuous_const.mul continuous_id
+  have hcont : Continuous f := ((e1.sub continuous_const).sub e3).sub e2
+  have hmono : MonotoneOn f (Set.Ici 0) := by
+    apply monotoneOn_of_deriv_nonneg (convex_Ici 0) hcont.continuousOn
+    · rw [interior_Ici]
+      exact fun t ht => (hderiv t ht).differentiableAt.differentiableWithinAt
+    · rw [interior_Ici]
+      intro t ht
+      rw [(hderiv t ht).deriv]
+      have h := real_add_rpow_le (show 1 ≤ p - 1 by linarith) ha (le_of_lt ht)
+      nlinarith [mul_le_mul_of_nonneg_left h hp0.le]
+  have h0 : f 0 = 0 := by
+    simp only [f, add_zero, mul_zero, zero_rpow hp0.ne', sub_self]
+  have hb' := hmono (Set.mem_Ici.mpr le_rfl) (Set.mem_Ici.mpr hb) hb
+  rw [h0] at hb'
+  simp only [f] at hb'
+  linarith
+
 end HalflineLt

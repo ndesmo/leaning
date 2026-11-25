@@ -18,6 +18,11 @@ never to the user. Nothing here is peer reviewed, and every page says so.
   - `[standard: ref]`: a classical textbook result.
   - `[numerical ± err]`: a computed value with its error bar.
   - `[conjecture]`: open.
+  - `[own argument, unreviewed]` or `[own argument, reviewed <date>]`: an argument we wrote that no
+    published source contains, including one that fills a gap a paper leaves open.
+- **Combine labels honestly.** A claim resting on a paper plus our own step carries both, e.g.
+  `[paper: DH10 Thm 2.5] + [own argument: Rem. 2.10 for stars, unreviewed]`. Never call such a
+  claim settled, unconditional or proved until the own-argument part has passed `/review`.
 - **Derive first.** Numerics test claims and never prove them. Write numerics in Lean, not Python.
 - **Never overclaim.**
   - Novelty is at most "not found in the works searched".
@@ -30,9 +35,18 @@ never to the user. Nothing here is peer reviewed, and every page says so.
 
 ## Workflow
 
-Start by reading `LEDGER.md`. Offer the user a short menu:
-- two or three open gaps or ideas, each with a one-line view of how tractable it looks;
-- the option of something new.
+**Where things live.** The work queue is GitHub Issues:
+- `approved`: the owner said yes, and only the owner adds it;
+- `gap`, `problem`, `follow-up`, `tooling`: what kind of item it is;
+- `priority:*`: order;
+- `in-progress` and `blocked`: state.
+
+The knowledge lives in files: `LEDGER.md` (results, gaps, failed approaches), `PROBLEMS.md`
+(scouted candidates and their evidence) and the notes. Each ledger gap and problem links its issue.
+
+Start with `gh issue list --label approved` and `LEDGER.md`. Offer the user a short menu:
+- two or three approved issues, each with a one-line view of how tractable it looks;
+- the option of something new, which becomes a new issue for the owner to approve.
 
 Agree whether the target extends an existing result (keep its slug, notes, Lean file and page) or
 gets a new slug.

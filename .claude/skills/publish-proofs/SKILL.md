@@ -21,6 +21,8 @@ world-readable. Before pushing, tell the user in one line what is going public.
    - **Reusable lemmas:** add any new reusable theorems.
    - **Open gaps:** close the gaps this settles, and add the gaps it leaves.
    - **Failed approaches:** add any approaches that failed.
+   - **Issues:** the PR says `Closes #<n>` for each issue it finishes. New gaps it leaves get
+     issues (labels `gap`, `follow-up`).
 5. **Privacy.** Grep everything staged, including `.claude/`, for machine paths (`C:\Users`, the
    Windows user name), email addresses, tokens and the user's name. Remove each hit, except lines
    that only state the rule.

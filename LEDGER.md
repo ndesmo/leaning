@@ -44,18 +44,20 @@ All of these are in `HalflineLt/Spec.lean`, namespace `HalflineLt`. Reuse them w
 
 ## Open gaps
 
+Each gap has a GitHub issue (number in brackets). Approval, priority and progress live on the issue.
+
 | Id | Gap | Status | Where |
 |---|---|---|---|
-| G1 | **Main conjecture:** L^N_γ = 2L1(γ) on (3/2, 5/2] | open | notes, Task 5 |
-| G2 | **Step 5, far mass:** the second-order remainder R₂ and the excited-state error R₂′ are o(M(W)), uniformly over tails that create extra Neumann states. This would give the conjecture on [3/2, 3/2 + ε). | open, main obstacle | notes, Task 5 round 2 |
-| G3 | **Step 3 uniformity:** the Carlen–Frank–Lieb stability constant stays bounded below as γ ↓ 3/2 | open, unchecked | notes, Task 5 round 2 |
-| G4 | **Step 1 citation:** the γ = 3/2 equality case (trace formula plus reflectionless classification) holds on L¹ ∩ L² | open, citation to check | notes, Task 5 |
-| G5 | **Step 4 citation:** a perturbation small in ∫(1 + x)\|W\| keeps exactly one Neumann state for ν ∈ (1, 2) | open, citation to check | notes, Task 5 |
-| G6 | **Fully formal (b):** formalize ∫₀^∞ cosh^{−s} = (√π/2) Γ(s/2)/Γ((s+1)/2), so the half-soliton value 2L1 is computed in Lean | idea | none |
-| G7 | **Theorem 3, Bargmann and Hardy classes:** at most one Neumann state when ∫xV < 1 or V ≤ 1/(4x²). Stated as a remark, not proved in detail. | idea | RESULTS.md, Thm 3 remarks |
-| G9 | **Optimizer uniqueness citation:** find a source stating that the one-bound-state optimizers in 1D are exactly c²(γ² − 1/4) sech²(c(x − x₀)) (Keller 1961? Sz.-Nagy?). This is needed for the "only if" half of Theorem 3's equality case. | open, citation to find | review M3 |
-| G10 | **DF15 eq. (5) for odd N ≥ 3:** check Demirel–Harrell's claim L_{γ,N} = L_γ (γ ≥ 2) for odd N ≥ 3 with Kirchhoff conditions. This decides where Corollary 2 is new. | **checked 2026-11-25:** eq. (5) holds for star graphs with N ≥ 2 infinite edges and a Kirchhoff centre, by [DH10, Thm 2.5 + Rem. 2.6] on finite stars with Dirichlet ends, plus [standard: Dirichlet truncation limit] as the leaves grow (Rem. 2.10 as corroboration; revised after the PR #6 review). The proof gives nothing at N = 1, which matches the N = 1 failure. Follow-up: drop the "if eq. (5) holds" condition on the page (needs `/review`). | notes, Literature item 4a |
-| G8 | **Other conditions:** Robin conditions u′(0) = σu(0), or star graphs with even N or N₀ > 1. Do Theorem 1 and Theorem 3 transfer? | idea | none |
+| G1 (#11) | **Main conjecture:** L^N_γ = 2L1(γ) on (3/2, 5/2] | open | notes, Task 5 |
+| G2 (#12) | **Step 5, far mass:** the second-order remainder R₂ and the excited-state error R₂′ are o(M(W)), uniformly over tails that create extra Neumann states. This would give the conjecture on [3/2, 3/2 + ε). | open, main obstacle | notes, Task 5 round 2 |
+| G3 (#13) | **Step 3 uniformity:** the Carlen–Frank–Lieb stability constant stays bounded below as γ ↓ 3/2 | open, unchecked | notes, Task 5 round 2 |
+| G4 (#14) | **Step 1 citation:** the γ = 3/2 equality case (trace formula plus reflectionless classification) holds on L¹ ∩ L² | open, citation to check | notes, Task 5 |
+| G5 (#15) | **Step 4 citation:** a perturbation small in ∫(1 + x)\|W\| keeps exactly one Neumann state for ν ∈ (1, 2) | open, citation to check | notes, Task 5 |
+| G6 (#16) | **Fully formal (b):** formalize ∫₀^∞ cosh^{−s} = (√π/2) Γ(s/2)/Γ((s+1)/2), so the half-soliton value 2L1 is computed in Lean | idea | none |
+| G7 (#17) | **Theorem 3, Bargmann and Hardy classes:** at most one Neumann state when ∫xV < 1 or V ≤ 1/(4x²). Stated as a remark, not proved in detail. | idea | RESULTS.md, Thm 3 remarks |
+| G9 (#19) | **Optimizer uniqueness citation:** find a source stating that the one-bound-state optimizers in 1D are exactly c²(γ² − 1/4) sech²(c(x − x₀)) (Keller 1961? Sz.-Nagy?). This is needed for the "only if" half of Theorem 3's equality case. | open, citation to find | review M3 |
+|
+| G8 (#18) | **Other conditions:** Robin conditions u′(0) = σu(0), or star graphs with even N or N₀ > 1. Do Theorem 1 and Theorem 3 transfer? | idea | none |
 
 ## Approaches that failed
 

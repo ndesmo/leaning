@@ -24,7 +24,7 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | Riccati form only at m = 3; m(1) = 3; m ∈ [3/2, 2) on (3/2, 5/2] | [Lean] | `Spec.lean` §1 |
 | L1 = r·Lcl; r(3/2) = 1; r(5/2) = 8/9 | [Lean] | `Spec.lean` §2 |
 | r strictly decreasing on (1/2, ∞); r < 1 for γ > 3/2; r > 2/e > 1/2 | [Lean] | `Spec.lean` §2 |
-| L^N_γ ≤ Lcl + L1 for γ ≥ 3/2 | [Lean \| hyp: ELU (1.6), one-bound-state bound] | `Spec.lean` §3 |
+| L^N_γ ≤ Lcl + L1 for γ ≥ 3/2 | [Lean \| hyp: ELU (1.6), one-bound-state bound] | `Spec.lean` §3; `RESULTS.md` Thm 1 |
 | A potential beating 2·L1 has e > 2 − 1/r(γ) (7/8 at γ = 5/2) | [Lean \| hyp: ELU (1.6)] | `Spec.lean` §3 |
 | (a)–(d) in abstract form | [Lean \| hyp: spectral facts] | `Spec.lean` §4 |
 | ∫_ℝ V(\|x\|)^p = 2 ∫_0^∞ V^p | [Lean] | `Spec.lean` §4 |
@@ -50,6 +50,11 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | Stability: e(V) near 1 forces V near a soliton (Task 5 Step 3) | [paper: Carlen–Frank–Lieb, GAFA 2014, Thm 2.2] (fixed γ; uniformity near 3/2 to check) | Task 5 round 2 |
 | At ν = 2, ψ₂ = 3 tanh² − 1 is a bounded zero-energy solution (even resonance at γ = 5/2) | [Lean] | `Spec.lean` §7 `resonance_at_five_halves` |
 | (a + b)^p ≥ a^p + p·a^{p−1}·b + b^p for p ≥ 2, a, b ≥ 0 | [Lean] | `Spec.lean` §7 `add_rpow_ge_tangent` |
+| Star graphs: L_{γ,N} ≤ Lcl + L1/N for odd N, γ ≥ 3/2; strictly below Demirel-Frank's (1 + 1/N)Lcl for γ > 3/2 | [Lean \| hyp: Demirel-Frank Prop. 4 + Thm 1] | `Spec.lean` §8; `RESULTS.md` Cor. 2 |
+| u = 1 − 3 tanh² (zero-energy Neumann solution for 6 sech²) has exactly one zero on (0, ∞), at arsinh √(1/2) | [Lean] | `Spec.lean` §8 `psi2_two_unique_zero` |
+| V ≤ 6a⁻² sech²(x/a) ⇒ S_γ(V) ≤ 2L1(γ)M_γ(V) for all γ ≥ 1/2; for V ≢ 0, equality iff 1/2 < γ ≤ 5/2 and V is a half-soliton | [paper: Sturm oscillation, min–max, one-bound-state bound] + [Lean: §8 inputs] | `RESULTS.md` Thm 3 |
+| The half-soliton (γ² − 1/4) b⁻² sech²(x/b) fits under some 6a⁻² sech²(x/a) iff γ ≤ 5/2 | [Lean] | `Spec.lean` §8 `half_soliton_fits_iff_gamma` |
+| A counterexample needs ≥ 2 Neumann states, must exceed every 6a⁻² sech²(x/a), and has e > 2 − 1/r(γ) | [Lean \| hyp: as above] | `RESULTS.md` Cor. 4 |
 | L^N_γ = 2·L1(γ) on [3/2, 3/2 + ε) for some ε > 0 | [conjecture: conditional on Task 5 Step 5, plus γ-uniformity in Step 3] | Task 5 |
 | Conjecture: L^N_γ = 2·L1(γ) on [3/2, 5/2] | [conjecture] | — |
 
@@ -446,3 +451,35 @@ the ground state is not a free gain; it is paid for at first order.
 **Other references found.** Frank–Simon–Weidl, CMP 282 (2008), arXiv:0707.0998: comparison
 theorems giving Lieb–Thirring bounds for perturbations of non-free operators with regular
 ground states. A possible tool for R₂', but its constants are not sharp.
+
+## Results write-up (2026-11-25)
+
+`RESULTS.md` states and proves what this project has established:
+- **Theorem 1.** L^N_γ ≤ Lcl + L1 for γ ≥ 3/2. This is new as far as the Task 1 search found.
+- **Corollary 2.** For odd N, L_{γ,N} ≤ Lcl + L1/N on star graphs. This is new for odd N ≥ 3 with
+  3/2 < γ < 2. It is the improvement asked for in Demirel-Frank's Remark (4), whose wording I
+  re-checked against the paper (Prop. 4 needs N₀ < N, both odd).
+- **Theorem 3.** The conjecture holds for every 0 ≤ V ≤ 6a⁻² sech²(x/a), for all γ ≥ 1/2. The
+  envelope is critical, because of the even resonance at ν = 2.
+- **Corollary 4.** What a counterexample must look like.
+
+Lean, §8 of `Spec.lean`:
+- the zero-energy solution and its unique zero;
+- the star-graph algebra;
+- the "only γ ≤ 5/2" step of Theorem 3's equality case, in `envelope_excludes_large`,
+  `half_soliton_fits_iff` and `half_soliton_fits_iff_gamma`.
+
+`lake build` passes, and all 64 theorems use only the standard axioms.
+
+Corrections made while writing up:
+- The negative spectrum need not be finite.
+- The ∫(1 + x)V condition is needed only for U = 6 sech².
+- The equality case needs V ≢ 0 and γ > 1/2.
+
+**Machine note.** For part of 2026-11-25, `import Mathlib` took over 6 minutes instead of the
+usual 35–45 s. During it, Lean made about 1,500 tiny reads per second, and McAfee's
+`mc-pco-scanner` used about one full CPU core. A second import was just as slow, then the slowdown
+cleared by itself. A file importing only `Mathlib.Data.Real.Basic` still took 11 s during the
+slowdown, so the cost scales with the number of `.olean` files opened (8,747 for `Mathlib`). If it
+returns, an antivirus exclusion for `halfline_lt\.lake` would likely avoid it. Antivirus settings
+were not changed.

@@ -641,4 +641,151 @@ theorem add_rpow_ge_tangent {p : ℝ} (hp : 2 ≤ p) {a b : ℝ} (ha : 0 ≤ a) 
   simp only [f] at hb'
   linarith
 
+/-! ## 8. Results: the critical envelope and star graphs (`RESULTS.md`) -/
+
+/-- At `ν = 2`, `ψ₂ = 3 tanh² - 1`. -/
+theorem psi2_two_formula (x : ℝ) : psi2 2 x = 3 * tanh x ^ 2 - 1 := by
+  unfold psi2
+  rw [show (2:ℝ) - 2 = 0 by norm_num, rpow_zero, one_mul]
+  norm_num
+
+/-- `u = -ψ₂ = 1 - 3 tanh²` is the zero-energy Neumann solution for `6 sech²`:
+`u(0) = 1`, `u'(0) = 0` (and `-u'' - 6 sech² u = 0` by `resonance_at_five_halves`). -/
+theorem psi2_two_at_zero : psi2 2 0 = -1 ∧ deriv (psi2 2) 0 = 0 := by
+  constructor
+  · rw [psi2_two_formula]; simp
+  · rw [deriv_psi2]; simp
+
+/-- `1 - 3 tanh²` has exactly one zero on `(0, ∞)`, at `x = arsinh √(1/2)`. By Sturm oscillation
+the Neumann operator `-d² - 6 sech²` on `(0, ∞)` therefore has exactly one negative eigenvalue
+(`-4`, eigenfunction `sech²`); `E = 0` is a resonance, not an eigenvalue. -/
+theorem psi2_two_unique_zero : ∃! x : ℝ, 0 < x ∧ psi2 2 x = 0 := by
+  have key : ∀ x, psi2 2 x = 0 ↔ 2 * sinh x ^ 2 = 1 := by
+    intro x
+    have hc : cosh x ≠ 0 := (cosh_pos x).ne'
+    have hcs := cosh_sq x
+    rw [psi2_two_formula, tanh_eq_sinh_div_cosh, div_pow, sub_eq_zero, mul_div_assoc',
+      div_eq_one_iff_eq (pow_ne_zero 2 hc)]
+    constructor <;> intro h <;> linarith
+  have hhalf : (0:ℝ) ≤ 1 / 2 := by norm_num
+  refine ⟨arsinh (sqrt (1 / 2)), ⟨arsinh_pos_iff.mpr (by positivity), ?_⟩, ?_⟩
+  · rw [key, sinh_arsinh, sq_sqrt hhalf]; norm_num
+  · rintro y ⟨hy, hy0⟩
+    rw [key] at hy0
+    have hs : 0 < sinh y := sinh_pos_iff.mpr hy
+    have hsy : sinh y = sqrt (1 / 2) := by
+      rw [← sqrt_sq hs.le]; congr 1; linarith
+    rw [← hsy, arsinh_sinh]
+
+/-- At most one Neumann bound state already gives the conjectured bound. -/
+theorem at_most_one_state_ok {ι : Type*} (ev : Finset ι) (e : ι → ℝ) (hcard : ev.card ≤ 1)
+    {l1 M : ℝ} (hM : 0 ≤ 2 * l1 * M) (hOne : ∀ i ∈ ev, e i ≤ 2 * l1 * M) :
+    ∑ i ∈ ev, e i ≤ 2 * l1 * M := by
+  rcases ev.eq_empty_or_nonempty with h | ⟨i₀, hi₀⟩
+  · rw [h, Finset.sum_empty]; exact hM
+  · have hev : ev = {i₀} := Finset.eq_singleton_iff_unique_mem.mpr
+      ⟨hi₀, fun b hb => Finset.card_le_one.mp hcard b hb i₀ hi₀⟩
+    rw [hev, Finset.sum_singleton]; exact hOne i₀ hi₀
+
+/-- Star graphs (Demirel-Frank, Prop. 4 with `N₀ = 1`): `L_{γ,N} ≤ ((N-1)/N) L_γ + (1/N) L_{γ,1}`
+for odd `N`, where `L_{γ,1}` is the Neumann half-line constant. With `L_γ = Lcl` (γ ≥ 3/2) and
+`L_{γ,1} ≤ Lcl + L1` (Theorem 1 of `RESULTS.md`): `L_{γ,N} ≤ Lcl + L1/N`. -/
+theorem star_graph_bound {N : ℕ} (hN : 0 < N) {LgN Lg1 lcl l1 : ℝ}
+    (hDF : LgN ≤ ((N - 1 : ℝ) / N) * lcl + (1 / N) * Lg1) (hA : Lg1 ≤ lcl + l1) :
+    LgN ≤ lcl + l1 / N := by
+  have hN' : (0:ℝ) < N := by exact_mod_cast hN
+  have h1 := mul_le_mul_of_nonneg_left hA (by positivity : (0:ℝ) ≤ 1 / N)
+  have h2 : ((N - 1 : ℝ) / N) * lcl + (1 / N) * (lcl + l1) = lcl + l1 / N := by
+    rw [sub_div, div_self hN'.ne']
+    ring
+  linarith
+
+/-- The new star-graph bound is strictly below Demirel-Frank's `(1 + 1/N) Lcl` whenever `L1 < Lcl`,
+i.e. for every γ > 3/2 (`r_lt_one`). -/
+theorem star_graph_bound_strict {N : ℕ} (hN : 0 < N) {lcl l1 : ℝ} (h : l1 < lcl) :
+    lcl + l1 / N < (1 + 1 / N) * lcl := by
+  have hN' : (0:ℝ) < N := by exact_mod_cast hN
+  have h1 : 0 < (lcl - l1) / N := div_pos (by linarith) hN'
+  have h2 : (1 + 1 / (N:ℝ)) * lcl - (lcl + l1 / N) = (lcl - l1) / N := by ring
+  linarith
+
+/-- A half-soliton `c b⁻² sech²(x/b)` with `c > 6` lies under no critical envelope
+`6 a⁻² sech²(x/a)`. For `b ≤ a` the bound already fails near `x = 0`; for `a < b` the envelope
+decays faster, so the bound fails for large `x`. -/
+theorem envelope_excludes_large {c a b : ℝ} (hc : 6 < c) (ha : 0 < a) (hb : 0 < b) :
+    ¬ ∀ x : ℝ, 0 < x → c / b ^ 2 / cosh (x / b) ^ 2 ≤ 6 / a ^ 2 / cosh (x / a) ^ 2 := by
+  intro h
+  have hc0 : 0 < c := by linarith
+  rcases le_or_gt b a with hba | hab
+  · have hcb : Continuous fun x : ℝ => cosh (x / b) ^ 2 :=
+      (continuous_cosh.comp (continuous_id.div_const b)).pow 2
+    have hca : Continuous fun x : ℝ => cosh (x / a) ^ 2 :=
+      (continuous_cosh.comp (continuous_id.div_const a)).pow 2
+    have hf : Continuous fun x : ℝ =>
+        c / b ^ 2 / cosh (x / b) ^ 2 - 6 / a ^ 2 / cosh (x / a) ^ 2 :=
+      (continuous_const.div hcb fun x => (pow_pos (cosh_pos _) 2).ne').sub
+        (continuous_const.div hca fun x => (pow_pos (cosh_pos _) 2).ne')
+    have e1 : 6 / a ^ 2 ≤ 6 / b ^ 2 :=
+      div_le_div_of_nonneg_left (by norm_num) (by positivity) (by nlinarith)
+    have e2 : 6 / b ^ 2 < c / b ^ 2 := div_lt_div_of_pos_right hc (by positivity)
+    have h0 : 0 < c / b ^ 2 / cosh (0 / b) ^ 2 - 6 / a ^ 2 / cosh (0 / a) ^ 2 := by
+      simp only [zero_div, cosh_zero, one_pow, div_one]
+      linarith
+    have hev : ∀ᶠ x in nhdsWithin (0:ℝ) (Set.Ioi 0),
+        0 < c / b ^ 2 / cosh (x / b) ^ 2 - 6 / a ^ 2 / cosh (x / a) ^ 2 ∧ 0 < x :=
+      (((hf.tendsto 0).eventually (lt_mem_nhds h0)).filter_mono nhdsWithin_le_nhds).and
+        self_mem_nhdsWithin
+    obtain ⟨x, hx, hx0⟩ := hev.exists
+    linarith [h x hx0]
+  · have hk : 0 < 2 * (1 / a - 1 / b) := by
+      have := one_div_lt_one_div_of_lt ha hab
+      linarith
+    have hca : 0 < c * a ^ 2 := by positivity
+    have hT : Filter.Tendsto (fun x : ℝ => c * a ^ 2 * exp (2 * (1 / a - 1 / b) * x))
+        Filter.atTop Filter.atTop :=
+      (tendsto_exp_atTop.comp (Filter.tendsto_id.const_mul_atTop hk)).const_mul_atTop hca
+    obtain ⟨x, hxQ, hx0⟩ :=
+      ((hT.eventually_gt_atTop (24 * b ^ 2)).and (Filter.eventually_gt_atTop 0)).exists
+    have hxQ' : 24 * b ^ 2 < c * a ^ 2 * exp (2 * (1 / a - 1 / b) * x) := hxQ
+    have hA : exp (x / a) / 2 ≤ cosh (x / a) := by
+      rw [cosh_eq]; linarith [exp_pos (-(x / a))]
+    have hB : cosh (x / b) ≤ exp (x / b) := by
+      have : 0 ≤ x / b := div_nonneg hx0.le hb.le
+      rw [cosh_eq]; linarith [exp_le_exp.mpr (show -(x / b) ≤ x / b by linarith)]
+    have hE : exp (2 * (1 / a - 1 / b) * x) * (exp (x / b) * exp (x / b)) =
+        exp (x / a) * exp (x / a) := by
+      rw [← exp_add, ← exp_add, ← exp_add]; congr 1; ring
+    have hE' : c * a ^ 2 * (exp (2 * (1 / a - 1 / b) * x) * (exp (x / b) * exp (x / b))) =
+        c * a ^ 2 * (exp (x / a) * exp (x / a)) := by rw [hE]
+    have hcont := h x hx0
+    rw [div_div, div_div, div_le_div_iff₀ (mul_pos (by positivity) (pow_pos (cosh_pos _) 2))
+      (mul_pos (by positivity) (pow_pos (cosh_pos _) 2))] at hcont
+    have h3 := mul_le_mul_of_nonneg_left
+      (mul_le_mul hA hA (by positivity) (cosh_pos _).le) hca.le
+    have h4 := mul_le_mul_of_nonneg_left
+      (mul_le_mul hB hB (cosh_pos _).le (exp_pos _).le) (by positivity : (0:ℝ) ≤ 6 * b ^ 2)
+    have h5 := mul_lt_mul_of_pos_right hxQ' (mul_pos (exp_pos (x / b)) (exp_pos (x / b)))
+    linarith
+
+/-- A half-soliton of any width fits under some critical envelope iff its coupling is at most 6. -/
+theorem half_soliton_fits_iff {c b : ℝ} (hb : 0 < b) :
+    (∃ a, 0 < a ∧ ∀ x : ℝ, 0 < x → c / b ^ 2 / cosh (x / b) ^ 2 ≤ 6 / a ^ 2 / cosh (x / a) ^ 2) ↔
+      c ≤ 6 := by
+  constructor
+  · rintro ⟨a, ha, h⟩
+    by_contra hc
+    exact envelope_excludes_large (not_le.mp hc) ha hb h
+  · intro hc
+    exact ⟨b, hb, fun x _ => div_le_div_of_nonneg_right
+      (div_le_div_of_nonneg_right hc (by positivity)) (by positivity)⟩
+
+/-- Equality case of Theorem 3 (`RESULTS.md`): the one-bound-state optimizer
+`(γ² - 1/4) b⁻² sech²(x/b)` lies under a critical envelope iff `γ ≤ 5/2`. -/
+theorem half_soliton_fits_iff_gamma {γ b : ℝ} (hγ : 1/2 < γ) (hb : 0 < b) :
+    (∃ a, 0 < a ∧ ∀ x : ℝ, 0 < x →
+        (γ ^ 2 - 1/4) / b ^ 2 / cosh (x / b) ^ 2 ≤ 6 / a ^ 2 / cosh (x / a) ^ 2) ↔
+      γ ≤ 5/2 := by
+  rw [half_soliton_fits_iff hb]
+  constructor <;> intro h <;> nlinarith
+
 end HalflineLt

@@ -8,6 +8,16 @@ description: One unattended iteration of the author agent, run under /loop in th
 You run unattended, and the user merges. Follow the shared rules in `/prove`. Do **one** unit of
 work, leave all state in files and PRs, then schedule the next wakeup.
 
+## 0. Preflight (stop the iteration if any check fails)
+
+- The repo root (`git rev-parse --show-toplevel`) is `C:/w/author`. Otherwise you were started in
+  the wrong place: say so and do not schedule another iteration.
+- `git status --porcelain` is empty, or you are on an `agent/*` branch with work in progress from
+  your previous iteration. In that case finish or record that work first.
+- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run tools/setup-worktrees.ps1" and stop.
+  Never download or delete the cache yourself.
+- Never create, move or remove worktrees.
+
 ## 1. Sync
 
 - `git fetch origin`, then list your open PRs: `gh pr list --state open --json number,title,headRefName`.

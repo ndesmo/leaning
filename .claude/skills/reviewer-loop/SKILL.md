@@ -8,6 +8,15 @@ description: One unattended iteration of the reviewer agent, run under /loop in 
 You are the independent check on the author agent. You read and comment; you never change the
 work.
 
+## 0. Preflight (stop the iteration if any check fails)
+
+- The repo root (`git rev-parse --show-toplevel`) is `C:/w/reviewer`. Otherwise say so and do not
+  schedule another iteration.
+- `git status --porcelain` is empty. The reviewer never has local changes; if it does, report them
+  and stop.
+- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run tools/setup-worktrees.ps1" and stop.
+- Never create, move or remove worktrees.
+
 ## 1. Find PRs to review
 
 - `gh pr list --state open --json number,headRefOid,title`.

@@ -34,6 +34,21 @@ The build should report no `sorry`. `#print axioms` on each theorem shows only `
 `Classical.choice` and `Quot.sound`. Spectral theorems that Mathlib lacks enter the Lean statements
 as explicit hypotheses; each proof page says which ones.
 
+## Running the agents
+
+Two Claude Code loops run in their own worktrees. Only the owner merges.
+
+```
+.\tools\setup-worktrees.ps1      # creates C:\w\author and C:\w\reviewer; safe to rerun
+cd C:\w\author;   claude --model claude-opus-5-5    # then: /loop /author-loop
+cd C:\w\reviewer; claude --model claude-opus-5-5    # then: /loop /reviewer-loop
+.\tools\teardown-worktrees.ps1   # removes them; refuses if any work would be lost
+```
+
+The author opens one pull request per unit of work, the reviewer comments on each one, and CI
+must pass before a pull request can merge. The agents cannot push to `main`, merge, or change CI
+or permissions (`.claude/settings.json`).
+
 ## Adding a proof
 
 1. Put the write-up in `docs/<slug>/index.html`, labeling each step as Lean, paper or standard.

@@ -1,50 +1,56 @@
 ---
 name: prove
-description: Run the full pipeline for a new result on the "Proofs by Claude" site, from problem to published page, by calling /conjecture, /literature, /attack, /lean-check, /proof-page and /publish-proofs in order. Holds the standing rules for labels, credit and claims. Use when the user asks for a new proof or the next result; use a single stage skill when only that stage is wanted.
+description: Run the full workflow for a new or extended result on the "Proofs by Claude" site, from choosing a target in LEDGER.md to a reviewed, published page. Holds the shared rules (claim labels, credit, no overclaiming) that every stage skill follows. Use when the user asks for a new proof or the next result; use a single stage skill when only that stage is wanted.
 ---
 
-# /prove: problem to published proof
+# /prove: from target to published proof
 
-These results are published at https://ndesmo.github.io/leaning/ and credited to **Claude (AI
-model)**, never to the user. Every page says it is not peer reviewed.
+Results are published at https://ndesmo.github.io/leaning/ and credited to **Claude (AI model)**,
+never to the user. Nothing here is peer reviewed, and every page says so.
 
-## Standing rules (apply in every stage)
+## Shared rules (all stages follow these)
 
 - **Label every claim** with exactly one of these:
   - `[Lean]`: proved in Lean, no `sorry`, standard axioms only.
-  - `[Lean | hyp: …]`: proved in Lean from named hypotheses, which are cited theorems.
-  - `[paper: ref, Thm n]`: a published theorem, checked against the paper's own text.
+  - `[Lean | hyp: …]`: proved in Lean from named, cited hypotheses.
+  - `[paper: ref, Thm n]`: checked against the paper's own text.
   - `[preprint: ref, Thm n]`: an unrefereed preprint.
   - `[standard: ref]`: a classical textbook result.
   - `[numerical ± err]`: a computed value with its error bar.
   - `[conjecture]`: open.
-- **Derive; don't search.** Numerics test claims; they never prove them. Write them in Lean, not
-  Python.
+- **Derive first.** Numerics test claims and never prove them. Write numerics in Lean, not Python.
 - **Never overclaim.**
-  - The strongest novelty statement allowed is "not found in the works searched".
-  - A partial result is published as partial, with the gap stated exactly.
-- **Keep one notes file per result,** `notes/<slug>.md`, with sections Statement, Setting, Claims
-  ledger (a table: claim | label | where), Literature, Log. Date every log entry.
+  - Novelty is at most "not found in the works searched".
+  - Partial results are published as partial, with the gap stated exactly.
+  - An unchecked step goes in the open list, not the proof.
+- **Keep one notes file per result,** `notes/<slug>.md`. Sections: Statement, Setting, Claims
+  ledger (a table: claim | label | where), Literature, Review, Log. Date every log entry.
+- **Privacy:** nothing that names the user, no machine paths (`C:\Users\…`), no email addresses,
+  in anything committed.
 
-## Pipeline
+## Workflow
 
-| Stage | Skill | Done when |
+Start by reading `LEDGER.md`. Offer the user a short menu:
+- two or three open gaps or ideas, each with a one-line view of how tractable it looks;
+- the option of something new.
+
+Agree whether the target extends an existing result (keep its slug, notes, Lean file and page) or
+gets a new slug.
+
+Then use the stage skills. This is a loop, not a fixed order: when an attack stalls, go back to
+`/conjecture` for a weaker target or to `/literature` for a missing tool.
+
+| Skill | Use it to | Exit when |
 |---|---|---|
-| 0. Build on what exists | read `LEDGER.md` | The user has chosen a target: an open gap (G1, G2, …), an extension of a published result, or something new. Say whether it extends an existing page or gets a new slug. |
-| 1. Hypothesis | `/conjecture` | A precise statement exists, with stress-test evidence and ranked provable targets. |
-| 2. Prior work | `/literature` | Every theorem to be cited is quoted verbatim with its hypotheses, and the search scope is recorded. |
-| 3. Proof | `/attack` | Every target has a step-by-step proof, each step labeled, and the edge-case audit is done. |
-| 4. Lean | `/lean-check` | `check.ps1` reports CLEAN and `lake build` exits 0. |
-| 5. Write-up | `/proof-page` | `docs/<slug>/` is written and the index and README are updated. |
-| 6. Deploy | `/publish-proofs` | The pages return 200 on the live site. |
+| `/conjecture` | find and stress-test a precise statement; list provable partial targets | the statement is exact, attacks on it are recorded, and targets are ranked |
+| `/literature` | learn what is known; quote every theorem you will cite | each cited theorem is quoted verbatim with its hypotheses, and the search scope is recorded |
+| `/attack` | derive the proof | every step is labeled and the edge-case audit is done |
+| `/lean-check` | formalize and verify | `check.ps1` reports CLEAN |
+| `/proof-page` | write the page | the page, index and README are updated |
+| `/review` | get an independent check | every finding is fixed or rebutted in the notes |
+| `/publish-proofs` | deploy | the pages return 200 on the live site |
 
-- **Stage 0.** Open with a short menu built from `LEDGER.md`:
-  - two or three open gaps or ideas, each with a one-line assessment of how tractable it looks;
-  - the option of something new.
-- **Extending a published result.** Keep its slug. Extend its notes file, add theorems to its Lean
-  file (or a new file that imports it), and revise its page. Don't start a parallel page.
-- **Skipping stage 1.** If the user already has a precise statement, or the target is a precisely
-  stated gap, skip it.
-- If stage 3 stalls, return to stage 1's list of provable targets rather than forcing the full
-  claim.
-- Before stage 6, tell the user in one line what is about to go public.
+- **Before `/publish-proofs`:** `/review` is required. Tell the user in one line what is about to
+  go public.
+- **Lessons:** concrete episodes behind these rules are in `lessons.md`, next to this file. Read
+  the section for the stage you are in.

@@ -1,6 +1,6 @@
 ---
 name: proof-page
-description: Write the public web page for a proof in docs/<slug>/index.html on the "Proofs by Claude" GitHub Pages site, with every step labeled by its evidence, and add it to the site index and README. Use after the Lean checks pass, or when revising a published proof page.
+description: Write the public web page for a proof in docs/<slug>/index.html on the "Proofs by Claude" GitHub Pages site, with every step labeled by its evidence, and add it to the site index and README. Use after the Lean checks pass, or when revising a published proof page; /review comes next.
 ---
 
 # /proof-page: write the proof page
@@ -52,7 +52,7 @@ Then replace the content. Every proof page keeps:
   keeps working.
 - **Wording:** plain, active sentences; no hype. "Not found in the works searched", never "new" on
   its own.
-- **Credit:** credit Claude only. Don't name the user anywhere.
+- **Credit and privacy:** follow the shared rules in `/prove`.
 
 ## Add it to the site
 
@@ -63,4 +63,4 @@ Then replace the content. Every proof page keeps:
 3. **Check:**
    - Count open and close tags for `div`, `section`, `ol`, `ul`, `li`, `table`, `span` and `p`.
    - Run `node --check` on the extracted inline script.
-   - Grep the page for `C:\Users` and for any email address. Both must be absent.
+4. **Next step:** `/review`, before `/publish-proofs`.

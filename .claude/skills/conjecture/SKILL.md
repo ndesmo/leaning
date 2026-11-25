@@ -10,6 +10,11 @@ how hard it was attacked, and which weaker statements are within reach.
 
 ## 1. Where to look
 
+- **This repo first.** Read `LEDGER.md`:
+  - its open gaps and ideas are ready-made targets;
+  - its failed approaches tell you what not to repeat;
+  - its published results suggest extensions: a wider class, another boundary condition, the next
+    parameter range.
 - **Explicit open questions:** survey papers (for Lieb–Thirring, Schimmer's "The state of the
   Lieb–Thirring conjecture", arXiv:2203.06051), and remarks like "it would be interesting to know
   whether…". Demirel-Frank's Remark (4) led to Corollary 2.

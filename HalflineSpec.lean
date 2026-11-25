@@ -527,7 +527,7 @@ theorem soliton_bonus_gamma5 :
 
 /-! ## 7. Task 5: the endpoint γ = 3/2 and the approach from above
 
-Self-contained pieces of the argument in `NOTES.md` (Task 5). Spectral and scattering facts
+Self-contained pieces of the argument in `notes/halfline-lieb-thirring.md` (Task 5). Spectral and scattering facts
 enter as hypotheses. -/
 
 /-- Uniqueness skeleton at `γ = 3/2`. For the even extension the trace formula reads

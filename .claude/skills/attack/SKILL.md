@@ -7,6 +7,17 @@ description: Derive a proof of a target statement, reducing it to cited theorems
 
 Derive first. Search numerically only to test a step or find a counterexample.
 
+## Before starting
+
+- **Read `LEDGER.md`.**
+  - If the target is a listed gap, read that gap's section in its notes file. Earlier attempts and
+    their exact sticking points are recorded there.
+  - Skip anything listed under "Approaches that failed" unless you have a new ingredient. Say what
+    the ingredient is.
+- **Reuse lemmas.** Before proving a lemma, check the ledger's reusable-lemma table and grep
+  `halfline_lt/` for it. Import existing theorems (`import HalflineLt.Spec`) instead of re-proving
+  them.
+
 ## Strategies that have worked
 
 - **Combine published inequalities.** Two non-sharp bounds can combine into a better one. ELU (1.6)
@@ -46,6 +57,8 @@ Check each of these explicitly:
 ## When stuck
 
 - State the gap precisely in the notes, along with the step that would close it.
+- Add the gap to `LEDGER.md`'s open-gaps table. If an approach died, add it to "Approaches that
+  failed" with the reason.
 - Check whether what is already proved forms a coherent partial result: a subclass, a bound, or
   necessary conditions. If so, publish that, with the gap in "What remains open".
 - Never present a step as proved because it seems plausible. Unchecked uniformity, constants or

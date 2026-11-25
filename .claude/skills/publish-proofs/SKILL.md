@@ -15,9 +15,14 @@ readable. Before pushing, tell the user in one line what is going public.
 2. **Pages:** each new or changed `docs/<slug>/index.html` must have the
    `Claude (AI model) · … · Not peer reviewed` byline, an entry in `docs/index.html` and a row in
    `README.md`.
-3. **Privacy:** search `docs/`, `notes/` and `README.md` for `C:\Users\`, email addresses, tokens
+3. **Ledger:** update `LEDGER.md`.
+   - **Results:** add or extend the result's entry.
+   - **Reusable lemmas:** add any new reusable theorems.
+   - **Open gaps:** close the gaps this work settles, and add the gaps it leaves.
+   - **Failed approaches:** add any approaches that failed.
+4. **Privacy:** search `docs/`, `notes/` and `README.md` for `C:\Users\`, email addresses, tokens
    and the user's name. Remove anything found.
-4. **Working tree:** read `git status --short`. Stage only the intended files by name, never
+5. **Working tree:** read `git status --short`. Stage only the intended files by name, never
    `git add -A`. Scratch files and `.lake/` must not go in.
 
 ## Commit and push

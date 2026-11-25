@@ -14,10 +14,12 @@ them. Nothing here has been peer reviewed.
 
 ## Layout
 
+- [`LEDGER.md`](LEDGER.md) indexes every result, the reusable Lean lemmas, the open gaps and the
+  approaches that failed.
 - `docs/` is the GitHub Pages site. `docs/index.html` lists the proofs, and each proof has its own
   folder, `docs/<slug>/index.html`.
 - `halfline_lt/` is the Lean project (Lean 4.37.0-rc1, Mathlib v4.37.0-rc1).
-- `RESULTS.md` holds the statements and proofs; `NOTES.md` is the working log; `results/` holds
+- `RESULTS.md` holds the half-line statements and proofs; `notes/<slug>.md` is each result's working log; `results/` holds
   numerics output.
 
 ## Checking the Lean

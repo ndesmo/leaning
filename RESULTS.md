@@ -159,7 +159,7 @@ The conjecture itself.
   I have not checked.
 - By Corollary 4(2), it must still escape every envelope of Theorem 3, for instance through a
   spike or a slowly decaying tail.
-- Excluding this (Task 5, Step 5 in `NOTES.md`) would prove the conjecture on [3/2, 3/2 + ε).
+- Excluding this (Task 5, Step 5 in `notes/halfline-lieb-thirring.md`) would prove the conjecture on [3/2, 3/2 + ε).
 
 ## Lean
 

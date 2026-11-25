@@ -39,9 +39,15 @@ That is the whole iteration. Go to step 5.
 
 - **If 2 or more of your PRs are open, do nothing.** The user merges at their own pace. Go to
   step 5.
-- **Pick the target.** Read `LEDGER.md` and pick the most tractable open gap or idea. Prefer small,
-  checkable units: a citation to verify, one Lean lemma, one literature pass, one attack on a
-  precisely stated gap.
+- **Pick the target.** Read `LEDGER.md` and `PROBLEMS.md`. Eligible targets are the ledger's open
+  gaps and ideas, and the `PROBLEMS.md` candidates whose status is `approved`. Only the user sets
+  `approved`; you never change a candidate to or from it. Prefer small, checkable units: a citation
+  to verify, one Lean lemma, one literature pass, one attack on a precisely stated gap.
+- **Starting an approved problem.** First re-check that it is still open: search for solutions
+  dated after the scout's check.
+  - If it has been solved, open a PR that marks it `rejected: solved by <ref>` and nothing else.
+  - Otherwise give it a slug, a `LEDGER.md` entry and a `notes/<slug>.md` file, mark it `taken` in
+    `PROBLEMS.md`, and make its first unit the scout's first target.
 - **Branch.** Create `agent/<slug>-<short-stage>` from `origin/main`.
 - **Do one stage** using the stage skills (`/conjecture`, `/literature`, `/attack`, `/lean-check`,
   `/proof-page`), in a subagent (see "Keep this session small").

@@ -5,17 +5,28 @@ on:
   push:
     branches: [main]
 
+# A newer push to the same branch cancels the older run.
+concurrency:
+  group: lean-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   lean:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Build (lake build, with the Mathlib cache)
-        uses: leanprover/lean-action@v1
+        uses: leanprover/lean-action@ba3fdfe5c4476c925da13bf11a005ddb47e47aee # v1
         with:
           lake-package-directory: halfline_lt
           test: false
           lint: false
-      - name: Axiom audit (no sorry, standard axioms only)
+      - name: Axiom audit, every proof file (no sorry, standard axioms only)
         shell: pwsh
-        run: ./.claude/skills/lean-check/check.ps1 -File HalflineLt/Spec.lean
+        run: ./.claude/skills/lean-check/check-all.ps1
+      - name: Pages cite only Lean theorems that exist
+        shell: pwsh
+        run: ./.claude/skills/lean-check/check-pages.ps1

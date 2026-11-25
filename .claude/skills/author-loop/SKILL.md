@@ -109,6 +109,8 @@ This loop runs for weeks, so its own context must stay small. Do the heavy work 
 
 ## 5. Schedule the next iteration
 
+- If you changed anything on GitHub this iteration (an issue, label or PR), run
+  `& .\tools\board-sync.ps1` so the project board matches.
 - Did something: wake in about 30 minutes.
 - Idle, or at the PR limit: wake in 60 minutes.
 

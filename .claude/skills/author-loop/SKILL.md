@@ -42,13 +42,25 @@ That is the whole iteration. Go to step 5.
 - **If 2 or more of your PRs are open, do nothing.** The user merges at their own pace. Go to
   step 5.
 - **Pick the target from the issue queue.** List
-  `gh issue list --state open --label approved --json number,title,labels`. Skip issues labelled
+  `gh issue list --state open --label approved --json number,title,labels`. Add the open
+  sub-issues of each listed issue (`gh api repos/ndesmo/leaning/issues/<n>/sub_issues`), which
+  carry no `approved` label of their own, and prefer them to their parent. Skip issues labelled
   `in-progress` or `blocked`. Take the highest priority (`priority:high`, then normal, then low),
   oldest first. Only issues the owner labelled `approved` are eligible. You never add or remove
   `approved`, and you never work on an unapproved issue.
 - **Claim it.** Add the label `in-progress` and comment on the issue with your branch name.
 - **One unit only.** An issue may need several PRs. Each PR does one small, checkable unit: a
   citation to verify, one Lean lemma, one literature pass, one attack on a precisely stated gap.
+- **Split big issues into sub-issues.** When an approved issue needs more than one unit, create a
+  sub-issue for each unit you identify:
+  - create it with `gh issue create`, with the parent's kind and priority labels, and never
+    `approved`;
+  - link it with `gh api -X POST repos/ndesmo/leaning/issues/<parent>/sub_issues -F sub_issue_id=<id>`,
+    where `<id>` comes from `gh api repos/ndesmo/leaning/issues/<n> --jq .id`.
+
+  A sub-issue is eligible only while its parent carries `approved`. Check the parent
+  (`gh api repos/ndesmo/leaning/issues/<n>/parent`) before working on it. Work the units one at a
+  time; the parent closes when its last unit lands.
 - **Starting a new problem** (an issue labelled `problem`). First re-check that it is still open:
   search for solutions dated after the scout's check.
   - If it has been solved, open a PR that marks it `rejected: solved by <ref>` in `PROBLEMS.md`,

@@ -197,3 +197,4 @@ scope.
   2, 8, 8, 8, 8, 4, 12, 16, 16, matching [GSK24] Table 2 (as reported) and OEIS A395372 where
   they overlap; no WCS with k ≤ 23 violates Conjecture 5.2. A second, independent script by a
   search subagent gave the same counts for k ≤ 22. [numerical, exact enumeration; not Lean]
+- **2026-11-25.** `/review` done (9 wording findings, all fixed; see Review). PR #49 opened.

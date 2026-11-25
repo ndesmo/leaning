@@ -40,5 +40,10 @@ The script compiles a copy of the file with `#print axioms` for every `theorem` 
 reports errors, `sorry`s and any axioms beyond `propext`, `Classical.choice`, `Quot.sound`, then a
 one-line summary. It exits 1 if anything is wrong.
 
+Two more scripts run in CI on every PR:
+- `check-all.ps1` runs `check.ps1` on every file in `HalflineLt/` and `Proofs/`.
+- `check-pages.ps1` fails if a page under `docs/` cites a Lean name (`<code>name_with_underscore</code>`)
+  that is not declared in those files.
+
 Before publishing, also run `lake build` in `halfline_lt/`. Run both in the background, because a
 build can take minutes (see `reference.md`).

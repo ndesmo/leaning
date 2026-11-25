@@ -51,6 +51,7 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | At ν = 2, ψ₂ = 3 tanh² − 1 is a bounded zero-energy solution (even resonance at γ = 5/2) | [Lean] | `Spec.lean` §7 `resonance_at_five_halves` |
 | (a + b)^p ≥ a^p + p·a^{p−1}·b + b^p for p ≥ 2, a, b ≥ 0 | [Lean] | `Spec.lean` §7 `add_rpow_ge_tangent` |
 | Star graphs: L_{γ,N} ≤ Lcl + L1/N for odd N, γ ≥ 3/2; strictly below Demirel-Frank's (1 + 1/N)Lcl for γ > 3/2 | [Lean \| hyp: Demirel-Frank Prop. 4 + Thm 1] | `Spec.lean` §8; `RESULTS.md` Cor. 2 |
+| DF15 eq. (5) for star graphs with N ≥ 2 infinite edges, Kirchhoff centre: L_{γ,N} = L_γ = Lcl for γ ≥ 2. So Corollary 2 improves on known bounds exactly for odd N ≥ 3 and 3/2 < γ < 2. | [paper: Demirel–Harrell 2010, Thm 2.5 + Rem. 2.6, 2.10] | Literature item 4a |
 | u = 1 − 3 tanh² (zero-energy Neumann solution for 6 sech²) has exactly one zero on (0, ∞), at arsinh √(1/2) | [Lean] | `Spec.lean` §8 `psi2_two_unique_zero` |
 | V ≤ 6a⁻² sech²(x/a) ⇒ S_γ(V) ≤ 2L1(γ)M_γ(V) for all γ ≥ 1/2; for V ≢ 0, equality iff 1/2 < γ ≤ 5/2 and V is a half-soliton | [paper: Sturm oscillation, min–max, one-bound-state bound] + [Lean: §8 inputs] | `RESULTS.md` Thm 3 |
 | The half-soliton (γ² − 1/4) b⁻² sech²(x/b) fits under some 6a⁻² sech²(x/a) iff γ ≤ 5/2 | [Lean] | `Spec.lean` §8 `half_soliton_fits_iff_gamma` |
@@ -132,6 +133,49 @@ paper I read states it.
        ([3] = Demirel–Harrell, Rev. Math. Phys. 2010).
      - L_{γ,N} is the sharp constant in Tr H_−^γ ≤ L_{γ,N} ∫_{Γ_N} V_−^{γ+1/2}, for the operator
        defined by its form on H¹(Γ_N), i.e. with Kirchhoff conditions at the vertex.
+4a. **Demirel–Harrell [DH10]**, "On semiclassical and universal inequalities for eigenvalues of
+   quantum graphs", arXiv:0911.1896 v1 (10 Nov 2009), Rev. Math. Phys. (2010),
+   DOI 10.1142/S0129055X10003965. This closes ledger gap G10 (review M6). Read on 2026-11-25:
+   pp. 1–12 of the arXiv PDF, through text extraction, with §§1–2.1 read directly. A fetch
+   subagent read the ar5iv HTML as a cross-check. [paper]
+   - **Setting (§1).** The operator comes from the form ∫|φ′|², "which leads to vanishing Dirichlet
+     boundary conditions at the ends of exterior edges". At each vertex φ is continuous and
+     Σ_j ∂φ/∂x_kj(0+) = 0 (eq. (1.2)). "In the literature these vertex conditions are usually
+     known as Kirchhoff or Neumann conditions." H(α) = −α d²/dx² + V.
+   - **Leaves (§2.1, p. 7).** "a leaf is joined to a vertex at only one of its endpoints, ie. there
+     is a free end, at which we shall set Dirichlet boundary conditions."
+   - **Theorem 2.5 (p. 8).** "For any tree graph with a finite number of vertices and edges, the
+     mapping" α ↦ α^{1/2} Σ_{E_j(α)<0} (−E_j(α))² "is nonincreasing for all α > 0. Consequently"
+     α^{1/2} Σ_{E_j(α)<0} (−E_j(α))² ≤ L^cl_{2,1} ∫_Γ (V_−(x))^{2+1/2} dx "for all α > 0."
+     (Displayed formulas are transcribed from the PDF text.)
+   - **Remark 2.6.** "By the monotonicity principle of Aizenman and Lieb (see [1]), Theorem 2.5 is
+     also true with the sharp constant for higher moments of eigenvalues." It also says "Theorem 2.5
+     can be extended by a density argument to potentials V ∈ L^{γ+1/2}(Γ)." The proof assumes
+     V ∈ C₀^∞ (p. 5).
+   - **Remark 2.10.** "The proof applies equally to metric trees with leaves of infinite lengths."
+     The paper gives no separate proof of this.
+   - **Sharpness.** The proof ends with Weyl's asymptotics,
+     lim_{α→0+} α^{1/2} Σ (−E_j(α))² = L^cl_{2,1} ∫ V_−^{5/2}. That gives the lower bound
+     L_{2,N} ≥ Lcl. For γ > 2 the same lower bound is the [standard] semiclassical limit.
+   - **Why N = 1 is excluded (my check of the mechanism).** The proof averages Lemma 2.1 over
+     piecewise-affine G with |G′| ∈ {0, 1} that satisfy (2.3), Σ_j ∂G/∂x_kj(0+) = 0, at every
+     vertex. These G correspond to "admissible colorings": an even number of edges coloured 1 at each
+     vertex (Def. 2.8). For a star with N leaves the admissible colourings are the even subsets of
+     the leaves. Each leaf lies in the same number of them, 2^{N−2}, when N ≥ 2. For N = 1 the only
+     admissible colouring is 0, so G is constant and (2.4) is vacuous. The paper states the same
+     restriction for its circuit picture (p. 12): "there must be at least two leaves". The N = 1
+     Neumann half-line is also not a tree in the paper's sense, because a degree-one free end gets
+     Dirichlet there. **Verdict:** DF15 eq. (5) is correct for N ≥ 2. The "all N ∈ ℕ" in DF15 is
+     a slip at N = 1 only.
+   - **Hypothesis check for star graphs.** For N ≥ 2 infinite leaves, take G = x on leaf i, G = −x
+     on leaf j and G = 0 elsewhere. This satisfies (2.3) at the centre, and summing over all pairs
+     i < j gives every leaf weight N − 1, so (2.5) holds. Lemma 2.1 needs Gφ_j ∈ D(H). For
+     V ∈ C₀^∞, negative-energy eigenfunctions decay exponentially on the infinite leaves, so an
+     affine G is harmless. This is the content of Remark 2.10 for stars.
+   - **Consequence for Corollary 2.** For odd N ≥ 3 and γ ≥ 2, L_{γ,N} = Lcl < Lcl + L1/N, so
+     Corollary 2 is not an improvement there. Its improving range is exactly odd N ≥ 3 with
+     3/2 < γ < 2, now unconditional. The page still says "if eq. (5) holds for N ≥ 3"; changing
+     that is a page edit and needs `/review`.
 5. **Read–Schulz**, arXiv:2609.10478 v2 (14 Sep 2026). Read in full. [preprint]
    - Whole line, γ = 1 only. Nothing on the half-line or other γ.
    - The method: Benguria–Loss cumulative mass, q = −α tan(α(s − 1/2)), the condition
@@ -663,3 +707,7 @@ Fix: verify the text and quote it in the notes, or remove the quotation marks.
 **13. MINOR — Remarks.** "Conjectured optimizer for every γ ≤ 5/2" should be "for 3/2 ≤ γ ≤ 5/2", since the conjecture covers only that range.
 
 </details>
+
+## Log
+
+- 2026-11-25 (author-loop): literature check of DH10 for ledger gap G10. DF15 eq. (5) holds for star graphs with N ≥ 2 infinite edges, so Corollary 2's improving range, odd N ≥ 3 with 3/2 < γ < 2, is unconditional. The page edit is pending. See Literature item 4a.

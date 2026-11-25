@@ -18,6 +18,11 @@ never to the user. Nothing here is peer reviewed, and every page says so.
   - `[standard: ref]`: a classical textbook result.
   - `[numerical ± err]`: a computed value with its error bar.
   - `[conjecture]`: open.
+  - `[own argument, unreviewed]` or `[own argument, reviewed <date>]`: an argument we wrote that no
+    published source contains, including one that fills a gap a paper leaves open.
+- **Combine labels honestly.** A claim resting on a paper plus our own step carries both, e.g.
+  `[paper: DH10 Thm 2.5] + [own argument: Rem. 2.10 for stars, unreviewed]`. Never call such a
+  claim settled, unconditional or proved until the own-argument part has passed `/review`.
 - **Derive first.** Numerics test claims and never prove them. Write numerics in Lean, not Python.
 - **Never overclaim.**
   - Novelty is at most "not found in the works searched".

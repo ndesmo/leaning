@@ -52,7 +52,7 @@ Labels: [Lean], [Lean | hyp: …], [paper: ref, Thm], [preprint: ref, Thm],
 | (a + b)^p ≥ a^p + p·a^{p−1}·b + b^p for p ≥ 2, a, b ≥ 0 | [Lean] | `Spec.lean` §7 `add_rpow_ge_tangent` |
 | Star graphs: L_{γ,N} ≤ Lcl + L1/N for odd N, γ ≥ 3/2; strictly below Demirel-Frank's (1 + 1/N)Lcl for γ > 3/2 | [Lean \| hyp: Demirel-Frank Prop. 4 + Thm 1] | `Spec.lean` §8; `RESULTS.md` Cor. 2 |
 | u = 1 − 3 tanh² (zero-energy Neumann solution for 6 sech²) has exactly one zero on (0, ∞), at arsinh √(1/2) | [Lean] | `Spec.lean` §8 `psi2_two_unique_zero` |
-| V ≤ 6a⁻² sech²(x/a) ⇒ S_γ(V) ≤ 2L1(γ)M_γ(V) for all γ ≥ 1/2; for V ≢ 0, equality iff 1/2 < γ ≤ 5/2 and V is a half-soliton | [paper: Sturm oscillation, min–max, one-bound-state bound] + [Lean: §8 inputs] | `RESULTS.md` Thm 3 |
+| V ≤ 6a⁻² sech²(x/a) ⇒ S_γ(V) ≤ 2L1(γ)M_γ(V) for all γ ≥ 1/2; for V ≢ 0, equality iff 1/2 < γ ≤ 5/2 and V = (γ² − 1/4)b⁻² sech²(x/b) for some b > 0 | Bound: [standard: PT33 (one state), Sim05 (Sturm cross-check), min–max] + [paper: DEL15 Lemma 1; Fra21 eq. (23) (one-bound-state bound)] + [Lean: §8 inputs]; "if": [standard: PT33 (single Neumann state)] + [paper: DEL15 Lemma 1 (attainment)] + [Lean: `half_soliton_fits_iff_gamma`]; "only if", γ > 1/2: [paper: CFL14 Thm 2.1 (uniqueness); DEL15 Lemma 1, Fra21 eq. (23) (sharp constant)] + [own argument, reviewed 2026-11-25: G9 steps 2–5] + [Lean: `half_soliton_fits_iff_gamma`]; γ = 1/2: [own argument, unreviewed: page Equality step]. The page still states the converse as conditional; page update pending | `RESULTS.md` Thm 3; G9 section |
 | The half-soliton (γ² − 1/4) b⁻² sech²(x/b) fits under some 6a⁻² sech²(x/a) iff γ ≤ 5/2 | [Lean] | `Spec.lean` §8 `half_soliton_fits_iff_gamma` |
 | A counterexample needs ≥ 2 Neumann states, must exceed every 6a⁻² sech²(x/a), and has e > 2 − 1/r(γ) | [Lean \| hyp: as above] | `RESULTS.md` Cor. 4 |
 | L^N_γ = 2·L1(γ) on [3/2, 3/2 + ε) for some ε > 0 | [conjecture: conditional on Task 5 Step 5, plus γ-uniformity in Step 3] | Task 5 |
@@ -500,6 +500,189 @@ slowdown, so the cost scales with the number of `.olean` files opened (8,747 for
 returns, an antivirus exclusion for `halfline_lt\.lake` would likely avoid it. Antivirus settings
 were not changed.
 
+## G9: optimizer uniqueness citation (2026-11-25)
+
+**Question** (review M3, C7). Theorem 3's converse needs: for γ > ½, if 0 ≤ Ṽ ∈ L^{γ+1/2}(ℝ)
+gives equality |E₁(−d² − Ṽ)|^γ = L1(γ) ∫_ℝ Ṽ^{γ+1/2}, then Ṽ = c²(γ² − ¼) sech²(c(x − x₀)) for some
+c > 0, x₀ ∈ ℝ. Our convention is H = −d² − V with V ≥ 0 a well. DEL15 uses the same convention.
+CFL14 and Fra21 write −Δ + V and use V₋ = max{−V, 0}, so our Ṽ is their −Ṽ.
+
+**Verdict.** Citation found. Each source supplies a different piece:
+- **Uniqueness.** [CFL14, Thm 2.1] proves that for d = 1, γ > ½ the set of V ≢ 0 attaining the
+  one-bound-state bound is {b²𝒱(b(· − a)) : b > 0, a ∈ ℝ} for one fixed 𝒱, so translations and
+  dilations only, with no constant multiple. This is the load-bearing source.
+- **Sharp constant.** [DEL15, Lemma 1] and [Fra21, eq. (23)] give its value, which equals our
+  L1(γ) (checks below). Together with step 2 (U₀ attains L1), this puts −U₀ in CFL's set, so the
+  set is {−c²U₀(c(· − x₀))}.
+- **Corroboration.** [DEL15, Lemma 1] also states the equality case, in our sign convention, as
+  q(q − 1) sech² s with q = γ + ½, so q(q − 1) = γ² − ¼. Its wording adds a spurious "multiplication
+  by a positive constant": cV₁ with c ≠ 1 is not an optimizer, and DEL15's own proof gives only
+  the two-parameter family. The lemma is headed "(See [11,12].)", and its "only if" is only
+  sketched (Caveats below). So DEL15 is not used as the proof of uniqueness.
+- [Fra21, §4.2] notes uniqueness "(up to symmetries)", inferred from Nagy [151] via duality.
+
+Our own part: combining the citations (step 3); the Neumann ground energy equals the whole-line
+ground energy of the even extension, and evenness forces x₀ = 0 (step 4); the γ > 5/2 exclusion
+(step 5); the hand check in step 2; and the constant identities below.
+Label for Theorem 3's "only if" (γ > ½): [paper: CFL14 Thm 2.1 (uniqueness); DEL15 Lemma 1, Fra21
+eq. (23) (sharp constant)] + [own argument, reviewed 2026-11-25: steps 2–5 and the constant
+identities below].
+
+### Sources, verbatim
+
+0. **[DEL15]** J. Dolbeault, M. J. Esteban, M. Loss, "Keller–Lieb–Thirring inequalities for
+   Schrödinger operators on cylinders", C. R. Acad. Sci. Paris, Ser. I 353 (2015) 813–818,
+   doi:10.1016/j.crma.2015.06.018. Open copy: https://numdam.org/item/10.1016/j.crma.2015.06.018.pdf.
+   Read in full by a subagent; I re-checked the Lemma 1 statement and its proof myself in the
+   extracted text. The extraction drops Greek letters, so symbols are restored from context and
+   from the subagent's second extraction. [paper]
+   - Setting (p. 814): Λ_R(μ) := sup{λ^R_1[V] : V ∈ L^q(R), ‖V‖_{L^q(R)} = μ}, "where … −λ^R_1[V]
+     denote[s] the lowest eigenvalues of the Schrödinger operators … −∂²_s −V … on … R. … The
+     expression of Λ_R(μ) was found by J.B. Keller in [11] and later rediscovered by E.H. Lieb and
+     W. Thirring in [12]. We refer to this result as the Keller–Lieb–Thirring inequality".
+   - Lemma 1 (p. 814): "Lemma 1. (See [11,12].) Assume that q ∈ (1, +∞). Then we have
+     Λ_R(μ) = (q − 1)² (μ/μ_1)^β ∀μ > 0, with β = 2q/(2q−1). As a consequence, if V is a
+     nonnegative real valued potential in L^q(R), then we have λ^R_1[V] ≤ Λ_R(‖V‖_{L^q(R)}) and
+     equality holds if and only if, up to scalings, translations and multiplications by a positive
+     constant, V(s) = q(q−1)/(cosh s)² =: V_1(s) ∀s ∈ R, where ‖V_1‖_{L^q(R)} = μ_1,
+     λ^R_1[V_1] = (q−1)². Moreover, the function ϕ(s) = (cosh s)^{1−q} generates the corresponding
+     eigenspace."
+   - Proof (§2, pp. 815–816): Hölder, then "It is standard (see for instance [5]) that the function
+     ϕ(s) = (cosh s)^{−2/(p−2)} is optimal for the inequality written with μ = μ_1", and
+     V_1 = q(q−1)ϕ^{p−2} "corresponds to the equality case in Hölder's inequality. More details can
+     be found in [2]." For general μ: "Optimality is therefore achieved for V_ν ∈ L^q(R) with
+     ‖V_ν‖_{L^q(R)} = μ > 0 if and only if ν^{2−1/q} = μ/μ_1 and V(s) = V_1(s − s_0) for some
+     s_0 ∈ R". Here q = p/(p − 2), [5] = Dolbeault–Esteban–Laptev–Loss, J. Lond. Math. Soc. 90
+     (2014) 525–550, [2] = Dolbeault–Esteban, Nonlinearity 27 (2014) 435.
+   - Caveats: the "only if" is a sketch resting on Hölder's equality case plus uniqueness of the GN
+     optimizer, which [5] states (DELL14, after Thm 1.2, p. 3; quoted by a subagent as "up to
+     translations, multiplication by a constant and scalings, the function v⋆ is the unique optimal
+     function for (1.1)"; that quote was not re-checked). The written proof fixes the norm, so a
+     free constant multiple does not actually occur: it gives V = V_{1,μ}(· − s₀) with
+     V_{1,μ}(s) = ν²V₁(νs), ν = (μ/μ₁)^{q/(2q−1)}, so "scalings" is the dilation V ↦ ν²V(ν·).
+     "V(s) = V_1(s − s_0)" should read V_{1,μ}; this is a typo in the paper.
+   - Hypotheses checked: operator −∂² − V with V ≥ 0 ∈ L^q(ℝ), the same as ours for Ṽ. q = γ + ½,
+     and q > 1 is γ > ½. No decay, continuity or existence of an eigenvalue is assumed.
+   - Constant [own argument, reviewed 2026-11-25]: βγ = 2q(q − ½)/(2q − 1) = q, so
+     Λ_R(‖V‖_q)^γ = (q−1)^{2γ} μ₁^{−q} ∫V^q, and μ₁^q = (q(q−1))^q √π Γ(q)/Γ(q+½) by the beta
+     integral. Hence |E₁|^γ ≤ (q−1)^{2γ−q} q^{−q} Γ(q+½)/(√π Γ(q)) ∫V^q, and at q = γ + ½ this
+     constant is (γ−½)^{γ−½}(γ+½)^{−γ−½} Γ(γ+1)/(√π Γ(γ+½)) = L1(γ).
+
+1. **[CFL14]** E. A. Carlen, R. L. Frank, E. H. Lieb, "Stability estimates for the lowest
+   eigenvalue of a Schrödinger operator", GAFA 24 (2014) 63–84, arXiv:1301.5032. Read via
+   https://ar5iv.labs.arxiv.org/html/1301.5032 (the PDF did not decode, so no page numbers). The
+   Theorem 2.1 passage was fetched twice, once by a subagent and once directly. [paper]
+   - Operator: §2.1, "the smallest eigenvalue of the operator −Δ+V in L²(ℝ^d)", defined by
+     eq. (2.1), λ(V) = inf{∫(|∇ψ|² + V|ψ|²) dx : ‖ψ‖₂ = 1} (the form infimum). §1 has "the lowest
+     eigenvalue of the Schrödinger operator −Δ+V in L²(ℝ^d)".
+   - Theorem 2.1 ("Existence and uniqueness of an optimal potential"): "Let γ>1/2 if d=1 and γ>0
+     if d≥2 and define" 𝒞_{γ,d} := sup |λ(V)| / (∫V₋^{γ+d/2} dx)^{1/γ}. "Then there is a
+     non-positive function 𝒱, which is unique up to translations and dilatons, such that" (2.2)
+     M = {V ∈ L^{γ+d/2}(ℝ^d) : |λ(V)| = 𝒞_{γ,d}(∫V₋^{γ+d/2} dx)^{1/γ}} = {b²𝒱(b(· − a)) : b > 0,
+     a ∈ ℝ^d}. (Formulas transcribed from the HTML as plain text.) Read literally, the first set
+     in (2.2) also contains every V ≥ 0; we use (2.2) only when V₋ ≢ 0.
+   - §1: "Keller solved the d=1 problem and computed 𝒞γ,1 by explicitly computing the optimal
+     potential, which cannot be explicitly computed for d≥2."
+   - §4.1: "In contrast, for d=1 the optimizers where explicitly found by Keller [19] by solving the
+     corresponding Euler–Lagrange equation (although Keller did not prove the existence of a
+     minimizer nor discuss the regularity needed for the solution of the Euler–Lagrange equation).
+     The d=1 result is also implicitly contained in [26]." ([19] = Keller 1961, [26] = Sz.-Nagy
+     1941, per a summary of the bibliography, not read verbatim.)
+   - §2.2 (duality): eq. (2.11) "with equality if and only if U=(|ψ|/‖ψ‖_q)^{q−2}", and "the
+     minimizer in (2.12) is unique up to translations and a sign"; eq. (2.14) M = {−b²|ψ(b·)|^{q−2}
+     /‖ψ‖_q^{q−2} : ψ ∈ 𝒢, b > 0}, with 1/(γ + d/2) + 2/q = 1 (eq. (2.3)). So the paper itself does
+     the duality and the transfer of the equality case.
+   - No explicit formula for 𝒱 or 𝒞_{γ,1} in the text read.
+2. **[Fra21]** R. L. Frank, "The Lieb–Thirring inequalities: recent results and open problems",
+   arXiv:2007.09326 (Proc. Symp. Pure Math. 104, AMS 2021). Read via the ar5iv HTML, §§1–4.4
+   verbatim. [paper]
+   - §4.2, eq. (20): "|E_1(−Δ+V)|^γ ≤ L^{(1)}_{γ,d} ∫ V(x)_−^{γ+d/2} dx", for γ, d as in Thm 10
+     ("γ ≥ 1/2 if d = 1"), real V ∈ L^{γ+d/2}.
+   - §4.2: "In dimensions d = 1, the value of the optimal constant K^{(1)}_{p,1} and the set of
+     optimizers was determined by Nagy [151]. Via (22) this leads to the formula" (23)
+     L^{(1)}_{γ,1} = π^{−1/2} Γ(γ+1)/Γ(γ+1/2) · (γ−1/2)^{γ−1/2}/(γ+1/2)^{γ+1/2}.
+   - §4.2: "The duality used to derive (22) also shows that optimizers u of (21) are in one-to-one
+     correspondence (modulo symmetries) with optimal potentials V in (20). In particular, we infer
+     that there is a unique (up to symmetries) optimizing potential of (20)."
+   - §1.2, d = 1 Sobolev case only: "equality in (2) is attained if and only if u coincides, up to
+     translation, dilation and multiplication by a constant, with Q(x) = (cosh x)^{−1/2}."
+   - No explicit sech² potential in the text read.
+
+**Hypotheses against our setting** [own argument, reviewed 2026-11-25].
+- γ > ½ and d = 1: Theorem 3's converse is for γ > ½ (γ = ½ is a separate argument on the page).
+  γ > ½ is exactly q > 1, DEL15's range.
+- Ṽ ∈ L^{γ+1/2}(ℝ) because V ∈ L^{γ+1/2}(0, ∞). CFL's class is all real V ∈ L^{γ+1/2}, so 0 ≤ Ṽ
+  is covered after the sign flip V ↦ −Ṽ.
+- Constants. Our L1(γ) is exactly Fra21 (23): Γ(γ+1)/(√π Γ(γ+½)(γ+½)) · ((γ−½)/(γ+½))^{γ−½} =
+  π^{−1/2} Γ(γ+1)/Γ(γ+½) · (γ−½)^{γ−½}/(γ+½)^{γ+½}. CFL's 𝒞_{γ,1}^γ = L^{(1)}_{γ,1}, since CFL raise
+  the mass to the power 1/γ. Fra21 (23), stated for real V, is what fixes CFL's 𝒞. DEL15's
+  constant is L1(γ) too (Constant bullet above), and its supremum over V ≥ 0 is the same as CFL's
+  over real V, since λ(V) ≥ λ(−V₋) and ∫V₋^q is unchanged; so DEL15 is a cross-check.
+
+### Applying it to Theorem 3
+
+Let U₀ = (γ² − ¼) sech² x on ℝ and ν = γ − ½.
+1. U₀ has ground state sech^ν x with eigenvalue −ν². [Lean: `pt_ground_state` (eigen-equation only)] + [paper: DEL15
+   Lemma 1 (ground state, λ₁[V₁] = (q−1)²), "ϕ(s) = (cosh s)^{1−q} generates the corresponding
+   eigenspace", q − 1 = ν]. `pt_ground_state` proves only the pointwise ODE
+   −ψ″ − ν(ν+1) sech² ψ = −ν²ψ; that ψ ∈ H¹ and that −ν² is the form infimum come from DEL15.
+   Note ν(ν+1) = γ² − ¼.
+2. U₀ attains the sharp constant. [paper: DEL15 Lemma 1, λ^R_1[V_1] = (q−1)² with equality]
+   Cross-check by hand, using ∫_ℝ sech^{2s} x dx = √π Γ(s)/Γ(s + ½) [standard: beta integral,
+   B(s, ½)] at s = γ + ½, so ∫_ℝ U₀^{γ+1/2} = (γ²−¼)^{γ+½} √π Γ(γ+½)/Γ(γ+1). The Γ factors cancel
+   against L1(γ):
+   L1(γ) ∫U₀^{γ+1/2} = (γ−½)^{γ−½}(γ+½)^{−γ−½} · (γ−½)^{γ+½}(γ+½)^{γ+½} = (γ−½)^{2γ} = |E₁|^γ.
+   The integral is over ℝ; on (0, ∞) it is half, matching 2L1 M_γ in Theorem 3.
+   [own argument, reviewed 2026-11-25; not in Lean, see G6]
+3. So for γ > ½ the equality cases of |E₁(−d² − W)|^γ ≤ L1(γ)∫W^{γ+1/2} with 0 ≤ W ∈ L^{γ+1/2}(ℝ),
+   W ≢ 0, are exactly W = c²(γ² − ¼) sech²(c(x − x₀)) a.e., c > 0, x₀ ∈ ℝ. Here E₁ means the form
+   infimum, as in CFL (2.1). Proof: L1(γ) is the sharp constant [paper: DEL15 Lemma 1; Fra21
+   eq. (23)], so equality means −W lies in CFL's set M of (2.2), and (−W)₋ = W ≢ 0. By step 2, −U₀ ∈ M, so by
+   [paper: CFL14 Thm 2.1] {V ∈ M : V₋ ≢ 0} = {−b²U₀(b(· − a)) : b > 0, a ∈ ℝ}, and b²U₀(bx) =
+   b²(γ²−¼) sech²(bx). [own argument, reviewed 2026-11-25: combining the citations] DEL15 Lemma 1
+   states the same family, up to its spurious constant multiple (see Verdict).
+4. Reduction to the line. Let V satisfy Theorem 3's hypotheses with γ > ½, V ≢ 0 and
+   S_γ(V) = 2L1 M_γ(V). The envelope gives at most one Neumann state, so S_γ(V) = |E₁^N(V)|^γ (and
+   S_γ > 0 gives exactly one). So |E₁^N(V)|^γ = 2L1 M_γ(V) = L1∫_ℝ Ṽ^{γ+1/2}.
+   Next, E₁^N(V) = E₁(Ṽ), both as form infima. (E₁^N ≥ E₁(Ṽ)) The even extension of any u ∈ H¹(0, ∞) is in
+   H¹(ℝ) with twice the form value and twice the norm². (E₁^N ≤ E₁(Ṽ)) Split φ ∈ H¹(ℝ) as φ = φ_e + φ_o. Since
+   Ṽ is even, the cross terms vanish in both the form and the norm. The even part restricts to
+   H¹(0, ∞), giving a quotient ≥ E₁^N. The odd part restricts to H¹₀(0, ∞) ⊂ H¹(0, ∞), also ≥ E₁^N.
+   So the form of φ is ≥ E₁^N‖φ‖². Hence Ṽ = c²(γ²−¼) sech²(c(x − x₀)) a.e. by step 3.
+   Evenness: Ṽ(x) = Ṽ(−x) for all x, so the continuous right-hand side satisfies
+   sech²(c(x − x₀)) = sech²(c(x + x₀)) a.e., hence for all x. At x = x₀ this is 1 = sech²(2cx₀), so
+   x₀ = 0, and V = c²(γ²−¼) sech²(cx) for a.e. x > 0, which is the page's form with b = 1/c. (Both
+   sides of the envelope inequality in step 5 are then continuous, so a.e. and pointwise agree.)
+   [own argument, reviewed 2026-11-25]
+5. Range of γ. The potential from step 4 lies under some envelope 6a⁻² sech²(x/a) if and only if
+   γ ≤ 5/2. [Lean: `half_soliton_fits_iff_gamma`] So for γ > 5/2 no V ≢ 0 in Theorem 3's class
+   attains equality. For ½ < γ ≤ 5/2 the equality cases with V ≢ 0 are exactly the half-solitons
+   (γ² − ¼) b⁻² sech²(x/b), b > 0; the "if" half is the page's Equality step. γ = ½ is not covered
+   here: both citations need γ > ½, and the page treats it by a separate argument.
+   [own argument, reviewed 2026-11-25]
+
+### Search scope (G9)
+
+- Read: DEL15 (full, PDF from numdam); CFL14 (ar5iv, about 80% verbatim, bibliography summarized
+  only); Fra21 (ar5iv, §§1–4.4 verbatim, the rest summarized only).
+- Also read, supporting the GN-duality route but not needed given DEL15 and CFL14:
+  - Dolbeault–Esteban–Laptev–Loss, J. Lond. Math. Soc. 90 (2014), arXiv:1309.0987, after Thm 1.2
+    (read by a subagent; not re-checked):
+    GN optimizer v⋆ = (cosh x)^{−2/(p−2)} unique up to translation, constant multiple and scaling.
+  - Frank–Gontier–Lewin, CMP 384 (2021), arXiv:2002.04964, §2: "the optimiser is unique up to
+    translations, dilations and multiplication by a phase factor" in d = 1, citing [Nag41].
+  - Dolbeault–Gontier–Pizzichillo–Van Den Bosch, Rev. Mat. Iberoam. 40 (2024), arXiv:2210.03091,
+    p. 3: GN optimizers give optimal potentials (one direction only).
+- Read, optimizer named without a uniqueness claim: Schimmer arXiv:2203.06051 §4.1 eq. (11)
+  ("achieved for the Pöschl–Teller potential"); Benguria–Loss math-ph/0402048; Dolbeault–Esteban–
+  Laptev arXiv:1301.1210 (points to LT76 p. 290 for the explicit 1D case); Frank–Gontier–Lewin
+  arXiv:2010.02981 (γ = 3/2 only); Levitt arXiv:1206.1473 (numerical); Read–Schulz arXiv:2609.10478.
+- Not accessed: Keller 1961 (J. Math. Phys. 2, 262–266; the publisher link returned a different
+  article); Lieb–Thirring 1976 (no open copy); Frank–Laptev–Weidl Ch. 5 (chapter abstract only,
+  "We discuss Keller's problem…"); Weinstein 1983 (empty PDF); Sz.-Nagy 1941 and Kwong 1989 (not
+  attempted); Frank's BIRS 2013 slides (403); Veling, JIPAM 2002 (503).
+- The PDFs of CFL14 and Fra21 did not decode in the fetch tool, so those quotes have no page
+  numbers.
 
 ## Review
 
@@ -663,3 +846,85 @@ Fix: verify the text and quote it in the notes, or remove the quotation marks.
 **13. MINOR — Remarks.** "Conjectured optimizer for every γ ≤ 5/2" should be "for 3/2 ≤ γ ≤ 5/2", since the conjecture covers only that range.
 
 </details>
+
+### 2026-11-25: G9 review (`/review`)
+
+**Setup.** Two `general-purpose` Claude subagents ran in parallel. Neither saw the derivation
+history or any opinion on which parts were solid.
+- **Inputs:** the page's Setting, Theorem 1 and Theorem 3 (HTML stripped to text); the "G9:
+  optimizer uniqueness citation" section of these notes; the Theorem 3 claims-ledger row and the
+  LEDGER G9 row; the label rules. Both fetched DEL15 (numdam PDF), CFL14 and Fra21 (ar5iv)
+  themselves.
+- **Mathematics reviewer (G9-M):** quotes, hypotheses (sign convention, L^q class, γ range, the
+  even-extension reduction, γ ≤ 5/2), step 2's computation, and whether DEL15 proves its "only if".
+- **Claims reviewer (G9-C):** quotes, labels against the rules, row consistency, search scope.
+- **Re-review (G9-R):** a third subagent, after the fixes, of the changed parts only (Verdict,
+  DEL15 Constant bullet, Hypotheses list, steps 2–5). Then stopped, as the skill says.
+
+**Findings and responses.** Every quote was found accurate by both reviewers, apart from G9-C1.
+No mathematical error was found. The page and `RESULTS.md` were not changed (out of scope for
+this pass); the items they need are listed in the LEDGER G9 row.
+
+Mathematics reviewer:
+
+| # | Finding (abridged) | Severity | Response |
+|---|---|---|---|
+| G9-M1 | LEDGER G9 row drops DEL15's "multiplications by a positive constant" from the quote | FIX | Fixed: quoted in full, with the note that the constant multiple is spurious. |
+| G9-M2 | Verdict: "DEL15 states exactly what Theorem 3 needs" is overstated; read literally, Lemma 1 admits cV₁ | FIX | Fixed: Verdict rewritten; DEL15 is now corroboration, with the spurious clause stated. |
+| G9-M3 | DEL15's "only if" is not load-bearing: CFL14 Thm 2.1 + sharp constant + step 2 suffice; Fra21 (23) missing from the ledger label | FIX | Fixed: step 3 now argues this way; labels name CFL14 for uniqueness and DEL15/Fra21 for the constant, in both places. |
+| G9-M4 | CFL (2.2) read literally contains V = 0 | FIX | Fixed: noted under the CFL quote; step 3 uses M ∖ {0}. |
+| G9-M5 | "Its proof is short" implies DEL15 proves the "only if"; it is only sketched | FIX | Fixed: Verdict says the "only if" is sketched and headed "(See [11,12].)". |
+| G9-M6 | Quotes: no problems | none | No action. |
+| G9-M7 | Hypotheses and constants: no problems | none | No action. |
+| G9-M8 | Step 4 correct; conclusion should say "a.e."; "evenly extended eigenfunction" gives only one inequality by itself | FIX | Fixed: "a.e. x > 0"; step 4 now proves both inequalities by the even/odd splitting of the form. |
+| G9-M9 | Step 2 correct; the middle expression hides the cancelled Γ factors | FIX | Fixed: ∫U₀^{γ+1/2} written out, and the ℝ vs (0, ∞) factor 2 stated. |
+
+Claims reviewer:
+
+| # | Finding (abridged) | Severity | Response |
+|---|---|---|---|
+| G9-C1 | CFL "the Schrödinger operator −Δ+V in L²(ℝ^d)" is from §1, not at eq. (2.1) | FIX | Fixed: §2.1 wording quoted at (2.1), the §1 phrase attributed to §1. |
+| G9-C2 | Same as G9-M2 | FIX | Fixed, as for G9-M2. |
+| G9-C3 | DEL15 as primary [paper] source for "only if" overstates it; CFL14 is the source that proves uniqueness | FIX | Fixed, as for G9-M3. |
+| G9-C4 | Verdict label and ledger label disagree (Fra21); neither says what each source supplies | FIX | Fixed: one label, with roles, in the Verdict, the claims row and the LEDGER row. The side note (page cites the sharp bound only to LT76, not accessed) is recorded in the LEDGER row as a page item. |
+| G9-C5 | Fra21 does not "state the same uniqueness"; it infers uniqueness "up to symmetries" | FIX | Fixed: reworded. |
+| G9-C6 | "Hypotheses against our setting" unlabeled; "[derived: …]" is not an allowed label | FIX | Fixed: labeled [own argument, reviewed 2026-11-25], rewrite shown. |
+| G9-C7 | DEL15 constant identity stated without computation or label | FIX | Fixed: new Constant bullet with the μ₁^q computation, labeled. |
+| G9-C8 | "[hand computation; not in Lean]" is not an allowed label | FIX | Fixed: [own argument, reviewed 2026-11-25; not in Lean, see G6]. |
+| G9-C9 | Step 4 "[standard]" with no reference | FIX | Fixed: replaced by a written-out variational proof (even/odd splitting), labeled own argument, so no textbook reference is needed. |
+| G9-C10 | "Routine" beside an unreviewed own argument claims it settled | FIX | Fixed: "routine" removed everywhere. |
+| G9-C11 | Same as G9-M1 | FIX | Fixed, as for G9-M1. |
+| G9-C12 | Theorem 3 row label "[paper: Sturm oscillation, min–max, …]" names no paper | FIX | Fixed: [standard: PT33, Sim05, min–max] + [paper: DEL15 Lemma 1; Fra21 eq. (23)]. |
+| G9-C13 | Theorem 3 row covers γ = ½ without a label for that argument | FIX | Fixed: [own argument, unreviewed: page Equality step] added. It stays unreviewed: this pass did not check it. |
+| G9-C14 | "V is a half-soliton" is vague; full "iff" stated while the page is still conditional | FIX | Fixed: explicit formula; row says the page still states the converse as conditional. |
+| G9-C15 | DELL14 quote came from a subagent only | FIX | Fixed: marked "not re-checked", in Caveats and Search scope. |
+
+Re-review of the changed parts:
+
+| # | Finding (abridged) | Severity | Response |
+|---|---|---|---|
+| G9-R1 | "γ ∈ (½, 1] is q ∈ (1, 3/2]" reads as partial coverage | FIX | Fixed: "γ > ½ is exactly q > 1". |
+| G9-R2 | DEL15's supremum is over V ≥ 0, CFL's over real V; equality of the two needs a line | FIX | Fixed: Fra21 (23) named as what fixes CFL's 𝒞; the line λ(V) ≥ λ(−V₋) added; DEL15 a cross-check. |
+| G9-R3 | Verdict's "our own part" lists less than the label (steps 2–5) | FIX | Fixed: list now matches the label. |
+| G9-R4 | Minor: "a.e." conclusion vs the pointwise Lean envelope lemma | FIX | Fixed: one clause noting both sides are continuous. |
+
+**Label changes.**
+- G9 own steps (2–5, constant identities, hypotheses check): [own argument, unreviewed] →
+  [own argument, reviewed 2026-11-25]. All three reviewers checked them and found no error; the
+  only changes after the first pass were the step 3/4 rewrites, which G9-R checked.
+- Theorem 3 "only if" (γ > ½): primary source changed from DEL15 Lemma 1 to CFL14 Thm 2.1, with
+  DEL15 Lemma 1 and Fra21 (23) for the sharp constant.
+- Theorem 3 row: the bound's label now names its sources; γ = ½ gets its own
+  [own argument, unreviewed] label (new, not a downgrade: it was unlabeled).
+- Step 4's ground-state identity: [standard] (no reference) → own argument, reviewed.
+
+### 2026-11-25: PR #9 reviewer-loop comment (commit f62877c)
+
+| # | Finding (abridged) | Severity | Response |
+|---|---|---|---|
+| PR9-1 | Read literally, CFL's M contains every V ≥ 0, so "M ∖ {0}" is not the soliton family | FIX | Fixed: step 3 uses {V ∈ M : V₋ ≢ 0} and notes (−W)₋ = W ≢ 0; the CFL bullet says "every V ≥ 0". Conclusion unchanged. |
+| PR9-2 | Step 1's [Lean: `pt_ground_state`] covers only the eigen-equation, not H¹ membership or the form infimum | FIX | Fixed: label now "[Lean: `pt_ground_state` (eigen-equation only)] + [paper: DEL15 Lemma 1 (ground state, λ₁[V₁] = (q−1)²)]", with ν(ν+1) = γ² − ¼ noted. |
+| PR9-3 | LEDGER G9 statement omits "γ > 1/2 and V ≢ 0" | MINOR | Fixed in LEDGER.md. |
+| PR9-4 | LEDGER G9 row understates the own-argument part | MINOR | Fixed: "Our own argument, reviewed 2026-11-25: G9 steps 2–5 and the constant identities", matching the notes and the claims row. |
+
+No label was strengthened; PR9-2 narrows a Lean label. No Lean changed.

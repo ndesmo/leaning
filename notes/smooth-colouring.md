@@ -91,10 +91,20 @@ Strategies this pass:
      unsound when uB ≠ B + c. Old outputs are kept in `out/old_unsound_sym/` and are not used.
    - Cross-check: with B = {0, 65, 130} (kper's class) gtile returns NONE after 2.1·10⁹ nodes in
      165 s, independently of kper. This is the second implementation for item 2.
-   - Status at the end of this pass: **309 of 776 classes NONE, no EXISTS.** The remaining classes
-     are slow: with `dil=1` and generic B, D0 has hundreds of elements, so a node costs about 100×
-     more. The 20 processes were left running, one output line per class in `out/m3_*.txt`, with
-     limit = 10⁹ nodes per class (TIMEOUT if hit).
+   - Status at the end of this pass (third run, `gtile4`): **310 classes NONE, 4 TIMEOUT
+     (10⁹ nodes, about 10 min each), about 462 not reached, no EXISTS.** The processes were then
+     stopped.
+     - All 310 NONE classes have leaves = 0. No smooth assignment survived, so the leaf-symmetry
+       issue above never affected any result.
+     - The TIMEOUT classes are progression-type B = {0, x, 2x}:
+       - (1,0,0)-steps in ℤ_9×ℤ_5×ℤ_13;
+       - in ℤ_3²×ℤ_5×ℤ_13, B = {0, (0,1,0,0), (0,2,1,0)}, {0, (0,1,0,0), (1,2,0,0)} and the
+         subgroup {0, (0,1,0,0), (0,2,0,0)}. The subgroup case is the multiplicative case, which
+         is known to be NONE.
+       - For these B, D0 is small and the pruning is weak. The search needs kper's full stabiliser
+         chain instead of first-prime symmetry only.
+     - Run history: `out/old_unsound_sym/` (run 1, leaf bug) and `out/run2_slowleaf/` (run 2,
+       uncounted leaf work). Neither run found an EXISTS.
    - Labels: [numerical: single implementation, so far]. A NONE here is not evidence against 195
      (see item 4); only an EXISTS matters. `check_general.py` (independent, from the definition) is
      ready for any hit and passes on n = 12.
@@ -106,7 +116,9 @@ Dead ends:
   analogue of Wang–Wang §4.3–4.4 exists. Do not spend passes on null searches for that purpose.
 
 Next ideas, ranked:
-1. **Finish the m = 3 sweep.**
+1. **Finish the m = 3 sweep.** Port kper's stabiliser-chain symmetry and its threading into
+   gtile. Skip B that are subgroup cosets (the multiplicative case). Then rerun the TIMEOUT
+   classes and the ones not reached.
    - Collect `general/out/m3_*.txt`. If the processes died, rerun skipping the B already listed.
    - Speed up generic B: replace the `put` loop over D0 with a bitset OR, or use the full kper
      stabiliser chain. Then rerun the TIMEOUT classes with no limit.

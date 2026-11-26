@@ -33,7 +33,7 @@ impl S {
     if k == self.primes.len() {
       let mut holes = vec![true; self.g];
       for x in 1..=self.n { if self.phi[x] != usize::MAX { for i in 0..self.b.len() { holes[self.add[self.phi[x]*self.g+self.b[i]] as usize] = false; } } }
-      self.leaves += 1;
+      self.leaves += 1; self.nodes += 1000;
       // symmetry-sound leaf: a pruned solution u*phi tiles with u*B, so try every u^{-1}B
       let holes0 = holes.clone(); let saveb = self.b.clone();
       let mut out = vec![]; let mut okc = false;
@@ -110,9 +110,14 @@ fn main() {
   d0.sort();
   let mut stab = vec![];
   for m in &umaps { let m = m.clone();
-    let mut img: Vec<usize> = d0.iter().map(|&d| m[d]).collect(); img.sort(); if img == d0 { stab.push(m); } }
+    let mut img: Vec<usize> = d0.iter().map(|&d| m[d]).collect(); img.sort();
+    // keep u only if uB is a translate of B (then u maps tilings by B to tilings by B)
+    let ub: Vec<usize> = b.iter().map(|&x| m[x]).collect();
+    let mut bsorted = b.clone(); bsorted.sort();
+    let istr = ub.iter().any(|&c| { let mut t: Vec<usize> = ub.iter().map(|&x| add[x*g + neg[c] as usize] as usize).collect(); t.sort(); t == bsorted });
+    if img == d0 && istr { stab.push(m); } }
   let mut s = S { n, g, add: add.clone(), neg: neg.clone(), d0, b, primes: primes.clone(), items: items.clone(), bigp: bigp.clone(), phi: vec![usize::MAX; n+1], blk: vec![0; g], nodes: 0, sol: None, stab: stab.clone(), limit, timeout: false, leaves: 0, bvars: vec![] };
-  { let mut bv: Vec<Vec<usize>> = vec![]; for m in &stab { let mut c: Vec<usize> = s.b.iter().map(|&x| m[x]).collect(); c.sort(); if !bv.contains(&c) { bv.push(c); } } s.bvars = bv; }
+  { let mut bv: Vec<Vec<usize>> = vec![]; for m in &stab { let mut c: Vec<usize> = s.b.iter().map(|&x| m[x]).collect(); c.sort(); if !bv.contains(&c) { bv.push(c); } } let _ = bv; s.bvars = vec![s.b.clone()]; }
   s.phi[1] = 0; s.put(0, 1);
   let t = std::time::Instant::now();
   let r = s.dfs(0);

@@ -88,7 +88,7 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | SC1 (#31) | Existence of a 195-satisfactory colouring | open | notes |
 | SC2 | No multiplicative colouring for n = 195 (known; our exhaustive search agrees) | numerical | search/…/multiplicative |
 | SC3 | No periodic colouring of kper's index-p class for n = 195, p ∈ {3, 5, 13} (kper and gtile agree for p = 3) | numerical | search/…/periodic |
-| SC4 | Existence search: periodic tilings with |G| = 585, |B| = 3, all B (309/776 classes NONE so far). Only a hit is decisive (Wang–Wang §7) | running | search/…/general |
+| SC4 | Existence search: periodic tilings with |G| = 585, |B| = 3, all B (310/776 classes NONE, 4 TIMEOUT, rest pending). Only a hit is decisive (Wang–Wang §7) | running | search/…/general |
 
 ## Approaches that failed
 

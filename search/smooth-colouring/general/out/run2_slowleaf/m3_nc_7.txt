@@ -1,0 +1,19 @@
+466 complement classes
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/0/1,0/0/1/5 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/0/1,0/1/1/0 result=NONE leaves=0 nodes=2356 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/0/1,1/0/0/4 result=NONE leaves=0 nodes=2356 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/0/1,1/0/1/7 result=NONE leaves=0 nodes=2356 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/0/1,1/1/1/3 result=NONE leaves=0 nodes=3530 stab=96 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/0,0/1/2/0 result=NONE leaves=0 nodes=496096 stab=192 secs=0.02
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/0,1/1/0/0 result=NONE leaves=0 nodes=637670 stab=96 secs=0.03
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,0/0/2/6 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,0/1/0/8 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,0/1/2/5 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,0/1/3/3 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,1/0/0/5 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,1/0/2/2 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,1/0/2/12 result=NONE leaves=0 nodes=16 stab=192 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,1/1/0/2 result=NONE leaves=0 nodes=20 stab=96 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,1/1/0/12 result=NONE leaves=0 nodes=20 stab=96 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,1/1/2/9 result=NONE leaves=0 nodes=20 stab=96 secs=0.00
+n=195 dims=[3, 3, 5, 13] dil=true B=0/0/0/0,0/0/1/1,1/1/3/7 result=NONE leaves=0 nodes=20 stab=96 secs=0.00

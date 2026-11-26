@@ -1,13 +1,15 @@
 310 complement classes
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,0/1/3 result=NONE leaves=0 nodes=2352 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,1/0/6 result=NONE leaves=0 nodes=1182 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,3/0/2 result=NONE leaves=0 nodes=1182 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,3/1/5 result=NONE leaves=0 nodes=12 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/0,1/3/0 result=NONE leaves=0 nodes=97122 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,0/2/4 result=NONE leaves=0 nodes=2352 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,1/0/6 result=NONE leaves=0 nodes=12 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,1/2/3 result=NONE leaves=0 nodes=12 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,1/3/0 result=NONE leaves=0 nodes=12 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,3/0/3 result=NONE leaves=0 nodes=12 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,3/2/0 result=NONE leaves=0 nodes=12 stab=288 secs=0.00
-n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,3/2/10 result=NONE leaves=0 nodes=12 stab=288 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,0/1/3 result=NONE leaves=0 nodes=38220 stab=6 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,1/0/6 result=NONE leaves=0 nodes=15444 stab=4 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,3/0/2 result=NONE leaves=0 nodes=15340 stab=12 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,3/1/5 result=NONE leaves=0 nodes=325 stab=3 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/0,1/3/0 result=NONE leaves=0 nodes=314199 stab=24 secs=0.02
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,0/2/4 result=NONE leaves=0 nodes=38220 stab=6 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,1/0/6 result=NONE leaves=0 nodes=585 stab=1 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,1/2/3 result=NONE leaves=0 nodes=585 stab=1 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,1/3/0 result=NONE leaves=0 nodes=585 stab=1 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,3/0/3 result=NONE leaves=0 nodes=325 stab=3 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,3/2/0 result=NONE leaves=0 nodes=325 stab=3 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/1/1,3/2/10 result=NONE leaves=0 nodes=325 stab=3 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,2/0/0 result=TIMEOUT leaves=0 nodes=1000000001 stab=96 secs=647.41
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,4/1/1 result=NONE leaves=0 nodes=1383525 stab=1 secs=7.36

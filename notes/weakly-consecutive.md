@@ -212,3 +212,4 @@ scope.
   stronger pruning (e.g. a Lean proof of Lemma 2.3, or the residue-class structure of Lemma 2.2)
   or a smaller search space. Counts N(k) are not proved (soundness of the enumerator not
   formalized).
+- **2026-11-25.** PR #57 opened (issue #47). `/review` not run (budget); left to the reviewer loop.

@@ -63,5 +63,21 @@ class ChildEnv(unittest.TestCase):
         self.assertEqual(env["CLAUDE_CODE_FORCE_SESSION_PERSISTENCE"], "1")
 
 
+class Roles(unittest.TestCase):
+    def test_every_role_has_schedule_and_timeout(self):
+        for r in agents.ROLES:
+            self.assertIn(r, agents.DEFAULT_NEXT)
+            self.assertIn(r, agents.PASS_TIMEOUT)
+
+    def test_explorer_gets_its_own_model(self):
+        self.assertEqual(agents.ROLE_MODEL["explorer"], "claude-fable-5-2")
+        self.assertGreater(agents.PASS_TIMEOUT["explorer"], agents.PASS_TIMEOUT["author"])
+
+    def test_reviewer_is_woken_by_pr_changing_roles_only(self):
+        self.assertIn("author", agents.CHANGES_PRS)
+        self.assertIn("explorer", agents.CHANGES_PRS)
+        self.assertNotIn("reviewer", agents.CHANGES_PRS)
+
+
 if __name__ == "__main__":
     unittest.main()

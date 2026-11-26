@@ -61,6 +61,18 @@ files.
 
 An author and a reviewer agent work in separate git worktrees. Only the owner merges.
 
+### Roles
+
+- **Author:** works approved issues in small, reviewed units, one pull request each.
+- **Reviewer:** independently reviews every pull request.
+- **Explorer:** works approved `moonshot` issues in long passes on a stronger model
+  (`claude-fable-5-2`). It runs several strategies in parallel, including computer searches for
+  certificates, keeps a research journal on a branch `explore/<slug>`, and opens a pull request
+  only for a verified finding or a clean negative result.
+
+Searches may use any tool. A claim needs an independently checked certificate, ideally checked
+in Lean.
+
 ### Supervisor (recommended, any OS)
 
 `tools/agents.py` (Python 3.9+, standard library only) runs each agent pass as a fresh,

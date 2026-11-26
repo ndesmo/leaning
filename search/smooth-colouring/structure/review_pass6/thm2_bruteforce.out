@@ -1,0 +1,20 @@
+n=6 G=Z(12,) m=2 m_pi=2 p=2 a=1: factorisations=48 failures=0
+n=6 G=Z(2, 6) m=2 m_pi=2 p=2 a=1: factorisations=108 failures=0
+n=6 G=Z(30,) m=5 m_pi=1 p=2 a=0: factorisations=5100 failures=0
+n=6 G=Z(18,) m=3 m_pi=3 p=3 a=1: factorisations=324 failures=0
+n=6 G=Z(3, 6) m=3 m_pi=3 p=3 a=1: factorisations=1224 failures=0
+n=6 G=Z(24,) m=4 m_pi=4 p=2 a=2: factorisations=2112 failures=0
+n=6 G=Z(2, 12) m=4 m_pi=4 p=2 a=2: factorisations=5616 failures=0
+n=6 G=Z(2, 2, 6) m=4 m_pi=4 p=2 a=2: factorisations=12096 failures=0
+(36,) mixed, skip
+(2, 18) mixed, skip
+n=6 G=Z(48,) m=8 m_pi=8 p=2 a=3: factorisations=13 failures=0
+n=6 G=Z(2, 24) m=8 m_pi=8 p=2 a=3: factorisations=41 failures=0
+n=6 G=Z(4, 12) m=8 m_pi=8 p=2 a=3: factorisations=46 failures=0
+Traceback (most recent call last):
+  File "C:\w\explorer\search\smooth-colouring\structure\review_pass6\thm2_bruteforce.py", line 95, in <module>
+    run(n,ds,mx)
+  File "C:\w\explorer\search\smooth-colouring\structure\review_pass6\thm2_bruteforce.py", line 76, in run
+    Bs=list(itertools.combinations(others,m-1))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MemoryError

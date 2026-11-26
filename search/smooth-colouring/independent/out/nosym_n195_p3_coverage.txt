@@ -1,0 +1,1 @@
+covered 208632/208632 distinct tasks; sum nodes (first occurrence) 171517296; stopped=true lines: 0

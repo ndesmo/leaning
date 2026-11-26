@@ -1,0 +1,4 @@
+n=195 p=3 K=65 |G|=585 small=25 large=19 |S|=176 constraints=8098 (unary 39) |Gamma|=288 order=[2, 3, 5, 7, 11, 13, 17, 19, 23, 31, 29, 37, 47, 43, 41, 61, 59, 53, 97, 89, 83, 79, 73, 71, 67]
+split=2 tasks=208632 threads=20
+dfs2 n=195 p=3 K=65 order=greedy sym=false result=NONE sols_small=0 nodes=7828576 tasks_done=208632/208632 secs=62.14
+exit=0

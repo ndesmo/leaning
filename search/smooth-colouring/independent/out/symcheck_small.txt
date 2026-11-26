@@ -1,0 +1,17 @@
+symcheck n=6 p=3 K=2 |Gamma|=6 sym_sols=7 nosym_sols=22 orbits_of_nosym=7 sum_orbit_sizes(sym)=22 nosym_closed=True PASS
+symcheck n=9 p=3 K=3 |Gamma|=12 sym_sols=2 nosym_sols=24 orbits_of_nosym=2 sum_orbit_sizes(sym)=24 nosym_closed=True PASS
+symcheck n=15 p=3 K=5 |Gamma|=24 sym_sols=36 nosym_sols=448 orbits_of_nosym=36 sum_orbit_sizes(sym)=448 nosym_closed=True PASS
+symcheck n=18 p=3 K=6 |Gamma|=12 sym_sols=142 nosym_sols=1032 orbits_of_nosym=142 sum_orbit_sizes(sym)=1032 nosym_closed=True PASS
+symcheck n=21 p=3 K=7 |Gamma|=36 sym_sols=38 nosym_sols=552 orbits_of_nosym=38 sum_orbit_sizes(sym)=552 nosym_closed=True PASS
+symcheck n=24 p=3 K=8 |Gamma|=24 sym_sols=604 nosym_sols=7296 orbits_of_nosym=604 sum_orbit_sizes(sym)=7296 nosym_closed=True PASS
+symcheck n=27 p=3 K=9 |Gamma|=36 sym_sols=240 nosym_sols=5184 orbits_of_nosym=240 sum_orbit_sizes(sym)=5184 nosym_closed=True PASS
+symcheck n=5 p=5 K=1 |Gamma|=20 sym_sols=1 nosym_sols=4 orbits_of_nosym=1 sum_orbit_sizes(sym)=4 nosym_closed=True PASS
+symcheck n=15 p=5 K=3 |Gamma|=40 sym_sols=30 nosym_sols=368 orbits_of_nosym=30 sum_orbit_sizes(sym)=368 nosym_closed=True PASS
+symcheck n=20 p=5 K=4 |Gamma|=40 sym_sols=103 nosym_sols=1336 orbits_of_nosym=103 sum_orbit_sizes(sym)=1336 nosym_closed=True PASS
+symcheck n=25 p=5 K=5 |Gamma|=80 sym_sols=422 nosym_sols=16480 orbits_of_nosym=422 sum_orbit_sizes(sym)=16480 nosym_closed=True PASS
+symcheck n=13 p=13 K=1 |Gamma|=156 sym_sols=13 nosym_sols=156 orbits_of_nosym=13 sum_orbit_sizes(sym)=156 nosym_closed=True PASS
+symcheck n=39 p=13 K=3 |Gamma|=312 sym_sols=2088 nosym_sols=50112 orbits_of_nosym=2088 sum_orbit_sizes(sym)=50112 nosym_closed=True PASS
+symcheck n=14 p=7 K=2 |Gamma|=42 sym_sols=52 nosym_sols=312 orbits_of_nosym=52 sum_orbit_sizes(sym)=312 nosym_closed=True PASS
+symcheck n=21 p=7 K=3 |Gamma|=84 sym_sols=34 nosym_sols=408 orbits_of_nosym=34 sum_orbit_sizes(sym)=408 nosym_closed=True PASS
+symcheck n=8 p=2 K=4 |Gamma|=4 sym_sols=16 nosym_sols=48 orbits_of_nosym=16 sum_orbit_sizes(sym)=48 nosym_closed=True PASS
+symcheck n=12 p=2 K=6 |Gamma|=4 sym_sols=37 nosym_sols=124 orbits_of_nosym=37 sum_orbit_sizes(sym)=124 nosym_closed=True PASS

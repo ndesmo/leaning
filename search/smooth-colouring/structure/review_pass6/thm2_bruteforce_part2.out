@@ -1,0 +1,6 @@
+n=6 G=Z(54,) m=9 m_pi=9 p=3 a=2: factorisations=8 failures=0
+n=6 G=Z(3, 18) m=9 m_pi=9 p=3 a=2: factorisations=28 failures=0
+n=6 G=Z(3, 3, 6) m=9 m_pi=9 p=3 a=2: factorisations=65 failures=0
+n=10 G=Z(20,) m=2 m_pi=2 p=2 a=1: factorisations=560 failures=0
+n=10 G=Z(2, 10) m=2 m_pi=2 p=2 a=1: factorisations=1560 failures=0
+n=10 G=Z(50,) m=5 m_pi=5 p=5 a=1: factorisations=1975000 failures=0

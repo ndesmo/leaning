@@ -1,0 +1,10 @@
+dfs2 symmetry-gap check (2026-11-26).  Binaries: dfs2.exe (unchanged), dfs2_dump.exe (copy: --all prints leaves; --from N).
+NONE cases, sym vs nosym (dfs2 / dfs2_dump):
+  n=162 p=3  sym NONE 947024 nodes 4.3s | nosym NONE 67806792 nodes 325.9s (dfs2.exe --threads 20 --split 2 --nosym)
+  n=176 p=2  sym NONE 1092667 nodes 6.5s | nosym NONE 67498320 nodes 455.3s (11 threads)
+  n=195 p=3  sym NONE ~1e6 nodes ~15s   | nosym NONE, 3 resumed runs: dfs2.exe tasks 0..85260 (600s, 11 thr, killed),
+             dfs2_dump --from 85261 (590s, killed at 191507), --from 191265 (62s, finished). All 208632 split-2
+             tasks covered, 171517296 nodes, no leaf. Per-task node counts: nosym_n195_p3_tasks.txt.gz
+gtile6 cross-check (coset mode, 20 splits): n=162,189 p=3 NONE (20/20); n=176,184 p=2 NONE (20/20);
+  EXISTS at n=156,159,165,186,192 (p=3) and 174,178 (p=2), matching dfs2 FOUND.
+Exact orbit test (symcheck.py): see symcheck_small.txt, 17 cases all PASS.

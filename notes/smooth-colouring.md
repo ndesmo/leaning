@@ -359,3 +359,69 @@ Next ideas, ranked:
    be closed.
 3. Mixed |B| = 15: a two-character argument (χ_3, χ_5, χ_3χ_5 in supp B̂').
 4. The spectral route with (iii), (iv) or positivity (pass 3, idea 2).
+
+### 2026-11-26: pass 6
+
+Two parallel strategies: closing the dfs2 symmetry gap, and an independent adversarial read of the
+two reduction notes. There is no PR this pass. The read was a single referee subagent, not the
+formal /review, and the fixes it asks for have not been applied yet.
+
+1. **dfs2 symmetry gap: closed for p = 3** (`independent/out/symgap_summary.txt`)
+   [numerical: two independent implementations].
+   - gtile6 agrees with dfs2 on every new case:
+     - NONE for n = 162 and 189 (p = 3), and for n = 176 and 184 (p = 2);
+     - EXISTS for n = 156, 159, 165, 186 and 192 (p = 3), and for n = 174 and 178 (p = 2).
+     - Outputs are in `general/out/x*_p*.txt`.
+   - Scan with symmetry (`scan_small.sh`): every n ≤ 160 is FOUND for every p ∈ {2,3,5,7,11,13}.
+     The only NONE cases up to n = 200 are 162 and 189 (p = 3), 176 and 184 (p = 2), and 195.
+   - Exhaustive **no-symmetry** runs are NONE at n = 162 (p = 3, 6.8·10⁷ nodes), n = 176 (p = 2)
+     and **n = 195 (p = 3)**.
+     - The n = 195 run had 1.7·10⁸ nodes over all 208632 split-2 tasks, in three resumed runs.
+       `dfs2_dump.rs` (a copy of dfs2 with `--from`) did the resuming.
+     - Coverage was merged from the logs: `out/nosym_n195_p3_coverage.txt`, with per-task node
+       counts in `out/nosym_n195_p3_tasks.txt.gz`.
+     - So the p = 3 result at 195 does not depend on the symmetry breaking.
+   - Exact orbit test (`symcheck.py`) on 17 small FOUND cases with p ∈ {2,3,5,7,13}: all pass.
+     - The symmetric solution set is exactly the lex-minimal orbit representatives of the
+       no-symmetry set.
+     - The orbit sizes sum to the no-symmetry count.
+     - The no-symmetry set is closed under the group.
+     - Results are in `out/symcheck_small.txt`.
+   - Still open: p = 5 and 13 at n = 195 rely on symmetry, which is now supported by the orbit test.
+     The no-symmetry run at n = 189 was not done (estimated over 10 min).
+2. **Referee read of `prime_B_reduction.md` and `composite_B.md`.** Verdict: both **pass with
+   fixes**. There is nothing fatal and no gap that needs a new argument. Tests are in
+   `structure/review_pass6/`.
+   - Checked correct:
+     - D, with the right direction: the dilated set has size coprime to t;
+     - Lemma 1 and Q;
+     - Steps 1 and 2a–2d;
+     - Lemmas V and C, and Thm 1 and Thm 2;
+     - removal of the part of |B| coprime to 195 (`pass2.md` Lemma A);
+     - coverage: m_π = 1, a prime power, or mixed (the stated gap).
+   - Brute force of the abstract Thm 2 claim, with 195 replaced by n = 6 or 10, found no failures
+     in 18 groups.
+     - Only one coprime-part case was tested (Z30, n = 6), and several planned groups never ran.
+     - Negative control: Z36 with n = 6 and m_π = 6 mixed gives 14 failures, so the single-prime
+       hypothesis is really needed.
+   - Fixes to apply:
+     - prime note §0: "m = 1 or composite";
+     - state squarefree 195 as a hypothesis in §3;
+     - 2b: the fibres are "up to translation";
+     - Lemma 1: say why kd ≠ 0;
+     - composite note: drop the redundant "(or (a))";
+     - state the quantifier via Per(L);
+     - Thm 3 Smith form: handle d_r = 0;
+     - record the sampled Lemma C/P result.
+   - **New observation (referee):** (a) ⇒ (b_i^p), so the NONE results at level ≥ 1 already
+     exclude multiplicative colourings at 195. That gives an independent recheck of FP90, though
+     from a single implementation per level above 1.
+
+Next ideas, ranked:
+1. Apply the referee's fixes. Run hd = 81 positive controls for gtile7. Then run the formal /review
+   and open the PR "no periodic tiling with |B| a prime power, levels as in pass 5", `Part of #31`.
+   Label it [own argument, reviewed] together with [numerical: two implementations at level 1,
+   one at levels 2 and 3].
+2. dfs2 at level 2 (Z27×Z65, Z125×Z39), as a second implementation for gtile7.
+3. Bound the level via Thm 3 (pass 5, idea 2).
+4. Mixed |B| = 15 (pass 5, idea 3).

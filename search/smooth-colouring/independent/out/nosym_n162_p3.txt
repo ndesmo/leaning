@@ -1,0 +1,2 @@
+split=2 tasks=109872 threads=20
+dfs2 n=162 p=3 K=54 order=greedy sym=false result=NONE sols_small=0 nodes=67806792 tasks_done=109872/109872 secs=325.93

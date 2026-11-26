@@ -72,6 +72,36 @@ class Orphans(unittest.TestCase):
         self.assertFalse(agents.is_orphan_pass("", "reviewer"))
 
 
+class Budgets(unittest.TestCase):
+    RECS = [
+        {"role": "explorer", "started": "2026-11-25T09:00:00", "minutes": 120, "cost_usd": 18.5,
+         "model_usage": {"claude-fable-5-2": {"inputTokens": 1000, "outputTokens": 500,
+                                              "cacheReadInputTokens": 9000, "costUSD": 18.0},
+                         "claude-haiku-5-5": {"inputTokens": 10, "outputTokens": 5}}},
+        {"role": "explorer", "started": "2026-11-24T23:00:00", "minutes": 60, "cost_usd": 9.0},
+        {"role": "author", "started": "2026-11-25T10:00:00", "minutes": 20, "cost_usd": 1.5},
+    ]
+
+    def test_spent_counts_only_that_role_since_the_time(self):
+        midnight = dt.datetime(2026, 11, 25)
+        self.assertAlmostEqual(agents.spent(self.RECS, "explorer", midnight), 18.5)
+        self.assertAlmostEqual(agents.spent(self.RECS, "author", midnight), 1.5)
+        self.assertAlmostEqual(agents.spent(self.RECS, "reviewer", midnight), 0)
+
+    def test_summarize_sums_tokens_per_model_not_cost_fields(self):
+        s = agents.summarize(self.RECS, dt.datetime(2026, 11, 25))["explorer"]
+        self.assertEqual(s["passes"], 1)
+        self.assertEqual(s["tokens"]["claude-fable-5-2"], 10500)   # costUSD excluded
+        self.assertEqual(s["tokens"]["claude-haiku-5-5"], 15)
+
+    def test_parse_budgets(self):
+        b = agents.parse_budgets("explorer=25, author=10", agents.DAILY_BUDGET_USD)
+        self.assertEqual(b["explorer"], 25.0)
+        self.assertEqual(b["reviewer"], agents.DAILY_BUDGET_USD["reviewer"])
+        with self.assertRaises(ValueError):
+            agents.parse_budgets("bogus=5", agents.DAILY_BUDGET_USD)
+
+
 class Roles(unittest.TestCase):
     def test_every_role_has_schedule_and_timeout(self):
         for r in agents.ROLES:

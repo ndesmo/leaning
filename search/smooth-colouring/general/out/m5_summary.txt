@@ -1,0 +1,55 @@
+P11 smooth-colouring, pass 3 subtask: periodic tilings with |B| = 5 (and |B| = 13), n = 195.
+Labels: reductions [own argument, unreviewed]; searches [numerical: single implementation].
+
+REDUCTION (|B| = p prime, p in {5, 13}; same as the pass-2 |B| = 3 argument)
+- |G| = 195p. H = p-Sylow of G, |H| = p^2; G = H x K, |K| = 195/p (39 or 15), squarefree so K cyclic.
+- t = |K| is coprime to p = |B|, so by coprime dilation (Tijdeman; roles of A,B swapped, as in pass 2)
+  A (+) tB = G. tB lies in H (t kills K), and |tB| = p since the sum is direct.
+  So WLOG B in H, 0 in B. Then A (+) B = G iff for every k in K the fibre A_k = {h : (h,k) in A}
+  satisfies A_k (+) B = H (so |A_k| = p).
+- Rédei (1965): in a factorisation of a finite abelian group into factors of prime size each
+  containing 0, some factor is a subgroup. Here A_k - a0 (+) B = H with |A_k| = |B| = p.
+  If B is a subgroup -> multiplicative case (G/B of order 195, phi injective on [195]) -> impossible (CCP).
+  So B is not a subgroup, and every complement of B in H is a translate of a subgroup of order p.
+  Verified exhaustively for p = 5 by tiles_p2.py (out/m5_tile_classes.txt).
+- H = Z_p x Z_p: every fibre is a coset of a line L that B is a transversal of ("allowed" lines).
+  Pick any two distinct b, b' in B: the line L3 through b - b' is not allowed. L3 meets every allowed
+  line in 0, so every fibre A_k satisfies A_k (+) L3 = H, so A (+) L3 = G with L3 a subgroup:
+  multiplicative case, impossible by CCP.  => Z_p^2 closed by theory (for p = 5 and p = 13).
+- H = Z_{p^2}: the only subgroup of order p is P = pZ_{p^2}, so every non-subgroup tile B has
+  exactly the cosets of P as complements, and the condition is the same for all such B:
+  "every fibre A_k is one full coset of P". One search per p (gtile6 mode=coset).
+
+TILE CLASSES for p = 5 (tiles_p2.py 5; up to translation and Aut(H)):
+- Z25: 9 classes; 8 non-subgroup classes (0,1,2,3,4) (0,1,2,3,9) (0,1,2,3,14) (0,1,2,4,8) (0,1,2,4,18)
+  (0,1,2,8,9) (0,1,2,8,19) (0,1,3,4,12), each with the single complement {0,5,10,15,20} (up to translation);
+  plus the subgroup <5>.
+- Z5^2: 6 classes; 5 non-subgroup, with complement sets = 1 line (4 classes) or 2 lines (class
+  (0/0,0/1,0/2,1/0,4/2)); plus the subgroup (line).
+
+SEARCH RESULTS at n = 195 (gtile6.exe; all splits 20/20)
+- |B|=5, H=Z25, K=Z39, coset mode (covers all 8 Z25 classes): NONE, 3.03e9 nodes, <= 186 s.
+    out/m5_Z25_coset_n195.txt
+- same, ext mode with B=0,1,2,3,4 (complement table path): NONE, identical node count.
+    out/m5_Z25_ext_01234_n195.txt
+- |B|=5, H=Z5^2, all 5 non-subgroup classes, ext mode: NONE each (redundant with the theory).
+    out/m5_Z5x5_c{0..4}_n195.txt
+- |B|=13, H=Z169, K=Z15, coset mode (covers every non-subgroup 13-tile of Z169): NONE, 1.11e10 nodes,
+  <= 77 s. out/m13_Z169_coset_n195.txt.  Z13^2 closed by the theory above (Rédei cited, not
+  re-verified by computer for p=13).
+
+VALIDATION
+- gtile6 p=3 agrees with gtile5 (Z9 {0,1,2} and Z3^2 non-collinear) on existence for n = 3m,
+  m <= 64 (where neither times out), and coset mode agrees with ext mode;
+  n=195 p=3 Z9 rerun is NONE (out/m3_gtile6_crosscheck_Z9_012.txt).
+- p=5: ext, coset and gtile4 (gtile.rs, dims=25,m, B=0..4) all give EXISTS for n=5m, m<=29, m != 5,10,15,20,25.
+  Witnesses at n=35,65,130,145 (coset and ext B=0,1,2,8,19) pass check_general.py (x <= 1500).
+- p=13: coset mode EXISTS for n=13m, m=2..11; every witness passes check_general.py (x <= 400).
+
+REPRODUCE
+  rustc -O gtile6.rs -o gtile6.exe
+  python tiles_p2.py 5 > out/m5_tile_classes.txt
+  sh run6.sh m5_Z25_coset_n195 20 "n=195 p=5 hd=25 mode=coset limit=100000000000"
+  sh run6.sh m5_Z25_ext_01234_n195 20 "n=195 p=5 hd=25 B=0,1,2,3,4 limit=100000000000"
+  sh run6.sh m5_Z5x5_c3_n195 20 "n=195 p=5 hd=5,5 B=0/0,0/1,0/2,1/0,4/2 limit=10000000000"
+  sh run6.sh m13_Z169_coset_n195 20 "n=195 p=13 hd=169 mode=coset limit=100000000000"

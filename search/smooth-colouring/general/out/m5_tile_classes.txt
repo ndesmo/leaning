@@ -1,0 +1,17 @@
+Z25: 9 tiling classes
+  B=(0, 1, 2, 3, 4) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 1, 2, 3, 9) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 1, 2, 3, 14) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 1, 2, 4, 8) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 1, 2, 4, 18) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 1, 2, 8, 9) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 1, 2, 8, 19) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 1, 3, 4, 12) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[(0, 5, 10, 15, 20)]
+  B=(0, 5, 10, 15, 20) subgroup=True ncomp(0 in C)=625 all_comps_subgroups=False comps=[(0, 1, 2, 3, 4), (0, 1, 2, 3, 9), (0, 1, 2, 3, 14), (0, 1, 2, 3, 19), (0, 1, 2, 3, 24), (0, 1, 2, 4, 8)]
+Z5^2: 6 tiling classes
+  B=((0, 0), (0, 1), (0, 2), (0, 3), (0, 4)) subgroup=True ncomp(0 in C)=625 all_comps_subgroups=False comps=[((0, 0), (1, 0), (2, 0), (3, 0), (4, 0)), ((0, 0), (1, 0), (2, 0), (3, 0), (4, 1)), ((0, 0), (1, 0), (2, 0), (3, 0), (4, 2)), ((0, 0), (1, 0), (2, 0), (3, 0), (4, 3)), ((0, 0), (1, 0), (2, 0), (3, 0), (4, 4)), ((0, 0), (1, 0), (2, 0), (3, 1), (4, 0))]
+  B=((0, 0), (0, 1), (0, 2), (0, 3), (1, 0)) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[((0, 0), (1, 1), (2, 2), (3, 3), (4, 4))]
+  B=((0, 0), (0, 1), (0, 2), (1, 0), (1, 1)) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[((0, 0), (1, 2), (2, 4), (3, 1), (4, 3))]
+  B=((0, 0), (0, 1), (0, 2), (1, 0), (2, 0)) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[((0, 0), (1, 1), (2, 2), (3, 3), (4, 4))]
+  B=((0, 0), (0, 1), (0, 2), (1, 0), (4, 2)) subgroup=False ncomp(0 in C)=2 all_comps_subgroups=True comps=[((0, 0), (1, 1), (2, 2), (3, 3), (4, 4)), ((0, 0), (1, 2), (2, 4), (3, 1), (4, 3))]
+  B=((0, 0), (0, 1), (1, 0), (1, 2), (3, 2)) subgroup=False ncomp(0 in C)=1 all_comps_subgroups=True comps=[((0, 0), (1, 3), (2, 1), (3, 4), (4, 2))]

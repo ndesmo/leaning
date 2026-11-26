@@ -54,3 +54,8 @@ whenever (−A) ⊕ B = G, and the checker tests that directly.
   output is not evidence of anything.
 - `structure/pass2.md`: Lemma A, cited statements, and the obstructions to Wang–Wang §4.3 at
   three primes.
+- `general/gtile6.rs` (pass 3): an exact search for |B| = p, p ∈ {5, 13}, after reducing to
+  B ⊂ H (|H| = p²). Run it with `run6.sh <tag> <N> "<args>"`. `tiles_p2.py p` enumerates the
+  tile classes of H. The summary is in `general/out/m5_summary.txt`.
+- `structure/puretype_search.py` and `puretype_check.py` (pass 3): the mixed-type character
+  certificate, `cert_N195_1_2_14.json`. Notes are in `structure/pass3_puretype.md`.

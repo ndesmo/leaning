@@ -194,3 +194,65 @@ Next ideas, ranked:
      periodic, so A is a union of cosets. Check the literature.
 3. An independent checker for the gtile5 NONE (Z9 {0,1,2}), then /review of the |B| = 3
    reduction. It is a clean negative result and could become a PR.
+
+### 2026-11-25: pass 3
+
+Two parallel strategies. There are verified findings, but none has passed /review yet, so there is
+no PR this pass.
+
+1. **Pure-type question: the answer is no** (`structure/pass3_puretype.md`).
+   - The mixed character is χ(p) = e(w_p/195), with the weights in
+     `structure/cert_N195_1_2_14.json`.
+     - S_k = Σ_{m≤195} χ(m)^k = 0 for all 96 units k mod 195.
+     - A_3 = 3, A_5 = 10 and A_13 = 182, so all three are nonzero. The structure is one 3-gon,
+       two 5-gons and fourteen 13-gons. Primes in (97,195] fill the small polygons.
+   - Checks:
+     - [numerical: certificate checked by an independent script]. `puretype_check.py` reduces
+       the sums exactly modulo Φ_195 in sympy.
+     - A separate 10-line float check written by the main session, sharing no code with the
+       search, gives max |S_k| = 4.7e-12.
+   - Search: `puretype_search.py 1 2 14` (OR-tools CP-SAT, about 280 s).
+   - Consequence: obstruction O1 is realised by an actual character. Condition (ii) plus
+     multiplicativity does **not** force A_pA_q = 0. The Wang–Wang §4.3 spectral route can be
+     saved only with extra input: (iii), the Frobenius congruences (iv), or positivity of σ_f̃.
+     The question is not dead, but the cheap route is.
+   - [own argument, unreviewed]: for μ_N-valued χ with N a {3,5,13}-number, the condition reduces
+     to S_1 = 0 by Galois conjugation. Non-root-of-unity χ add nothing for mixed examples.
+2. **Periodic tilings with |B| = 5 and |B| = 13 are closed** (`general/gtile6.rs`, `run6.sh`,
+   `tiles_p2.py`, `out/m5_summary.txt`).
+   - Reduction [own argument, unreviewed], as in pass 2: dilating by t = |K| gives B ⊂ H, the
+     p-Sylow subgroup of order p². Then, by Rédei's theorem (factors of prime size; cited, not
+     re-read), every complement of a non-subgroup B is a coset of an order-p subgroup.
+     - H = Z_p²: closed by argument. Every fibre complements the line spanned by a difference in
+       B − B, which reduces to the multiplicative case. This holds for p = 5 and 13.
+     - H = Z_{p²}: every fibre is a coset of pZ_{p²}. This is one search per p.
+   - n = 195 results, all 20/20 splits complete, no limit hit:
+     - Z25 × Z39: NONE (3.0·10⁹ nodes).
+     - Z169 × Z15: NONE (1.1·10¹⁰ nodes).
+     - Z5² classes searched as well: NONE, which is redundant.
+     - Labels: [numerical: single implementation]. Ext and coset modes share the search core.
+   - Validation:
+     - At p = 3, gtile6 agrees with gtile5 for n = 3m, m ≤ 64.
+     - At p = 5, three implementations, gtile4 among them, agree that solutions exist for
+       n = 5m, m ≤ 29, 5 ∤ m.
+     - At p = 13, solutions exist for n = 13m, m ≤ 11.
+     - Witnesses pass `check_general.py`.
+     - Weakness: no NONE case was validated at p = 5. The planned control at n = 205 and 235 on
+       Z5² was stopped.
+   - With pass 2, every periodic class with |B| prime is now closed. Composite |B| ≥ 9 remains
+     open. As before, this does not bear on non-existence for 195.
+
+Dead ends:
+- The spectral route through condition (ii) alone is dead, because the mixed χ above satisfies
+  it. Do not retry it without new input from (iii) or (iv), or from positivity.
+
+Next ideas, ranked:
+1. **Write up the prime-|B| result** (passes 2 and 3) as a clean negative result:
+   - "no periodic tiling with |B| prime";
+   - add an independent second checker for the Z9, Z25 and Z169 NONE results;
+   - re-read Rédei's statement and the Tijdeman or Horak–Kim dilation statement;
+   - then /review and a PR (`Part of #31`).
+2. **Test the mixed χ against (iii), (iv) and positivity.** Can a σ_f̃-typical character be
+   mixed? If (iv) or positivity excludes every mixed character, the spectral route revives.
+3. **Composite |B|**: 9 (Z27, Z9×Z3, Z3³), 15 and 25. Rédei no longer applies. Try a
+   Sands/good-group style factorisation argument first, then search.

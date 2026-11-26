@@ -1,0 +1,5 @@
+p=3 H=Z_9: 28 sets B with 0; 10 have a complement; failures=0; classes={('non-subgroup', 'every complement C (with 0) is a subgroup'): 9, ('subgroup', 'some C not a subgroup'): 1}
+p=3 H=Z_3^2: 28 sets B with 0; 28 have a complement; failures=0; classes={('subgroup', 'some C not a subgroup'): 4, ('non-subgroup', 'every complement C (with 0) is a subgroup'): 24}
+p=5 H=Z_25: 10626 sets B with 0; 626 have a complement; failures=0; classes={('non-subgroup', 'every complement C (with 0) is a subgroup'): 625, ('subgroup', 'some C not a subgroup'): 1}
+p=5 H=Z_5^2: 10626 sets B with 0; 3426 have a complement; failures=0; classes={('subgroup', 'some C not a subgroup'): 6, ('non-subgroup', 'every complement C (with 0) is a subgroup'): 3420}
+TOTAL FAILURES 0

@@ -256,3 +256,49 @@ Next ideas, ranked:
    mixed? If (iv) or positivity excludes every mixed character, the spectral route revives.
 3. **Composite |B|**: 9 (Z27, Z9×Z3, Z3³), 15 and 25. Rédei no longer applies. Try a
    Sands/good-group style factorisation argument first, then search.
+
+### 2026-11-26: pass 4
+
+Two parallel strategies. There is no PR this pass: the reduction has not passed /review, and no
+second implementation has confirmed the searches.
+
+1. **The prime-|B| reduction, written up rigorously** (`structure/prime_B_reduction.md`)
+   [own argument, unreviewed].
+   - Claim: suppose a periodic tiling has a period lattice of index 195p with p prime. Then either
+     (a) a multiplicative colouring exists, which is excluded by Forcade–Pollington's computation
+     as reported in CCP Thm 5.1, or (b) p ∈ {3, 5, 13} and φ: Z^44 → Z_{p²} × Z_{195/p} is
+     injective on T with every fibre a coset of pZ_{p²}.
+   - The only tool is dilation (D), proved in full in the note by the Frobenius argument in Z[G].
+   - The new Lemma 1: if some d ∈ B − B has order p, then A ⊕ ⟨d⟩ = G, which gives (a). It
+     disposes of H = Z_p² and of B' − B' ∩ pZ_{p²} ≠ {0} with no search. **Rédei is not needed**,
+     and the Z3²/Z5² searches of passes 2 and 3 were redundant.
+   - The journal's direction of dilation (dilate B, gcd(t, |B|) = 1) is correct. CCP do not prove
+     "no multiplicative colouring at 195" themselves; they report FP90's search.
+   - Brute force for p = 3, 5 (`structure/prime_B_bruteforce.py`, `.out`) found no counterexample
+     to Lemma 1 or D.
+   - The cited statements are now verbatim in §5, from secondary sources: Zhao–Yuan Prop. 2.1
+     (Szabó–Sands Thm 7.12), Zhou Prop. 1 and Coven–Meyerowitz Lemma 2.2. Tijdeman's and Sands'
+     originals were not read. Łaba–Londner and Tao state weaker versions (t coprime to |G|) and
+     must not be cited for D.
+2. **Independent second checker for the three (b) NONE results**
+   (`search/smooth-colouring/independent/`, CP-SAT): **inconclusive.**
+   - The model is correct where it can be tested:
+     - exact solution counts match brute force (n = 5, 6, 9, 10);
+     - every positive control is solved: n = 3m for m ≤ 27 (including 18), n = 5m for m ≤ 28 with
+       5 ∤ m, and n = 13m for m ≤ 11;
+     - 61 witnesses pass `direct_check.py` and `check_general.py`.
+   - At n = 195, all three cases return UNKNOWN after 1500 s (full model) and after 900 s
+     (`--reduce`, primes > n/2 dropped). CP-SAT already times out on the positive control n = 145,
+     p = 5, so it is too weak at proving infeasibility here.
+   - **Dead end:** CP-SAT as the confirming checker. Do not retry without a much stronger
+     formulation.
+
+Next ideas, ranked:
+1. **Independent exact DFS** (C or Rust, written from the definition in `prime_B_reduction.md` (b),
+   not from gtile5/6). Use a different variable order, e.g. by largest prime first or by fibres,
+   plus the `--reduce` completion argument. Validate on the same controls. Then run /review on the
+   reduction and open a PR, "no periodic tiling of prime index 195p", `Part of #31`. The PR rests on
+   the three searches, D, and FP90 as reported by CCP.
+2. Test the mixed character against (iii), (iv) and positivity (pass 3 next idea 2).
+3. Composite |B| = 9, 15, 25. Lemma 1 generalises: any d ∈ B − B whose order is coprime to
+   |B|/ord(d) … needs thought. Try a Lemma-1-style reduction before any search.

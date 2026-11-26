@@ -1,0 +1,1 @@
+n=195 p=5 K=39 sym=True reduce=True status=UNKNOWN -> TIMEOUT/UNKNOWN wall=900.9s

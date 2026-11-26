@@ -19,7 +19,7 @@ equals A000120(15*n/2). Verified for n <= 1500." [conjecture]
 That is: for every even n ≥ 0, v₂(a(n)) = s₂(15n/2).
 
 **Natural generalization (ours, not in the entry).** For q = 2^r and even n,
-v₂([x^{(q−1)n/2}] (1 + … + x^{q−1})ⁿ) = s₂((q−1)n/2). [conjecture; numerical support below]
+v₂([x^{(q−1)n/2}] (1 + … + x^{q−1})ⁿ) = s₂((q−1)n/2). [conjecture] (numerics in N2)
 For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 
 ## Setting
@@ -37,7 +37,7 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
   x^{−15n/2}(1+…+x¹⁵)ⁿ = f(u)ⁿ with f(u) = u(u²−2)(u⁴−4u²+2)(u⁸−8u⁶+20u⁴−16u²+2), and since the
   x⁰-coefficient of u^m is C(m, m/2) for even m, a(n) = Σ_m c(n,m) C(m, ⌊m/2⌋),
   c(n,m) = [u^m] f(u)ⁿ, m ≡ n (mod 2). The top term m = 15n has c = 1 and is C(15n, ⌊15n/2⌋).
-  [A402341 %F] + [own argument, unreviewed: the derivation above; formula also checked exactly
+  [own argument, unreviewed: the derivation above, following the entry's %F; formula also checked exactly
   for n ≤ 120 by `dominant_term.py`]
 
 ## Claims ledger
@@ -45,12 +45,12 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 | Claim | Label | Where |
 |---|---|---|
 | For even n, v₂(a(n)) = s₂(15n/2) | [conjecture] ([A402341]: "Verified for n <= 1500") | Statement |
-| a(n) is odd iff n = (16^k − 1)/15 for some k ≥ 0 | [A402341 comment, proof given there; not yet re-checked by /review] | Literature, L1 |
+| a(n) is odd iff n = (16^k − 1)/15 for some k ≥ 0 | [own argument, unreviewed] (short Lucas argument; the proof is given in the A402341 entry, not yet re-checked) | Literature, L1 |
 | Conjecture holds for every even n ≤ 4000 | [numerical, exact mod 2^48, no undetermined case; Python, not Lean] | Numerics, N1 |
 | Analogue v₂ = s₂((q−1)n/2) holds for all even n ≤ 2000 when q = 4, 8, 32, 64, and for even n ≤ 300 when q = 2 | [numerical, exact mod 2^48; Python, not Lean] | Numerics, N2 |
 | The analogue fails for q = 3, 6, 12 (first failures n = 2) | [numerical, exact] | Numerics, N2 |
 | For odd n, v₂(a(n)) − s₂(⌊15n/2⌋) takes values from −11 to 10 for n ≤ 4000 (no simple equality) | [numerical, exact mod 2^48] | Numerics, N3 |
-| a(n) = Σ_m c(n,m) C(m, ⌊m/2⌋) with c(n,m) = [u^m] f(u)ⁿ | [A402341 %F] + [own argument, unreviewed]; checked exactly n ≤ 120 | Setting |
+| a(n) = Σ_m c(n,m) C(m, ⌊m/2⌋) with c(n,m) = [u^m] f(u)ⁿ | [own argument, unreviewed] (source: the entry's %F); checked exactly n ≤ 120 | Setting |
 | Termwise dominance: for every even n ≤ 120 and every m < 15n with c(n,m) ≠ 0, v₂(c(n,m) C(m, m/2)) > s₂(15n/2) (excess ≥ 1) | [numerical, exact integers; Python] | Numerics, N4 |
 | q = 4 carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) for even n ≤ 2000, 1 ≤ t ≤ n | [numerical, exact] | Numerics, N5; A1 |
 | Termwise dominance for all even n implies the conjecture | [own argument, unreviewed] (the top term has valuation exactly s₂(15n/2) by Kummer, every other term strictly more) | Attack ideas, A1 |
@@ -122,7 +122,7 @@ msp^s are the p-adic expansions of n and m, then (108) Ck(n, m) ≡ Σ_{r0,...,r
 Ck(ni, ri) (mod p), where the sum is taken over all (s + 1)-tuples (r0, r1, . . . , rs) such that
 i) m = r0 + r1p + · · · + rsp^s and ii) 0 ≤ ri ≤ (k − 1)ni for each i = 0, 1, . . . , s; if m is not
 representable in this form, then certainly Ck(n, m) ≡ 0 (mod p)." Mod p only; gives parity, not
-v₂. [paper: Bollinger–Burchard 1990, Thm 1, via Meštrović's survey; verify against the original
+v₂. [standard: via Meštrović arXiv:1409.3820, not checked against Bollinger–Burchard 1990; verify against the original
 before citing]
 
 **L5. Same-shape results for the infinite product ∏(1 − x^{2^j}).** (Background; different
@@ -131,13 +131,13 @@ object, but the identical "v₂ = v₂(binomial)" shape and 2-adic recurrence me
   ∏_{n=0}^∞(1−x^{2^n})^t (with an Appendix by Andrzej Schinzel)", arXiv:1703.01955 v1 (6 Mar 2017),
   no journal ref on arXiv. Theorem 3.3 (read by a subagent in the HTML version, not quoted
   verbatim because of tool limits): for k ∈ ℕ and all n, ν₂(t_{2^k}(n)) = ν₂(C(n+2^k−1, 2^k−1)),
-  where t_m(n) = [x^n] ∏(1−x^{2^j})^m. [preprint: GMU17, Thm 3.3; verbatim text still to be
-  extracted]
+  where t_m(n) = [x^n] ∏(1−x^{2^j})^m. [preprint: GMU17, Thm 3.3] (unverified paraphrase; verbatim text still to be
+  extracted)
 - Z. Shen, "Powers of the Thue–Morse Series: 2-Adic Valuations and Automatic Odd Parts",
   arXiv:2609.16966 (15 Sep 2026). Theorem 1.1 (pdftotext by the search subagent; ν and binomial
   garbled): "Let r ≥ 1 and put m = 2^r. For every n ≥ 0, ν2(tm(n)) = ν2 C(n+m−1, m−1). Moreover,
   for every s ≥ 1, the sequence (odd(tm(n)) mod 2^s)_{n≥0} is 2-automatic." Method: the
-  functional equation T(x) = (1 − x)T(x²). [preprint: Shen 2026, Thm 1.1]
+  functional equation T(x) = (1 − x)T(x²). [preprint: Shen 2026, Thm 1.1] (garbled pdftotext; verbatim check still to do)
 - Note the analogy: here ∏_{j<r}(1 + x^{2^j}) = (1 − x^{2^r})/(1 − x) satisfies
   F_r(x) = (1 + x)F_{r−1}(x²), a finite analogue of that functional equation.
 
@@ -175,9 +175,9 @@ Scripts in `search/central-2adic/` (run with `python -I`):
 - `check_v2.py [N] [q …] [--bfile PATH]`: computes a_q(n) mod 2^48 for n ≤ N by the recurrence
   P_n = P_{n−1}(1 − x^q)/(1 − x) (truncated at the final centre), cross-checks against the exact
   alternating-sum formula at ≥ 200 sampled n, and (q = 16) against the A402341 b-file.
-- `dominant_term.py [N]`: exact c(n,m), checks the %F u-formula against the exact a(n), and
+- `dominant_term.py [N]` (N4 used `python -I dominant_term.py 120`): exact c(n,m), checks the %F u-formula against the exact a(n), and
   tests termwise 2-adic dominance (A1).
-- N5 was a one-line inline check, not saved as a script (q = 4 form of A1).
+- `carry_q4.py [N]`: exact check of the q = 4 carry inequality of N5 (q = 4 form of A1).
 
 Results (2026-11-26):
 - **N1.** `python -I check_v2.py 4000 16 --bfile b402341.txt`: cross-check OK at 220 n; all 830
@@ -227,7 +227,17 @@ Results (2026-11-26):
 
 ## Review
 
-(none yet)
+### 2026-11-26: literature stage, one independent review subagent (budget-limited, not the full two-reviewer `/review`)
+
+No blocking findings; the reviewer re-ran N1 (n ≤ 4000), the u-formula (n ≤ 40) and the q = 4
+inequality (n ≤ 2000), and checked that termwise dominance implies the conjecture. Minor findings:
+1. Bollinger–Burchard labelled `[paper]` though read second-hand: fixed, now `[standard: via Meštrović …]`.
+2. Non-standard labels for the parity proof and the u-formula: fixed, now `[own argument, unreviewed]`.
+3. GMU17 / Shen labels hide that the text is a paraphrase / garbled: fixed, caveat added to the label.
+4. Combined label on the q = 2^r generalisation: fixed, now `[conjecture]`.
+5. N5 had no saved script: fixed, `search/central-2adic/carry_q4.py`.
+6. LEDGER omits that q = 2 was only checked to n = 300: rebutted, q = 2 is Kummer's theorem, so not listed.
+7. N4's exact command not recorded: fixed, `python -I dominant_term.py 120` noted.
 
 ## Log
 
@@ -238,4 +248,4 @@ Results (2026-11-26):
   q = 2^r analogue holds for q = 4, 8, 32, 64 up to n = 2000 and fails for q = 3, 6, 12; termwise
   2-adic dominance of the top term in the u-formula holds for even n ≤ 120 (attack lead A1).
   [numerical, Python, not Lean] P2 marked `taken (#22)` in `PROBLEMS.md`; LEDGER entry added.
-  /review not run on this stage.
+  Review: one independent subagent, 7 minor findings, 6 fixed and 1 rebutted (see Review).

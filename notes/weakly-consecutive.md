@@ -34,14 +34,14 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | Conjecture 5.1 (4 seeds, 3 rules generate every WCS) verified by computer up to k = 500 | [preprint: GSK24, §5] (authors' claim, not re-run) | Literature |
 | Conjecture 5.1 implies Conjecture 5.2 | [preprint: GSK24, §5] (stated: check on the seeds, preserved by the rules) | Literature |
 | σ is a WCS iff S_m^σ = T_m^σ for all m ∈ [k] | [preprint: GSK24, Lemma 2.2] | Literature |
-| For a WCS and m ∈ [k], σ^{-1}(m) ∈ [(k mod m) + 1, k − (k mod m)] | [preprint: GSK24, Lemma 2.3, read with m ∣ x, used with x = m] + [own argument, unreviewed: the reading and a re-derivation] | Literature, item 4 |
+| For a WCS, m ∈ [k] and every x ∈ [k] with m ∣ x, σ^{-1}(x) ∈ [(k mod m) + 1, k − (k mod m)] (in particular for x = m) | [preprint: GSK24, Lemma 2.3, read with m ∣ x] + [own argument, unreviewed: the reading and a re-derivation] | Literature, item 4 |
 | Division slices D_d(σ) of a WCS are WCS | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed: the reading m = k] | Literature, item 5 |
 | Reversal preserves WCS | [preprint: GSK24, Rule 3] | Literature |
 | Conjecture 5.2 holds for every k ≤ 16: every WCS σ of [k] (Def. 1.1 verbatim, m ∈ ℤ) has σ(1) = 1 or σ(k) = 1 (`conjecture_5_2_le_16`) | [Lean] (`halfline_lt/Proofs/WeaklyConsecutive.lean`; kernel `decide +kernel` on a pruned enumerator proved complete, no `native_decide`) | Log 2026-11-25 (Lean) |
 | N(k) for k = 1..23 is 1, 2, 2, 4, 4, 4, 4, 4, 8, 16, 16, 4, 4, 2, 2, 8, 8, 8, 8, 4, 12, 16, 16, and no WCS with 16 < k ≤ 23 violates Conjecture 5.2 | [numerical, exact enumeration, Python, not Lean] (the counts are not proved in Lean for any k: the enumerator's soundness is not formalized) | Log 2026-11-25 |
 | σ^{-1}(1) is the unique position not in ⋃_{p ≤ k prime} T_p; so Conjecture 5.2 ⇔ for every WCS the prime classes T_p cover {2, …, k − 1} | [own argument, unreviewed] | Attack ideas, A1 |
 | T_m ∩ T_n = T_{lcm(m,n)} if lcm(m,n) ≤ k, and = ∅ otherwise | [own argument, unreviewed] | Attack ideas, A2 |
-| For every m ∈ (k/2, k] (prime or not), T_m = {σ^{-1}(m)} and σ^{-1}(m) ∈ [k − m + 1, m] | [preprint: GSK24, Lemma 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
+| For every m ∈ (k/2, k] (prime or not), T_m = {σ^{-1}(m)} and σ^{-1}(m) ∈ [k − m + 1, m] | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
 | For every m ∈ (k/3, k/2] (prime or not), T_m = {ρ, ρ + m} with ρ ∈ (k − 2m, m], and σ^{-1}(m) ∈ {ρ, ρ + m} | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A3 |
 | For odd k, every even value sits at an even position, so σ^{-1}(1) is odd | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
 | If Conjecture 5.2 holds for all lengths ≤ ⌊k/2⌋, then for every WCS of length k and every d ∈ [2, k], σ^{-1}(d) is the first or the last element of T_d | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed] | Attack ideas, A4 |
@@ -170,9 +170,10 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
   - m = 2, k odd: T_2 is the class with least representative 2, i.e. the even positions, so every
     even value sits at an even position and pos(1) is odd. For k even both parities are possible
     a priori.
-  - Plan: suppose 2 ≤ pos(1) ≤ k − 1. Each value v > k/2 is pinned to a single position
-    (first bullet); this fails already for values in (k/3, k/2], which have two candidate
-    positions (second bullet). The values with small prime factors fill whole residue
+  - Plan: suppose 2 ≤ pos(1) ≤ k − 1. For each value v > k/2, T_v is a singleton: no other
+    value shares v's class (first bullet), though pos(v) itself may still lie anywhere in
+    [k − v + 1, v]. Already for v ∈ (k/3, k/2], |T_v| = 2 (second bullet), and its least element
+    ρ ranges over (k − 2v, v]. The values with small prime factors fill whole residue
     classes. Count the positions in [2, k − 1] left uncovered by the small-prime classes and show
     the large primes cannot cover all but one of them unless the gap is at an end.
 - **A4. Induction through slices.** [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed]
@@ -343,6 +344,16 @@ Claims reviewer: three wording findings, all fixed:
 - C2. The m ∣ x extension was only one sentence. It now says it is a corollary of the class count.
 - C3 (with the mathematics nit). A4: added "length 1 is trivial".
 
+### 2026-11-26: reviewer-loop comment on PR #63 (3 minor findings, all fixed)
+
+- R1. A3 Plan said each v > k/2 "is pinned to a single position" and values in (k/3, k/2] "have
+  two candidate positions". That overstates the bullets. Fixed: T_v is a singleton (pos(v) still
+  free in [k − v + 1, v]); |T_v| = 2 with ρ ranging over (k − 2v, v].
+- R2. Claims-ledger row for m ∈ (k/2, k] cited only Lemma 2.3; T_m = {σ^{-1}(m)} uses Lemma 2.2.
+  Fixed: label now cites Lemmas 2.2, 2.3.
+- R3. Claims-ledger row for Lemma 2.3 stated the window only for σ^{-1}(m). Fixed: now stated for
+  every x with m ∣ x, as in Literature item 4 and A6.1.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -379,3 +390,5 @@ Claims reviewer: three wording findings, all fixed:
   Review). PR opened for #48.
 - **2026-11-25.** Issue #52: fixed the seven review points left open on PR #49 (see Review);
   `/review` done (3 wording findings + 1 nit, all fixed).
+- **2026-11-26.** Addressed the reviewer-loop comment on PR #63 (3 minor findings, all fixed;
+  see Review).

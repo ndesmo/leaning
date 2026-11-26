@@ -24,13 +24,14 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 
 ## Setting
 
-- Exact formula ([A402341] %F, also A077042, A273975, Bollinger–Burchard property d)):
+- Exact formula ([A402341] %F, also A077042, A273975; the entry also attributes it to Bollinger–Burchard
+  property d), via Meštrović, original not checked):
   a(n) = Σ_{j=0..⌊h/16⌋} (−1)^j C(n,j) C(n−1+h−16j, n−1), h = ⌊15n/2⌋, n ≥ 1.
-- 1 + x + … + x¹⁵ = (1+x)(1+x²)(1+x⁴)(1+x⁸), so
+- 1 + x + … + x¹⁵ = (1+x)(1+x²)(1+x⁴)(1+x⁸), so for even n
   a(n) = Σ_{i+2j+4k+8l = 15n/2} C(n,i) C(n,j) C(n,k) C(n,l). [standard]
 - By Kummer's theorem (L3), s₂(15n/2) = v₂(C(15n, 15n/2)) for even n, so the conjecture says
   v₂(a(n)) = v₂(C(15n, 15n/2)). [standard + own argument, unreviewed (one line)]
-- Mod 2, 1 + … + x¹⁵ ≡ (1+x)¹⁵, which gives the odd case proved in the entry (L1).
+- Mod 2, 1 + … + x¹⁵ ≡ (1+x)¹⁵, which gives the parity result proved in the entry (L1: a(n) is odd iff n = (16^k−1)/15).
 - Symmetric-variable form (the entry's third %F): with u = x^{1/2} + x^{−1/2},
   x^{−1/2}(1+x) = u, x^{−1}(1+x²) = u² − 2, x^{−2}(1+x⁴) = u⁴ − 4u² + 2,
   x^{−4}(1+x⁸) = u⁸ − 8u⁶ + 20u⁴ − 16u² + 2 (each factor is the previous squared minus 2). So
@@ -180,7 +181,8 @@ Scripts in `search/central-2adic/` (run with `python -I`):
 - `carry_q4.py [N]`: exact check of the q = 4 carry inequality of N5 (q = 4 form of A1).
 
 Results (2026-11-26):
-- **N1.** `python -I check_v2.py 4000 16 --bfile b402341.txt`: cross-check OK at 220 n; all 830
+- **N1.** `python -I check_v2.py 4000 16 --bfile b402341.txt`, with the b-file from
+  https://oeis.org/A402341/b402341.txt (downloaded 2026-11-26; not committed): cross-check OK at 220 n; all 830
   b-file terms agree mod 2^48; for every even n ≤ 4000, v₂(a(n)) = s₂(15n/2); no residue was 0 mod
   2^48. [numerical, exact mod 2^48]
 - **N2.** `check_v2.py 2000 4 8 32 64`: analogue v₂ = s₂((q−1)n/2) holds for every even n ≤ 2000,
@@ -194,14 +196,14 @@ Results (2026-11-26):
   [numerical]
 - **N4.** `dominant_term.py 120`: the u-formula equals the exact a(n) for all n ≤ 120; for every
   even n ≤ 120, every term m < 15n has v₂(c(n,m) C(m, m/2)) ≥ s₂(15n/2) + 1 (minimum excess 1 to
-  4). [numerical, exact integers]
+  8; the values 6 and 8 occur only at n = 32, 96 and n = 64). [numerical, exact integers]
 - **N5.** q = 4 form of A1: t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) holds for every even
   n ≤ 2000 and 1 ≤ t ≤ n (exact integers). [numerical]
 
 ## Attack ideas
 
-- **A1. Termwise dominance in the u-expansion (best lead).** By N4, for even n the conjecture
-  would follow from: for every even m < 15n, v₂(c(n,m)) + s₂(m/2) > s₂(15n/2). [own argument,
+- **A1. Termwise dominance in the u-expansion (best lead).** For even n the conjecture
+  would follow from: for every even m < 15n, v₂(c(n,m)) + s₂(m/2) > s₂(15n/2). N4 checks this inequality for n ≤ 120. [own argument,
   unreviewed for the implication; the inequality is numerical for n ≤ 120]. The factor
   g_j(u) = 2T_{2^j}(u/2) (T = Chebyshev) has coefficients with known 2-adic valuations
   (u² − 2; u⁴ − 4u² + 2; u⁸ − 8u⁶ + 20u⁴ − 16u² + 2): lowering the degree by 2t costs a power of 2
@@ -239,6 +241,16 @@ inequality (n ≤ 2000), and checked that termwise dominance implies the conject
 6. LEDGER omits that q = 2 was only checked to n = 300: rebutted, q = 2 is Kummer's theorem, so not listed.
 7. N4's exact command not recorded: fixed, `python -I dominant_term.py 120` noted.
 
+### 2026-11-26: reviewer-loop comment on PR #67 (sha de8e1ac), 1 FIX and 5 MINOR
+1. N4 "minimum excess 1 to 4" is wrong (FIX): fixed. Re-ran `dominant_term.py 120`: the minimum
+   excess takes the values 1, 2, 3, 4, 6, 8; 6 at n = 32, 96 and 8 at n = 64. Text now says 1 to 8.
+2. Four-fold product sum needs n even: fixed, "for even n" added.
+3. Bollinger–Burchard cited as if checked: fixed, now "via Meštrović, original not checked".
+4. N1 b-file not in the repo: fixed, source URL and download date given (file not committed).
+5. "the odd case proved in the entry" ambiguous: fixed, now "the parity result (L1: …)".
+6. A1 implication attributed to N4: fixed, the implication is stated on its own and N4 is cited
+   only as numerical evidence for the inequality.
+
 ## Log
 
 - **2026-11-26.** Literature stage (issue #22, branch `agent/central-2adic-literature`). Re-checked
@@ -250,3 +262,4 @@ inequality (n ≤ 2000), and checked that termwise dominance implies the conject
   [numerical, Python, not Lean] P2 marked `taken (#22)` in `PROBLEMS.md`; LEDGER entry added.
   Review: one independent subagent, 7 minor findings, 6 fixed and 1 rebutted (see Review).
 - **2026-11-26.** Opened PR #67 (literature + setup, closes #64).
+- **2026-11-26.** Addressed the reviewer-loop comment on PR #67 (1 FIX, 5 MINOR; all fixed).

@@ -69,10 +69,15 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 - Literature stage done 2026-11-25: no proof or counterexample found, and no citing work other than
   OEIS A395372, which lists counts only (scope in the notes). Exact enumeration finds no counterexample for k ≤ 23 (Python, not yet Lean); the
   authors report checking their stronger Conjecture 5.1 up to k = 500.
+- Attack stage 2026-11-25 (#48): an argument for k a prime power (own argument, unreviewed; /review found no
+  mathematical error; notes A6.3),
+  via σ(1), σ(k) being coprime divisors of k. Gap: k with two or more distinct prime factors; class-size
+  counting alone (A3's plan) cannot work: the size-only relaxation admits an interior 1 (Python search, notes A6.5).
 
 | Id | Item | Status | Where |
 |---|---|---|---|
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
+| WC1a | **Conjecture 5.2 for k with ≥ 2 distinct prime factors** (prime-power k: own argument, unreviewed, A6.3) | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | idea | notes, A5 |
 
 ## Approaches that failed

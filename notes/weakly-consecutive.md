@@ -44,6 +44,15 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | For a prime p ∈ (k/2, k], T_p = {σ^{-1}(p)} and σ^{-1}(p) ∈ [k − p + 1, p] | [preprint: GSK24, Lemma 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
 | For odd k, every even value sits at an even position, so σ^{-1}(1) is odd | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
 | If Conjecture 5.2 holds for all lengths < k, then for every WCS of length k and every d ∈ [2, k], σ^{-1}(d) is the first or the last element of T_d | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed] | Attack ideas, A4 |
+| Window lemma: if m ∈ [2, k] divides σ(i) then k mod m < min(i, k + 1 − i); hence σ(1) ∣ k and σ(k) ∣ k | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A6.1 |
+| gcd(σ(1), σ(k)) = 1 for every WCS; so if 1 < σ^{-1}(1) < k, σ(1) and σ(k) are coprime divisors of k, both ≥ 2 | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.2 |
+| Conjecture 5.2 holds when k is a prime power (or k = 1) | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.3 |
+| σ is a WCS iff σ(i) = λ(Y + i) for some integer Y (unique mod lcm(1..k)), λ(N) = lcm{m ∈ [k] : m ∣ N}; and iff (a) λ ≤ k on [Y + 1, Y + k] and (b) (Y mod m) + (k mod m) < m for all m ∈ [2, k] | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.4 |
+| For m ∈ [2, k] dividing k + 1, T_m = {m, 2m, …}; hence gcd(σ^{-1}(1), k + 1) = 1 | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] (via A6.4) | Attack ideas, A6.4 |
+| gcd(σ(i), i − σ^{-1}(1)) = 1 for all i ≠ σ^{-1}(1) | [own argument, unreviewed] | Attack ideas, A6.4 |
+| A6.1, A6.2 and the Y-form, k + 1 and unit-class parts of A6.4 hold on every WCS with k ≤ 20; enumerating Y mod lcm(1..k) gives exactly N(k) WCS for k ≤ 13 | [numerical, Python, not Lean] | Log 2026-11-25 (attack) |
+| Class sizes + compatibility alone admit an interior 1 (e.g. k = 8, 12); adding disjointness of coprime prime-power classes with product > k excludes it for k ≤ 18, primes only do not (k = 6, 14) | [numerical, Python, not Lean] | Attack ideas, A6.5 |
+| Conjecture 5.2 for k with at least two distinct prime factors | [conjecture] | Attack ideas, A6.5 |
 
 ## Literature (2026-11-25)
 
@@ -162,6 +171,90 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
 - **A5. Lean.** The definition is decidable; check Conjecture 5.2 for small k by `decide` /
   `native_decide` (or a verified enumeration) and formalize Lemmas 2.2–2.4 as the reusable base.
   The Python counts below must be re-done in Lean before any page uses them.
+- **A6. Attack (2026-11-25).** Result (own argument, unreviewed; /review found no mathematical error, see Review): Conjecture 5.2
+  for k a prime power (A6.3), and in general an interior 1 forces σ(1), σ(k) to be coprime divisors of k, both ≥ 2. The full
+  conjecture is **not** proved; the gap is in A6.5. Notation as above: T_m = {i ∈ [k] : m ∣ σ(i)},
+  p = pos(1), s_m = k mod m. Lemma 2.2 of [GSK24] (T_m is a residue class mod m with ⌊k/m⌋
+  points, for a WCS) is used throughout; its proof is two lines (the class of pos(m) mod m lies in
+  T_m by the definition, |T_m| = ⌊k/m⌋ is the number of multiples of m in [k], and every residue
+  class mod m has at least ⌊k/m⌋ points in [k], so the inclusion is an equality).
+  - **A6.1. Window lemma.** [own argument, unreviewed] Let σ be a WCS, i ∈ [k], m ∈ [2, k] with
+    m ∣ σ(i). Then s_m < i and s_m < k + 1 − i. *Proof.* T_m is the class of i mod m inside [k]
+    and has ⌊k/m⌋ = (k − s_m)/m points. If i ≤ s_m, the class of i has a point in each of the
+    blocks [i + jm] for j = 0, …, ⌊k/m⌋ (the last is i + ⌊k/m⌋·m ≤ s_m + k − s_m = k), so
+    ⌊k/m⌋ + 1 points: contradiction. The other inequality follows by reversal (Rule 3), which
+    maps position i to k + 1 − i and keeps the values. ∎ (This is Lemma 2.3 of [GSK24] extended from
+    pos(m) to the whole class T_m: every member of the class has the same residue mod m. Reversal
+    is immediate from the definition, since i − j and (k + 1 − i) − (k + 1 − j) differ only in sign.)
+    - *Corollary (end values).* σ(1) ∣ k and σ(k) ∣ k: every divisor m ≥ 2 of σ(1) has
+      s_m < 1, i.e. m ∣ k; take m = σ(1) (if σ(1) ≥ 2). Same for σ(k).
+  - **A6.2. Coprime ends.** [own argument, unreviewed] For every WCS, gcd(σ(1), σ(k)) = 1.
+    *Proof.* Let h = gcd(σ(1), σ(k)). If h ≥ 2, positions 1 and k both lie in T_h, a single residue
+    class mod h, so h ∣ k − 1; and h ∣ σ(1) ∣ k by A6.1. So h ∣ gcd(k, k − 1) = 1. ∎
+    - *Corollary.* If 1 < p < k, then σ(1) and σ(k) are both ≥ 2 (the value 1 occurs once), so
+      d = σ(1) and d′ = σ(k) are **coprime divisors of k, both ≥ 2**, and d·d′ ∣ k.
+  - **A6.3. Prime powers.** [own argument, unreviewed] *If k = q^a is a prime power (q prime,
+    a ≥ 1), or k = 1, every WCS of length k has σ(1) = 1 or σ(k) = 1.* *Proof.* k = 1 is trivial.
+    Otherwise, if 1 < p < k, A6.2 gives coprime divisors d, d′ ≥ 2 of q^a; both are divisible by
+    q, contradiction. If p ∈ {1, k} there is nothing to prove. ∎ This covers k = 2, 3, 4, 5, 7, 8,
+    9, 11, 13, 16, 17, 19, 23, 25, 27, … . Not found in [GSK24] (which says it could not prove 5.2
+    from the definition) nor in the works searched (Literature, search scope). Hypotheses used:
+    the WCS property (through Lemma 2.2, in A6.1 and in A6.2's "positions 1 and k lie in T_h"),
+    the uniqueness of the value 1, and that k is a prime power. A small, decidable Lean target
+    for later: A6.1 and A6.2 from the definition, then A6.3.
+  - **A6.4. Single-residue form and other necessary conditions.** [own argument, unreviewed]
+    - *Reformulation.* Let L = lcm(1, …, k) and λ(N) = lcm{m ∈ [k] : m ∣ N}. A permutation σ of
+      [k] is a WCS iff there is an integer Y with σ(i) = λ(Y + i) for all i ∈ [k]; Y is then
+      unique mod L. *Proof.* (⇐) λ(N) ∣ N, and for m ∈ [k], m ∣ λ(N) ⇔ m ∣ N. So if m ∣ σ(i)
+      and m ∣ i − j then m ≤ σ(i) ≤ k, m ∣ Y + i, hence m ∣ Y + j and m ∣ σ(j). (⇒) For each
+      m ∈ [k], T_m is a nonempty residue class c_m mod m (Lemma 2.2), and m ∣ n ≤ k gives
+      T_n ⊆ T_m, so c_n ≡ c_m (mod m). By the CRT pick X ≡ c_Q (mod Q) for each maximal prime
+      power Q ≤ k. For m = ∏ q^{e_q} ∈ [k], m ∣ σ(i) iff q^{e_q} ∣ σ(i) for all q, so
+      T_m = ⋂ T_{q^{e_q}} = {i : i ≡ X (mod m)}. Thus the divisors in [k] of σ(i) are exactly the
+      m ∈ [k] dividing i − X; their lcm is σ(i). Put Y = −X. Uniqueness: T_m fixes Y mod m. ∎
+    - *Window criterion.* With J = [Y + 1, Y + k], i ↦ λ(Y + i) is a permutation of [k] iff
+      (a) λ(N) ≤ k for every N ∈ J, and (b) for every m ∈ [2, k], J contains exactly ⌊k/m⌋
+      multiples of m, i.e. (Y mod m) + s_m < m. *Proof.* Under (a), #{i : m ∣ λ(Y + i)} is the
+      number of multiples of m in J; (b) makes it ⌊k/m⌋ for all m, and downward induction on m
+      gives that each v ∈ [k] is taken exactly once. The count of multiples of m in J is
+      ⌊(Y + k)/m⌋ − ⌊Y/m⌋ = ⌊k/m⌋ + [(Y mod m) + s_m ≥ m]. ∎ In this form Conjecture 5.2 says:
+      the unique element of J with no prime factor ≤ k is Y + 1 or Y + k.
+    - *Divisors of k + 1.* If m ∈ [2, k] divides k + 1, then s_m = m − 1, so (b) forces
+      Y ≡ 0 (mod m), i.e. T_m = {m, 2m, …}. Hence gcd(p, k + 1) = 1 (a prime q ∣ gcd(p, k + 1)
+      would divide Y + p = the rough element). For k odd this is A3's "p is odd".
+    - *Unit classes.* gcd(σ(i), i − p) = 1 for all i ≠ p (if m ∣ σ(i) and m ∣ i − p then
+      m ∣ σ(p) = 1). So, relative to the position of 1, every T_m is a class of units mod m.
+    - *Interior case, more.* If 1 < p < k with d = σ(1), d′ = σ(k) as in A6.2, then
+      Y ≡ −1 (mod d) and Y ≡ 0 (mod d′), so p ≢ 1 (mod q) for every prime q ∣ d and q′ ∤ p for
+      every prime q′ ∣ d′; and the slices D_d(σ) and D_{d′}(σ) (Lemma 2.4) are WCS of lengths k/d
+      and k/d′ that start, resp. end, with 1, so they give no contradiction by themselves.
+  - **A6.5. Gap.** [conjecture] Open as a proof: k with at least two distinct prime factors (k = 6, 10, 12,
+    14, 15, 18, 20, …). These k are verified numerically for k ≤ 23 (Python, Log), and [GSK24]
+    reports checking Conjecture 5.1, which implies 5.2, up to k = 500. What remains is to exclude a WCS with 1 < p < k, σ(1) = d, σ(k) = d′,
+    where d, d′ ≥ 2 are coprime divisors of k with d·d′ ∣ k (and the congruences of A6.4 hold). Approaches
+    tried and why they fail:
+    - *Class sizes alone (the counting plan of A3).* The system "each T_m is a residue class mod
+      m of size ⌊k/m⌋, compatible under divisibility, not containing p" does **not** force
+      p ∈ {1, k}: by exhaustive search it has solutions with interior p for k = 4, 6, 7, 8, …, 20
+      (e.g. k = 8, p ∈ {2, 4, 5, 7}; k = 12, every p ∈ [2, 11]). [numerical, Python, not Lean]
+      So a proof must use more than this system, for example that the classes cover every position other than p (A6.3 uses this
+      at positions 1 and k) or the disjointness T_m ∩ T_n = ∅ for lcm(m, n) > k (A2).
+    - *Which disjointness is needed.* Adding to the size system the disjointness of T_Q, T_{Q′}
+      for coprime prime powers Q, Q′ ≤ k with QQ′ > k excludes every interior p for k ≤ 18. (The full system, i.e. sizes + compatibility +
+      T_m ∩ T_n = ∅ whenever lcm(m, n) > k, is equivalent to WCS: if λ(N) > k for some N ∈ J, let
+      M be the largest divisor of N in [k] and n ∈ [k] a divisor of N not dividing M; then
+      lcm(M, n) > k, so disjointness gives (a) of A6.4. So it excludes interior p for k ≤ 20 by
+      the enumeration.) With primes only instead of prime powers, interior p survive at k = 6 and
+      k = 14 (the search range of this run was not recorded; a reviewer re-ran it for k ≤ 14 and
+      found exactly k = 6, 14; k = 19, 20 are not claimed for the prime-power pairs); with only pairs involving a power
+      of 2, or only pairs of values > k/2, they survive for most k ≤ 20. [numerical, Python, not
+      Lean] So the size system plus prime-only disjointness is not enough (k = 6, 14); with the
+      prime-power pairs added it suffices for k ≤ 18.
+    - *Ends only.* A6.1–A6.2 use only positions 1 and k. The analogous statements for
+      positions 2 and k − 1 (divisors of σ(2) divide k or k − 1, by A6.1) did not give a
+      contradiction in the interior case by hand; the next step would be to push A6.1 inward
+      together with the induction hypothesis of A4 (pos(d) extreme in T_d), which was not
+      completed.
 
 ## Review
 
@@ -188,6 +281,30 @@ A395372): seven wording findings, all fixed:
 The search was not re-run by the reviewer; the openness verdict stays limited to the stated
 scope.
 
+### 2026-11-25: attack stage (A6), `/review` (two independent subagents)
+
+Mathematics reviewer (re-derived A6.1–A6.4 and re-ran a brute force for k ≤ 14 that matched every
+number it covers): no mathematical error. Five wording findings, all fixed:
+- M1. Preamble: the Lemma 2.2 sketch also needs that every residue class mod m has ≥ ⌊k/m⌋ points
+  in [k]. Added.
+- M2. A6.1: it is Lemma 2.3 extended from pos(m) to the whole class T_m, not Lemma 2.3 itself.
+  Reworded.
+- M3. A6.5: "full system" was undefined and its equivalence to WCS unproved. Defined, and the
+  one-line proof via the A6.4 window criterion added.
+- M4. A6.5: the search ranges of the relaxations were not stated. Stated what is known; the range of
+  the primes-only run was not recorded, so the note says so instead of guessing.
+- M5. A6.5: the gap omitted the numerical status. Added (k ≤ 23 here; [GSK24] reports k ≤ 500),
+  and d·d′ ∣ k.
+
+Claims reviewer: one blocking finding and three wording findings, all fixed:
+- C1 (blocks). LEDGER row WC1a said prime-power k "done". Now "own argument, unreviewed".
+- C2. "Any proof must use …" and "a proof … needs the prime-power pairs" over-read the numerics on
+  one relaxation. Weakened to statements about that relaxation.
+- C3. The ledger row said the window criterion was enumerated separately. It was not; row now
+  records only the Y-enumeration.
+- C4. The k + 1 row rests on Lemma 2.2 too; label now includes it. A6.1 row now also cites
+  Lemma 2.3, and reversal is justified from the definition.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -213,3 +330,12 @@ scope.
   or a smaller search space. Counts N(k) are not proved (soundness of the enumerator not
   formalized).
 - **2026-11-25.** PR #57 opened (issue #47). `/review` not run (budget); left to the reviewer loop.
+- **2026-11-25.** Attack stage (issue #48). Own arguments (unreviewed) for the window lemma,
+  coprime ends, and Conjecture 5.2 for prime-power k (A6.1–A6.3), plus a single-residue
+  reformulation of WCS (A6.4). Full conjecture not proved; gap: k with two or more distinct prime
+  factors (A6.5). Throwaway Python scripts, not committed: backtracking enumeration of all WCS for
+  k ≤ 20 (counts as in the earlier log line), a check of A6.1, A6.2 and the Y-form, k + 1 and unit-class parts of A6.4 on all of them, an
+  enumeration of Y mod lcm(1..k) for k ≤ 13 (count equals N(k)), and a residue-system search for
+  the relaxations in A6.5. [numerical, Python, not Lean]
+- **2026-11-25.** Attack stage `/review` done (1 blocking + 8 wording findings, all fixed; see
+  Review). PR opened for #48.

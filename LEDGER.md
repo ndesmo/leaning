@@ -59,6 +59,22 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | G10 (#20) | **DF15 eq. (5) for odd N ≥ 3:** check Demirel–Harrell's claim L_{γ,N} = L_γ (γ ≥ 2) for odd N ≥ 3 with Kirchhoff conditions. This decides where Corollary 2 is new. | open, citation to check | review M6 |
 | G8 (#18) | **Other conditions:** Robin conditions u′(0) = σu(0), or star graphs with even N or N₀ > 1. Do Theorem 1 and Theorem 3 transfer? | idea | none |
 
+## Problems in progress
+
+### weakly-consecutive: open (P1, #21)
+
+- Notes: [notes/weakly-consecutive.md](notes/weakly-consecutive.md)
+- Target: Conjecture 5.2 of Garrison–Seiler–Knowles, arXiv:2401.09497: every weakly consecutive
+  permutation σ of [k] has σ(1) = 1 or σ(k) = 1. [conjecture]
+- Literature stage done 2026-11-25: no proof or counterexample found, and no citing work other than
+  OEIS A395372, which lists counts only (scope in the notes). Exact enumeration finds no counterexample for k ≤ 23 (Python, not yet Lean); the
+  authors report checking their stronger Conjecture 5.1 up to k = 500.
+
+| Id | Item | Status | Where |
+|---|---|---|---|
+| WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
+| WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | idea | notes, A5 |
+
 ## Approaches that failed
 
 Don't repeat these without a new ingredient.

@@ -28,7 +28,7 @@ Scores are 0–2:
 
 | Id | Problem | Area | Open | Lean | Tract. | Value | Status |
 |---|---|---|---|---|---|---|---|
-| P1 | Weakly consecutive sequences start or end with 1 | combinatorics | 2 | 2 | 2 | 1 | candidate (#21) |
+| P1 | Weakly consecutive sequences start or end with 1 | combinatorics | 2 | 2 | 2 | 1 | taken (#21) |
 | P2 | 2-adic valuation of central coefficients of (1+x+…+x¹⁵)ⁿ (OEIS A402341) | number theory | 1 | 2 | 2 | 1 | candidate (#22) |
 | P3 | Minimum modulus for valid residue sets (Fonollosa) | additive combinatorics | 2 | 2 | 2 | 1 | candidate (#23) |
 | P4 | Periodicity of 3-sumfree sequences S₁,d−1,2d−1 | combinatorial number theory | 1 | 2 | 2 | 1 | candidate (#24) |
@@ -66,6 +66,8 @@ group.
   primes ≤ k can sit, and check it in Lean for small k by `decide`.
 - **Risks:** a short arXiv-only paper, so the difficulty is unknown. It might follow quickly from a
   lemma in the paper.
+- **Status:** taken (#21), slug `weakly-consecutive`. Openness re-checked 2026-11-25; notes in
+  [notes/weakly-consecutive.md](notes/weakly-consecutive.md).
 
 ### P2. 2-adic valuation of central coefficients (OEIS A402341)
 - **Source:** https://oeis.org/A402341 (entry created 2026-11-17).

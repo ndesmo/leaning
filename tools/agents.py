@@ -42,6 +42,11 @@ ROLE_MODEL = {"explorer": "claude-fable-5-2"}
 PASS_TIMEOUT = {"author": 2 * 3600, "reviewer": 2 * 3600, "explorer": 4 * 3600}  # seconds
 DEFAULT_NEXT = {"author": 30, "reviewer": 20, "explorer": 30}   # minutes, if a pass doesn't say
 CHANGES_PRS = ("author", "explorer")   # roles whose pull-request changes wake the reviewer
+# Spending guards, in Claude Code's estimated USD. On a subscription these are not charges, but they
+# track how much of the shared plan allowance a role uses. All roles share one account, so the caps
+# keep the explorer from starving the author and reviewer. Override with --budgets.
+PASS_BUDGET_USD = {"author": 6.0, "reviewer": 3.0, "explorer": 20.0}    # one pass is stopped here
+DAILY_BUDGET_USD = {"author": 30.0, "reviewer": 12.0, "explorer": 40.0}  # role pauses until midnight
 IDLE_NEXT = 60
 RETRY_BACKOFF = [5, 15, 30, 60]     # minutes after consecutive failures
 SUPERVISOR_NOTE = ("[supervisor] Started by tools/agents.py for a single iteration. Do not call "
@@ -116,6 +121,49 @@ def agent_settings(main_settings_json: str) -> dict:
                             "denyInsteadOfPrompting": True}}
 
 
+def load_records(logs: Path) -> list[dict]:
+    records = []
+    for f in sorted(logs.glob("*/*.json")):
+        try:
+            records.append(json.loads(f.read_text(encoding="utf-8")))
+        except (json.JSONDecodeError, OSError):
+            pass
+    return records
+
+
+def spent(records: list[dict], role: str, since: dt.datetime) -> float:
+    """Estimated USD spent by a role on passes started at or after `since`."""
+    return sum((r.get("cost_usd") or 0) for r in records
+               if r.get("role") == role and dt.datetime.fromisoformat(r["started"]) >= since)
+
+
+def summarize(records: list[dict], since: dt.datetime) -> dict:
+    """Per role: passes, minutes, estimated USD, and tokens per model, since a time."""
+    out: dict = {}
+    for r in records:
+        if dt.datetime.fromisoformat(r["started"]) < since:
+            continue
+        s = out.setdefault(r["role"], {"passes": 0, "minutes": 0.0, "usd": 0.0, "tokens": {}})
+        s["passes"] += 1
+        s["minutes"] += r.get("minutes") or 0
+        s["usd"] += r.get("cost_usd") or 0
+        for model, u in (r.get("model_usage") or {}).items():
+            n = sum(v for k, v in (u or {}).items() if k.lower().endswith("tokens") and isinstance(v, (int, float)))
+            s["tokens"][model] = s["tokens"].get(model, 0) + n
+    return out
+
+
+def parse_budgets(spec: str, base: dict) -> dict:
+    """'explorer=25,author=10' -> base with those roles overridden."""
+    out = dict(base)
+    for part in filter(None, (p.strip() for p in (spec or "").split(","))):
+        role, _, value = part.partition("=")
+        if role not in base or not value:
+            raise ValueError(f"bad budget '{part}'; use role=dollars with role in {', '.join(base)}")
+        out[role] = float(value)
+    return out
+
+
 def is_orphan_pass(command_line: str, role: str) -> bool:
     """True if a process command line is a supervisor-started pass of this role."""
     return f"/{role}-loop [supervisor]" in (command_line or "")
@@ -142,11 +190,14 @@ def process_command_lines() -> list[str]:
 
 class Supervisor:
     def __init__(self, worktrees: Path, model: str, dry_run: bool = False,
-                 roles: tuple = ROLES, explorer_model: str | None = None):
+                 roles: tuple = ROLES, explorer_model: str | None = None,
+                 pass_budget: dict | None = None, daily_budget: dict | None = None):
         self.worktrees, self.model, self.dry_run, self.roles = worktrees, model, dry_run, roles
         self.models = {r: ROLE_MODEL.get(r, model) for r in ROLES}
         if explorer_model:
             self.models["explorer"] = explorer_model
+        self.pass_budget = pass_budget or dict(PASS_BUDGET_USD)
+        self.daily_budget = daily_budget or dict(DAILY_BUDGET_USD)
         self.claude = find_claude()
         self.wake = {r: threading.Event() for r in ROLES}
         self.stop = threading.Event()
@@ -190,7 +241,8 @@ class Supervisor:
 
         cmd = [self.claude, "-p", f"/{role}-loop {SUPERVISOR_NOTE}", "--model", self.models[role],
                "--output-format", "json", "--permission-mode", "auto",
-               "--permission-prompts", "none", "--settings", str(settings_file)]
+               "--permission-prompts", "none", "--settings", str(settings_file),
+               "--max-budget-usd", str(self.pass_budget[role])]
         if self.dry_run:
             log(f"{role}: would run in {wt}: {' '.join(cmd[:3])} ...")
             return "dry-run", 0
@@ -218,7 +270,8 @@ class Supervisor:
         record = {"role": role, "started": started.isoformat(timespec="seconds"),
                   "minutes": round(minutes, 1), "exit_code": code,
                   "subtype": result.get("subtype"), "session_id": result.get("session_id"),
-                  "cost_usd": result.get("total_cost_usd"), "result": text,
+                  "cost_usd": result.get("total_cost_usd"), "model_usage": result.get("modelUsage"),
+                  "model": self.models[role], "result": text,
                   "stderr_tail": (err or "")[-2000:]}
         (LOGS / role).mkdir(exist_ok=True)
         (LOGS / role / f"{started:%Y%m%d-%H%M%S}.json").write_text(
@@ -230,6 +283,11 @@ class Supervisor:
             self.save_state(role, status="usage-limit", resumes=reset.isoformat(timespec="minutes"))
             log(f"{role}: usage limit; resuming at {reset:%a %H:%M}")
             return "usage-limit", wait
+        if result.get("subtype") == "error_max_budget_usd":
+            # Hit the per-pass cap: not a crash. Work so far is committed per the skills' rules.
+            self.save_state(role, status="pass-budget-hit", finished=dt.datetime.now().isoformat(timespec="seconds"))
+            log(f"{role}: pass stopped at its ${self.pass_budget[role]:.0f} budget after {minutes:.0f} min")
+            return "ok", DEFAULT_NEXT[role]
         if code != 0 or result.get("subtype") not in (None, "success"):
             self.save_state(role, status="failed", exit_code=code)
             log(f"{role}: pass failed (exit {code}, {result.get('subtype')}); see .agent-logs/{role}/")
@@ -244,6 +302,16 @@ class Supervisor:
     def worker(self, role: str) -> None:
         failures = 0
         while not self.stop.is_set():
+            midnight = dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            today = spent(load_records(LOGS), role, midnight)
+            if today >= self.daily_budget[role]:
+                resume = midnight + dt.timedelta(days=1, minutes=1)
+                log(f"{role}: daily budget reached (${today:.2f} of ${self.daily_budget[role]:.0f}); "
+                    f"paused until {resume:%a %H:%M}")
+                self.save_state(role, status="budget-paused", resumes=resume.isoformat(timespec="minutes"))
+                self.wake[role].wait(timeout=(resume - dt.datetime.now()).total_seconds())
+                self.wake[role].clear()
+                continue
             before = self.open_pr_heads() if role in CHANGES_PRS else None
             try:
                 outcome, nxt = self.run_pass(role)
@@ -326,6 +394,28 @@ def cmd_status(_args) -> None:
     print("open pull requests:\n" + (r.stdout.strip() or "  none"))
 
 
+def cmd_usage(args) -> None:
+    records = load_records(LOGS)
+    now = dt.datetime.now()
+    midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    print("Estimated cost is Claude Code's own estimate. On a subscription it is not billed, but it")
+    print("tracks use of the shared plan allowance. For the plan's real limits, run /usage in an")
+    print("interactive Claude Code session.\n")
+    for label, since in (("today", midnight), ("last 7 days", now - dt.timedelta(days=7))):
+        print(f"== {label}")
+        summary = summarize(records, since)
+        if not summary:
+            print("  no passes")
+        for role in ROLES:
+            s = summary.get(role)
+            if not s:
+                continue
+            cap = f" of ${args.daily[role]:.0f} daily cap" if label == "today" else ""
+            print(f"  {role:9} {s['passes']:3} passes {s['minutes']:6.0f} min  ${s['usd']:7.2f}{cap}")
+            for model, n in sorted(s["tokens"].items(), key=lambda kv: -kv[1]):
+                print(f"            {model:24} {n:>12,} tokens")
+
+
 def cmd_setup(args) -> None:
     run(["git", "-C", str(REPO), "fetch", "-q", "origin"])
     for role in ROLES:
@@ -351,8 +441,14 @@ def main() -> None:
                     help=f"model for the explorer (default {ROLE_MODEL['explorer']})")
     ap.add_argument("--roles", default=",".join(ROLES),
                     help="comma-separated roles to run (default: all)")
+    ap.add_argument("--daily-budgets", default="",
+                    help="daily estimated-USD caps, e.g. explorer=25,author=20 "
+                         f"(default {DAILY_BUDGET_USD})")
+    ap.add_argument("--pass-budgets", default="",
+                    help=f"per-pass estimated-USD caps, e.g. explorer=15 (default {PASS_BUDGET_USD})")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("run", help="run both roles until stopped")
+    sub.add_parser("run", help="run all roles until stopped")
+    sub.add_parser("usage", help="passes, tokens and estimated cost per role, today and last 7 days")
     once = sub.add_parser("once", help="run a single pass of one role")
     once.add_argument("role", choices=ROLES)
     once.add_argument("--dry-run", action="store_true")
@@ -363,21 +459,30 @@ def main() -> None:
     bad = [r for r in roles if r not in ROLES]
     if bad:
         sys.exit(f"unknown role(s): {', '.join(bad)}; choose from {', '.join(ROLES)}")
+    try:
+        args.daily = parse_budgets(args.daily_budgets, DAILY_BUDGET_USD)
+        args.per_pass = parse_budgets(args.pass_budgets, PASS_BUDGET_USD)
+    except ValueError as e:
+        sys.exit(str(e))
 
     if args.cmd == "status":
         return cmd_status(args)
+    if args.cmd == "usage":
+        return cmd_usage(args)
     if args.cmd == "setup":
         return cmd_setup(args)
     if args.cmd == "once":
         sup = Supervisor(args.worktrees, args.model, dry_run=args.dry_run,
-                         explorer_model=args.explorer_model)
+                         explorer_model=args.explorer_model, pass_budget=args.per_pass)
         outcome, nxt = sup.run_pass(args.role)
         print(f"{args.role}: {outcome}; would run next in {nxt} min")
         return
     lock = acquire_lock()
     try:
-        sup = Supervisor(args.worktrees, args.model, roles=roles, explorer_model=args.explorer_model)
-        log(f"supervisor started: roles {', '.join(roles)}; models {sup.models}; worktrees {args.worktrees}")
+        sup = Supervisor(args.worktrees, args.model, roles=roles, explorer_model=args.explorer_model,
+                         pass_budget=args.per_pass, daily_budget=args.daily)
+        log(f"supervisor started: roles {', '.join(roles)}; models {sup.models}; "
+            f"daily caps {sup.daily_budget}; worktrees {args.worktrees}")
         sup.run_forever()
     finally:
         lock.unlink(missing_ok=True)

@@ -85,7 +85,13 @@ python tools/agents.py setup           # create the worktrees and build Lean (on
 python tools/agents.py run             # run both agents until stopped
 python tools/agents.py status          # last pass, next pass, open pull requests
 python tools/agents.py once reviewer   # a single pass, for testing
+python tools/agents.py usage           # passes, tokens and estimated cost per role
 ```
+
+**Budgets.** All agents share one plan allowance. Each pass is capped (`--pass-budgets`), and each
+role has a daily cap (`--daily-budgets`, for example `explorer=25`); a role that reaches its cap
+pauses until midnight. The amounts are Claude Code's estimated USD, which is a proxy on a
+subscription. Run `/usage` in an interactive session for the plan's real limits.
 
 - **Worktrees:** `C:\w\` on Windows, `~/proofs-worktrees/` elsewhere. Change with `--worktrees`.
 - **Logs:** every pass is logged in `.agent-logs/`.

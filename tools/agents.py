@@ -61,8 +61,17 @@ _print_lock = threading.Lock()
 
 
 def log(msg: str) -> None:
+    """Print, and append to .agent-logs/supervisor.log (pythonw and Task Scheduler have no console)."""
+    line = f"{dt.datetime.now():%Y-%m-%d %H:%M:%S}  {msg}"
     with _print_lock:
-        print(f"{dt.datetime.now():%Y-%m-%d %H:%M:%S}  {msg}", flush=True)
+        if sys.stdout:
+            print(line, flush=True)
+        try:
+            LOGS.mkdir(exist_ok=True)
+            with open(LOGS / "supervisor.log", "a", encoding="utf-8") as f:
+                f.write(line + "\n")
+        except OSError:
+            pass
 
 
 def run(cmd: list[str], cwd: Path | None = None, timeout: float | None = None,
@@ -112,6 +121,23 @@ def parse_limit_reset(text: str, now: dt.datetime) -> dt.datetime | None:
     if reset <= now:
         reset += dt.timedelta(days=7 if day else 1)
     return reset + dt.timedelta(minutes=2)
+
+
+def parse_result(stdout: str) -> dict:
+    """The final result object from `claude -p --output-format json` output.
+
+    Accepts a single JSON object or a list of messages (takes the last one with type "result").
+    Never raises; returns {} if nothing usable is found."""
+    try:
+        data = json.loads(stdout or "")
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return {}
+    if isinstance(data, dict):
+        return data
+    if isinstance(data, list):
+        results = [m for m in data if isinstance(m, dict) and m.get("type") == "result"]
+        return results[-1] if results else {}
+    return {}
 
 
 def agent_settings(main_settings_json: str) -> dict:
@@ -262,11 +288,10 @@ class Supervisor:
             err += f"\n[supervisor] killed after {PASS_TIMEOUT[role] // 60} minutes"
         minutes = (dt.datetime.now() - started).total_seconds() / 60
 
-        try:
-            result = json.loads(out)
-        except (json.JSONDecodeError, TypeError):
-            result = {}
+        result = parse_result(out)
         text = result.get("result") or ""
+        if not isinstance(text, str):
+            text = json.dumps(text)
         record = {"role": role, "started": started.isoformat(timespec="seconds"),
                   "minutes": round(minutes, 1), "exit_code": code,
                   "subtype": result.get("subtype"), "session_id": result.get("session_id"),

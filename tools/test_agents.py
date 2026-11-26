@@ -102,6 +102,20 @@ class Budgets(unittest.TestCase):
             agents.parse_budgets("bogus=5", agents.DAILY_BUDGET_USD)
 
 
+class ParseResult(unittest.TestCase):
+    def test_single_object(self):
+        self.assertEqual(agents.parse_result('{"subtype": "success", "result": "hi"}')["result"], "hi")
+
+    def test_list_of_messages_takes_last_result(self):
+        out = json.dumps([{"type": "system"}, {"type": "result", "result": "a"},
+                          {"type": "assistant"}, {"type": "result", "result": "b"}])
+        self.assertEqual(agents.parse_result(out)["result"], "b")
+
+    def test_garbage_never_raises(self):
+        for bad in ("", "not json", "[1, 2]", "42", None):
+            self.assertEqual(agents.parse_result(bad), {})
+
+
 class Roles(unittest.TestCase):
     def test_every_role_has_schedule_and_timeout(self):
         for r in agents.ROLES:

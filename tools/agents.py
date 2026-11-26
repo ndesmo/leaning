@@ -116,11 +116,26 @@ def agent_settings(main_settings_json: str) -> dict:
                             "denyInsteadOfPrompting": True}}
 
 
+def is_orphan_pass(command_line: str, role: str) -> bool:
+    """True if a process command line is a supervisor-started pass of this role."""
+    return f"/{role}-loop [supervisor]" in (command_line or "")
+
+
 def child_env(base: dict) -> dict:
     env = {k: v for k, v in base.items() if k not in STRIP_ENV}
     env["CLAUDE_CODE_FORCE_SESSION_PERSISTENCE"] = "1"   # keep transcripts for status/auditing
     env["AGENT_SUPERVISOR"] = "1"
     return env
+
+
+def process_command_lines() -> list[str]:
+    """Command lines of running claude processes (best effort; empty list if unavailable)."""
+    if os.name == "nt":
+        r = run(["powershell.exe", "-NoProfile", "-Command",
+                 "Get-CimInstance Win32_Process -Filter \"Name='claude.exe'\" | ForEach-Object CommandLine"])
+    else:
+        r = run(["ps", "-eo", "args"])
+    return [line for line in (r.stdout or "").splitlines() if line.strip()]
 
 
 # ---------- one pass ----------
@@ -161,6 +176,10 @@ class Supervisor:
         if not (wt / ".git").exists():
             log(f"{role}: no worktree at {wt}; run `agents.py setup`")
             return "no-worktree", IDLE_NEXT
+        if not self.dry_run and any(is_orphan_pass(c, role) for c in process_command_lines()):
+            # A pass started by an earlier supervisor is still working in this worktree.
+            log(f"{role}: an earlier {role} pass is still running; checking again in 5 min")
+            return "busy", 5
         if not self.dry_run:
             git(wt, "fetch", "-q", "origin")
             if not git(wt, "status", "--porcelain").stdout.strip():
@@ -278,7 +297,12 @@ def acquire_lock() -> Path:
             pid = int(lock.read_text().strip())
         except ValueError:
             pid = 0
-        if pid and pid_alive(pid):
+        # On a restart the old supervisor may still be exiting; give it a minute.
+        for _ in range(12):
+            if not (pid and pid_alive(pid)):
+                break
+            time.sleep(5)
+        else:
             sys.exit(f"supervisor already running (pid {pid})")
     lock.write_text(str(os.getpid()))
     return lock

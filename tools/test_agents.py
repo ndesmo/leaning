@@ -63,6 +63,15 @@ class ChildEnv(unittest.TestCase):
         self.assertEqual(env["CLAUDE_CODE_FORCE_SESSION_PERSISTENCE"], "1")
 
 
+class Orphans(unittest.TestCase):
+    def test_matches_only_supervisor_passes_of_that_role(self):
+        line = 'claude.exe -p "/reviewer-loop [supervisor] Started by tools/agents.py" --model x'
+        self.assertTrue(agents.is_orphan_pass(line, "reviewer"))
+        self.assertFalse(agents.is_orphan_pass(line, "author"))
+        self.assertFalse(agents.is_orphan_pass('claude.exe --name reviewer "/loop /reviewer-loop"', "reviewer"))
+        self.assertFalse(agents.is_orphan_pass("", "reviewer"))
+
+
 class Roles(unittest.TestCase):
     def test_every_role_has_schedule_and_timeout(self):
         for r in agents.ROLES:

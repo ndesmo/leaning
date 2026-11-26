@@ -80,6 +80,24 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | WC1a | **Conjecture 5.2 for k with ≥ 2 distinct prime factors** (prime-power k: own argument, unreviewed, A6.3) | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | idea | notes, A5 |
 
+### central-2adic: open (P2, #22)
+
+- Notes: [notes/central-2adic.md](notes/central-2adic.md)
+- Target: OEIS A402341 conjecture: for even n, v₂(a(n)) = s₂(15n/2), where a(n) is the central
+  coefficient of (1 + x + … + x¹⁵)ⁿ. [conjecture]
+- Literature stage done 2026-11-26: no proof, disproof or discussion found; the entry is unchanged
+  since 2026-11-17 (scope in the notes). Closest known results are for the infinite product
+  ∏(1 − x^{2^j}) (Gawron–Miska–Ulas arXiv:1703.01955, Shen arXiv:2609.16966).
+- Numerics (Python, not Lean): holds for even n ≤ 4000; the analogue for q = 2^r (q = 4, 8, 32,
+  64) holds for even n ≤ 2000 and fails for q = 3, 6, 12. In the entry's u-formula the top term
+  C(15n, 15n/2) strictly dominates every other term 2-adically for even n ≤ 120 (notes A1).
+
+| Id | Item | Status | Where |
+|---|---|---|---|
+| CA1 (#22) | **A402341 conjecture** for all even n | open | notes, Statement |
+| CA2 | q = 4 case (A005190): termwise carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) | idea (numerical for n ≤ 2000) | notes, A1 |
+| CA3 | General q = 2^r analogue | idea | notes, Statement |
+
 ## Approaches that failed
 
 Don't repeat these without a new ingredient.

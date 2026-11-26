@@ -29,7 +29,7 @@ Scores are 0–2:
 | Id | Problem | Area | Open | Lean | Tract. | Value | Status |
 |---|---|---|---|---|---|---|---|
 | P1 | Weakly consecutive sequences start or end with 1 | combinatorics | 2 | 2 | 2 | 1 | taken (#21) |
-| P2 | 2-adic valuation of central coefficients of (1+x+…+x¹⁵)ⁿ (OEIS A402341) | number theory | 1 | 2 | 2 | 1 | candidate (#22) |
+| P2 | 2-adic valuation of central coefficients of (1+x+…+x¹⁵)ⁿ (OEIS A402341) | number theory | 1 | 2 | 2 | 1 | taken (#22) |
 | P3 | Minimum modulus for valid residue sets (Fonollosa) | additive combinatorics | 2 | 2 | 2 | 1 | candidate (#23) |
 | P4 | Periodicity of 3-sumfree sequences S₁,d−1,2d−1 | combinatorial number theory | 1 | 2 | 2 | 1 | candidate (#24) |
 | P5 | Order reciprocity of prime pairs, case (3,3) | number theory | 1 | 2 | 1 | 1 | candidate (#25) |
@@ -80,6 +80,8 @@ group.
 - **First target:** use 1+…+x¹⁵ = (1+x)(1+x²)(1+x⁴)(1+x⁸) and Kummer/Lucas-type carry arguments.
   Start with a lower bound, or one residue class of n.
 - **Risks:** very new, so someone may prove it soon. It could fail beyond n = 1500.
+- **Status:** taken (#22), slug `central-2adic`. Openness re-checked 2026-11-26; notes in
+  [notes/central-2adic.md](notes/central-2adic.md).
 
 ### P3. Minimum modulus for valid residue sets (Fonollosa)
 - **Source:** arXiv:2607.08366 (v2, 14 Jul 2026). The statement is already in Lean in

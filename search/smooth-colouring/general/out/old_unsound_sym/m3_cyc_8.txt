@@ -1,0 +1,4 @@
+310 complement classes
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,0/1/6 result=NONE nodes=2352 stab=288 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,1/1/2 result=NONE nodes=1182 stab=288 secs=0.00
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,0/0/1,3/0/5 result=NONE nodes=1182 stab=288 secs=0.00

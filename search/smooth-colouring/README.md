@@ -36,3 +36,13 @@ whenever (−A) ⊕ B = G, and the checker tests that directly.
     tiling and then the colouring itself, straight from the definition, for all x ≤ 5000.
   - Sanity checks pass: n = 12 (p = 3) and n = 30 (p = 5) give solutions that the checker accepts.
   - Results are in `out/kper_runs.txt`.
+- `general/gtile.rs`: a general periodic search. It looks for φ: ℤ⁺ → G = ℤ_{d1}×…, with
+  φ([n]) ⊕ B = G, for one given B or for all |B| = 3 classes (`B=all3`).
+  - Build with `rustc -O gtile.rs -o gtile3.exe` (output files were produced by gtile3).
+  - Run with `gtile3 n=195 dims=9,5,13 B=all3 dil=1 limit=1000000000 slice=i/10`.
+  - `dil=1` adds the dilation constraints t(B−B), for t coprime to |B|. `limit` caps nodes per B
+    (TIMEOUT).
+  - `check_general.py n dims B "<solution line>"` is the independent checker; use the `Bused=`
+    printed on the solution line.
+  - Results: `general/out/m3_{cyc,nc}_*.txt`, one line per B class. `out/old_unsound_sym/` is a
+    superseded run with a symmetry bug; do not use it.

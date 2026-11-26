@@ -249,3 +249,4 @@ inequality (n ≤ 2000), and checked that termwise dominance implies the conject
   2-adic dominance of the top term in the u-formula holds for even n ≤ 120 (attack lead A1).
   [numerical, Python, not Lean] P2 marked `taken (#22)` in `PROBLEMS.md`; LEDGER entry added.
   Review: one independent subagent, 7 minor findings, 6 fixed and 1 rebutted (see Review).
+- **2026-11-26.** Opened PR #67 (literature + setup, closes #64).

@@ -37,7 +37,8 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | For a WCS and m ∈ [k], σ^{-1}(m) ∈ [(k mod m) + 1, k − (k mod m)] | [preprint: GSK24, Lemma 2.3, read with x = m] + [own argument, unreviewed: the reading and a re-derivation] | Literature, item 4 |
 | Division slices D_d(σ) of a WCS are WCS | [preprint: GSK24, Lemma 2.4, read with m = k] | Literature, item 5 |
 | Reversal preserves WCS | [preprint: GSK24, Rule 3] | Literature |
-| N(k) for k = 1..23 is 1, 2, 2, 4, 4, 4, 4, 4, 8, 16, 16, 4, 4, 2, 2, 8, 8, 8, 8, 4, 12, 16, 16, and no WCS with k ≤ 23 violates Conjecture 5.2 | [numerical, exact enumeration, Python, not Lean; to be redone in Lean] | Log 2026-11-25 |
+| Conjecture 5.2 holds for every k ≤ 16: every WCS σ of [k] (Def. 1.1 verbatim, m ∈ ℤ) has σ(1) = 1 or σ(k) = 1 (`conjecture_5_2_le_16`) | [Lean] (`halfline_lt/Proofs/WeaklyConsecutive.lean`; kernel `decide +kernel` on a pruned enumerator proved complete, no `native_decide`) | Log 2026-11-25 (Lean) |
+| N(k) for k = 1..23 is 1, 2, 2, 4, 4, 4, 4, 4, 8, 16, 16, 4, 4, 2, 2, 8, 8, 8, 8, 4, 12, 16, 16, and no WCS with 16 < k ≤ 23 violates Conjecture 5.2 | [numerical, exact enumeration, Python, not Lean] (the counts are not proved in Lean for any k: the enumerator's soundness is not formalized) | Log 2026-11-25 |
 | σ^{-1}(1) is the unique position not in ⋃_{p ≤ k prime} T_p; so Conjecture 5.2 ⇔ for every WCS the prime classes T_p cover {2, …, k − 1} | [own argument, unreviewed] | Attack ideas, A1 |
 | T_m ∩ T_n = T_{lcm(m,n)} if lcm(m,n) ≤ k, and = ∅ otherwise | [own argument, unreviewed] | Attack ideas, A2 |
 | For a prime p ∈ (k/2, k], T_p = {σ^{-1}(p)} and σ^{-1}(p) ∈ [k − p + 1, p] | [preprint: GSK24, Lemma 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
@@ -198,3 +199,17 @@ scope.
   they overlap; no WCS with k ≤ 23 violates Conjecture 5.2. A second, independent script by a
   search subagent gave the same counts for k ≤ 22. [numerical, exact enumeration; not Lean]
 - **2026-11-25.** `/review` done (9 wording findings, all fixed; see Review). PR #49 opened.
+- **2026-11-25.** Lean (issue #47). `halfline_lt/Proofs/WeaklyConsecutive.lean` states
+  Def. 1.1 on `Equiv.Perm (Fin k)` with the 1-indexing shifts written out and m ranging over ℤ
+  (`IsWeaklyConsecutive`), and proves `conjecture_5_2_le_16`: Conjecture 5.2 for 1 ≤ k ≤ 16.
+  [Lean] Method: a backtracking enumerator over partial sequences that prunes with the pair test
+  gcd(d, σ(i)) = gcd(d, σ(j)) for positions at distance d (implied by Def. 1.1: take
+  m = either gcd); completeness (every WCS survives) is proved, and the kernel evaluates the
+  enumerator by `decide +kernel`. Written with `List.rec`/`Nat.rec` directly: the
+  equation-compiler version was ~10× slower in the kernel. `check.ps1` on the file: CLEAN, 162 s
+  (all of k = 1..16 in one `decide +kernel`). One-off single-k runs (not committed) were erratic:
+  k = 15 alone 429 s, k = 16 alone 137 s; k = 17 did not finish in 20 min, so going further needs
+  stronger pruning (e.g. a Lean proof of Lemma 2.3, or the residue-class structure of Lemma 2.2)
+  or a smaller search space. Counts N(k) are not proved (soundness of the enumerator not
+  formalized).
+- **2026-11-25.** PR #57 opened (issue #47). `/review` not run (budget); left to the reviewer loop.

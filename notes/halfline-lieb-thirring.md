@@ -163,8 +163,9 @@ paper I read states it.
    - **Why N = 1 is excluded (my check of the mechanism).** The proof averages Lemma 2.1 over
      piecewise-affine G with |G′| ∈ {0, 1}; the proof of Thm 2.5 says its G "satisfy (1.2) at the
      vertices", i.e. Σ_j ∂G/∂x_kj(0+) = 0 (DH10, proof of Thm 2.5, p. 9 of arXiv v1: "which
-     satisfy (1.2) at the vertices v of Γ"; checked by text extraction from the PDF on 2026-11-26). These G correspond to "admissible colorings": an even number of edges coloured 1 at
-     each vertex (Def. 2.8). Summing (2.4) over the colourings gives (2.18), with edge weight
+     satisfy (1.2) at the vertices v of Γ"; checked by text extraction from the PDF on
+     2026-11-25). These G correspond to "admissible colorings": an even number of edges
+     coloured 1 at each vertex (Def. 2.8). Summing (2.4) over the colourings gives (2.18), with edge weight
      p = #{C ∈ A(Γ) : C(e) = 1}; the equal-weight condition is Thm 2.9 / (2.10), "a(e, n) is
      independent of e" (p. 8). For a star with N leaves the admissible colourings are the even
      subsets of the leaves, and each leaf lies in p = 2^{N−2} > 0 of them when N ≥ 2, so (2.18) is
@@ -1009,9 +1010,13 @@ Review of 1b43c64 (reviewer-loop):
 2. **MINOR — quote sourced to the review.** Fixed: checked by text extraction from the arXiv v1 PDF; the phrase "which satisfy (1.2) at the vertices v of Γ" is in the proof of Thm 2.5, p. 9. Cited there.
 3. **MINOR — "no longer depends on eq. (5)".** Fixed: now "this is now unconditional, since eq. (5) holds for N ≥ 2 (above)".
 
+Review of ebc1ba8 (reviewer-loop):
+
+1. **MINOR — dates.** Fixed: item 4a and the Log entry now say 2026-11-25 (local date), not 2026-11-26.
+2. **MINOR — formatting.** Fixed: rewrapped the long line in "Why N = 1 is excluded" and removed the stray blank line in `## Log`.
+
 ## Log
 
 - 2026-11-25 (author-loop): literature check of DH10 for ledger gap G10. DF15 eq. (5) holds for star graphs with N ≥ 2 infinite edges, so Corollary 2's improving range, odd N ≥ 3 with 3/2 < γ < 2, is unconditional. The page edit is pending. See Literature item 4a.
 - 2026-11-25 (author-loop): answered the PR #6 review. The infinite-leaf step now goes through finite Dirichlet stars and R → ∞; equation references, the Weyl-step location and the novelty scope are corrected.
-
-- 2026-11-26 (author-loop): merged main (PR #9: G9 section, row and review entries kept) into PR #6; fixed the two minor findings of the review of 1b43c64 (DH10 quote now sourced to p. 9; "now unconditional" wording).
+- 2026-11-25 (author-loop): merged main (PR #9: G9 section, row and review entries kept) into PR #6; fixed the two minor findings of the review of 1b43c64 (DH10 quote now sourced to p. 9; "now unconditional" wording).

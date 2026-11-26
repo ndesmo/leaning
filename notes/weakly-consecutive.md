@@ -34,16 +34,17 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | Conjecture 5.1 (4 seeds, 3 rules generate every WCS) verified by computer up to k = 500 | [preprint: GSK24, §5] (authors' claim, not re-run) | Literature |
 | Conjecture 5.1 implies Conjecture 5.2 | [preprint: GSK24, §5] (stated: check on the seeds, preserved by the rules) | Literature |
 | σ is a WCS iff S_m^σ = T_m^σ for all m ∈ [k] | [preprint: GSK24, Lemma 2.2] | Literature |
-| For a WCS and m ∈ [k], σ^{-1}(m) ∈ [(k mod m) + 1, k − (k mod m)] | [preprint: GSK24, Lemma 2.3, read with x = m] + [own argument, unreviewed: the reading and a re-derivation] | Literature, item 4 |
-| Division slices D_d(σ) of a WCS are WCS | [preprint: GSK24, Lemma 2.4, read with m = k] | Literature, item 5 |
+| For a WCS, m ∈ [k] and every x ∈ [k] with m ∣ x, σ^{-1}(x) ∈ [(k mod m) + 1, k − (k mod m)] (in particular for x = m) | [preprint: GSK24, Lemma 2.3, read with m ∣ x] + [own argument, unreviewed: the reading and a re-derivation] | Literature, item 4 |
+| Division slices D_d(σ) of a WCS are WCS | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed: the reading m = k] | Literature, item 5 |
 | Reversal preserves WCS | [preprint: GSK24, Rule 3] | Literature |
 | Conjecture 5.2 holds for every k ≤ 16: every WCS σ of [k] (Def. 1.1 verbatim, m ∈ ℤ) has σ(1) = 1 or σ(k) = 1 (`conjecture_5_2_le_16`) | [Lean] (`halfline_lt/Proofs/WeaklyConsecutive.lean`; kernel `decide +kernel` on a pruned enumerator proved complete, no `native_decide`) | Log 2026-11-25 (Lean) |
 | N(k) for k = 1..23 is 1, 2, 2, 4, 4, 4, 4, 4, 8, 16, 16, 4, 4, 2, 2, 8, 8, 8, 8, 4, 12, 16, 16, and no WCS with 16 < k ≤ 23 violates Conjecture 5.2 | [numerical, exact enumeration, Python, not Lean] (the counts are not proved in Lean for any k: the enumerator's soundness is not formalized) | Log 2026-11-25 |
 | σ^{-1}(1) is the unique position not in ⋃_{p ≤ k prime} T_p; so Conjecture 5.2 ⇔ for every WCS the prime classes T_p cover {2, …, k − 1} | [own argument, unreviewed] | Attack ideas, A1 |
 | T_m ∩ T_n = T_{lcm(m,n)} if lcm(m,n) ≤ k, and = ∅ otherwise | [own argument, unreviewed] | Attack ideas, A2 |
-| For a prime p ∈ (k/2, k], T_p = {σ^{-1}(p)} and σ^{-1}(p) ∈ [k − p + 1, p] | [preprint: GSK24, Lemma 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
+| For every m ∈ (k/2, k] (prime or not), T_m = {σ^{-1}(m)} and σ^{-1}(m) ∈ [k − m + 1, m] | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
+| For every m ∈ (k/3, k/2] (prime or not), T_m = {ρ, ρ + m} with ρ ∈ (k − 2m, m], and σ^{-1}(m) ∈ {ρ, ρ + m} | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A3 |
 | For odd k, every even value sits at an even position, so σ^{-1}(1) is odd | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
-| If Conjecture 5.2 holds for all lengths < k, then for every WCS of length k and every d ∈ [2, k], σ^{-1}(d) is the first or the last element of T_d | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed] | Attack ideas, A4 |
+| If Conjecture 5.2 holds for all lengths ≤ ⌊k/2⌋, then for every WCS of length k and every d ∈ [2, k], σ^{-1}(d) is the first or the last element of T_d | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed] | Attack ideas, A4 |
 | Window lemma: if m ∈ [2, k] divides σ(i) then k mod m < min(i, k + 1 − i); hence σ(1) ∣ k and σ(k) ∣ k | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A6.1 |
 | gcd(σ(1), σ(k)) = 1 for every WCS; so if 1 < σ^{-1}(1) < k, σ(1) and σ(k) are coprime divisors of k, both ≥ 2 | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.2 |
 | Conjecture 5.2 holds when k is a prime power (or k = 1) | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.3 |
@@ -72,15 +73,20 @@ Rule statements and §4 results are summaries, marked as such. All items are [pr
 4. **Lemma 2.3** (§2): "Let σ be a weakly consecutive sequence of length k. For any x∈[k],
    σ^{-1}(x) lies between" "(k mod m)+1 and k−(k mod m), inclusive."
    - *Hypothesis check.* m is not bound in the statement. The proof (summary: otherwise
-     |S_m| = ⌊k/m⌋ + 1 > |T_m|) shows the intended reading is **x = m**. Re-derived: write
+     |S_m| = ⌊k/m⌋ + 1 > |T_m|) works for every x that is a multiple of m (then σ^{-1}(x) ∈ T_m),
+     so we read it with **m ∣ x**; below it is used with x = m. This reading is ours
+     [own argument, unreviewed]. Re-derived: write
      k = qm + s with 0 ≤ s < m; the class of a position r mod m meets [k] in q + 1 points if its
      least positive representative is ≤ s, and in q points otherwise. By Lemma 2.2 this class is
      T_m, of size q, so σ^{-1}(m) ≡ ρ (mod m) with ρ ∈ [s + 1, m]; in particular
      σ^{-1}(m) ∉ [1, s], and by the same count from the right end, σ^{-1}(m) ∉ [k − s + 1, k].
+     The same holds for every point of T_m, hence for σ^{-1}(x) whenever m ∣ x (a one-line
+     corollary: the count above is about the class, not the point).
      [own argument, unreviewed]
 5. **Lemma 2.4** (§2): "Fix d∈[m]. Let ℓ be the least index such that d|σ(ℓ). Then the
    permutation" "D_d(σ): [⌊m/d⌋] → [⌊m/d⌋]" "defined by" "D_d(σ)(i) = σ(ℓ+(i−1)d)/d" "is weakly
-   consecutive." Here m is again unbound; from context σ is a WCS of length k and **m = k**.
+   consecutive." Here m is again unbound; from context σ is a WCS of length k and we read
+   **m = k**. This reading is ours [own argument, unreviewed], not stated in [GSK24].
 6. **Starting sequences and rules** (§1.1, §3; summaries, not verbatim):
    - SS1: the identity, any k. SS2: k = p − 1, p prime; σ(k) = 1, σ(i) = i + 1 otherwise.
      SS3: k = 2p or 2p + 1 with p, p + 2 prime (a double swap). SS4: k = 2p − 1 with p, 2p + 1,
@@ -111,8 +117,8 @@ Rule statements and §4 results are summaries, marked as such. All items are [pr
     number of prime-power intervals I_{p,c} = [p^c, p^c + p^{c−1}) containing k, and does not
     bear on 5.2. The bibliography (7 items) is classical number theory only.
 
-**What a proof of 5.2 can cite.** Lemma 2.2 (the residue-class characterization), Lemma 2.3 (with
-x = m, re-derived above, so it can be proved inline instead of cited), Lemma 2.4 (slices, for an
+**What a proof of 5.2 can cite.** Lemma 2.2 (the residue-class characterization), Lemma 2.3 (read
+with m ∣ x and used with x = m, re-derived above, so it can be proved inline instead of cited), Lemma 2.4 (slices, for an
 induction on k) and Rule 3 (reversal). All three lemmas have short elementary proofs, so a proof
 should re-prove them (and Lean should formalize them) rather than rely on the preprint. Nothing in
 [GSK24] constrains the position of the value 1 directly.
@@ -148,24 +154,34 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
   extra size constraints |T_p ∩ [k]| = ⌊k/p⌋ and the lcm constraints in A2.
 - **A2. Compatibility.** [own argument, unreviewed] T_m ∩ T_n is the set of positions whose value
   is divisible by lcm(m, n): it is T_{lcm(m,n)} if lcm(m, n) ≤ k, and empty otherwise. So for
-  coprime m, n with mn > k the two classes are disjoint inside [k], although as residue classes
-  mod m and mod n they meet in a residue class mod mn (CRT), which has no point in [k].
+  coprime m, n with mn > k the two classes are disjoint inside [k]. This is not automatic: as
+  residue classes mod m and mod n they meet (CRT) in one residue class mod mn, which can have a
+  point in [k] since mn > k only bounds it to at most one; the WCS property (no value in [k] is
+  divisible by lcm(m, n) > k) is what forces that class to miss [k].
   This is a constraint on the pair (pos(m) mod m, pos(n) mod n) worth exploiting for large coprime pairs (a suggestion, not a claim).
-- **A3. Large primes and small moduli.** [own argument, unreviewed]
-  - For a prime p ∈ (k/2, k], T_p = {pos(p)} and pos(p) ∈ [k − p + 1, p] (Lemma 2.3).
-  - For a prime p ∈ (k/3, k/2], T_p = {ρ, ρ + p}, both in [k], where its least
-    element ρ lies in (k − 2p, p], and pos(p) ∈ {ρ, ρ + p}.
+- **A3. Large primes and small moduli.** [own argument, unreviewed] Primality is not used in the
+  first two bullets: they hold for every m in the stated ranges.
+  - For m ∈ (k/2, k], T_m = {pos(m)} and pos(m) ∈ [k − m + 1, m] (Lemma 2.3, with k mod m = k − m).
+  - For m ∈ (k/3, k/2], T_m = {ρ, ρ + m}, both in [k], where its least element ρ lies in
+    (k − 2m, m], and pos(m) ∈ {ρ, ρ + m}. Proof: 2m ≤ k < 3m, so ⌊k/m⌋ = 2. By Lemma 2.2, T_m is
+    the residue class of pos(m) mod m inside [k], of size 2; with least element ρ ∈ [1, m] its
+    points in [k] are ρ, ρ + m, …, so size 2 means ρ + m ≤ k < ρ + 2m, i.e. ρ > k − 2m (and
+    ρ + m ≤ k holds since ρ ≤ m ≤ k − m). pos(m) ∈ T_m by definition.
   - m = 2, k odd: T_2 is the class with least representative 2, i.e. the even positions, so every
     even value sits at an even position and pos(1) is odd. For k even both parities are possible
     a priori.
-  - Plan: suppose 2 ≤ pos(1) ≤ k − 1. The values whose prime factors are all large are few and
-    each is pinned to a single position; the values with small prime factors fill whole residue
+  - Plan: suppose 2 ≤ pos(1) ≤ k − 1. For each value v > k/2, T_v is a singleton: no other
+    value shares v's class (first bullet), though pos(v) itself may still lie anywhere in
+    [k − v + 1, v]. Already for v ∈ (k/3, k/2], |T_v| = 2 (second bullet), and its least element
+    ρ ranges over (k − 2v, v]. The values with small prime factors fill whole residue
     classes. Count the positions in [2, k − 1] left uncovered by the small-prime classes and show
     the large primes cannot cover all but one of them unless the gap is at an end.
 - **A4. Induction through slices.** [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed]
   Strong induction on k. For d ∈ [2, k] the slice D_d(σ) is a WCS of length ⌊k/d⌋ < k, and its
   value 1 is the position of d within T_d. So the induction hypothesis gives: pos(d) is the first
-  or the last element of T_d, for every d ≥ 2. (This is Conjecture 5.3's mechanism.) What remains
+  or the last element of T_d, for every d ≥ 2. (This is Conjecture 5.3's mechanism.) Only lengths
+  ⌊k/d⌋ ≤ ⌊k/2⌋ are used, so the stronger form holds: if Conjecture 5.2 holds for all lengths
+  ≤ ⌊k/2⌋ (length 1 is trivial), then for every WCS of length k, pos(d) is extreme in T_d for all d ∈ [2, k]. What remains
   for the inductive step is to locate the value 1 itself, using these rigid positions for all
   d ≥ 2 at once, e.g. for the primes d in A3.
 - **A5. Lean.** The definition is decidable; check Conjecture 5.2 for small k by `decide` /
@@ -183,8 +199,8 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
     and has ⌊k/m⌋ = (k − s_m)/m points. If i ≤ s_m, the class of i has a point in each of the
     blocks [i + jm] for j = 0, …, ⌊k/m⌋ (the last is i + ⌊k/m⌋·m ≤ s_m + k − s_m = k), so
     ⌊k/m⌋ + 1 points: contradiction. The other inequality follows by reversal (Rule 3), which
-    maps position i to k + 1 − i and keeps the values. ∎ (This is Lemma 2.3 of [GSK24] extended from
-    pos(m) to the whole class T_m: every member of the class has the same residue mod m. Reversal
+    maps position i to k + 1 − i and keeps the values. ∎ (This is Lemma 2.3 of [GSK24] read with m ∣ x,
+    i.e. for the whole class T_m (our reading, Literature item 4): every member of the class has the same residue mod m. Reversal
     is immediate from the definition, since i − j and (k + 1 − i) − (k + 1 − j) differ only in sign.)
     - *Corollary (end values).* σ(1) ∣ k and σ(k) ∣ k: every divisor m ≥ 2 of σ(1) has
       s_m < 1, i.e. m ∣ k; take m = σ(1) (if σ(1) ≥ 2). Same for σ(k).
@@ -305,6 +321,39 @@ Claims reviewer: one blocking finding and three wording findings, all fixed:
 - C4. The k + 1 row rests on Lemma 2.2 too; label now includes it. A6.1 row now also cites
   Lemma 2.3, and reversal is justified from the definition.
 
+### 2026-11-25: issue #52 (review points left open when PR #49 merged), `/review` (two independent subagents)
+
+The seven points from the last reviewer-loop comment on PR #49, all fixed:
+1. FIX. A3's second bullet had no ledger label. Now proved inline (⌊k/m⌋ = 2 and Lemma 2.2) and
+   given its own ledger row, [own argument, unreviewed].
+2. The m = k reading of Lemma 2.4 (and the reading of Lemma 2.3) is ours. Labelled
+   [own argument, unreviewed] in the ledger and in Literature items 4 and 5.
+3. "The intended reading is x = m" was too strong. Now: the argument works for every x with
+   m ∣ x; used with x = m.
+4. A3 never uses primality. Both bullets and the ledger row now state every m in the range.
+5. "Pinned to a single position" holds only for values > k/2. A3's plan now says so.
+6. A2's CRT sentence. Now says the CRT class mod mn can have one point in [k] and the WCS property
+   is what empties it.
+7. A4. The stronger induction form (lengths ≤ ⌊k/2⌋) is stated, in the prose and the ledger.
+
+`/review` of these changes. Mathematics reviewer (brute force over all permutations, k ≤ 9; it used
+the divisibility-class form, not Def. 1.1 verbatim): no problems; one nit (length 1 trivial).
+Claims reviewer: three wording findings, all fixed:
+- C1. A6.1 still said "Lemma 2.3 extended to the whole class", which now contradicts the m ∣ x
+  reading. Reworded. (The historical M2 entry above is left as it was.)
+- C2. The m ∣ x extension was only one sentence. It now says it is a corollary of the class count.
+- C3 (with the mathematics nit). A4: added "length 1 is trivial".
+
+### 2026-11-26: reviewer-loop comment on PR #63 (3 minor findings, all fixed)
+
+- R1. A3 Plan said each v > k/2 "is pinned to a single position" and values in (k/3, k/2] "have
+  two candidate positions". That overstates the bullets. Fixed: T_v is a singleton (pos(v) still
+  free in [k − v + 1, v]); |T_v| = 2 with ρ ranging over (k − 2v, v].
+- R2. Claims-ledger row for m ∈ (k/2, k] cited only Lemma 2.3; T_m = {σ^{-1}(m)} uses Lemma 2.2.
+  Fixed: label now cites Lemmas 2.2, 2.3.
+- R3. Claims-ledger row for Lemma 2.3 stated the window only for σ^{-1}(m). Fixed: now stated for
+  every x with m ∣ x, as in Literature item 4 and A6.1.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -339,3 +388,7 @@ Claims reviewer: one blocking finding and three wording findings, all fixed:
   the relaxations in A6.5. [numerical, Python, not Lean]
 - **2026-11-25.** Attack stage `/review` done (1 blocking + 8 wording findings, all fixed; see
   Review). PR opened for #48.
+- **2026-11-25.** Issue #52: fixed the seven review points left open on PR #49 (see Review);
+  `/review` done (3 wording findings + 1 nit, all fixed).
+- **2026-11-26.** Addressed the reviewer-loop comment on PR #63 (3 minor findings, all fixed;
+  see Review).

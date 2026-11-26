@@ -1,0 +1,17 @@
+start [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47] ('NONE', 'result=NONE solutions_seen=0 nodes=898104 leaves=174227093 secs=12.83')
+remove 47 -> EXISTS result=EXISTS solutions_seen=1 nodes=12278 leaves=2380311 secs=0.06
+remove 43 -> EXISTS result=EXISTS solutions_seen=1 nodes=12278 leaves=2380311 secs=0.08
+remove 41 -> EXISTS result=EXISTS solutions_seen=1 nodes=12278 leaves=2380311 secs=0.06
+remove 37 -> EXISTS result=EXISTS solutions_seen=1 nodes=12278 leaves=2380311 secs=0.07
+remove 31 -> EXISTS result=EXISTS solutions_seen=1 nodes=12278 leaves=2380311 secs=0.06
+remove 29 -> EXISTS result=EXISTS solutions_seen=1 nodes=12278 leaves=2380311 secs=0.06
+remove 23 -> EXISTS result=EXISTS solutions_seen=1 nodes=5819 leaves=1127400 secs=0.03
+remove 19 -> EXISTS result=EXISTS solutions_seen=1 nodes=314 leaves=59244 secs=0.01
+remove 17 -> EXISTS result=EXISTS solutions_seen=1 nodes=236 leaves=44152 secs=0.01
+remove 13 -> EXISTS result=EXISTS solutions_seen=1 nodes=16 leaves=1509 secs=0.00
+remove 11 -> EXISTS result=EXISTS solutions_seen=1 nodes=17 leaves=1758 secs=0.00
+remove 7 -> EXISTS result=EXISTS solutions_seen=1 nodes=15 leaves=1132 secs=0.00
+remove 5 -> EXISTS result=EXISTS solutions_seen=1 nodes=15 leaves=1104 secs=0.00
+remove 3 -> EXISTS result=EXISTS solutions_seen=1 nodes=15 leaves=731 secs=0.00
+remove 2 -> EXISTS result=EXISTS solutions_seen=1 nodes=15 leaves=519 secs=0.00
+minimal (w.r.t. single removals, greedy from the top): [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47] ('NONE', 'result=NONE solutions_seen=0 nodes=898104 leaves=174227093 secs=10.02')

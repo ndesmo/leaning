@@ -38,7 +38,7 @@ Scores are 0–2:
 | P8 | Catch-Up game draws for N ≡ 0, 3 mod 4 | combinatorial games | 2 | 1 | 1 | 1 | candidate (#28) |
 | P9 | Max queens each attacking exactly 3 (OEIS A051756) | combinatorics | 1 | 1 | 1 | 1 | candidate (#29) |
 | P10 | Helly numbers of composite grids | discrete geometry | 2 | 1 | 1 | 1 | candidate (#30) |
-| P11 | Colouring ℤ⁺ with n colours, multiples distinct, n = 195 | combinatorics | 2 | 1 | 0 | 2 | candidate (#31) |
+| P11 | Colouring ℤ⁺ with n colours, multiples distinct, n = 195 | combinatorics | 2 | 1 | 0 | 2 | taken (#31) |
 | P12 | Erdős #677: equal lcms of disjoint intervals | number theory | 1 | 2 | 1 | 0 | candidate (#37), crowded |
 | P13 | Erdős #287: gaps in Egyptian fractions of 1 | number theory | 1 | 2 | 1 | 0 | candidate (#38), crowded |
 | P14 | WOWII graph conjectures 61, 133, 199 | graph theory | 1 | 2 | 1 | 0 | candidate (#39), crowded |

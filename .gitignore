@@ -1,3 +1,7 @@
 # Supervisor logs, state and generated settings (tools/agents.py)
 .agent-logs/
 __pycache__/
+
+# Build outputs of search code
+search/**/*.exe
+search/**/*.pdb

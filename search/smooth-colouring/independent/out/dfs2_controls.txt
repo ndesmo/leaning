@@ -1,0 +1,216 @@
+dfs2 n=3 p=3 K=1 order=greedy sym=true result=FOUND sols_small=1 nodes=0 tasks_done=1/1 secs=0.00
+DIRECT OK n=3 p=3 K=1
+dfs2 n=6 p=3 K=2 order=greedy sym=true result=FOUND sols_small=1 nodes=2 tasks_done=1/7 secs=0.00
+DIRECT OK n=6 p=3 K=2
+dfs2 n=9 p=3 K=3 order=greedy sym=true result=FOUND sols_small=1 nodes=2 tasks_done=1/2 secs=0.00
+DIRECT OK n=9 p=3 K=3
+dfs2 n=12 p=3 K=4 order=greedy sym=true result=FOUND sols_small=1 nodes=3 tasks_done=1/13 secs=0.00
+DIRECT OK n=12 p=3 K=4
+dfs2 n=15 p=3 K=5 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/18 secs=0.00
+DIRECT OK n=15 p=3 K=5
+dfs2 n=18 p=3 K=6 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/38 secs=0.00
+DIRECT OK n=18 p=3 K=6
+dfs2 n=21 p=3 K=7 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/26 secs=0.00
+DIRECT OK n=21 p=3 K=7
+dfs2 n=24 p=3 K=8 order=greedy sym=true result=FOUND sols_small=1 nodes=5 tasks_done=1/40 secs=0.00
+DIRECT OK n=24 p=3 K=8
+dfs2 n=27 p=3 K=9 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/15 secs=0.00
+DIRECT OK n=27 p=3 K=9
+dfs2 n=30 p=3 K=10 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/62 secs=0.00
+DIRECT OK n=30 p=3 K=10
+dfs2 n=33 p=3 K=11 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/31 secs=0.00
+DIRECT OK n=33 p=3 K=11
+dfs2 n=36 p=3 K=12 order=greedy sym=true result=FOUND sols_small=1 nodes=7 tasks_done=1/95 secs=0.00
+DIRECT OK n=36 p=3 K=12
+dfs2 n=39 p=3 K=13 order=greedy sym=true result=FOUND sols_small=1 nodes=8 tasks_done=1/43 secs=0.00
+DIRECT OK n=39 p=3 K=13
+dfs2 n=42 p=3 K=14 order=greedy sym=true result=FOUND sols_small=1 nodes=27 tasks_done=2/100 secs=0.00
+DIRECT OK n=42 p=3 K=14
+dfs2 n=45 p=3 K=15 order=greedy sym=true result=FOUND sols_small=1 nodes=19 tasks_done=2/109 secs=0.00
+DIRECT OK n=45 p=3 K=15
+dfs2 n=48 p=3 K=16 order=greedy sym=true result=FOUND sols_small=1 nodes=11 tasks_done=1/114 secs=0.00
+DIRECT OK n=48 p=3 K=16
+dfs2 n=51 p=3 K=17 order=greedy sym=true result=FOUND sols_small=1 nodes=16 tasks_done=2/72 secs=0.01
+DIRECT OK n=51 p=3 K=17
+dfs2 n=54 p=3 K=18 order=greedy sym=true result=FOUND sols_small=1 nodes=68 tasks_done=5/217 secs=0.00
+DIRECT OK n=54 p=3 K=18
+dfs2 n=57 p=3 K=19 order=greedy sym=true result=FOUND sols_small=1 nodes=41 tasks_done=3/85 secs=0.01
+DIRECT OK n=57 p=3 K=19
+dfs2 n=60 p=3 K=20 order=greedy sym=true result=FOUND sols_small=1 nodes=13 tasks_done=1/225 secs=0.01
+DIRECT OK n=60 p=3 K=20
+dfs2 n=63 p=3 K=21 order=greedy sym=true result=FOUND sols_small=1 nodes=11 tasks_done=1/220 secs=0.01
+DIRECT OK n=63 p=3 K=21
+dfs2 n=66 p=3 K=22 order=greedy sym=true result=FOUND sols_small=1 nodes=12 tasks_done=1/205 secs=0.00
+DIRECT OK n=66 p=3 K=22
+dfs2 n=69 p=3 K=23 order=greedy sym=true result=FOUND sols_small=1 nodes=11 tasks_done=1/136 secs=0.00
+DIRECT OK n=69 p=3 K=23
+dfs2 n=72 p=3 K=24 order=greedy sym=true result=FOUND sols_small=1 nodes=47 tasks_done=1/374 secs=0.00
+DIRECT OK n=72 p=3 K=24
+dfs2 n=75 p=3 K=25 order=greedy sym=true result=FOUND sols_small=1 nodes=73 tasks_done=2/178 secs=0.00
+DIRECT OK n=75 p=3 K=25
+dfs2 n=78 p=3 K=26 order=greedy sym=true result=FOUND sols_small=1 nodes=13 tasks_done=1/308 secs=0.00
+DIRECT OK n=78 p=3 K=26
+dfs2 n=81 p=3 K=27 order=greedy sym=true result=FOUND sols_small=1 nodes=41 tasks_done=2/228 secs=0.00
+DIRECT OK n=81 p=3 K=27
+dfs2 n=84 p=3 K=28 order=greedy sym=true result=FOUND sols_small=1 nodes=13 tasks_done=1/304 secs=0.01
+DIRECT OK n=84 p=3 K=28
+dfs2 n=87 p=3 K=29 order=greedy sym=true result=FOUND sols_small=1 nodes=33 tasks_done=2/190 secs=0.00
+DIRECT OK n=87 p=3 K=29
+dfs2 n=90 p=3 K=30 order=greedy sym=true result=FOUND sols_small=1 nodes=28 tasks_done=1/582 secs=0.01
+DIRECT OK n=90 p=3 K=30
+dfs2 n=93 p=3 K=31 order=greedy sym=true result=FOUND sols_small=1 nodes=43 tasks_done=4/224 secs=0.00
+DIRECT OK n=93 p=3 K=31
+dfs2 n=96 p=3 K=32 order=greedy sym=true result=FOUND sols_small=1 nodes=60 tasks_done=3/368 secs=0.01
+DIRECT OK n=96 p=3 K=32
+dfs2 n=99 p=3 K=33 order=greedy sym=true result=FOUND sols_small=1 nodes=140 tasks_done=3/400 secs=0.01
+DIRECT OK n=99 p=3 K=33
+dfs2 n=102 p=3 K=34 order=greedy sym=true result=FOUND sols_small=1 nodes=243 tasks_done=2/432 secs=0.01
+DIRECT OK n=102 p=3 K=34
+dfs2 n=105 p=3 K=35 order=greedy sym=true result=FOUND sols_small=1 nodes=114 tasks_done=2/424 secs=0.01
+DIRECT OK n=105 p=3 K=35
+dfs2 n=108 p=3 K=36 order=greedy sym=true result=FOUND sols_small=1 nodes=71 tasks_done=2/699 secs=0.01
+DIRECT OK n=108 p=3 K=36
+dfs2 n=111 p=3 K=37 order=greedy sym=true result=FOUND sols_small=1 nodes=141 tasks_done=4/302 secs=0.01
+DIRECT OK n=111 p=3 K=37
+dfs2 n=114 p=3 K=38 order=greedy sym=true result=FOUND sols_small=1 nodes=49 tasks_done=3/535 secs=0.01
+DIRECT OK n=114 p=3 K=38
+dfs2 n=117 p=3 K=39 order=greedy sym=true result=FOUND sols_small=1 nodes=336 tasks_done=4/535 secs=0.01
+DIRECT OK n=117 p=3 K=39
+dfs2 n=120 p=3 K=40 order=greedy sym=true result=FOUND sols_small=1 nodes=1848 tasks_done=7/768 secs=0.03
+DIRECT OK n=120 p=3 K=40
+dfs2 n=123 p=3 K=41 order=greedy sym=true result=FOUND sols_small=1 nodes=954 tasks_done=1/370 secs=0.01
+DIRECT OK n=123 p=3 K=41
+dfs2 n=126 p=3 K=42 order=greedy sym=true result=FOUND sols_small=1 nodes=671 tasks_done=7/1156 secs=0.03
+DIRECT OK n=126 p=3 K=42
+dfs2 n=129 p=3 K=43 order=greedy sym=true result=FOUND sols_small=1 nodes=3211 tasks_done=14/356 secs=0.04
+DIRECT OK n=129 p=3 K=43
+dfs2 n=132 p=3 K=44 order=greedy sym=true result=FOUND sols_small=1 nodes=1531 tasks_done=7/713 secs=0.04
+DIRECT OK n=132 p=3 K=44
+dfs2 n=135 p=3 K=45 order=greedy sym=true result=FOUND sols_small=1 nodes=10413 tasks_done=43/772 secs=0.08
+DIRECT OK n=135 p=3 K=45
+dfs2 n=138 p=3 K=46 order=greedy sym=true result=FOUND sols_small=1 nodes=2521 tasks_done=9/711 secs=0.04
+DIRECT OK n=138 p=3 K=46
+dfs2 n=141 p=3 K=47 order=greedy sym=true result=FOUND sols_small=1 nodes=2406 tasks_done=7/424 secs=0.04
+DIRECT OK n=141 p=3 K=47
+dfs2 n=144 p=3 K=48 order=greedy sym=true result=FOUND sols_small=1 nodes=32752 tasks_done=57/1232 secs=0.17
+DIRECT OK n=144 p=3 K=48
+dfs2 n=147 p=3 K=49 order=greedy sym=true result=FOUND sols_small=1 nodes=2002 tasks_done=10/488 secs=0.05
+DIRECT OK n=147 p=3 K=49
+dfs2 n=150 p=3 K=50 order=greedy sym=true result=FOUND sols_small=1 nodes=2119 tasks_done=6/980 secs=0.07
+DIRECT OK n=150 p=3 K=50
+dfs2 n=153 p=3 K=51 order=greedy sym=true result=FOUND sols_small=1 nodes=23256 tasks_done=61/777 secs=0.22
+DIRECT OK n=153 p=3 K=51
+dfs2 n=156 p=3 K=52 order=greedy sym=true result=FOUND sols_small=1 nodes=35770 tasks_done=72/955 secs=0.38
+DIRECT OK n=156 p=3 K=52
+dfs2 n=159 p=3 K=53 order=greedy sym=true result=FOUND sols_small=1 nodes=200 tasks_done=3/526 secs=0.02
+DIRECT OK n=159 p=3 K=53
+dfs2 n=162 p=3 K=54 order=greedy sym=true result=NONE sols_small=0 nodes=947024 tasks_done=1393/1393 secs=4.30
+dfs2 n=165 p=3 K=55 order=greedy sym=true result=FOUND sols_small=1 nodes=9432 tasks_done=17/764 secs=0.20
+DIRECT OK n=165 p=3 K=55
+dfs2 n=168 p=3 K=56 order=greedy sym=true result=FOUND sols_small=1 nodes=7630 tasks_done=14/1169 secs=0.20
+DIRECT OK n=168 p=3 K=56
+dfs2 n=171 p=3 K=57 order=greedy sym=true result=FOUND sols_small=1 nodes=68892 tasks_done=88/910 secs=0.55
+DIRECT OK n=171 p=3 K=57
+dfs2 n=174 p=3 K=58 order=greedy sym=true result=FOUND sols_small=1 nodes=30886 tasks_done=27/1024 secs=0.37
+DIRECT OK n=174 p=3 K=58
+dfs2 n=177 p=3 K=59 order=greedy sym=true result=FOUND sols_small=1 nodes=633 tasks_done=3/616 secs=0.05
+DIRECT OK n=177 p=3 K=59
+dfs2 n=180 p=3 K=60 order=greedy sym=true result=FOUND sols_small=1 nodes=1948 tasks_done=5/2213 secs=0.12
+DIRECT OK n=180 p=3 K=60
+dfs2 n=183 p=3 K=61 order=greedy sym=true result=FOUND sols_small=1 nodes=49318 tasks_done=83/650 secs=0.52
+DIRECT OK n=183 p=3 K=61
+dfs2 n=186 p=3 K=62 order=greedy sym=true result=FOUND sols_small=1 nodes=559037 tasks_done=768/1151 secs=3.84
+DIRECT OK n=186 p=3 K=62
+dfs2 n=189 p=3 K=63 order=greedy sym=true result=NONE sols_small=0 nodes=1325438 tasks_done=1205/1205 secs=8.31
+dfs2 n=192 p=3 K=64 order=greedy sym=true result=FOUND sols_small=1 nodes=853319 tasks_done=1052/1302 secs=5.60
+DIRECT OK n=192 p=3 K=64
+dfs2 n=5 p=5 K=1 order=greedy sym=true result=FOUND sols_small=1 nodes=1 tasks_done=1/1 secs=0.00
+DIRECT OK n=5 p=5 K=1
+dfs2 n=10 p=5 K=2 order=greedy sym=true result=FOUND sols_small=1 nodes=3 tasks_done=1/4 secs=0.00
+DIRECT OK n=10 p=5 K=2
+dfs2 n=15 p=5 K=3 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/16 secs=0.00
+DIRECT OK n=15 p=5 K=3
+dfs2 n=20 p=5 K=4 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/20 secs=0.00
+DIRECT OK n=20 p=5 K=4
+dfs2 n=30 p=5 K=6 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/52 secs=0.00
+DIRECT OK n=30 p=5 K=6
+dfs2 n=35 p=5 K=7 order=greedy sym=true result=FOUND sols_small=1 nodes=11 tasks_done=1/37 secs=0.00
+DIRECT OK n=35 p=5 K=7
+dfs2 n=40 p=5 K=8 order=greedy sym=true result=FOUND sols_small=1 nodes=15 tasks_done=1/62 secs=0.00
+DIRECT OK n=40 p=5 K=8
+dfs2 n=45 p=5 K=9 order=greedy sym=true result=FOUND sols_small=1 nodes=8 tasks_done=1/59 secs=0.00
+DIRECT OK n=45 p=5 K=9
+dfs2 n=55 p=5 K=11 order=greedy sym=true result=FOUND sols_small=1 nodes=15 tasks_done=2/71 secs=0.00
+DIRECT OK n=55 p=5 K=11
+dfs2 n=60 p=5 K=12 order=greedy sym=true result=FOUND sols_small=1 nodes=18 tasks_done=1/195 secs=0.01
+DIRECT OK n=60 p=5 K=12
+dfs2 n=65 p=5 K=13 order=greedy sym=true result=FOUND sols_small=1 nodes=12 tasks_done=1/90 secs=0.00
+DIRECT OK n=65 p=5 K=13
+dfs2 n=70 p=5 K=14 order=greedy sym=true result=FOUND sols_small=1 nodes=16 tasks_done=2/200 secs=0.00
+DIRECT OK n=70 p=5 K=14
+dfs2 n=80 p=5 K=16 order=greedy sym=true result=FOUND sols_small=1 nodes=66 tasks_done=1/230 secs=0.01
+DIRECT OK n=80 p=5 K=16
+dfs2 n=85 p=5 K=17 order=greedy sym=true result=FOUND sols_small=1 nodes=50 tasks_done=2/122 secs=0.00
+DIRECT OK n=85 p=5 K=17
+dfs2 n=90 p=5 K=18 order=greedy sym=true result=FOUND sols_small=1 nodes=22 tasks_done=2/300 secs=0.01
+DIRECT OK n=90 p=5 K=18
+dfs2 n=95 p=5 K=19 order=greedy sym=true result=FOUND sols_small=1 nodes=43 tasks_done=2/150 secs=0.00
+DIRECT OK n=95 p=5 K=19
+dfs2 n=105 p=5 K=21 order=greedy sym=true result=FOUND sols_small=1 nodes=639 tasks_done=4/278 secs=0.01
+DIRECT OK n=105 p=5 K=21
+dfs2 n=110 p=5 K=22 order=greedy sym=true result=FOUND sols_small=1 nodes=183 tasks_done=2/336 secs=0.01
+DIRECT OK n=110 p=5 K=22
+dfs2 n=115 p=5 K=23 order=greedy sym=true result=FOUND sols_small=1 nodes=230 tasks_done=3/192 secs=0.01
+DIRECT OK n=115 p=5 K=23
+dfs2 n=120 p=5 K=24 order=greedy sym=true result=FOUND sols_small=1 nodes=596 tasks_done=5/520 secs=0.02
+DIRECT OK n=120 p=5 K=24
+dfs2 n=130 p=5 K=26 order=greedy sym=true result=FOUND sols_small=1 nodes=1438 tasks_done=3/412 secs=0.02
+DIRECT OK n=130 p=5 K=26
+dfs2 n=135 p=5 K=27 order=greedy sym=true result=FOUND sols_small=1 nodes=127 tasks_done=3/340 secs=0.01
+DIRECT OK n=135 p=5 K=27
+dfs2 n=140 p=5 K=28 order=greedy sym=true result=FOUND sols_small=1 nodes=2443 tasks_done=5/522 secs=0.04
+DIRECT OK n=140 p=5 K=28
+dfs2 n=145 p=5 K=29 order=greedy sym=true result=FOUND sols_small=1 nodes=9256 tasks_done=13/256 secs=0.13
+DIRECT OK n=145 p=5 K=29
+dfs2 n=155 p=5 K=31 order=greedy sym=true result=FOUND sols_small=1 nodes=167683 tasks_done=212/307 secs=0.73
+DIRECT OK n=155 p=5 K=31
+dfs2 n=160 p=5 K=32 order=greedy sym=true result=FOUND sols_small=1 nodes=2081 tasks_done=8/645 secs=0.05
+DIRECT OK n=160 p=5 K=32
+dfs2 n=165 p=5 K=33 order=greedy sym=true result=FOUND sols_small=1 nodes=17849 tasks_done=17/582 secs=0.32
+DIRECT OK n=165 p=5 K=33
+dfs2 n=170 p=5 K=34 order=greedy sym=true result=FOUND sols_small=1 nodes=313029 tasks_done=41/692 secs=0.63
+DIRECT OK n=170 p=5 K=34
+dfs2 n=180 p=5 K=36 order=greedy sym=true result=FOUND sols_small=1 nodes=43376 tasks_done=38/1239 secs=0.62
+DIRECT OK n=180 p=5 K=36
+dfs2 n=185 p=5 K=37 order=greedy sym=true result=FOUND sols_small=1 nodes=39303 tasks_done=27/501 secs=0.52
+DIRECT OK n=185 p=5 K=37
+dfs2 n=190 p=5 K=38 order=greedy sym=true result=FOUND sols_small=1 nodes=712923 tasks_done=743/934 secs=4.76
+DIRECT OK n=190 p=5 K=38
+dfs2 n=13 p=13 K=1 order=greedy sym=true result=FOUND sols_small=1 nodes=3 tasks_done=1/5 secs=0.00
+DIRECT OK n=13 p=13 K=1
+dfs2 n=26 p=13 K=2 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/24 secs=0.00
+DIRECT OK n=26 p=13 K=2
+dfs2 n=39 p=13 K=3 order=greedy sym=true result=FOUND sols_small=1 nodes=8 tasks_done=1/29 secs=0.00
+DIRECT OK n=39 p=13 K=3
+dfs2 n=52 p=13 K=4 order=greedy sym=true result=FOUND sols_small=1 nodes=10 tasks_done=2/81 secs=0.00
+DIRECT OK n=52 p=13 K=4
+dfs2 n=65 p=13 K=5 order=greedy sym=true result=FOUND sols_small=1 nodes=84 tasks_done=5/70 secs=0.00
+DIRECT OK n=65 p=13 K=5
+dfs2 n=78 p=13 K=6 order=greedy sym=true result=FOUND sols_small=1 nodes=306 tasks_done=15/158 secs=0.01
+DIRECT OK n=78 p=13 K=6
+dfs2 n=91 p=13 K=7 order=greedy sym=true result=FOUND sols_small=1 nodes=23 tasks_done=1/123 secs=0.01
+DIRECT OK n=91 p=13 K=7
+dfs2 n=104 p=13 K=8 order=greedy sym=true result=FOUND sols_small=1 nodes=469 tasks_done=5/203 secs=0.01
+DIRECT OK n=104 p=13 K=8
+dfs2 n=117 p=13 K=9 order=greedy sym=true result=FOUND sols_small=1 nodes=473 tasks_done=3/198 secs=0.02
+DIRECT OK n=117 p=13 K=9
+dfs2 n=130 p=13 K=10 order=greedy sym=true result=FOUND sols_small=1 nodes=220 tasks_done=3/332 secs=0.02
+DIRECT OK n=130 p=13 K=10
+dfs2 n=143 p=13 K=11 order=greedy sym=true result=FOUND sols_small=1 nodes=2210 tasks_done=5/185 secs=0.05
+DIRECT OK n=143 p=13 K=11
+dfs2 n=156 p=13 K=12 order=greedy sym=true result=FOUND sols_small=1 nodes=32462 tasks_done=117/499 secs=0.50
+DIRECT OK n=156 p=13 K=12
+dfs2 n=169 p=13 K=13 order=greedy sym=true result=FOUND sols_small=1 nodes=547774 tasks_done=57/332 secs=0.84
+DIRECT OK n=169 p=13 K=13
+dfs2 n=182 p=13 K=14 order=greedy sym=true result=FOUND sols_small=1 nodes=53134 tasks_done=130/472 secs=0.86
+DIRECT OK n=182 p=13 K=14

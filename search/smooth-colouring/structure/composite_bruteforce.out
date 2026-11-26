@@ -1,0 +1,12 @@
+H = (9,) exhaustive {'pairs': 18, 'aperiodic': 9, 'chars': 72, 'tilingC': 10} -> no counterexample
+H = (3, 3) exhaustive {'pairs': 60, 'aperiodic': 24, 'chars': 216, 'tilingC': 28} -> no counterexample
+H = (25,) exhaustive {'pairs': 1250, 'aperiodic': 625, 'chars': 15000, 'tilingC': 626} -> no counterexample
+H = (5, 5) exhaustive {'pairs': 7470, 'aperiodic': 3720, 'chars': 87000, 'tilingC': 3426} -> no counterexample
+H = (27,) exhaustive {'pairs': 6723, 'aperiodic': 6561, 'chars': 118746, 'tilingC': 91} -> no counterexample
+H = (9, 3) exhaustive {'pairs': 26919, 'aperiodic': 26136, 'chars': 461214, 'tilingC': 271} -> no counterexample
+H = (3, 3, 3) exhaustive {'pairs': 88101, 'aperiodic': 84240, 'chars': 1417338, 'tilingC': 325} -> no counterexample
+H = (81,) sampled {'pairs': 369, 'aperiodic': 320, 'chars': 17558, 'tilingC': 25} -> no counterexample
+H = (27, 3) sampled {'pairs': 260, 'aperiodic': 18, 'chars': 4168, 'tilingC': 25} -> no counterexample
+H = (9, 9) sampled {'pairs': 364, 'aperiodic': 19, 'chars': 6636, 'tilingC': 25} -> no counterexample
+H = (9, 3, 3) sampled {'pairs': 434, 'aperiodic': 36, 'chars': 7242, 'tilingC': 25} -> no counterexample
+H = (3, 3, 3, 3) sampled {'pairs': 500, 'aperiodic': 18, 'chars': 8150, 'tilingC': 25} -> no counterexample

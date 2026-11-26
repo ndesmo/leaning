@@ -59,3 +59,11 @@ whenever (−A) ⊕ B = G, and the checker tests that directly.
   tile classes of H. The summary is in `general/out/m5_summary.txt`.
 - `structure/puretype_search.py` and `puretype_check.py` (pass 3): the mixed-type character
   certificate, `cert_N195_1_2_14.json`. Notes are in `structure/pass3_puretype.md`.
+- `general/gtile7.rs` (pass 5): gtile6 with coset mode extended to Z_{p^{i+1}} (levels (b_i^p) of
+  `structure/composite_B.md`). Run it with `run7.sh <tag> 20 "n=195 p=3 hd=27 mode=coset limit=…"`.
+  Results are in `general/out/m{9_Z27,25_Z125,27_Z81}_coset_n195.txt`.
+- `independent/dfs2.rs` (pass 5): an independent exact DFS for case (b), written from the note
+  without reading gtile5/6. Build with `rustc -O -C target-cpu=native dfs2.rs -o dfs2.exe`; run
+  `./dfs2.exe 195 P --threads 20 --split 3 --log out/dfs2_n195_pP.txt`. Controls are in
+  `dfs2_controls.sh`, and there are `--nosym` and `--count` options.
+- `structure/composite_B.md` and `composite_bruteforce.py` (pass 5): the prime-power |B| reduction.

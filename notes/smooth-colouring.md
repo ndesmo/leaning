@@ -302,3 +302,60 @@ Next ideas, ranked:
 2. Test the mixed character against (iii), (iv) and positivity (pass 3 next idea 2).
 3. Composite |B| = 9, 15, 25. Lemma 1 generalises: any d ∈ B − B whose order is coprime to
    |B|/ord(d) … needs thought. Try a Lemma-1-style reduction before any search.
+
+### 2026-11-26: pass 5
+
+Two parallel strategies. Both produced findings, but nothing has passed /review, so there is no
+PR this pass.
+
+1. **Independent second checker for case (b): agrees** (`independent/dfs2.rs`)
+   [numerical: two independent implementations; dfs2 uses an unreviewed symmetry reduction].
+   - Written from `prime_B_reduction.md` §3(b) without reading gtile5/6. It uses a pairwise
+     reformulation (φ(r) ∉ F for 8098 difference vectors), forward checking, and the 19 primes
+     > 97 left to a bijective completion step. Symmetry breaking is lex-leader under
+     U(Z_{p²})×U(Z_K).
+   - Validation:
+     - exact counts match `brute_count.py` for n = 3, 6, 9 (p = 3) and n = 5, 10 (p = 5);
+     - the asc, desc and greedy orders give identical counts at (24,3), (30,5) and (26,13);
+     - 107 positive controls found a witness, and all 107 witnesses pass `direct_check.py`.
+   - n = 195: COMPLETE-NONE for Z9×Z65, Z25×Z39 and Z169×Z15, about 10⁶ nodes and 15 s each.
+     This agrees with gtile5/6.
+   - **Gap:** the symmetry breaking was never tested against an exhaustive run on a NONE case. A
+     280 s `--nosym` run at p = 13 did not finish.
+   - New and unconfirmed: dfs2 says case (b) is NONE for n = 162 and n = 189 with p = 3, even
+     though multiplicative colourings exist there. CP-SAT timed out on both. Cross-check these
+     with gtile6.
+2. **Prime-power |B| reduces to one cyclic search per level** (`structure/composite_B.md`)
+   [own argument, unreviewed].
+   - Thm 2: suppose the {3,5,13}-part of |B| is p^a. Then (a) holds or (b_a^p) holds, where
+     (b_i^p) means ψ: Z^44 → Z_{p^{i+1}}×Z_{195/p}, injective, with every fibre a coset of
+     p^iZ_{p^{i+1}}. The proof needs no Rédei and no Lemma 1. Its key step, Lemma C, gives a
+     character χ in supp B̂' that kills every fibre's Fourier transform; Lemma V then says
+     vanishing p-term sums of p-power roots of unity are μ_p-cosets.
+   - Thm 1: the levels are nested, so one NONE at level a excludes every level ≤ a. Lemmas C and P
+     were checked exhaustively on all groups of order p², p³ with p ∈ {3, 5}, which covers every
+     C ⊕ B = H with |C| = p, about 88k pairs in Z3³ (`composite_bruteforce.out`). No
+     counterexample.
+   - gtile7 (gtile6 with coset mode extended to Z_{p^{i+1}}; regression identical to gtile6 at
+     hd = 9). Positive controls found solutions at hd = 27 and hd = 125, but no hd = 81 controls
+     were run. NONE results, all 20/20 splits [numerical: single implementation]:
+     - Z27×Z65 (1.4·10¹⁰ nodes);
+     - Z125×Z39 (3.4·10¹⁰ nodes);
+     - Z81×Z65 (about 1.7·10¹¹ nodes).
+   - Consequence, if Thm 2 and these searches hold: there is no periodic tiling whose
+     {3,5,13}-part of |B| is 3, 9, 27, 5, 25 or 13. That last case is level 1, from pass 3.
+
+Dead ends:
+- Thm 2's argument fails for mixed {3,5,13}-part (for example |B| = 15): the characters χ_q
+  map fibres onto unions of μ_q-cosets, and those cosets can repeat, so χ_q is not injective.
+
+Next ideas, ranked:
+1. **/review** `composite_B.md` together with `prime_B_reduction.md`. Close the dfs2 symmetry gap
+   with a nosym run on a small NONE case (n = 162 if gtile6 confirms it NONE). Then open a PR:
+   "no periodic tiling with |B| a prime power p^a, p = 3 with a ≤ 3, p = 5 with a ≤ 2, p = 13
+   with a = 1" (`Part of #31`). Before that, run hd = 81 positive controls and dfs2 at level 2.
+2. Bound the level through Thm 3 (the lattice M from block differences). If the primes > 97 force
+   unimodular directions, a finite set of levels would suffice, and every prime-power |B| would
+   be closed.
+3. Mixed |B| = 15: a two-character argument (χ_3, χ_5, χ_3χ_5 in supp B̂').
+4. The spectral route with (iii), (iv) or positivity (pass 3, idea 2).

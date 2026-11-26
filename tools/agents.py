@@ -51,7 +51,11 @@ IDLE_NEXT = 60
 RETRY_BACKOFF = [5, 15, 30, 60]     # minutes after consecutive failures
 SUPERVISOR_NOTE = ("[supervisor] Started by tools/agents.py for a single iteration. Do not call "
                    "ScheduleWakeup and do not message other sessions; the supervisor schedules "
-                   "and notifies. End your final message with a line `NEXT: <minutes>`.")
+                   "and notifies. This run ends when your turn ends, and any subagent still "
+                   "running is then killed and its work lost: run subagents in the foreground "
+                   "(never in the background) and wait for every one of them before your final "
+                   "message. Commit and push anything worth keeping before you finish. End your "
+                   "final message with a line `NEXT: <minutes>`.")
 # Markers a parent Claude Code session leaves in the environment; children must not inherit them.
 STRIP_ENV = ("CLAUDE_CODE_CHILD_SESSION", "CLAUDE_CODE_MESSAGING_SOCKET",
              "CLAUDE_CODE_MESSAGING_TOKEN", "CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT",
@@ -106,7 +110,8 @@ def parse_limit_reset(text: str, now: dt.datetime) -> dt.datetime | None:
     """Reset time from "You've hit your session limit · resets 3:45pm" (or "resets Mon 12:00am").
 
     Returns None if the text is not a usage-limit message."""
-    if not re.search(r"hit your (session|weekly|usage)? ?limit|usage limit", text or "", re.I):
+    # Any "You've hit your <session|weekly|5-hour|…> limit" wording, or a bare "usage limit".
+    if not re.search(r"hit your [\w\s-]{0,30}?limit|usage limit", text or "", re.I):
         return None
     m = re.search(r"resets\s+(?:(mon|tue|wed|thu|fri|sat|sun)\w*\s+)?(\d{1,2})(?::(\d{2}))?\s*(am|pm)",
                   text, re.I)

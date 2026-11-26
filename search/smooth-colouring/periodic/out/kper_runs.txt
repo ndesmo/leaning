@@ -1,0 +1,15 @@
+== n=205 p=5 start Wed Nov 25 21:00:36 BCDT 2026
+n=205 p=5 N=1025 q=41 primes<=101 sym=true all=false tasks=621 finished=621 complete=true
+result=NONE solutions_seen=0 nodes=981104 secs=1.64
+== n=195 p=3 start Wed Nov 25 21:00:38 BCDT 2026
+n=195 p=3 N=585 q=65 primes<=97 sym=true all=false tasks=965 finished=965 complete=true
+result=NONE solutions_seen=0 nodes=1193566 secs=1.59
+== n=195 p=5 start Wed Nov 25 21:00:39 BCDT 2026
+n=195 p=5 N=975 q=39 primes<=97 sym=true all=false tasks=865 finished=865 complete=true
+result=NONE solutions_seen=0 nodes=1081604 secs=1.71
+== n=195 p=13 start Wed Nov 25 21:00:41 BCDT 2026
+n=195 p=13 N=2535 q=15 primes<=97 sym=true all=false tasks=475 finished=475 complete=true
+result=NONE solutions_seen=0 nodes=935070 secs=2.43
+== n=205 p=41 start Wed Nov 25 21:00:44 BCDT 2026
+n=205 p=41 N=8405 q=5 primes<=101 sym=true all=false tasks=263 finished=263 complete=true
+result=NONE solutions_seen=0 nodes=835658 secs=58.38

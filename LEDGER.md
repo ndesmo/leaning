@@ -75,6 +75,20 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | idea | notes, A5 |
 
+### smooth-colouring: open (P11, #31, moonshot)
+
+- Notes: [notes/smooth-colouring.md](notes/smooth-colouring.md) (exploration journal); search code
+  in [search/smooth-colouring/](search/smooth-colouring/README.md).
+- Target: does an n-satisfactory colouring exist for n = 195 (Caicedo–Chartier–Pach, EJC 28 (2021)
+  P1.34)? The first open case is still open as of 2026-11-25. Wang–Wang, arXiv:2609.15081, settle
+  n = 205 (no colouring) and state that 195 is open.
+
+| Id | Item | Status | Where |
+|---|---|---|---|
+| SC1 (#31) | Existence of a 195-satisfactory colouring | open | notes |
+| SC2 | No multiplicative colouring for n = 195 (known; our exhaustive search agrees) | numerical | search/…/multiplicative |
+| SC3 | No index-p "non-lattice" periodic colouring for n = 195, p ∈ {3, 5, 13} | running | search/…/periodic |
+
 ## Approaches that failed
 
 Don't repeat these without a new ingredient.

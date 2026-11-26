@@ -37,6 +37,14 @@ class ParseLimit(unittest.TestCase):
         r = agents.parse_limit_reset("You've hit your weekly limit · resets Mon 12:00am", NOW)
         self.assertEqual(r, dt.datetime(2026, 11, 30, 0, 2))
 
+    def test_five_hour_limit_with_timezone(self):
+        # The exact text seen at 17:50 on 2026-11-25, which the old pattern missed.
+        r = agents.parse_limit_reset("You've hit your 5-hour limit · resets 6:30pm (America/Vancouver)", NOW)
+        self.assertEqual(r, dt.datetime(2026, 11, 25, 18, 32))
+
+    def test_ordinary_text_mentioning_limits_is_not_a_limit(self):
+        self.assertIsNone(agents.parse_limit_reset("the daily budget limit is $40; reviewed PR #9", NOW))
+
     def test_limit_without_time_falls_back(self):
         r = agents.parse_limit_reset("You've hit your usage limit", NOW)
         self.assertEqual(r, NOW + dt.timedelta(minutes=30))

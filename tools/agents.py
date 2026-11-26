@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Supervisor for the author and reviewer agents. Standard library only; Windows, macOS, Linux.
+"""Supervisor for the author, reviewer and explorer agents. Standard library only; Windows, macOS,
+Linux. The explorer works moonshot issues in long passes on a stronger model.
 
 Each pass is one fresh, non-interactive `claude -p "/<role>-loop ..."` run inside that role's
 git worktree. The supervisor owns the schedule: it sleeps for the interval the pass asked for
 (a final `NEXT: <minutes>` line), waits out usage limits, retries after crashes, and starts a
 reviewer pass as soon as an author pass changes a pull request.
 
-  python tools/agents.py run                 # run both roles until stopped (Ctrl+C)
+  python tools/agents.py run                 # run all roles until stopped (Ctrl+C)
+  python tools/agents.py --roles author,reviewer run   # without the explorer
   python tools/agents.py once reviewer       # run a single pass, then exit
   python tools/agents.py once author --dry-run
   python tools/agents.py status              # last pass, next pass and open PRs
@@ -32,11 +34,14 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 LOGS = REPO / ".agent-logs"
-ROLES = ("author", "reviewer")
+ROLES = ("author", "reviewer", "explorer")
 DEFAULT_WORKTREES = Path("C:/w") if os.name == "nt" else Path.home() / "proofs-worktrees"
 DEFAULT_MODEL = "claude-opus-5-5"
-PASS_TIMEOUT = 2 * 60 * 60          # a pass that runs longer than this is killed
-DEFAULT_NEXT = {"author": 30, "reviewer": 20}   # minutes, if a pass doesn't say
+# The explorer works moonshots in long passes on the strongest model (it uses the allowance faster).
+ROLE_MODEL = {"explorer": "claude-fable-5-2"}
+PASS_TIMEOUT = {"author": 2 * 3600, "reviewer": 2 * 3600, "explorer": 4 * 3600}  # seconds
+DEFAULT_NEXT = {"author": 30, "reviewer": 20, "explorer": 30}   # minutes, if a pass doesn't say
+CHANGES_PRS = ("author", "explorer")   # roles whose pull-request changes wake the reviewer
 IDLE_NEXT = 60
 RETRY_BACKOFF = [5, 15, 30, 60]     # minutes after consecutive failures
 SUPERVISOR_NOTE = ("[supervisor] Started by tools/agents.py for a single iteration. Do not call "
@@ -121,8 +126,12 @@ def child_env(base: dict) -> dict:
 # ---------- one pass ----------
 
 class Supervisor:
-    def __init__(self, worktrees: Path, model: str, dry_run: bool = False):
-        self.worktrees, self.model, self.dry_run = worktrees, model, dry_run
+    def __init__(self, worktrees: Path, model: str, dry_run: bool = False,
+                 roles: tuple = ROLES, explorer_model: str | None = None):
+        self.worktrees, self.model, self.dry_run, self.roles = worktrees, model, dry_run, roles
+        self.models = {r: ROLE_MODEL.get(r, model) for r in ROLES}
+        if explorer_model:
+            self.models["explorer"] = explorer_model
         self.claude = find_claude()
         self.wake = {r: threading.Event() for r in ROLES}
         self.stop = threading.Event()
@@ -160,7 +169,7 @@ class Supervisor:
         settings_file = LOGS / f"settings-{role}.json"
         settings_file.write_text(json.dumps(agent_settings(settings_json), indent=2), encoding="utf-8")
 
-        cmd = [self.claude, "-p", f"/{role}-loop {SUPERVISOR_NOTE}", "--model", self.model,
+        cmd = [self.claude, "-p", f"/{role}-loop {SUPERVISOR_NOTE}", "--model", self.models[role],
                "--output-format", "json", "--permission-mode", "auto",
                "--permission-prompts", "none", "--settings", str(settings_file)]
         if self.dry_run:
@@ -171,7 +180,7 @@ class Supervisor:
         self.save_state(role, status="running", started=started.isoformat(timespec="seconds"))
         log(f"{role}: pass started")
         try:
-            r = run(cmd, cwd=wt, timeout=PASS_TIMEOUT, env=child_env(dict(os.environ)))
+            r = run(cmd, cwd=wt, timeout=PASS_TIMEOUT[role], env=child_env(dict(os.environ)))
             out, err, code = r.stdout, r.stderr, r.returncode
         except subprocess.TimeoutExpired as e:
             out, err, code = (e.stdout or ""), (e.stderr or ""), -1
@@ -179,7 +188,7 @@ class Supervisor:
                 out = out.decode("utf-8", "replace")
             if isinstance(err, bytes):
                 err = err.decode("utf-8", "replace")
-            err += f"\n[supervisor] killed after {PASS_TIMEOUT // 60} minutes"
+            err += f"\n[supervisor] killed after {PASS_TIMEOUT[role] // 60} minutes"
         minutes = (dt.datetime.now() - started).total_seconds() / 60
 
         try:
@@ -216,7 +225,7 @@ class Supervisor:
     def worker(self, role: str) -> None:
         failures = 0
         while not self.stop.is_set():
-            before = self.open_pr_heads() if role == "author" else None
+            before = self.open_pr_heads() if role in CHANGES_PRS else None
             try:
                 outcome, nxt = self.run_pass(role)
             except Exception as e:  # never let one pass kill the worker
@@ -227,8 +236,8 @@ class Supervisor:
                 failures += 1
             else:
                 failures = 0
-            if role == "author" and outcome == "ok" and self.open_pr_heads() != before:
-                log("author changed a pull request; waking the reviewer")
+            if role in CHANGES_PRS and outcome == "ok" and self.open_pr_heads() != before:
+                log(f"{role} changed a pull request; waking the reviewer")
                 self.wake["reviewer"].set()
             nxt_at = dt.datetime.now() + dt.timedelta(minutes=nxt)
             self.save_state(role, next=nxt_at.isoformat(timespec="minutes"))
@@ -236,7 +245,7 @@ class Supervisor:
             self.wake[role].clear()
 
     def run_forever(self) -> None:
-        threads = [threading.Thread(target=self.worker, args=(r,), daemon=True) for r in ROLES]
+        threads = [threading.Thread(target=self.worker, args=(r,), daemon=True) for r in self.roles]
         for t in threads:
             t.start()
             time.sleep(5)   # stagger the first passes
@@ -313,7 +322,11 @@ def cmd_setup(args) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--worktrees", type=Path, default=DEFAULT_WORKTREES)
-    ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--model", default=DEFAULT_MODEL, help="model for author and reviewer")
+    ap.add_argument("--explorer-model", default=None,
+                    help=f"model for the explorer (default {ROLE_MODEL['explorer']})")
+    ap.add_argument("--roles", default=",".join(ROLES),
+                    help="comma-separated roles to run (default: all)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("run", help="run both roles until stopped")
     once = sub.add_parser("once", help="run a single pass of one role")
@@ -322,20 +335,26 @@ def main() -> None:
     sub.add_parser("status", help="show the last and next pass of each role")
     sub.add_parser("setup", help="create the worktrees and build Lean")
     args = ap.parse_args()
+    roles = tuple(r for r in args.roles.split(",") if r)
+    bad = [r for r in roles if r not in ROLES]
+    if bad:
+        sys.exit(f"unknown role(s): {', '.join(bad)}; choose from {', '.join(ROLES)}")
 
     if args.cmd == "status":
         return cmd_status(args)
     if args.cmd == "setup":
         return cmd_setup(args)
     if args.cmd == "once":
-        sup = Supervisor(args.worktrees, args.model, dry_run=args.dry_run)
+        sup = Supervisor(args.worktrees, args.model, dry_run=args.dry_run,
+                         explorer_model=args.explorer_model)
         outcome, nxt = sup.run_pass(args.role)
         print(f"{args.role}: {outcome}; would run next in {nxt} min")
         return
     lock = acquire_lock()
     try:
-        log(f"supervisor started (model {args.model}, worktrees {args.worktrees})")
-        Supervisor(args.worktrees, args.model).run_forever()
+        sup = Supervisor(args.worktrees, args.model, roles=roles, explorer_model=args.explorer_model)
+        log(f"supervisor started: roles {', '.join(roles)}; models {sup.models}; worktrees {args.worktrees}")
+        sup.run_forever()
     finally:
         lock.unlink(missing_ok=True)
 

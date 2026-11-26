@@ -23,7 +23,11 @@ never to the user. Nothing here is peer reviewed, and every page says so.
 - **Combine labels honestly.** A claim resting on a paper plus our own step carries both, e.g.
   `[paper: DH10 Thm 2.5] + [own argument: Rem. 2.10 for stars, unreviewed]`. Never call such a
   claim settled, unconditional or proved until the own-argument part has passed `/review`.
-- **Derive first.** Numerics test claims and never prove them. Write numerics in Lean, not Python.
+- **Search with anything, claim only what is checked.**
+  - Searches and experiments may use any tool: Lean, Python, solvers.
+  - A computation proves nothing until its output is a certificate that is checked independently,
+    ideally in Lean. Until then it is `[numerical]`, never "proved".
+  - Keep search code and exact reproduction commands under `search/<slug>/`.
 - **Never overclaim.**
   - Novelty is at most "not found in the works searched".
   - Partial results are published as partial, with the gap stated exactly.

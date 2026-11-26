@@ -59,7 +59,7 @@ That is the whole iteration. Go to step 5.
   `gh issue list --state open --label approved --json number,title,labels`. Add the open
   sub-issues of each listed issue (`gh api repos/ndesmo/leaning/issues/<n>/sub_issues`), which
   carry no `approved` label of their own, and prefer them to their parent. Skip issues labelled
-  `in-progress` or `blocked`. Take the highest priority (`priority:high`, then normal, then low),
+  `in-progress`, `blocked` or `moonshot`; the explorer works the moonshots. Take the highest priority (`priority:high`, then normal, then low),
   oldest first. Only issues the owner labelled `approved` are eligible. You never add or remove
   `approved`, and you never work on an unapproved issue.
 - **Claim it.** Add the label `in-progress` and comment on the issue with your branch name.

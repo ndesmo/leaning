@@ -1,7 +1,7 @@
 name = "halfline_lt"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["HalflineLt"]
+defaultTargets = ["HalflineLt", "Proofs"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -19,6 +19,9 @@ name = "HalflineLt"
 
 [[lean_lib]]
 name = "HalflineNum"
+
+[[lean_lib]]
+name = "Proofs"
 
 [[lean_exe]]
 name = "search"

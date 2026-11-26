@@ -1,0 +1,4 @@
+restart 0 best=8 global=8 B=0/0/0 secs=4.8
+restart 1 best=9 global=8 B=0/0/0 secs=10.1
+restart 2 best=6 global=6 B=0/0/0 secs=15.1
+DONE global_best=6

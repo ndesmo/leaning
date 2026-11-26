@@ -46,3 +46,11 @@ whenever (−A) ⊕ B = G, and the checker tests that directly.
     printed on the solution line.
   - Results: `general/out/m3_{cyc,nc}_*.txt`, one line per B class. `out/old_unsound_sym/` is a
     superseded run with a symmetry bug; do not use it.
+- `general/gtile5.rs` (pass 2): an exact search for |B| = 3 after reducing to B ⊂ the 3-Sylow
+  subgroup. Run it with `run5.sh <Hdims> <B> <threads> <limit>`. `st1.rs` is a fibre-only test.
+  `pass2.py` is an abandoned gtile4 driver; its outputs are `out/m3_pass2_{cyc,nc}.txt`, which
+  you should ignore.
+- `local/sa.rs` (pass 2): simulated annealing. Calibration failed (see the journal), so its
+  output is not evidence of anything.
+- `structure/pass2.md`: Lemma A, cited statements, and the obstructions to Wang–Wang §4.3 at
+  three primes.

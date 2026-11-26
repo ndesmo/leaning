@@ -134,3 +134,63 @@ Next ideas, ranked:
    (sums of 3-, 5- and 13-gons, with signed combinations) applied to the invariant measure of a
    tiling. This is hard but it is the real gap; brief a subagent with §4.3 of arXiv:2609.15081.
 4. Recover "Prop. 3" for kper; this matters less now that gtile covers kper's class directly.
+
+### 2026-11-25: pass 2
+
+Three parallel strategies. No hit, so no PR this pass.
+
+1. **The |B| = 3 periodic case is closed** (`general/gtile5.rs`, `run5.sh`) [own argument,
+   unreviewed] + [numerical: single implementation].
+   - Reduction: G = H × Z65, with H the 3-Sylow subgroup (Z9 or Z3²). Coprime dilation
+     (Tijdeman, with roles swapped: gcd(t, |B|) = 1 ⇒ A ⊕ tB = G) with t = 65 sends B into H.
+     There 65 acts as an automorphism. So WLOG B ⊂ H, and A ⊕ B = G iff every H-coset meets A in
+     a complement of B in H. Up to Aut(H) and translation, that leaves 5 classes:
+     - Z9 {0,1,2}: searched, NONE.
+     - Z9 {0,1,3}: no complement in Z9, NONE.
+     - Z9 {0,3,6}: a subgroup, so the multiplicative case, NONE by CCP.
+     - Z3² non-collinear: searched, NONE. Also by theory: every complement is a coset of
+       K = ⟨(1,1)⟩, so A = A + K, and A ⊕ K' = G for another order-3 subgroup K'. That is the
+       multiplicative case.
+     - Z3² line: a subgroup, NONE.
+   - gtile5 does exact fibre pruning over φ = (h, f) with h into H and f into Z65. The primes
+     above 97 fill the remaining slots, so every surviving leaf is a genuine tiling.
+     - Runs: `sh run5.sh 9 0,1,2 20 50000000000` (20/20 NONE, about 2.6·10⁹ nodes, about 20 s)
+       and `sh run5.sh 3,3 0/0,1/0,0/1 16 50000000000` (16/16 NONE). Outputs are in
+       `general/out/m3_pass2_gtile5_*.txt`.
+     - Validation: gtile5 agrees with gtile4 on existence for n = 3m with m ≤ 27 (except 18), in
+       both groups. Its witnesses at n = 21, 39 and 120 pass `check_general.py` (pass −B).
+   - This subsumes the 4 TIMEOUT and about 462 unreached classes of pass 1. The files
+     `general/out/m3_pass2_{cyc,nc}.txt` are abandoned gtile4 runs (TIMEOUT at 10⁸); ignore them.
+   - **Claim:** no periodic tiling with |G| = 585 exists. As item 4 of pass 1 says, this does not
+     bear on non-existence for 195.
+   - **Still needed:** a second, independent checker for the Z9 {0,1,2} NONE, and /review of the
+     reduction.
+2. **Simulated annealing for |B| = 5 and 13** (`local/sa.rs`): a dead end.
+   - Best collision counts: 20–25 for |B| = 5, and 261–265 for |B| = 13.
+   - Calibration failed: with m = 1 the annealer cannot even find the known lattice colourings at
+     n = 190, 196 and 198, where it stalls at 6–10 collisions.
+   - **Dead end:** plain annealing is too weak here. Do not retry it without exact completion.
+3. **Structural** (`structure/pass2.md`).
+   - **Lemma A** [own argument, unreviewed]: T_195 tiles Z^44 periodically iff there is a
+     {3,5,13}-group H, |H| = 195m with m > 1, and ψ: Z^44 → H injective on T, with ψ(T) ⊕ B = H.
+     The verbatim Horak–Kim Thms 6 and 8 are quoted there.
+   - There is no known periodicity theorem for T_195 in Z^44, and Greenfeld–Tao disprove the
+     periodic tiling conjecture in high dimension. So the gap is exactly "tiling ⇒ periodic
+     tiling".
+   - Where Wang–Wang §4.3 breaks for three primes:
+     - **O1, counting:** 3a + 5b + 13c = 195 has 109 solutions, only 3 of them pure.
+     - **O2:** nonnegative tables that are not sums of polygons.
+
+Next ideas, ranked:
+1. **The pure-type question** (structure/pass2.md). Must every completely multiplicative
+   χ: [195] → 𝕋 with Σ_{m≤195} χ(m)^k = 0 for all k coprime to 195 have at most one of A_3, A_5,
+   A_13 nonzero? This is a finite search over coincidence patterns, which the primes above 97
+   constrain strongly.
+   - If yes, attempt a three-factor version of Wang–Wang (4.5) and Lemma 4.4.
+   - If no, a mixed χ kills the spectral route.
+2. **Exact search for |B| ∈ {5, 13} by the pass-2 reduction.** Dilate by t coprime to |B| to push
+   B into the p-Sylow part, then run fibre-pruned DFS as in gtile5. Order 975 (Z25 or Z5²) first.
+   - Unverified lead: if Sands' good-group classification covers Z975, one factor must be
+     periodic, so A is a union of cosets. Check the literature.
+3. An independent checker for the gtile5 NONE (Z9 {0,1,2}), then /review of the |B| = 3
+   reduction. It is a clean negative result and could become a PR.

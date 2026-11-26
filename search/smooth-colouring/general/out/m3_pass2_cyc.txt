@@ -1,0 +1,12 @@
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,2/0/0 result=TIMEOUT leaves=0 nodes=100000001 stab=96 secs=3.64
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,2/1/0 result=TIMEOUT leaves=0 nodes=100000001 stab=12 secs=7.12
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,5/1/0 result=TIMEOUT leaves=0 nodes=100000001 stab=24 secs=9.04
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/1,2/0/2 result=TIMEOUT leaves=0 nodes=100000001 stab=8 secs=16.50
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,2/0/1 result=TIMEOUT leaves=0 nodes=100000001 stab=4 secs=17.65
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/1,2/0/3 result=TIMEOUT leaves=0 nodes=100000001 stab=4 secs=19.29
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/1,2/0/4 result=TIMEOUT leaves=0 nodes=100000001 stab=4 secs=19.18
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/1,2/0/5 result=TIMEOUT leaves=0 nodes=100000001 stab=4 secs=19.67
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,5/0/1 result=TIMEOUT leaves=0 nodes=100000001 stab=8 secs=22.25
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/1,2/0/6 result=TIMEOUT leaves=0 nodes=100000001 stab=4 secs=19.80
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/1,2/0/7 result=TIMEOUT leaves=0 nodes=100000001 stab=4 secs=19.20
+n=195 dims=[9, 5, 13] dil=true B=0/0/0,1/0/0,2/1/1 result=TIMEOUT leaves=0 nodes=100000001 stab=1 secs=80.72

@@ -1,0 +1,4 @@
+restart 0 best=35 global=35 B=0/0/0,0/10/0,0/20/0,0/15/0,0/5/0 secs=206.0
+restart 1 best=54 global=35 B=0/0/0,2/8/10,1/4/5,2/21/8,0/12/2 secs=434.8
+restart 2 best=45 global=35 B=0/0/0,1/8/1,2/4/7,0/12/8,1/21/6 secs=646.9
+restart 3 best=75 global=35 B=0/0/0,0/11/10,2/24/11,1/12/12,2/13/1 secs=808.6

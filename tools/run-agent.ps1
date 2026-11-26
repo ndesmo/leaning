@@ -23,4 +23,7 @@ if (-not (git status --porcelain)) {
   Write-Output "$Role worktree has local changes; not switching to main."
 }
 
-& claude --model $Model --name $Role "/loop /$Role-loop"
+# Prefer the native install's full path; this tab may have an older PATH.
+$claude = Join-Path $env:USERPROFILE '.local\bin\claude.exe'
+if (-not (Test-Path $claude)) { $claude = 'claude' }
+& $claude --model $Model --name $Role "/loop /$Role-loop"

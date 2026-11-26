@@ -25,11 +25,25 @@ work, leave all state in files and PRs, then schedule the next wakeup.
 - Tidy the queue. For each open issue labelled `in-progress` with no open PR of yours (its PR was
   merged or closed), remove `in-progress`, so its next unit can be picked again.
 
-## 2. Reviewer comments come first
+## 2. Keep your open PRs healthy (this comes before new work)
 
-For each open PR with a reviewer-loop comment (marked `<!-- reviewer-loop`) newer than your last
-push to it:
-- check out its branch;
+**Always start from GitHub's copy of a PR branch.** Someone else may have pushed to it. Run
+`git fetch origin`, then `git checkout -B <branch> origin/<branch>`. Never work from a stale local
+copy.
+
+**Conflicts with main.** For each of your open PRs, check `gh pr view <n> --json mergeable`. If it
+is `CONFLICTING`, CI cannot run and the PR cannot merge:
+- check out its branch from origin (above);
+- `git merge origin/main`, then resolve each conflict by keeping both sides' intent (usually main's
+  structure plus the PR's new content);
+- check the result with `git diff origin/main`: only the PR's intended changes may differ;
+- commit, push, and comment on the PR with what you resolved.
+
+That is the whole iteration. Go to step 5.
+
+**Reviewer comments.** For each open PR with a reviewer-loop comment (marked `<!-- reviewer-loop`)
+newer than your last push to it:
+- check out its branch from origin (above);
 - address **every** finding: fix it, or rebut it with a reason. Record each finding and your
   response in the notes' Review section;
 - rerun `/lean-check` if Lean or a claim changed, commit, and push;
@@ -111,8 +125,15 @@ This loop runs for weeks, so its own context must stay small. Do the heavy work 
 
 - If you changed anything on GitHub this iteration (an issue, label or PR), run
   `& .\tools\board-sync.ps1` so the project board matches.
+- If everything is committed and pushed, finish on main: `git checkout --detach origin/main`. The
+  next iteration then loads current instructions, not a PR branch's older copy. If something is
+  uncommitted, leave it; preflight picks it up next time.
 - Did something: wake in about 30 minutes.
 - Idle, or at the PR limit: wake in 60 minutes.
+- **Under `/loop`:** schedule the wake with `ScheduleWakeup`.
+- **Started by the supervisor** (`tools/agents.py`; the arguments say `[supervisor]`): don't call
+  `ScheduleWakeup`, and skip "Notify the reviewer", since the supervisor wakes the reviewer itself.
+  End your final message with a line `NEXT: <minutes>`.
 
 A run cut off by a usage limit loses nothing, because the next run resumes from the files and the
 PRs.

@@ -1,0 +1,3 @@
+# Supervisor logs, state and generated settings (tools/agents.py)
+.agent-logs/
+__pycache__/

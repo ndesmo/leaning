@@ -73,6 +73,9 @@ the PR's files.
 
 - Reviewed a PR: wake in about 20 minutes.
 - Nothing to review: wake in 60 minutes.
+- **Under `/loop`:** schedule the wake with `ScheduleWakeup`.
+- **Started by the supervisor** (`tools/agents.py`; the arguments say `[supervisor]`): don't call
+  `ScheduleWakeup`. End your final message with a line `NEXT: <minutes>`.
 
 ## Never
 

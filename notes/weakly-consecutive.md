@@ -36,7 +36,8 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | σ is a WCS iff S_m^σ = T_m^σ for all m ∈ [k] | [preprint: GSK24, Lemma 2.2] | Literature |
 | For a WCS, m ∈ [k] and every x ∈ [k] with m ∣ x, σ^{-1}(x) ∈ [(k mod m) + 1, k − (k mod m)] (in particular for x = m) | [preprint: GSK24, Lemma 2.3, read with m ∣ x] + [own argument, unreviewed: the reading and a re-derivation] | Literature, item 4 |
 | Division slices D_d(σ) of a WCS are WCS | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed: the reading m = k] | Literature, item 5 |
-| Reversal preserves WCS | [preprint: GSK24, Rule 3] | Literature |
+| Reversal preserves WCS | [preprint: GSK24, Rule 3]; re-proved from Def. 1.1 [own argument, unreviewed] | Literature; Attack ideas, A6.0 (b) |
+| Class lemma: for a WCS and m ∈ [k], T_m is the residue class of σ^{-1}(m) mod m inside [k], of size ⌊k/m⌋ (direction WCS ⇒ classes of GSK24 Lemma 2.2) | [own argument, unreviewed] | Attack ideas, A6.0 (a) |
 | Conjecture 5.2 holds for every k ≤ 16: every WCS σ of [k] (Def. 1.1 verbatim, m ∈ ℤ) has σ(1) = 1 or σ(k) = 1 (`conjecture_5_2_le_16`) | [Lean] (`halfline_lt/Proofs/WeaklyConsecutive.lean`; kernel `decide +kernel` on a pruned enumerator proved complete, no `native_decide`) | Log 2026-11-25 (Lean) |
 | N(k) for k = 1..23 is 1, 2, 2, 4, 4, 4, 4, 4, 8, 16, 16, 4, 4, 2, 2, 8, 8, 8, 8, 4, 12, 16, 16, and no WCS with 16 < k ≤ 23 violates Conjecture 5.2 | [numerical, exact enumeration, Python, not Lean] (the counts are not proved in Lean for any k: the enumerator's soundness is not formalized) | Log 2026-11-25 |
 | σ^{-1}(1) is the unique position not in ⋃_{p ≤ k prime} T_p; so Conjecture 5.2 ⇔ for every WCS the prime classes T_p cover {2, …, k − 1} | [own argument, unreviewed] | Attack ideas, A1 |
@@ -45,16 +46,16 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | For every m ∈ (k/3, k/2] (prime or not), T_m = {ρ, ρ + m} with ρ ∈ (k − 2m, m], and σ^{-1}(m) ∈ {ρ, ρ + m} | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A3 |
 | For odd k, every even value sits at an even position, so σ^{-1}(1) is odd | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
 | If Conjecture 5.2 holds for all lengths ≤ ⌊k/2⌋, then for every WCS of length k and every d ∈ [2, k], σ^{-1}(d) is the first or the last element of T_d | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed] | Attack ideas, A4 |
-| Window lemma: if m ∈ [2, k] divides σ(i) then k mod m < min(i, k + 1 − i); hence σ(1) ∣ k and σ(k) ∣ k | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A6.1 |
-| gcd(σ(1), σ(k)) = 1 for every WCS; so if 1 < σ^{-1}(1) < k, σ(1) and σ(k) are coprime divisors of k, both ≥ 2 | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.2 |
-| Conjecture 5.2 holds when k is a prime power (or k = 1) | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.3 |
+| Window lemma: if m ∈ [2, k] divides σ(i) then k mod m < min(i, k + 1 − i); hence σ(1) ∣ k and σ(k) ∣ k | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A6.1 |
+| gcd(σ(1), σ(k)) = 1 for every WCS; so if 1 < σ^{-1}(1) < k, σ(1) and σ(k) are coprime divisors of k, both ≥ 2 | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A6.2 |
+| Conjecture 5.2 holds when k is a prime power (or k = 1) | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A6.3 |
 | σ is a WCS iff σ(i) = λ(Y + i) for some integer Y (unique mod lcm(1..k)), λ(N) = lcm{m ∈ [k] : m ∣ N}; and iff (a) λ ≤ k on [Y + 1, Y + k] and (b) (Y mod m) + (k mod m) < m for all m ∈ [2, k] | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.4 |
 | For m ∈ [2, k] dividing k + 1, T_m = {m, 2m, …}; hence gcd(σ^{-1}(1), k + 1) = 1 | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] (via A6.4) | Attack ideas, A6.4 |
 | gcd(σ(i), i − σ^{-1}(1)) = 1 for all i ≠ σ^{-1}(1) | [own argument, unreviewed] | Attack ideas, A6.4 |
 | A6.1, A6.2 and the Y-form, k + 1 and unit-class parts of A6.4 hold on every WCS with k ≤ 20; enumerating Y mod lcm(1..k) gives exactly N(k) WCS for k ≤ 13 | [numerical, Python, not Lean] | Log 2026-11-25 (attack) |
 | Class sizes + compatibility alone admit an interior 1 (e.g. k = 8, 12); adding disjointness of coprime prime-power classes with product > k excludes it for k ≤ 18, primes only do not (k = 6, 14) | [numerical, Python, not Lean] | Attack ideas, A6.5 |
-| Slice lemma: if 1 < σ^{-1}(1) < k, d = σ(1), d′ = σ(k), then σ(k − d + 1) = d·e with e ∣ k/d, e ≥ 2 and gcd(e, d′) ∣ d − 1; mirror: σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1 | [preprint: GSK24, Lemmas 2.2, 2.3, 2.4 (2.4 re-proved inline)] + [own argument, unreviewed] | Attack ideas, A7.1 |
-| Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A7.2 |
+| Slice lemma: if 1 < σ^{-1}(1) < k, d = σ(1), d′ = σ(k), then σ(k − d + 1) = d·e with e ∣ k/d, e ≥ 2 and gcd(e, d′) ∣ d − 1; mirror: σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1 | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A7.1 (ii), A8) | Attack ideas, A7.1 |
+| Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A7.2 |
 | General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`) | Log 2026-11-26 |
 | Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2 and s ∣ r − 1 (e.g. 2^b·r, b ≥ 2) | [conjecture] | Attack ideas, A7.3 |
 | Conjecture 5.2 for k with at least three distinct prime factors | [conjecture] | Attack ideas, A6.5 |
@@ -191,26 +192,43 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
 - **A5. Lean.** The definition is decidable; check Conjecture 5.2 for small k by `decide` /
   `native_decide` (or a verified enumeration) and formalize Lemmas 2.2–2.4 as the reusable base.
   The Python counts below must be re-done in Lean before any page uses them.
-- **A6. Attack (2026-11-25).** Result (own argument, unreviewed; /review found no mathematical error, see Review): Conjecture 5.2
+- **A6. Attack (2026-11-25).** Result (own argument, unreviewed; /review of A6.1–A6.5 found no mathematical error, see Review; A6.0 was added on 2026-11-27, see Review of that date): Conjecture 5.2
   for k a prime power (A6.3), and in general an interior 1 forces σ(1), σ(k) to be coprime divisors of k, both ≥ 2. The full
   conjecture is **not** proved; the gap is in A6.5. Notation as above: T_m = {i ∈ [k] : m ∣ σ(i)},
-  p = pos(1), s_m = k mod m. Lemma 2.2 of [GSK24] (T_m is a residue class mod m with ⌊k/m⌋
-  points, for a WCS) is used throughout; its proof is two lines (the class of pos(m) mod m lies in
-  T_m by the definition, |T_m| = ⌊k/m⌋ is the number of multiples of m in [k], and every residue
-  class mod m has at least ⌊k/m⌋ points in [k], so the inclusion is an equality).
+  p = pos(1), s_m = k mod m. The direction "WCS ⇒ classes" of Lemma 2.2 of [GSK24] and Rule 3
+  (reversal) are used throughout; both are re-proved in A6.0, so A6.1–A6.3 and A7 do not rest on
+  the preprint (citation check #80, A8).
+  - **A6.0. Class lemma and reversal.** [own argument, unreviewed] (Added 2026-11-27, #80.)
+    Let σ be a WCS of length k ≥ 1 and m ∈ [k].
+    - *(a) Class lemma.* T_m = {i ∈ [k] : i ≡ pos(m) (mod m)}, and |T_m| = ⌊k/m⌋. Consequently,
+      for every i ∈ T_m, T_m is the class of i mod m inside [k]; any two points of T_m are
+      congruent mod m. *Proof.* Write S_m = {i ∈ [k] : i ≡ pos(m) (mod m)} (pos(m) exists since
+      m ∈ [k]). S_m ⊆ T_m: for j ∈ S_m, m ∣ σ(pos(m)) = m and m ∣ pos(m) − j, so m ∣ σ(j) by
+      Def. 1.1. |T_m| = ⌊k/m⌋: σ is a bijection of [k], so T_m is in bijection (via σ) with the
+      multiples of m in [k], of which there are ⌊k/m⌋. |S_m| ≥ ⌊k/m⌋: the ⌊k/m⌋ disjoint blocks
+      [jm + 1, (j + 1)m] (0 ≤ j < ⌊k/m⌋) lie in [k], and each contains exactly one integer of each
+      residue class mod m. So ⌊k/m⌋ ≤ |S_m| ≤ |T_m| = ⌊k/m⌋, and S_m = T_m. The consequence holds
+      because a residue class is the class of each of its members. ∎ Edge cases: m = 1 gives
+      T_1 = S_1 = [k]; m = k gives T_k = S_k = {pos(k)}; k = 1 has only m = 1. Only this direction
+      of [GSK24] Lemma 2.2 is used (the converse is not needed in A6.1–A6.3, A7.1–A7.2).
+    - *(b) Reversal.* R(σ)(i) = σ(k + 1 − i) is a WCS. *Proof.* R(σ) is a permutation of [k]. If
+      m ∣ R(σ)(i) = σ(k + 1 − i) and m ∣ i − j, then m ∣ (k + 1 − j) − (k + 1 − i) = i − j,
+      so m ∣ σ(k + 1 − j) = R(σ)(j) by Def. 1.1. ∎ R maps position i to k + 1 − i, keeps the
+      multiset of values, swaps σ(1) and σ(k), and keeps "1 < pos(1) < k". (This is [GSK24] Rule 3,
+      re-proved.)
   - **A6.1. Window lemma.** [own argument, unreviewed] Let σ be a WCS, i ∈ [k], m ∈ [2, k] with
     m ∣ σ(i). Then s_m < i and s_m < k + 1 − i. *Proof.* T_m is the class of i mod m inside [k]
-    and has ⌊k/m⌋ = (k − s_m)/m points. If i ≤ s_m, the class of i has a point in each of the
-    blocks [i + jm] for j = 0, …, ⌊k/m⌋ (the last is i + ⌊k/m⌋·m ≤ s_m + k − s_m = k), so
-    ⌊k/m⌋ + 1 points: contradiction. The other inequality follows by reversal (Rule 3), which
+    and has ⌊k/m⌋ = (k − s_m)/m points (A6.0 (a)). If i ≤ s_m, the class of i contains the ⌊k/m⌋ + 1
+    points i + jm, j = 0, …, ⌊k/m⌋, all in [k] (the last is i + ⌊k/m⌋·m ≤ s_m + k − s_m = k), a
+    contradiction. The other inequality follows by reversal (A6.0 (b)), which
     maps position i to k + 1 − i and keeps the values. ∎ (This is Lemma 2.3 of [GSK24] read with m ∣ x,
-    i.e. for the whole class T_m (our reading, Literature item 4): every member of the class has the same residue mod m. Reversal
-    is immediate from the definition, since i − j and (k + 1 − i) − (k + 1 − j) differ only in sign.)
+    i.e. for the whole class T_m (our reading, Literature item 4): every member of the class has the same residue mod m.
+    The proof above does not use Lemma 2.3; it is a remark on the relation only.)
     - *Corollary (end values).* σ(1) ∣ k and σ(k) ∣ k: every divisor m ≥ 2 of σ(1) has
       s_m < 1, i.e. m ∣ k; take m = σ(1) (if σ(1) ≥ 2). Same for σ(k).
   - **A6.2. Coprime ends.** [own argument, unreviewed] For every WCS, gcd(σ(1), σ(k)) = 1.
-    *Proof.* Let h = gcd(σ(1), σ(k)). If h ≥ 2, positions 1 and k both lie in T_h, a single residue
-    class mod h, so h ∣ k − 1; and h ∣ σ(1) ∣ k by A6.1. So h ∣ gcd(k, k − 1) = 1. ∎
+    *Proof.* Let h = gcd(σ(1), σ(k)). If h ≥ 2 (then h ≤ σ(1) ≤ k, so h ∈ [2, k]), positions 1 and
+    k both lie in T_h, a single residue class mod h (A6.0 (a)), so h ∣ k − 1; and h ∣ σ(1) ∣ k by A6.1. So h ∣ gcd(k, k − 1) = 1. ∎
     - *Corollary.* If 1 < p < k, then σ(1) and σ(k) are both ≥ 2 (the value 1 occurs once), so
       d = σ(1) and d′ = σ(k) are **coprime divisors of k, both ≥ 2**, and d·d′ ∣ k.
   - **A6.3. Prime powers.** [own argument, unreviewed] *If k = q^a is a prime power (q prime,
@@ -219,7 +237,7 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
     q, contradiction. If p ∈ {1, k} there is nothing to prove. ∎ This covers k = 2, 3, 4, 5, 7, 8,
     9, 11, 13, 16, 17, 19, 23, 25, 27, … . Not found in [GSK24] (which says it could not prove 5.2
     from the definition) nor in the works searched (Literature, search scope). Hypotheses used:
-    the WCS property (through Lemma 2.2, in A6.1 and in A6.2's "positions 1 and k lie in T_h"),
+    the WCS property (through the class lemma A6.0 (a), in A6.1 and in A6.2's "positions 1 and k lie in T_h"),
     the uniqueness of the value 1, and that k is a prime power. A small, decidable Lean target
     for later: A6.1 and A6.2 from the definition, then A6.3.
   - **A6.4. Single-residue form and other necessary conditions.** [own argument, unreviewed]
@@ -282,31 +300,33 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
   for this slice) is a WCS of length k/d that *starts* with 1, so A6.1 applied to the slice constrains
   the value at the last point of T_d; A6.2's gcd argument then compares that point with
   position k.
-  - **A7.1. Slice lemma.** [preprint: GSK24, Lemmas 2.2, 2.3, 2.4 (2.4 re-proved inline)] +
-    [own argument, unreviewed] Let σ be a WCS of length k with
+  - **A7.1. Slice lemma.** [own argument, unreviewed] (GSK24 Lemmas 2.2 and 2.4 re-proved: A6.0,
+    (ii) below; see A8.) Let σ be a WCS of length k with
     1 < pos(1) < k, d = σ(1), d′ = σ(k) (coprime divisors of k, both ≥ 2, d·d′ ∣ k: A6.2), and
     K = k/d (so K ≥ d′ ≥ 2). Then σ(k − d + 1) = d·e with **e ∣ K, e ≥ 2 and gcd(e, d′) ∣ d − 1**.
-    *Proof.* (i) T_d is the class of position 1 mod d inside [k] (Lemma 2.2); since d ∣ k it is
+    *Proof.* (i) T_d is the class of position 1 mod d inside [k] (A6.0 (a), as 1 ∈ T_d); since d ∣ k it is
     {1, 1 + d, …, 1 + (K − 1)d}, whose last point is k − d + 1, and these K positions carry exactly
     the K multiples of d in [k]. So τ(i) = σ(1 + (i − 1)d)/d is a permutation of [K].
     (ii) τ is a WCS: if m ∣ τ(i) and m ∣ i − j, then md ∣ σ(1 + (i − 1)d) and md divides the
     position difference (i − j)d, so md ∣ σ(1 + (j − 1)d) by Def. 1.1, i.e. m ∣ τ(j). (This is
     [GSK24] Lemma 2.4 for this slice.) (iii) τ(1) = σ(1)/d = 1 and K ≥ 2, so e := τ(K) ≥ 2, and
     A6.1's corollary applied to τ gives e ∣ K. (iv) g := gcd(de, d′) = gcd(e, d′) since
-    gcd(d, d′) = 1. If g ≥ 2, positions k − d + 1 and k both lie in T_g, one residue class mod g
-    (Lemma 2.2), so g ∣ (k) − (k − d + 1) = d − 1. ∎
-    - *Mirror.* Applying A7.1 to the reversal (Rule 3; it swaps σ(1) and σ(k) and maps position
+    gcd(d, d′) = 1. If g ≥ 2 (g ≤ d′ ≤ k, so g ∈ [2, k]), positions k − d + 1 and k both lie in T_g,
+    one residue class mod g (A6.0 (a)), so g ∣ (k) − (k − d + 1) = d − 1. ∎ (Edge cases: K = 1, i.e.
+    d = k, cannot occur, since d·d′ ∣ k with d′ ≥ 2; and k − d + 1 ≠ k since d ≥ 2.)
+    - *Mirror.* Applying A7.1 to the reversal (A6.0 (b); it swaps σ(1) and σ(k) and maps position
       k − d′ + 1 to d′): σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1.
       [own argument, unreviewed]
     - The general form (no interior 1 assumed: σ(1) = d ≥ 2 and k/d ≥ 2; then (i)–(iii) hold
       verbatim and (iv) reads gcd(σ(k − d + 1), σ(k)) ∣ d − 1), with its mirror, holds on every
       WCS with k ≤ 20. [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`; for the
       interior case itself numerics are vacuous, since no WCS with k ≤ 23 has an interior 1.)
-  - **A7.2. Theorem.** [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] *Let k = r·s^b with r, s distinct primes,
+  - **A7.2. Theorem.** [own argument, unreviewed] (no GSK24 lemma used beyond A6.0; see A8.) *Let k = r·s^b with r, s distinct primes,
     b ≥ 1 and s ∤ r − 1. Then every WCS of length k has σ(1) = 1 or σ(k) = 1.* *Proof.* Suppose
-    1 < pos(1) < k. By A6.2, σ(1) and σ(k) are coprime divisors of k, both ≥ 2. Coprimality puts
-    r and s in different ones, and each is ≥ 2 and has only the primes r, s, so one of them is a
-    power of r dividing k, i.e. r itself, and the other is s^β with 1 ≤ β ≤ b. Reversal (Rule 3)
+    1 < pos(1) < k. By A6.2, σ(1) and σ(k) are coprime divisors of k, both ≥ 2. Each value is ≥ 2
+    and has only the primes r, s; by coprimality no prime divides both, so if one value were
+    divisible by both r and s the other would be 1. Hence one value is a power of r dividing k,
+    i.e. r itself, and the other is s^β with 1 ≤ β ≤ b. Reversal (A6.0 (b))
     keeps the WCS property and the interiority of pos(1) and swaps σ(1), σ(k), so we may assume
     σ(1) = r, σ(k) = s^β. Apply A7.1 with d = r, d′ = s^β, K = s^b: e ∣ s^b and e ≥ 2 give s ∣ e,
     so s ∣ gcd(e, s^β) ∣ r − 1, contradicting s ∤ r − 1. ∎
@@ -319,9 +339,9 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       82, 85, 86, 87, 91, 93, 94, 95, 98, 99. This includes every k = 2·s^b (r = 2, s odd) and
       every pq. [own argument, unreviewed] (A7.2) + list computed by `search/weakly-consecutive/wc_slice_check.py`
       [numerical, Python, not Lean]
-    - Hypotheses used: Def. 1.1 (in A7.1 (ii)), Lemma 2.2 (classes T_m, re-proved in A6), A6.1,
-      A6.2, reversal, uniqueness of the value 1, the factorization of k. The steps are small and
-      decidable-flavoured; a Lean version needs Lemma 2.2, A6.1, A6.2 and the slice WCS fact.
+    - Hypotheses used: Def. 1.1 (in A7.1 (ii)), the class lemma A6.0 (a), A6.1,
+      A6.2, reversal (A6.0 (b)), uniqueness of the value 1, the factorization of k. The steps are small and
+      decidable-flavoured; a Lean version needs the class lemma A6.0 (a), A6.1, A6.2 and the slice WCS fact.
   - **A7.3. Remaining gap (two prime factors).** [conjecture] Not proved: k = p^a q^b not of the
     form in A7.2, i.e. (a) a, b ≥ 2 (36, 72, 100, …), or (b) k = r·s^b with b ≥ 2 and
     s ∣ r − 1 (squarefree k is always covered). Family (b) contains every 2^b·r with b ≥ 2 and r
@@ -343,6 +363,32 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       general way to combine A7.1 with the singleton classes of primes in (k/2, k] (A3), or a
       second slice (e.g. D_e on positions of T_{de}) that again
       starts or ends with a known value; not found.
+- **A8. Citation check (#80) (2026-11-27).** Finishing item 2 for A6.1–A6.3 and A7.1–A7.2. Each
+  [GSK24] ingredient these steps used is now re-proved in the notes, so none is cited; the only
+  thing taken from the paper is Definition 1.1 itself (the statement of the problem, quoted
+  verbatim in Literature item 1). No fetch of arXiv:2401.09497 was needed. All re-proofs are
+  [own argument, unreviewed].
+  - *A6.1 (window lemma).* Uses: T_m is the class of i mod m with ⌊k/m⌋ points ([GSK24] Lemma 2.2,
+    direction WCS ⇒ classes): re-proved in A6.0 (a). Reversal ([GSK24] Rule 3): re-proved in
+    A6.0 (b). Lemma 2.3: not used (A6.1 is its own derivation; the relation to Lemma 2.3 read with
+    m ∣ x is a remark). Corollary σ(1), σ(k) ∣ k: from A6.1 only.
+  - *A6.2 (coprime ends).* Uses: positions 1 and k in T_h are congruent mod h (Lemma 2.2):
+    A6.0 (a), with h ∈ [2, k] checked; σ(1) ∣ k: A6.1. Nothing cited.
+  - *A6.3 (prime powers).* Uses A6.2 and uniqueness of the value 1 only. Nothing cited.
+  - *A7.1 (slice lemma).* (i) T_d is the class of 1 mod d (Lemma 2.2): A6.0 (a). (ii) the slice τ is
+    a WCS ([GSK24] Lemma 2.4 for the slice through position 1): re-proved in (ii) from Def. 1.1,
+    so the reading m = k of Lemma 2.4 (Literature item 5) is not needed. (iii) e ∣ K: A6.1's
+    corollary applied to τ. (iv) congruence of positions k − d + 1 and k mod g (Lemma 2.2):
+    A6.0 (a). Mirror: reversal, A6.0 (b). Lemma 2.3: not used (the old label listed it because
+    A6.1 is its relative). Nothing cited.
+  - *A7.2 (k = r·s^b, s ∤ r − 1).* Uses A6.2, reversal (A6.0 (b)), A7.1 and the factorization of k.
+    Lemma 2.2 enters only through A6.0; Lemma 2.3 is not used. Nothing cited.
+  - *Checked edge cases.* k = 1 (no m ∈ [2, k]; A6.3 trivial); m = k in A6.0 (T_k a singleton);
+    m = 1 (T_1 = [k]); in A7.1, d = k (K = 1) is excluded by d·d′ ∣ k, d′ ≥ 2, so K ≥ 2 and
+    τ(K) ≠ τ(1) = 1; the gcds h, g in A6.2 and A7.1 (iv) are ≤ k, so A6.0 applies to them. Author's
+    re-check, not a /review: no error found in A6.1–A6.3, A7.1–A7.2.
+  - *Not covered by this check.* The other rows of the Claims ledger that cite [GSK24] (A3, A4,
+    A6.4, and the paper's own claims in Literature) keep their labels.
 
 ## Review
 
@@ -452,6 +498,19 @@ Nine wording and label findings, no mathematical error; all fixed:
    is [own argument, unreviewed], and the k ≤ 20 consequence that argument + [numerical, Python,
    not Lean].
 
+### 2026-11-27: citation check (#80), `/review` (two independent subagents)
+
+Mathematics reviewer (A6.0–A6.3, A7.1–A7.2, A8 against Def. 1.1; re-derived the covered k ≤ 100
+list): no mathematical error, no silent use of a GSK24 result, A7.2's case split exhaustive.
+Claims reviewer: every dropped GSK24 label rests on a re-proof in the notes; cross-references
+resolve. Wording findings, all fixed:
+1. A6.1 "blocks [i + jm]" are points, not blocks. Fixed.
+2. A7.2 "Coprimality puts r and s in different ones" was compressed. Spelled out.
+3. A7.2 hypotheses line "a Lean version needs Lemma 2.2" read as a citation. Now "the class lemma A6.0 (a)".
+4. A6 header's "/review found no mathematical error" read as covering A6.0, added later. Scoped to A6.1–A6.5.
+5. A8, A7.2 bullet contradicted A8's own statement that Lemma 2.3 is unused. Fixed.
+6. A8 "No error found" read like a review finding. Now marked as the author's re-check.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -498,3 +557,8 @@ Nine wording and label findings, no mathematical error; all fixed:
   form of A7.1 and its mirror on all of them (no failures), and lists the covered k ≤ 100.
   [numerical, Python, not Lean] `/review` (two subagents) found no mathematical error; 9 wording/label findings fixed (Review section).
 - 2026-11-27: opened PR #69 for the A7 attack stage (#68).
+- **2026-11-27.** Citation check (#80, finishing item 2) for A6.1–A6.3 and A7.1–A7.2: added A6.0
+  (class lemma = Lemma 2.2 direction WCS ⇒ classes, and reversal = Rule 3, both from Def. 1.1)
+  and A8 (step-by-step list). Every GSK24 ingredient of these steps is now re-proved; their
+  labels drop the [preprint: GSK24 …] part and stay [own argument, unreviewed]. No fetch needed.
+- **2026-11-27.** `/review` of the citation check: no mathematical error; 6 wording findings fixed (Review).

@@ -73,12 +73,20 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   mathematical error; notes A6.3),
   via σ(1), σ(k) being coprime divisors of k. Gap: k with two or more distinct prime factors; class-size
   counting alone (A3's plan) cannot work: the size-only relaxation admits an interior 1 (Python search, notes A6.5).
+- Lean 2026-11-25 (#47): Conjecture 5.2 for k ≤ 16 by `decide +kernel` (`conjecture_5_2_le_16`).
+- Attack stage 2026-11-26 (#68): a slice lemma (the slice through position 1 starts with 1, so
+  its last value divides its length) gives Conjecture 5.2 for k = r·s^b with r, s distinct
+  primes and s ∤ r − 1, including every squarefree k = pq and every 2·s^b (own argument,
+  unreviewed; `/review` found no mathematical error; notes A7). Gap: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2
+  and s ∣ r − 1 (e.g. 12, 20, 36, 63; notes A7.3).
 
 | Id | Item | Status | Where |
 |---|---|---|---|
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
-| WC1a | **Conjecture 5.2 for k with ≥ 2 distinct prime factors** (prime-power k: own argument, unreviewed, A6.3) | open | notes, A6.5 |
-| WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | idea | notes, A5 |
+| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; own argument, unreviewed) | partial; open for a, b ≥ 2 or r·s^b with b ≥ 2, s ∣ r − 1 | notes, A7.3 |
+| WC1c | Conjecture 5.2 for prime-power k | own argument, unreviewed | notes, A6.3 |
+| WC1b | Conjecture 5.2 for k with ≥ 3 distinct prime factors | open | notes, A6.5 |
+| WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | small-k part done (k ≤ 16, [Lean], `halfline_lt/Proofs/WeaklyConsecutive.lean`); Lemmas 2.2–2.4 not formalized | notes, A5, Log 2026-11-25 (Lean) |
 
 ### central-2adic: open (P2, #22)
 
@@ -114,5 +122,8 @@ Don't repeat these without a new ingredient.
   distant bump has ratio → 1.
 - **The γ = 5/2 KdV trace formula.** Its scattering term has the wrong sign for an upper bound
   (hand derivation, unverified).
+- **WCS: slice lemma alone for k = p^a q^b (#68).** Its divisibility constraints are satisfiable
+  in at least one uncovered case (k = 12, (σ(1), σ(12)) = (4, 3)). For k = 12, (2, 3) the hand
+  check closes it using the singleton class of 7 ∈ (k/2, k]. (notes, A7.3)
 - **Brute-force numerics.** No counterexample for γ ≤ 5/2 in four families. Use numerics to test
   claims, not as a proof strategy.

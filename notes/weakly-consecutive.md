@@ -53,7 +53,11 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | gcd(σ(i), i − σ^{-1}(1)) = 1 for all i ≠ σ^{-1}(1) | [own argument, unreviewed] | Attack ideas, A6.4 |
 | A6.1, A6.2 and the Y-form, k + 1 and unit-class parts of A6.4 hold on every WCS with k ≤ 20; enumerating Y mod lcm(1..k) gives exactly N(k) WCS for k ≤ 13 | [numerical, Python, not Lean] | Log 2026-11-25 (attack) |
 | Class sizes + compatibility alone admit an interior 1 (e.g. k = 8, 12); adding disjointness of coprime prime-power classes with product > k excludes it for k ≤ 18, primes only do not (k = 6, 14) | [numerical, Python, not Lean] | Attack ideas, A6.5 |
-| Conjecture 5.2 for k with at least two distinct prime factors | [conjecture] | Attack ideas, A6.5 |
+| Slice lemma: if 1 < σ^{-1}(1) < k, d = σ(1), d′ = σ(k), then σ(k − d + 1) = d·e with e ∣ k/d, e ≥ 2 and gcd(e, d′) ∣ d − 1; mirror: σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1 | [preprint: GSK24, Lemmas 2.2, 2.3, 2.4 (2.4 re-proved inline)] + [own argument, unreviewed] | Attack ideas, A7.1 |
+| Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A7.2 |
+| General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`tools/wc_slice_check.py`) | Log 2026-11-26 |
+| Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2 and s ∣ r − 1 (e.g. 2^b·r, b ≥ 2) | [conjecture] | Attack ideas, A7.3 |
+| Conjecture 5.2 for k with at least three distinct prime factors | [conjecture] | Attack ideas, A6.5 |
 
 ## Literature (2026-11-25)
 
@@ -257,10 +261,10 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       at positions 1 and k) or the disjointness T_m ∩ T_n = ∅ for lcm(m, n) > k (A2).
     - *Which disjointness is needed.* Adding to the size system the disjointness of T_Q, T_{Q′}
       for coprime prime powers Q, Q′ ≤ k with QQ′ > k excludes every interior p for k ≤ 18. (The full system, i.e. sizes + compatibility +
-      T_m ∩ T_n = ∅ whenever lcm(m, n) > k, is equivalent to WCS: if λ(N) > k for some N ∈ J, let
+      T_m ∩ T_n = ∅ whenever lcm(m, n) > k, is equivalent to WCS [own argument, unreviewed]: if λ(N) > k for some N ∈ J, let
       M be the largest divisor of N in [k] and n ∈ [k] a divisor of N not dividing M; then
       lcm(M, n) > k, so disjointness gives (a) of A6.4. So it excludes interior p for k ≤ 20 by
-      the enumeration.) With primes only instead of prime powers, interior p survive at k = 6 and
+      the enumeration, [own argument, unreviewed] + [numerical, Python, not Lean].) With primes only instead of prime powers, interior p survive at k = 6 and
       k = 14 (the search range of this run was not recorded; a reviewer re-ran it for k ≤ 14 and
       found exactly k = 6, 14; k = 19, 20 are not claimed for the prime-power pairs); with only pairs involving a power
       of 2, or only pairs of values > k/2, they survive for most k ≤ 20. [numerical, Python, not
@@ -271,6 +275,74 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       contradiction in the interior case by hand; the next step would be to push A6.1 inward
       together with the induction hypothesis of A4 (pos(d) extreme in T_d), which was not
       completed.
+    - *Update 2026-11-26.* Part of this gap is closed by A7.2 below (k = r·s^b with s ∤ r − 1,
+      including every squarefree k = pq); what is left for two prime factors is A7.3.
+- **A7. Two distinct prime factors (#68).** (2026-11-26.) Notation as in A6. New ingredient
+  compared with A6.5: the slice D_d through position 1 (Lemma 2.4 of [GSK24], re-proved inline
+  for this slice) is a WCS of length k/d that *starts* with 1, so A6.1 applied to the slice constrains
+  the value at the last point of T_d; A6.2's gcd argument then compares that point with
+  position k.
+  - **A7.1. Slice lemma.** [preprint: GSK24, Lemmas 2.2, 2.3, 2.4 (2.4 re-proved inline)] +
+    [own argument, unreviewed] Let σ be a WCS of length k with
+    1 < pos(1) < k, d = σ(1), d′ = σ(k) (coprime divisors of k, both ≥ 2, d·d′ ∣ k: A6.2), and
+    K = k/d (so K ≥ d′ ≥ 2). Then σ(k − d + 1) = d·e with **e ∣ K, e ≥ 2 and gcd(e, d′) ∣ d − 1**.
+    *Proof.* (i) T_d is the class of position 1 mod d inside [k] (Lemma 2.2); since d ∣ k it is
+    {1, 1 + d, …, 1 + (K − 1)d}, whose last point is k − d + 1, and these K positions carry exactly
+    the K multiples of d in [k]. So τ(i) = σ(1 + (i − 1)d)/d is a permutation of [K].
+    (ii) τ is a WCS: if m ∣ τ(i) and m ∣ i − j, then md ∣ σ(1 + (i − 1)d) and md divides the
+    position difference (i − j)d, so md ∣ σ(1 + (j − 1)d) by Def. 1.1, i.e. m ∣ τ(j). (This is
+    [GSK24] Lemma 2.4 for this slice.) (iii) τ(1) = σ(1)/d = 1 and K ≥ 2, so e := τ(K) ≥ 2, and
+    A6.1's corollary applied to τ gives e ∣ K. (iv) g := gcd(de, d′) = gcd(e, d′) since
+    gcd(d, d′) = 1. If g ≥ 2, positions k − d + 1 and k both lie in T_g, one residue class mod g
+    (Lemma 2.2), so g ∣ (k) − (k − d + 1) = d − 1. ∎
+    - *Mirror.* Applying A7.1 to the reversal (Rule 3; it swaps σ(1) and σ(k) and maps position
+      k − d′ + 1 to d′): σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1.
+      [own argument, unreviewed]
+    - The general form (no interior 1 assumed: σ(1) = d ≥ 2 and k/d ≥ 2; then (i)–(iii) hold
+      verbatim and (iv) reads gcd(σ(k − d + 1), σ(k)) ∣ d − 1), with its mirror, holds on every
+      WCS with k ≤ 20. [numerical, Python, not Lean] (`tools/wc_slice_check.py`; for the
+      interior case itself numerics are vacuous, since no WCS with k ≤ 23 has an interior 1.)
+  - **A7.2. Theorem.** [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] *Let k = r·s^b with r, s distinct primes,
+    b ≥ 1 and s ∤ r − 1. Then every WCS of length k has σ(1) = 1 or σ(k) = 1.* *Proof.* Suppose
+    1 < pos(1) < k. By A6.2, σ(1) and σ(k) are coprime divisors of k, both ≥ 2. Coprimality puts
+    r and s in different ones, and each is ≥ 2 and has only the primes r, s, so one of them is a
+    power of r dividing k, i.e. r itself, and the other is s^β with 1 ≤ β ≤ b. Reversal (Rule 3)
+    keeps the WCS property and the interiority of pos(1) and swaps σ(1), σ(k), so we may assume
+    σ(1) = r, σ(k) = s^β. Apply A7.1 with d = r, d′ = s^β, K = s^b: e ∣ s^b and e ≥ 2 give s ∣ e,
+    so s ∣ gcd(e, s^β) ∣ r − 1, contradicting s ∤ r − 1. ∎
+    - *Squarefree k = pq* (p < q primes): take r = p, s = q; then 1 ≤ p − 1 < q, so q ∤ p − 1.
+      (With r = q the hypothesis can fail, e.g. 2 ∣ 3 − 1 for k = 6, which is why the
+      orientation matters.) Together with A6.3: Conjecture 5.2 holds for every prime power k and
+      every squarefree k = pq. [own argument, unreviewed]
+    - *Covered k ≤ 100 with two distinct prime factors* (`tools/wc_slice_check.py`): 6, 10, 14, 15,
+      18, 21, 22, 26, 33, 34, 35, 38, 39, 45, 46, 50, 51, 54, 55, 57, 58, 62, 65, 69, 74, 75, 77,
+      82, 85, 86, 87, 91, 93, 94, 95, 98, 99. This includes every k = 2·s^b (r = 2, s odd) and
+      every pq. [own argument, unreviewed] (A7.2) + list computed by `tools/wc_slice_check.py`
+      [numerical, Python, not Lean]
+    - Hypotheses used: Def. 1.1 (in A7.1 (ii)), Lemma 2.2 (classes T_m, re-proved in A6), A6.1,
+      A6.2, reversal, uniqueness of the value 1, the factorization of k. The steps are small and
+      decidable-flavoured; a Lean version needs Lemma 2.2, A6.1, A6.2 and the slice WCS fact.
+  - **A7.3. Remaining gap (two prime factors).** [conjecture] Not proved: k = p^a q^b not of the
+    form in A7.2, i.e. (a) a, b ≥ 2 (36, 72, 100, …), or (b) k = r·s^b with b ≥ 2 and
+    s ∣ r − 1 (squarefree k is always covered). Family (b) contains every 2^b·r with b ≥ 2 and r
+    an odd prime (12, 20, 24, 28, 40, …) and e.g. 63 = 7·3². The uncovered k ≤ 100 are 12, 20,
+    24, 28, 36, 40, 44, 48, 52, 56, 63, 68, 72, 76, 80, 88, 92, 96, 100. Up to reversal and naming, an interior 1 then has σ(1) = p^α,
+    σ(k) = q^β (1 ≤ α ≤ a, 1 ≤ β ≤ b), and A7.1 with its mirror gives only:
+    e ∣ p^{a−α}q^b, gcd(e, q^β) ∣ p^α − 1; e′ ∣ p^a q^{b−β}, gcd(e′, p^α) ∣ q^β − 1. In
+    particular α = a forces q ∣ p^a − 1 and β = b forces p ∣ q^b − 1. [own argument, unreviewed]
+    These do not close the case: for k = 12 with (σ(1), σ(12)) = (4, 3), e = 3 and e′ = 2
+    satisfy them (3 ∣ 3, 2 ∣ 4, gcd(3, 3) ∣ 3, gcd(2, 4) ∣ 2). [own argument, unreviewed]
+    - *What closes small cases by hand.* For k = 12 with (σ(1), σ(12)) = (2, 3): A7.1 forces e = 2
+      (e ∣ 6, 3 ∤ e), so σ(11) = 4, T_4 = {3, 7, 11}; then T_12 = {3}, T_8 = {7} (window [5, 8]),
+      T_6 = {3, 9}, so σ(9) = 6 (T_12 = {3}); pos(9) = 6 (window [4, 9] in T_3 = {3, 6, 9, 12}
+      leaves {6, 9}, and position 9 is odd, so in T_2 with σ(9) even, indeed σ(9) = 6), pos(10) = 5
+      (T_2 is the odd positions; 5 is the only free odd position in the window [3, 10], since 3,
+      7, 9 are taken), and the singleton T_7 must lie in the window [6, 7], both of whose
+      positions are taken: contradiction. [own argument, unreviewed] So this argument closes the
+      sub-case through a large prime (7 ∈ (k/2, k], A3). The step that would close A7.3: a
+      general way to combine A7.1 with the singleton classes of primes in (k/2, k] (A3), or a
+      second slice (e.g. D_e on positions of T_{de}) that again
+      starts or ends with a known value; not found.
 
 ## Review
 
@@ -354,6 +426,32 @@ Claims reviewer: three wording findings, all fixed:
 - R3. Claims-ledger row for Lemma 2.3 stated the window only for σ^{-1}(m). Fixed: now stated for
   every x with m ∣ x, as in Literature item 4 and A6.1.
 
+### 2026-11-26: attack stage A7 (#68), `/review` (two independent subagents)
+
+Nine wording and label findings, no mathematical error; all fixed:
+1. Claims-ledger row for the remaining k lacked b ≥ 2 in "r·s^b with s ∣ r − 1". Fixed: b ≥ 2
+   added, as in A7.3.
+2. A7.3: "the sub-case closes only through a large prime" claimed no other route exists. Fixed:
+   now "this argument closes the sub-case through a large prime".
+3. A7.3 k = 12 hand check: the window for 9 left {6, 9} without excluding 9, and "last odd
+   position" for 10 was wrong. Fixed: σ(9) = 6 (T_6 = {3, 9}, T_12 = {3}) and 9 is odd, so
+   pos(9) = 6; position 5 is the only free odd position in [3, 10].
+4. A7 intro: "pins the value" overstated A6.1. Fixed: "constrains the value".
+5. LEDGER WC1a listed prime-power k (A6.3) as progress on two prime factors. Fixed: moved to its
+   own row WC1c.
+6. A7.1 and A7.2 (headers and claims-ledger rows) cited only the own argument. Fixed: labelled
+   [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed]; A7.1 also cites Lemma 2.4,
+   re-proved inline.
+7. A7.2 "Covered k ≤ 100" list was labelled own argument only. Fixed: own argument (A7.2) + list
+   computed by `tools/wc_slice_check.py` [numerical, Python, not Lean].
+8. LEDGER "Approaches that failed" said the slice constraints are satisfiable "in the uncovered
+   cases" and k = 12 closes "only via" 7. Fixed: "in at least one uncovered case (k = 12,
+   (4, 3))", and the hand check closes it "using" the singleton class of 7; "only" dropped (also
+   in A7.3, see 2).
+9. A6.5: the "full system is equivalent to WCS" parenthesis had no label. Fixed: the equivalence
+   is [own argument, unreviewed], and the k ≤ 20 consequence that argument + [numerical, Python,
+   not Lean].
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -392,3 +490,10 @@ Claims reviewer: three wording findings, all fixed:
   `/review` done (3 wording findings + 1 nit, all fixed).
 - **2026-11-26.** Addressed the reviewer-loop comment on PR #63 (3 minor findings, all fixed;
   see Review).
+- **2026-11-26.** Attack stage for issue #68 (two distinct prime factors). Own arguments
+  (unreviewed): slice lemma A7.1 and Conjecture 5.2 for k = r·s^b with s ∤ r − 1 (A7.2), which
+  includes every squarefree k = pq and every 2·s^b. Gap A7.3: p^a q^b with a, b ≥ 2, or r·s^b
+  with b ≥ 2 and s ∣ r − 1 (e.g. 12, 20, 36, 63). `tools/wc_slice_check.py` (kept in the repo, run with `python -I`):
+  re-enumerates all WCS for k ≤ 20 (counts as in the 2026-11-25 line), checks the general
+  form of A7.1 and its mirror on all of them (no failures), and lists the covered k ≤ 100.
+  [numerical, Python, not Lean] `/review` (two subagents) found no mathematical error; 9 wording/label findings fixed (Review section).

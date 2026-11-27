@@ -20,10 +20,15 @@ work, leave all state in files and PRs, then schedule the next wakeup.
 
 ## 1. Sync
 
-- `git fetch origin`, then list your open PRs: `gh pr list --state open --json number,title,headRefName`.
+- `git fetch origin`, then list your open PRs:
+  `gh pr list --state open --author @me --json number,title,headRefName`, keeping those whose
+  branch starts with `agent/`. Other people's PRs are not yours to fix. "Claims" in `/prove`
+  defines `<me>`, claiming and releasing.
 - Work only in this worktree. Never edit `.claude/settings*.json` or `.github/workflows/`.
-- Tidy the queue. For each open issue labelled `in-progress` with no open PR of yours (its PR was
-  merged or closed), remove `in-progress`, so its next unit can be picked again.
+- Tidy the queue. Release your own claims whose PR was merged or closed, as "Claims" says. Only
+  claims whose claim comment names an `agent/` branch are the author's: the explorer and reviewer
+  may share your login, so skip `moonshot` issues and any claim naming another branch prefix. Never
+  touch an issue claimed by someone else.
 
 ## 2. Keep your open PRs healthy (this comes before new work)
 
@@ -58,11 +63,12 @@ That is the whole iteration. Go to step 5.
 - **Pick the target from the issue queue.** List
   `gh issue list --state open --label approved --json number,title,labels`. Add the open
   sub-issues of each listed issue (`gh api repos/ndesmo/leaning/issues/<n>/sub_issues`), which
-  carry no `approved` label of their own, and prefer them to their parent. Skip issues labelled
-  `in-progress`, `blocked` or `moonshot`; the explorer works the moonshots. Take the highest priority (`priority:high`, then normal, then low),
-  oldest first. Only issues the owner labelled `approved` are eligible. You never add or remove
-  `approved`, and you never work on an unapproved issue.
-- **Claim it.** Add the label `in-progress` and comment on the issue with your branch name.
+  carry no `approved` label of their own, and prefer them to their parent. Skip issues that are
+  claimed (see "Claims" in `/prove`) or labelled `blocked` or `moonshot`; the explorer works the
+  moonshots. Take the highest priority (`priority:high`, then normal, then low), oldest first.
+  Only issues the owner labelled `approved` are eligible. You never add or remove `approved`, and
+  you never work on an unapproved issue.
+- **Claim it** as "Claims" says, and re-read to make sure you won. If you lost, pick the next one.
 - **One unit only.** An issue may need several PRs. Each PR does one small, checkable unit: a
   citation to verify, one Lean lemma, one literature pass, one attack on a precisely stated gap.
 - **Split big issues into sub-issues.** When an approved issue needs more than one unit, create a
@@ -94,7 +100,8 @@ That is the whole iteration. Go to step 5.
   Anything else you notice but don't do in this unit goes in a new standalone issue labelled
   `follow-up` (never `approved`), with its source and what "done" means, for the owner to approve:
   new questions, extensions, other cases, tooling. Don't bury it in prose.
-- **Branch.** Create `agent/<slug>-<short-stage>` from `origin/main`.
+- **Branch.** Create `agent/<me>/<slug>-<short-stage>` from `origin/main`, so two contributors'
+  branches never share a name.
 - **Do one stage** using the stage skills (`/conjecture`, `/literature`, `/attack`, `/lean-check`,
   `/proof-page`), in a subagent (see "Keep this session small").
 - **Run `/review` before opening the PR** whenever the PR adds or changes a mathematical argument,

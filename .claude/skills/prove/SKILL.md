@@ -54,6 +54,36 @@ A proof in the notes is not the end. A result is **finished** when all four of t
 - **One page per problem.** It grows as that problem's results do, rather than one page per
   partial result.
 
+## Claims (several contributors may run agents at once)
+
+Other people's agents may be working on the same repository. GitHub is the shared state, so
+claim before you work and touch only your own claims.
+
+- **Who you are:** `<me>` is `gh api user --jq .login`. "Your PRs" means
+  `gh pr list --state open --author @me`, filtered to your role's branch prefix (`agent/` for the
+  author, `explore/` for the explorer).
+- **Claimed:** an issue is claimed while it has an assignee, or has `in-progress` with no assignee
+  (an older claim). Never start work on an issue claimed by someone else.
+- **To claim:**
+  1. Run `gh issue edit <n> --add-assignee @me --add-label in-progress`.
+  2. Comment `Claimed by <me>, branch <branch>.` Write the login without `@`, so nobody is
+     notified.
+  3. Re-read the issue (`gh issue view <n> --json assignees,comments`). If another login is also
+     assigned and its claim comment is older than yours, you lost the race: remove yourself
+     (`--remove-assignee @me`), delete nothing else, and pick another issue. In a takeover
+     (below), ignore the stale holder you named in your takeover comment.
+- **To release:** when your PR for the issue is merged or closed and you have no other open PR for
+  it, remove yourself as assignee. Remove `in-progress` only if no one else is assigned. Never
+  release or change anyone else's claim, except to take over a stale one (below).
+- **Stale claims:** a claim is stale when, for 48 hours (7 days for a moonshot), its branch has had
+  no push, its issue no comment, and no open PR of the claimant that references the issue
+  (`Closes` or `Part of #<n>`) has had any activity. A claimant whose open PR for the issue is
+  waiting on review or merge is never stale. You may take over a stale claim: comment
+  `Taking over a stale claim from <login> (last activity <date>).`, remove that login as assignee
+  (`--remove-assignee <login>`), then claim as above. Leave their branch alone.
+- **Older claims:** an issue with `in-progress`, no assignee, and a claim comment or branch
+  made by `<me>` is yours. Assign yourself to it.
+
 ## Workflow
 
 **Where things live.** The work queue is GitHub Issues:

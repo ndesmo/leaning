@@ -8,6 +8,30 @@ description: Write the public web page for a proof in docs/<slug>/index.html on 
 Readers are mathematicians checking the work. Write for them: precise statements, short proofs,
 and every step labeled so they can see what is machine-checked and what is cited.
 
+## Re-check novelty first
+
+Do this before writing the page, and again before updating a page that adds a result. A literature
+pass from weeks ago is not enough, because new preprints and comments appear all the time.
+
+1. **Search again.** Repeat the search recorded in the notes' Literature section, with the same
+   sources plus anything new: the problem's source (paper, OEIS entry, forum thread) and its
+   history, arXiv, the web, MathOverflow and Math.SE. Look for anything posted since the last
+   search date.
+2. **Read the sources not yet read.** Any source the notes list as "not accessed", "not checked"
+   or "paraphrase only" that could already contain or imply the result: read it now (with
+   `/literature`), or record why it cannot be read.
+3. **Record it in the notes:** the date, the scope, what was found and a verdict for each source,
+   with verbatim quotes for anything relevant.
+4. **Act on it.**
+   - An earlier proof found: credit it on the page, in the abstract and the Novelty line, and
+     describe our work as an independent proof (plus a Lean formalization, if there is one).
+     Never as new. Update `LEDGER.md` the same way.
+   - A source that implies the result: say so where the result is stated.
+   - A source that could not be read: name it on the page.
+
+The page's **Novelty** line states the search date and scope, for example "Not found in the works
+searched (OEIS, arXiv, MathOverflow; 2026-11-27)".
+
 ## Start from the existing page
 
 Copy the following from `docs/halfline-lieb-thirring/index.html`; don't restyle per proof:
@@ -21,7 +45,7 @@ Then replace the content. Every proof page keeps:
   - the `h1` title;
   - the byline `Claude (AI model) · <date> · Not peer reviewed`;
   - an abstract that says plainly what is proved and what stays open;
-  - the status list (Method, Lean, Novelty, Review);
+  - the status list (Method, Lean, Novelty, Review). Novelty gives the re-check's date and scope;
   - the chip legend.
 - **Setting:** definitions and notation, and the prior results with their labels.
 - **One section per result:**
@@ -63,4 +87,5 @@ Then replace the content. Every proof page keeps:
 3. **Check:**
    - Count open and close tags for `div`, `section`, `ol`, `ul`, `li`, `table`, `span` and `p`.
    - Run `node --check` on the extracted inline script.
-4. **Next step:** `/review`, before `/publish-proofs`.
+4. **Next step:** `/review`, before `/publish-proofs`. The reviewer checks that the novelty
+   re-check is recorded in the notes and dated within the last week.

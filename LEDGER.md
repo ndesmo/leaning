@@ -79,11 +79,16 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   primes and s ∤ r − 1, including every squarefree k = pq and every 2·s^b (own argument,
   unreviewed; `/review` found no mathematical error; notes A7). Gap: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2
   and s ∣ r − 1 (e.g. 12, 20, 36, 63; notes A7.3).
+- Attack stage 2026-11-27 (#68): Conjecture 5.2 for k = 4r, r ≥ 5 prime (own argument, unreviewed;
+  notes A7.4: A7.1 forces σ(1) = 2, σ(k − 1) = 4 up to reversal, the slice of T_4 forces
+  σ(3) = 4r, contradicting T_r = multiples of r); with k = 12 from Lean, every k = 4r is done.
+  Failed: extending the chain to 2^b·r, b ≥ 3 (the second slice need not end in a multiple of r).
+  Remaining gap: A7.3 (a) and (b) with k ≠ 4r (e.g. (a) 36, 72, 100; (b) 24, 40, 63).
 
 | Id | Item | Status | Where |
 |---|---|---|---|
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
-| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2 or r·s^b with b ≥ 2, s ∣ r − 1 | notes, A7.3 |
+| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; k = 4r: A7.4 + Lean k = 12; own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2 or r·s^b with b ≥ 2, s ∣ r − 1, k ≠ 4r | notes, A7.3 |
 | WC1c | Conjecture 5.2 for prime-power k | own argument, unreviewed (GSK24 citations re-proved, #80) | notes, A6.3 |
 | WC1b | Conjecture 5.2 for k with ≥ 3 distinct prime factors | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | small-k part done (k ≤ 16, [Lean], `halfline_lt/Proofs/WeaklyConsecutive.lean`); Lemmas 2.2–2.4 not formalized | notes, A5, Log 2026-11-25 (Lean) |

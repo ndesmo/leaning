@@ -11,10 +11,13 @@ PRs, and that is expected.
 
 ## 0. Preflight (stop the pass if any check fails)
 
-- The repo root (`git rev-parse --show-toplevel`) is `C:/w/explorer`. Otherwise say so and stop.
+- The repo root (`git rev-parse --show-toplevel`) is this role's worktree: its folder is named
+  `explorer`, and `git rev-parse --git-dir` differs from `git rev-parse --git-common-dir` (a linked
+  worktree, not the main checkout). By default it is `C:\w\explorer` on Windows and
+  `~/proofs-worktrees/explorer` elsewhere. Otherwise say so and stop.
 - `git status --porcelain` is empty, or you are on an `explore/*` branch with work from the last
   pass. In that case commit it to the journal first.
-- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run tools/setup-worktrees.ps1" and stop.
+- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run `python tools/agents.py setup`" and stop.
 
 ## 1. Pick the moonshot
 
@@ -98,7 +101,7 @@ Then:
 
 ## 7. End the pass
 
-- If you changed anything on GitHub (an issue, label or PR), run `& .\tools\board-sync.ps1`.
+- If you changed anything on GitHub (an issue, label or PR), run `python tools/agents.py board-sync`.
 - If everything is committed and pushed, finish on main: `git checkout --detach origin/main`.
 - End with `NEXT: <minutes>`:
   - 30 if the attack is mid-way;

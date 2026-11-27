@@ -10,11 +10,14 @@ work, leave all state in files and PRs, then schedule the next wakeup.
 
 ## 0. Preflight (stop the iteration if any check fails)
 
-- The repo root (`git rev-parse --show-toplevel`) is `C:/w/author`. Otherwise you were started in
+- The repo root (`git rev-parse --show-toplevel`) is this role's worktree: its folder is named
+  `author`, and `git rev-parse --git-dir` differs from `git rev-parse --git-common-dir` (a linked
+  worktree, not the main checkout). By default it is `C:\w\author` on Windows and
+  `~/proofs-worktrees/author` elsewhere. Otherwise you were started in
   the wrong place: say so and do not schedule another iteration.
 - `git status --porcelain` is empty, or you are on an `agent/*` branch with work in progress from
   your previous iteration. In that case finish or record that work first.
-- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run tools/setup-worktrees.ps1" and stop.
+- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run `python tools/agents.py setup`" and stop.
   Never download or delete the cache yourself.
 - Never create, move or remove worktrees.
 
@@ -62,7 +65,7 @@ That is the whole iteration. Go to step 5.
   step 5.
 - **Pick the target from the issue queue.** List
   `gh issue list --state open --label approved --json number,title,labels`. Add the open
-  sub-issues of each listed issue (`gh api repos/ndesmo/leaning/issues/<n>/sub_issues`), which
+  sub-issues of each listed issue (`gh api repos/{owner}/{repo}/issues/<n>/sub_issues`), which
   carry no `approved` label of their own, and prefer them to their parent. Skip issues that are
   claimed (see "Claims" in `/prove`) or labelled `blocked` or `moonshot`; the explorer works the
   moonshots. Take the highest priority (`priority:high`, then normal, then low). Within a
@@ -81,11 +84,11 @@ That is the whole iteration. Go to step 5.
   sub-issue for each unit you identify:
   - create it with `gh issue create`, with the parent's kind and priority labels, and never
     `approved`;
-  - link it with `gh api -X POST repos/ndesmo/leaning/issues/<parent>/sub_issues -F sub_issue_id=<id>`,
-    where `<id>` comes from `gh api repos/ndesmo/leaning/issues/<n> --jq .id`.
+  - link it with `gh api -X POST repos/{owner}/{repo}/issues/<parent>/sub_issues -F sub_issue_id=<id>`,
+    where `<id>` comes from `gh api repos/{owner}/{repo}/issues/<n> --jq .id`.
 
   A sub-issue is eligible only while its parent carries `approved`. Check the parent
-  (`gh api repos/ndesmo/leaning/issues/<n>/parent`) before working on it. Work the units one at a
+  (`gh api repos/{owner}/{repo}/issues/<n>/parent`) before working on it. Work the units one at a
   time; the parent closes when its last unit lands.
 - **Finish what is proved.** `/prove` defines when a result is finished (reviewed, citations
   checked, Lean, page).
@@ -131,7 +134,7 @@ That is the whole iteration. Go to step 5.
   - "Merging publishes to the live site" if `docs/` changed.
 - Add a dated line to the notes' Log.
 - **Notify the reviewer.** After opening a PR, or pushing to one in step 2, find the reviewer
-  session with `ListAgents`: the one named `reviewer`, or else the one working in `C:\w\reviewer`.
+  session with `ListAgents`: the one named `reviewer`, or else the one working in the `reviewer` worktree.
   Send it, with `SendMessage`, exactly: `PR #<n> has a new commit <sha>. Please review.` Nothing
   else. If no such session is listed, skip this; the reviewer's hourly check will find the PR.
 
@@ -148,7 +151,7 @@ This loop runs for weeks, so its own context must stay small. Do the heavy work 
 ## 5. Schedule the next iteration
 
 - If you changed anything on GitHub this iteration (an issue, label or PR), run
-  `& .\tools\board-sync.ps1` so the project board matches.
+  `python tools/agents.py board-sync` so the project board matches.
 - If everything is committed and pushed, finish on main: `git checkout --detach origin/main`. The
   next iteration then loads current instructions, not a PR branch's older copy. If something is
   uncommitted, leave it; preflight picks it up next time.

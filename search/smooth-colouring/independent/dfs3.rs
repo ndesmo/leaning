@@ -292,7 +292,16 @@ fn main() {
     let threads: usize = get("--threads").map(|s| s.parse().unwrap()).unwrap_or(1);
     let count = has("--count"); let sym = !has("--nosym") && !count; let all = has("--all");
     let lv: u32 = get("--level").map(|s| s.parse().unwrap()).unwrap_or(1);
-    let pb = Arc::new(build(n, p, lv, &order, sym, count, all));
+    let mut pb0 = build(n, p, lv, &order, sym, count, all);
+    // --first e1,e2,... (pass 8): restrict the FIRST search variable's domain to these element indices
+    // (e = h*K + f); used with --nosym to search only Gamma-orbit representatives for that variable.
+    if let Some(fl) = get("--first") {
+        let keep: HashSet<usize> = fl.split(',').map(|s| s.trim().parse().unwrap()).collect();
+        for x in 0..pb0.ng { if !keep.contains(&x) { pb0.init_dom[x / 64] &= !(1u64 << (x % 64)); } }
+        let left: Vec<usize> = (0..pb0.ng).filter(|&x| pb0.init_dom[x / 64] >> (x % 64) & 1 == 1).collect();
+        eprintln!("--first: var0 = prime {} restricted to {} values {:?}", pb0.order_primes[0], left.len(), left);
+    }
+    let pb = Arc::new(pb0);
     let split: usize = get("--split").map(|s| s.parse().unwrap()).unwrap_or(2).min(pb.nv);
     let log = get("--log");
     let t0 = Instant::now();

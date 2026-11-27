@@ -1,0 +1,12 @@
+out/p8/w/w_100_5_L3.json h_not_div5= 0 of 25
+out/p8/w/w_10_5_L3.json h_not_div5= 0 of 4
+out/p8/w/w_110_5_L3.json h_not_div5= 0 of 29
+out/p8/w/w_120_5_L3.json h_not_div5= 0 of 30
+out/p8/w/w_20_5_L3.json h_not_div5= 0 of 8
+out/p8/w/w_30_5_L3.json h_not_div5= 0 of 10
+out/p8/w/w_40_5_L3.json h_not_div5= 0 of 12
+out/p8/w/w_50_5_L3.json h_not_div5= 0 of 15
+out/p8/w/w_60_5_L3.json h_not_div5= 0 of 17
+out/p8/w/w_70_5_L3.json h_not_div5= 0 of 19
+out/p8/w/w_80_5_L3.json h_not_div5= 0 of 22
+out/p8/w/w_90_5_L3.json h_not_div5= 0 of 24

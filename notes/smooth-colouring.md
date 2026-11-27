@@ -488,3 +488,57 @@ Next ideas, ranked:
    is essential: any full exclusion of prime-power |B| needs a finite bound on the level.
 3. Extend the levels: Z243×Z65 and Z625×Z39 with dfs3, and Z13³×Z15 at level 2.
 4. Mixed |B| = 15: a two-character argument (pass 5, idea 3).
+
+### 2026-11-27: pass 8
+
+Two parallel strategies: a symmetry-free rerun plus level extensions (computation), and a
+structural bound on the level. There is no PR this pass: the formal /review has still not been run
+(the budget ran out).
+
+1. **Z27×Z65 (p = 3, level 2) at n = 195 is NONE without the lex-leader symmetry breaking**
+   [numerical: dfs3 with `--nosym --first`; 9.09·10⁶ nodes, all 586589 tasks].
+   - A pure `--nosym` run was projected at about 3 h, so it was not done.
+   - Instead, dfs3 got a new flag, `--first`, which restricts only the first variable (prime 2) to
+     orbit representatives of U(Z27)×U(Z65). The representatives come from a separate script,
+     `orbit_reps3.py`.
+   - This is sound because every group element γ is an automorphism of G that fixes F, so γ∘φ is
+     a solution exactly when φ is.
+   - Checks:
+     - `firstcheck3.py` passes on 9 small cases: the `--first` solution set equals the nosym set
+       filtered on its first value, and its orbit closure equals the full nosym set.
+     - `symcheck3.py` passes at n = 21, 24, 27 and 30.
+   - Commands are in `independent/out/pass8_runs.txt`.
+2. **Z625×Z39 (p = 5, level 3) at n = 195: incomplete.** 8994 of 11149 split-2 tasks finished, with
+   no solution. To resume, use the command in `pass8_runs.txt`; expect about 6.5 min of setup.
+   - The 12 p = 5 level-3 controls are all FOUND, but they are weak: each is a lift of a level-2
+     solution.
+   - Z243×Z65 (level 4) was not run.
+3. **Level bound, structural** (`structure/pass8_level.md`, scripts in `structure/pass8_level/`).
+   - Prop. 1 [own argument, unreviewed]: for fixed partition data, the minimal level is the least
+     i such that f vanishes on M ∩ p^{i+1}Z^k. So the level is at most log_p exp(Γ_p).
+   - **Conjectured sharp bound [conjecture]: level ≤ v_p(n/p).** It reduces to Lemma S:
+     exp(Γ_p) ≤ p^{v_p(n/p)} for a downset T and a g whose fibres on T all have size p.
+     - At n = 195, v_p(195/p) = 0 for every p | 195. So Lemma S would turn every (b_i^p) into (a),
+       and FP90/CCP would then exclude all periodic tilings whose m_π is a single prime power.
+   - Evidence [numerical: single implementation]:
+     - Every [n] case where level 1 fails but a higher level succeeds needs exactly v_p(n/p):
+       162 needs 3, 189 needs 2, 184 needs 2, and 176 needs 3. The n = 176 data (level 2 NONE,
+       level 3 FOUND) is new this pass and was predicted before the run.
+     - The exhaustive downset brute force in N² and N³ found no violation, and the bound is
+       attained.
+     - Lemma K, which implies Lemma S, holds in all 165 real witnesses.
+   - Where the argument breaks: Lemma 2 rules out only those torsion classes that are differences
+     of points of T. An equivalent goal is to show that W = ker ḡ is torsion-free in the tiling
+     S ⊕ W = Γ.
+   - The downset hypothesis is essential: T = {0, 4}, p = 2 needs level 2.
+
+Dead ends: a pure `--nosym` run at level 2 is too slow for one pass (about 3 h).
+
+Next ideas, ranked:
+1. **Test Lemma S directly on T_195.** Search for maps g whose fibres on T_195 all have size p,
+   with no f, and compute Γ_p for each. Then try to prove Lemma S for downsets, by induction on
+   |T| or by showing W is torsion-free. If it holds, the prime-power |B| family is closed at 195.
+2. Run the formal /review on the reduction notes plus Prop. 1, then open the finite-level PR
+   (`Part of #31`).
+3. Finish Z625×Z39 at level 3 (resume), then Z243×Z65 at level 4.
+4. Mixed |B| = 15.

@@ -1,0 +1,72 @@
+P11 smooth-colouring pass 8 -- dfs3 runs (2026-11-27). All commands run in search/smooth-colouring/independent/.
+Build: rustc -O -C target-cpu=native dfs3.rs -o dfs3.exe   (dfs3.rs gains --first, see below; nothing else changed)
+
+== 1. n=195, p=3, level 2 (Z27 x Z65) without lex-leader symmetry breaking ==
+
+Full --nosym is too slow for this pass: probe
+  ./dfs3.exe 195 3 --level 2 --nosym --threads 21 --split 2 --log out/p8/probe_s2.log
+gave 1,698,600 tasks (110 s prefix generation); 19,060 tasks (1.1%) and 1.47e7 nodes in 130 s,
+about 3 h projected. Probe killed, log deleted.
+
+What was run instead: --nosym plus orbit representatives for the FIRST variable only (prime 2).
+New flag --first e1,e2,...: restricts var 0's initial domain to these element indices (e = h*K + f).
+Representatives come from orbit_reps3.py (min index of each orbit of U(Z_{p^{i+1}}) x U(Z_K) on G,
+computed in Python, not by dfs3). Why this is sound: each gamma in Gamma is an automorphism of G with gamma(F) = F, so
+gamma o phi is a solution iff phi is. Pick gamma with gamma(phi(2)) = rep. No lex-leader or stabiliser
+code is used (sym=false); every later variable is searched over its full domain.
+
+Calibration (a), symcheck3.py (lex-leader sym set == lex-min orbit reps of nosym set), all PASS:
+  python symcheck3.py 21 3 2 8   sym 42  nosym 984    PASS
+  python symcheck3.py 24 3 2 8   sym 854 nosym 25296  PASS
+  python symcheck3.py 27 3 2 8   sym 452 nosym 28080  PASS
+  python symcheck3.py 30 3 2 8   sym 740 nosym 13600  PASS
+  (pass 7 out/symcheck3_small.txt has 18 more)
+Calibration (b), firstcheck3.py n p lv (new): checks that the set from --nosym --first REPS --all equals
+{s in nosym set : s[0] in REPS}, and that its Gamma-closure equals the full nosym set. All PASS:
+  15 3 2: nosym 1168  first 56    closure 1168   PASS
+  21 3 2: nosym 984   first 54    closure 984    PASS
+  24 3 2: nosym 25296 first 2429  closure 25296  PASS
+  27 3 2: nosym 28080 first 964   closure 28080  PASS
+  30 3 2: nosym 13600 first 1032  closure 13600  PASS
+  15 5 2: nosym 1168  first 276   closure 1168   PASS
+  20 5 2: nosym 4536  first 1077  closure 4536   PASS
+  12 3 3: nosym 1004  first 45    closure 1004   PASS
+  15 3 3: nosym 3328  first 66    closure 3328   PASS
+
+Main run:
+  R=$(python orbit_reps3.py 195 3 2)     # 0,1,5,13,65,66,70,78,195,196,200,208,585,586,590,598
+  ./dfs3.exe 195 3 --level 2 --nosym --first $R --threads 21 --split 3 --log out/p8/nosymF_n195_p3_L2.log
+  -> --first: var0 = prime 2 restricted to 9 values [1, 5, 66, 70, 196, 200, 586, 590, 598]
+     (the other 7 representatives are removed by the unary constraints)
+  -> dfs3 level=2 n=195 p=3 K=65 order=greedy sym=false result=NONE sols_small=0 nodes=9086412
+     tasks_done=586589/586589 secs=155.68
+  Log: out/p8/nosymF_n195_p3_L2.log.gz (every task "stopped=false").
+  Compare pass 7 (lex-leader sym): NONE, 2,126,483 nodes.
+VERDICT: Z27 x Z65 level 2 at n=195 is NONE, and no longer depends on dfs3's lex-leader code.
+It still uses the one-variable orbit reduction, whose soundness is the two-line argument above
+and is checked by firstcheck3.py.
+
+== 2. n=195, p=5, level 3 (Z625 x Z39), with symmetry ==
+
+Positive controls first (find mode, sym, timeout 40 s), out/p8/controls_p5_L3.txt:
+  ./dfs3.exe n 5 --level 3 --threads 21 --split 2 --out out/p8/w/w_n_5_L3.json ; python direct_check3.py <json>
+  n = 10,20,...,120 (step 10): 12/12 FOUND, all 12 DIRECT3 OK.
+  CAVEAT (out/p8/controls_p5_L3_levelcheck.txt): every one of these witnesses has all h divisible by 5,
+  so each is a lift of a level-2 solution. They exercise the level-3 code path and the checker, but
+  they are not genuine level-3 witnesses. No p=5 case that is NONE at level 2 but FOUND at level 3 is known.
+
+Main run:
+  ./dfs3.exe 195 5 --level 3 --threads 21 --split 3 --log out/p8/dfs3_n195_p5_L3.log   (timeout 570)
+  -> |G|=24375, |Gamma|=12000. Killed by the timeout during setup and prefix generation; no task ran.
+  ./dfs3.exe 195 5 --level 3 --threads 21 --split 1 ...   (timeout 300)
+  -> setup (bitset tables for |G|=24375) takes about 4.8 min; 11 tasks; killed before any task finished.
+  ./dfs3.exe 195 5 --level 3 --threads 21 --split 2 --log out/p8/dfs3_n195_p5_L3_s2.log   (timeout 2100)
+  -> setup and prefix generation about 6.5 min; split=2 tasks=11149; killed by the timeout (exit 124) at 2100 s.
+     8994/11149 tasks done (80.7%), every one stopped=false, so no solution was found in them;
+     1,529,411 nodes in the completed tasks. 2155 tasks were not searched.
+  Log: out/p8/dfs3_n195_p5_L3_s2.log.gz. To finish (setup about 6.5 min, then roughly 10-15 min):
+    gunzip -k out/p8/dfs3_n195_p5_L3_s2.log.gz
+    ./dfs3.exe 195 5 --level 3 --threads 21 --split 2 --resume out/p8/dfs3_n195_p5_L3_s2.log --log out/p8/dfs3_n195_p5_L3_s2.log
+VERDICT: INCOMPLETE (80.7% of tasks, no witness). Z625 x Z39 level 3 at n=195 is NOT settled.
+
+== 3. n=195, p=3, level 4 (Z243 x Z65): NOT RUN (|G|=15795, same setup cost; no time left).

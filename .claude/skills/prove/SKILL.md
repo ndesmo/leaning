@@ -37,6 +37,23 @@ never to the user. Nothing here is peer reviewed, and every page says so.
 - **Privacy:** nothing that names the user, no machine paths (`C:\Users\…`), no email addresses,
   in anything committed.
 
+## Finishing a result
+
+A proof in the notes is not the end. A result is **finished** when all four of these hold:
+
+1. **Reviewed.** The argument has passed `/review` and the reviewer agent.
+2. **Citations checked.** Every step labelled `[standard]`, `[paper]` or `[preprint]` whose source
+   text was not checked has been checked against that text, or replaced by our own derivation.
+3. **Lean.** The statement actually proved is formalized, not just a weaker or special case. If that
+   is out of reach for now, the notes say why.
+4. **Page.** It has a page on the site (`/proof-page`), with every step labelled.
+
+- **One item, one unit.** Each missing item is a unit of work, done in that order.
+- **Page before Lean** only when the notes record why Lean is out of reach; update the page when
+  the Lean lands.
+- **One page per problem.** It grows as that problem's results do, rather than one page per
+  partial result.
+
 ## Workflow
 
 **Where things live.** The work queue is GitHub Issues:

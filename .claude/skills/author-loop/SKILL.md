@@ -75,15 +75,25 @@ That is the whole iteration. Go to step 5.
   A sub-issue is eligible only while its parent carries `approved`. Check the parent
   (`gh api repos/ndesmo/leaning/issues/<n>/parent`) before working on it. Work the units one at a
   time; the parent closes when its last unit lands.
+- **Finish what is proved.** `/prove` defines when a result is finished (reviewed, citations
+  checked, Lean, page).
+  - **New results.** When your PR proves a result, or part of one stated exactly, file a sub-issue
+    under the same approved parent for each missing item, and list them in the PR body.
+  - **Results already merged.** When picking a target, check `LEDGER.md` for proved results that
+    lack these sub-issues, and file them.
+  - **Superseded targets.** When a result supersedes an open sub-issue's target, for example one
+    asking for a special case of what is now proved, retarget it with `gh issue edit` (title and
+    body) and comment why.
 - **Starting a new problem** (an issue labelled `problem`). First re-check that it is still open:
   search for solutions dated after the scout's check.
   - If it has been solved, open a PR that marks it `rejected: solved by <ref>` in `PROBLEMS.md`,
     with `Closes #<n>`.
   - Otherwise give it a slug, a `LEDGER.md` entry and a `notes/<slug>.md` file, mark it `taken` in
     `PROBLEMS.md`, and make its first unit the scout's first target.
-- **File what you defer.** Anything you notice but don't do in this unit goes in a new issue
-  labelled `follow-up` (never `approved`), with its source and what "done" means. Don't bury it in
-  prose.
+- **File what you defer.** Work that finishes an approved result goes under its parent (above).
+  Anything else you notice but don't do in this unit goes in a new standalone issue labelled
+  `follow-up` (never `approved`), with its source and what "done" means, for the owner to approve:
+  new questions, extensions, other cases, tooling. Don't bury it in prose.
 - **Branch.** Create `agent/<slug>-<short-stage>` from `origin/main`.
 - **Do one stage** using the stage skills (`/conjecture`, `/literature`, `/attack`, `/lean-check`,
   `/proof-page`), in a subagent (see "Keep this session small").
@@ -104,6 +114,7 @@ That is the whole iteration. Go to step 5.
   - what Lean checks;
   - what is still open;
   - `/review` status;
+  - the sub-issues filed to finish the result, if it proves one;
   - "Merging publishes to the live site" if `docs/` changed.
 - Add a dated line to the notes' Log.
 - **Notify the reviewer.** After opening a PR, or pushing to one in step 2, find the reviewer

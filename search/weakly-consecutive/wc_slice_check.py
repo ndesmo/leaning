@@ -8,7 +8,7 @@
 2. Lists the k <= LIST with exactly two distinct prime factors and says which are covered by
    Theorem A7.2 (k = r * s^b, r, s distinct primes, b >= 1, s does not divide r - 1).
 
-Run: python -I tools/wc_slice_check.py
+Run: python -I search/weakly-consecutive/wc_slice_check.py
 """
 from math import gcd
 

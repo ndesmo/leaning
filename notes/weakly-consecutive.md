@@ -55,7 +55,7 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | Class sizes + compatibility alone admit an interior 1 (e.g. k = 8, 12); adding disjointness of coprime prime-power classes with product > k excludes it for k ≤ 18, primes only do not (k = 6, 14) | [numerical, Python, not Lean] | Attack ideas, A6.5 |
 | Slice lemma: if 1 < σ^{-1}(1) < k, d = σ(1), d′ = σ(k), then σ(k − d + 1) = d·e with e ∣ k/d, e ≥ 2 and gcd(e, d′) ∣ d − 1; mirror: σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1 | [preprint: GSK24, Lemmas 2.2, 2.3, 2.4 (2.4 re-proved inline)] + [own argument, unreviewed] | Attack ideas, A7.1 |
 | Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A7.2 |
-| General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`tools/wc_slice_check.py`) | Log 2026-11-26 |
+| General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`) | Log 2026-11-26 |
 | Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2 and s ∣ r − 1 (e.g. 2^b·r, b ≥ 2) | [conjecture] | Attack ideas, A7.3 |
 | Conjecture 5.2 for k with at least three distinct prime factors | [conjecture] | Attack ideas, A6.5 |
 
@@ -300,7 +300,7 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       [own argument, unreviewed]
     - The general form (no interior 1 assumed: σ(1) = d ≥ 2 and k/d ≥ 2; then (i)–(iii) hold
       verbatim and (iv) reads gcd(σ(k − d + 1), σ(k)) ∣ d − 1), with its mirror, holds on every
-      WCS with k ≤ 20. [numerical, Python, not Lean] (`tools/wc_slice_check.py`; for the
+      WCS with k ≤ 20. [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`; for the
       interior case itself numerics are vacuous, since no WCS with k ≤ 23 has an interior 1.)
   - **A7.2. Theorem.** [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] *Let k = r·s^b with r, s distinct primes,
     b ≥ 1 and s ∤ r − 1. Then every WCS of length k has σ(1) = 1 or σ(k) = 1.* *Proof.* Suppose
@@ -314,10 +314,10 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       (With r = q the hypothesis can fail, e.g. 2 ∣ 3 − 1 for k = 6, which is why the
       orientation matters.) Together with A6.3: Conjecture 5.2 holds for every prime power k and
       every squarefree k = pq. [own argument, unreviewed]
-    - *Covered k ≤ 100 with two distinct prime factors* (`tools/wc_slice_check.py`): 6, 10, 14, 15,
+    - *Covered k ≤ 100 with two distinct prime factors* (`search/weakly-consecutive/wc_slice_check.py`): 6, 10, 14, 15,
       18, 21, 22, 26, 33, 34, 35, 38, 39, 45, 46, 50, 51, 54, 55, 57, 58, 62, 65, 69, 74, 75, 77,
       82, 85, 86, 87, 91, 93, 94, 95, 98, 99. This includes every k = 2·s^b (r = 2, s odd) and
-      every pq. [own argument, unreviewed] (A7.2) + list computed by `tools/wc_slice_check.py`
+      every pq. [own argument, unreviewed] (A7.2) + list computed by `search/weakly-consecutive/wc_slice_check.py`
       [numerical, Python, not Lean]
     - Hypotheses used: Def. 1.1 (in A7.1 (ii)), Lemma 2.2 (classes T_m, re-proved in A6), A6.1,
       A6.2, reversal, uniqueness of the value 1, the factorization of k. The steps are small and
@@ -443,7 +443,7 @@ Nine wording and label findings, no mathematical error; all fixed:
    [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed]; A7.1 also cites Lemma 2.4,
    re-proved inline.
 7. A7.2 "Covered k ≤ 100" list was labelled own argument only. Fixed: own argument (A7.2) + list
-   computed by `tools/wc_slice_check.py` [numerical, Python, not Lean].
+   computed by `search/weakly-consecutive/wc_slice_check.py` [numerical, Python, not Lean].
 8. LEDGER "Approaches that failed" said the slice constraints are satisfiable "in the uncovered
    cases" and k = 12 closes "only via" 7. Fixed: "in at least one uncovered case (k = 12,
    (4, 3))", and the hand check closes it "using" the singleton class of 7; "only" dropped (also
@@ -493,7 +493,7 @@ Nine wording and label findings, no mathematical error; all fixed:
 - **2026-11-26.** Attack stage for issue #68 (two distinct prime factors). Own arguments
   (unreviewed): slice lemma A7.1 and Conjecture 5.2 for k = r·s^b with s ∤ r − 1 (A7.2), which
   includes every squarefree k = pq and every 2·s^b. Gap A7.3: p^a q^b with a, b ≥ 2, or r·s^b
-  with b ≥ 2 and s ∣ r − 1 (e.g. 12, 20, 36, 63). `tools/wc_slice_check.py` (kept in the repo, run with `python -I`):
+  with b ≥ 2 and s ∣ r − 1 (e.g. 12, 20, 36, 63). `search/weakly-consecutive/wc_slice_check.py` (kept in the repo, run with `python -I`):
   re-enumerates all WCS for k ≤ 20 (counts as in the 2026-11-25 line), checks the general
   form of A7.1 and its mirror on all of them (no failures), and lists the covered k ≤ 100.
   [numerical, Python, not Lean] `/review` (two subagents) found no mathematical error; 9 wording/label findings fixed (Review section).

@@ -80,7 +80,7 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | WC1a | **Conjecture 5.2 for k with ≥ 2 distinct prime factors** (prime-power k: own argument, unreviewed, A6.3) | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | idea | notes, A5 |
 
-### central-2adic: open (P2, #22)
+### central-2adic: proved, unreviewed (P2, #22)
 
 - Notes: [notes/central-2adic.md](notes/central-2adic.md)
 - Target: OEIS A402341 conjecture: for even n, v₂(a(n)) = s₂(15n/2), where a(n) is the central
@@ -88,15 +88,21 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 - Literature stage done 2026-11-26: no proof, disproof or discussion found; the entry is unchanged
   since 2026-11-17 (scope in the notes). Closest known results are for the infinite product
   ∏(1 − x^{2^j}) (Gawron–Miska–Ulas arXiv:1703.01955, Shen arXiv:2609.16966).
+- Attack stage 2026-11-27 (#65): proof by termwise 2-adic dominance in the entry's u-formula
+  (notes, Attack S0–S5), for every q = 2^r and every even n. [own argument, unreviewed; steps
+  checked numerically; Lean check pending (#66); /review 2026-11-27 (two fresh reviewers): no
+  mathematical error found, 12 wording findings, all fixed (notes, Review)]
 - Numerics (Python, not Lean): holds for even n ≤ 4000; the analogue for q = 2^r (q = 4, 8, 32,
   64) holds for even n ≤ 2000 and fails for q = 3, 6, 12. In the entry's u-formula the top term
-  C(15n, 15n/2) strictly dominates every other term 2-adically for even n ≤ 120 (notes A1).
+  C(15n, 15n/2) strictly dominates every other term 2-adically for even n ≤ 120 (notes A1); termwise dominance
+  for all even n is now part of the Attack proof (S4–S5).
 
 | Id | Item | Status | Where |
 |---|---|---|---|
-| CA1 (#22) | **A402341 conjecture** for all even n | open | notes, Statement |
-| CA2 | q = 4 case (A005190): termwise carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) | idea (numerical for n ≤ 2000) | notes, A1 |
-| CA3 | General q = 2^r analogue | idea | notes, Statement |
+| CA1 (#22) | **A402341 conjecture** for all even n | proved [own argument, unreviewed]; Lean #66 | notes, Attack |
+| CA2 | q = 4 case (A005190): termwise carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) | proved (special case of CA3, derived in the Attack Audit) [own argument, unreviewed] | notes, Attack |
+| CA3 | General q = 2^r analogue, even n | proved [own argument, unreviewed]; Lean #66 | notes, Attack |
+| CA4 | Odd n: any closed form for v₂(a(n)) (N3 shows v₂ − s₂(⌊15n/2⌋) ranges −11..10) | open, no conjecture | notes, N3 |
 
 ## Approaches that failed
 

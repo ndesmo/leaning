@@ -59,7 +59,9 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`) | Log 2026-11-26 |
 | Conjecture 5.2 holds for k = 4r, r ≥ 5 prime (with k = 12 from Lean: for every k = 4r, r an odd prime) | [own argument, unreviewed] (k = 12 part: [Lean]) | Attack ideas, A7.4 |
 | No WCS of length 4r with σ(1) ∈ {2, 4}, σ(4r) = r for r = 3, 5, 7 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_4r_check.py`) | Attack ideas, A7.4 |
-| Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2, s ∣ r − 1 and k ≠ 4r (e.g. 2^b·r, b ≥ 3; 63) | [conjecture] | Attack ideas, A7.3, A7.4 |
+| Conjecture 5.2 holds for k = s²·r (r, s distinct primes, s ∣ r − 1) when r ∤ s² − s + 1, and for k = 63 and k = 2107 (generalizes A7.4: s = 2) | [own argument, unreviewed] | Attack ideas, A7.5 |
+| For primes s < 60, the pairs with s ∣ r − 1 and r ∣ s² − s + 1 are (2, 3), (3, 7), (7, 43), (13, 157); A7.5's k + 1 step closes 63 and 2107, not 12 or 26533 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_s2r_check.py`) | Attack ideas, A7.5 |
+| Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with s ∣ r − 1 and b ≥ 3, or b = 2 with r ∣ s² − s + 1 not closed by A7.5 (e.g. 2^b·r, b ≥ 3; 26533) | [conjecture] | Attack ideas, A7.3, A7.4, A7.5 |
 | Conjecture 5.2 for k with at least three distinct prime factors | [conjecture] | Attack ideas, A6.5 |
 
 ## Literature (2026-11-25)
@@ -368,6 +370,10 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
     - *Update 2026-11-27.* The sub-family k = 4r (r an odd prime) is closed: A7.4 (r ≥ 5, own
       argument, unreviewed) and the Lean check (r = 3). Still open in A7.3: (a) and (b) with
       k ≠ 4r. The uncovered k ≤ 100 are now (a) 36, 72, 100 and (b) 24, 40, 48, 56, 63, 80, 88, 96.
+    - *Update 2026-11-27 (later).* A7.5 closes k = s²·r (s ∣ r − 1) except when r ∣ s² − s + 1,
+      and also k = 63 and 2107 among those exceptions (own argument, unreviewed). Still open in
+      (b): b ≥ 3, and b = 2 exceptions such as 26533 = 13²·157. The uncovered k ≤ 100 are now
+      (a) 36, 72, 100 and (b) 24, 40, 48, 56, 80, 88, 96 (all 2^b·r with b ≥ 3).
   - **A7.4. k = 4r (2026-11-27, #68).** [own argument, unreviewed] *Let r ≥ 5 be a prime and
     k = 4r. Then every WCS of length k has σ(1) = 1 or σ(k) = 1.* With k = 12 (r = 3) from the
     Lean check k ≤ 16 ([Lean], `conjecture_5_2_le_16`), Conjecture 5.2 holds for every k = 4r, r an
@@ -414,6 +420,54 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       r ∣ f, but f may be a power of 2 when b − α − c ≥ 1 (for b = 2, α = c = 1 this is
       L = r, which forced f = r). Iterating the slice (now one starting with 1 at position j)
       did not close it in this stage. Also open: r ∣ 2^α − 1 (e.g. r = 3, 7) and A7.3 (a).
+  - **A7.5. k = s²·r (2026-11-27, #68).** [own argument, unreviewed] *Let r, s be distinct
+    primes with s ∣ r − 1 and k = s²·r. (i) If r ∤ s² − s + 1, every WCS of length k has
+    σ(1) = 1 or σ(k) = 1. (ii) The same holds for k = 63 (s = 3, r = 7) and k = 2107 (s = 7,
+    r = 43), where r ∣ s² − s + 1.* For s = 2 this is A7.4 (s² − s + 1 = 3, so (i) is k = 4r,
+    r ≥ 5). If s ∤ r − 1, k = s²·r is already covered by A7.2. Newly covered k ≤ 100: only 63;
+    the next new ones are 117, 171, 275, 279, 333, … (list from `search/weakly-consecutive/wc_s2r_check.py`,
+    [numerical, Python, not Lean]). No GSK24 lemma is used beyond those re-proved in A6.0 and
+    A7.1 (ii).
+    *Proof.* Suppose 1 < pos(1) < k. Note r > s (r ≡ 1 mod s, r ≠ 1).
+    1. (End values.) By A6.2, d = σ(1), d′ = σ(k) are coprime divisors of s²r, both ≥ 2. One of
+       them is not divisible by s; being ≥ 2 and coprime to the other, it is r, and then the
+       other is s or s² (s²r, sr, r share a factor with r). By reversal (A6.0 (b)) we may assume
+       d = s^α (α ∈ {1, 2}), d′ = r.
+    2. (α = 1, σ(k − s + 1) = s².) By A7.1, σ(k − d + 1) = d·e with e ∣ K = s^{2−α}r, e ≥ 2,
+       gcd(e, r) ∣ s^α − 1. If α = 2: K = r, e = r, so r ∣ s² − 1 = (s − 1)(s + 1); r ∤ s − 1
+       (0 < s − 1 < r), so r ∣ s + 1, and r > s gives r = s + 1, i.e. (s, r) = (2, 3), which
+       satisfies r ∣ s² − s + 1 = 3 and is not k = 63 or 2107; so α = 2 is excluded in (i) and
+       (ii). So α = 1, K = sr, e ∈ {s, r, sr}, and gcd(e, r) ∣ s − 1 < r rules out r, sr:
+       e = s, σ(k − s + 1) = s².
+    3. (Slice of T_{s²}, for (i).) s² ≤ k and s² ∣ σ(k − s + 1), so by A6.0 (a) T_{s²} is the
+       class of k − s + 1 ≡ 1 − s (mod s²) inside [k] (as s² ∣ k): {s²i − s + 1 : 1 ≤ i ≤ r},
+       r points carrying the r multiples of s² in [k]. So υ(i) = σ(s²i − s + 1)/s² is a
+       permutation of [r], and a WCS by the argument of A7.1 (ii) (if m ∣ υ(i), m ∣ i − j, then
+       s²m divides σ(s²i − s + 1) and the position difference s²(i − j), so s²m ∣ σ(s²j − s + 1)).
+       υ(r) = 1 and r ≥ 2, so υ(1) ≠ 1, and A6.1's corollary gives υ(1) ∣ r: υ(1) = r, i.e.
+       σ(s² − s + 1) = k.
+    4. (Contradiction for (i).) r ∣ σ(k), so T_r is the class of k ≡ 0 (mod r) in [k],
+       {r, 2r, …, s²r}. As r ∣ σ(s² − s + 1) = k, r ∣ s² − s + 1, against the hypothesis of (i).
+    5. (Divisors of k + 1, for (ii).) Let m ∈ [2, k] divide k + 1. [1, k + 1] contains exactly
+       (k + 1)/m points of each class mod m, and k + 1 ≡ 0, so the class 0 has (k + 1)/m − 1 =
+       ⌊k/m⌋ points in [k] and every other class has (k + 1)/m. By A6.0 (a) T_m is a class of
+       size ⌊k/m⌋, so T_m = {m, 2m, …}. (This is the k + 1 part of A6.4, re-proved from A6.0 (a)
+       only.) Since s ∣ k, gcd(m, s) = 1. If some j ∈ [k] lies in T_m ∩ T_{s²}, then σ(j) is
+       divisible by m·s² (coprime factors), which is impossible when m·s² > k. By step 2 and A6.0 (a) (s² ∈ [k], s² ∣ k), as in step 3,
+       T_{s²} = {j ∈ [k] : j ≡ 1 − s (mod s²)}. For k = 63: m = 8 ∣ 64, 8·9 = 72 > 63, and
+       j = 16 = 2·8 satisfies 16 ≡ −2 (mod 9). For k = 2107: m = 68 ∣ 2108 = 68·31,
+       68·49 = 3332 > 2107, and j = 680 = 10·68 satisfies 680 + 6 = 686 = 14·49. Contradiction. ∎
+    - *Edge cases audited.* Step 1 uses s prime (divisors of s²r). Step 3 needs the class to
+      start at s² − s + 1 ≥ 1 (true) and r ≥ 2 so υ's ends differ. Step 4 needs r ∤ s² − s + 1,
+      which is exactly where (i) stops; for s = 2 it is r ≠ 3, matching A7.4. Step 5 uses step 2 and
+      the first sentence of step 3 (the class of T_{s²}), not step 3's slice or step 4. The mirror of A7.1 is not used. Hypotheses used: Def. 1.1, A6.0 (a), (b), A6.1
+      (corollary), A6.2, A7.1, uniqueness of the value 1, primality of r and s, s ∣ r − 1.
+    - *Remaining exceptions.* [numerical, Python, not Lean] For primes s < 60 the pairs with
+      s ∣ r − 1 and r ∣ s² − s + 1 are (s, r) = (2, 3), (3, 7), (7, 43), (13, 157); step 5 (some
+      m ∣ k + 1 with m·s² > k and a multiple of m in [k] that is ≡ 1 − s mod s²) applies to
+      k = 63 and 2107 but not to k = 12 (Lean covers it) nor k = 26533 = 13²·157, which stays
+      open (`search/weakly-consecutive/wc_s2r_check.py`).
+    - *Not attempted.* b ≥ 3 (k = s^b·r, the failed extension of A7.4 applies verbatim) and A7.3 (a).
 - **A8. Citation check (#80) (2026-11-27).** Finishing item 2 for A6.1–A6.3 and A7.1–A7.2. Each
   [GSK24] ingredient these steps used is now re-proved in the notes, so none is cited; the only
   thing taken from the paper is Definition 1.1 itself (the statement of the problem, quoted
@@ -580,6 +634,15 @@ Wording findings, all fixed:
 4. The original A7.3 list of uncovered k ≤ 100 still contained the 4r values. Fixed: marked as
    superseded for k = 4r by A7.4.
 
+### 2026-11-27: attack stage A7.5 (#68, k = s²·r), `/review` (two independent subagents)
+
+No mathematical error found; two wording points, both fixed:
+1. Step 5 attributed T_{s²} = {j ≡ 1 − s (mod s²)} to step 2 alone, and the edge-case note said step 5
+   does not use steps 3–4. Fixed: it comes from step 2 with A6.0 (a), as in step 3's first sentence;
+   the note now says so.
+2. `wc_s2r_check.py` defaulted to s < 200 (slow; did not finish in 120 s) while the claims cite s < 60.
+   Fixed: the default bound is now 60, matching the stated output.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -636,3 +699,9 @@ Wording findings, all fixed:
   slice of T_4 then forces σ(3) = 4r, contradicting T_r = multiples of r); k = 12 is in the Lean
   check. `search/weakly-consecutive/wc_4r_check.py`: no WCS with σ(1) ∈ {2, 4}, σ(4r) = r for
   r = 3, 5, 7 [numerical, Python, not Lean]. Extension to 2^b·r, b ≥ 3, failed (A7.4). Not yet reviewed.
+- **2026-11-27.** Attack stage for #68 on A7.3 (b), b = 2: A7.5 runs A7.4's chain for k = s²·r,
+  s ∣ r − 1 (σ(1) = s, σ(k − s + 1) = s², σ(s² − s + 1) = k up to reversal), contradicting
+  T_r = multiples of r unless r ∣ s² − s + 1; for k = 63 and 2107 a divisor m of k + 1 with
+  T_m = multiples of m meets T_{s²} with m·s² > k (own argument, unreviewed). Newly covered
+  k ≤ 100: 63. `search/weakly-consecutive/wc_s2r_check.py` lists the exceptions for s < 60
+  [numerical, Python, not Lean]; 26533 = 13²·157 stays open. Not attempted: b ≥ 3, A7.3 (a). Not yet reviewed.

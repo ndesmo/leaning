@@ -84,11 +84,15 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   σ(3) = 4r, contradicting T_r = multiples of r); with k = 12 from Lean, every k = 4r is done.
   Failed: extending the chain to 2^b·r, b ≥ 3 (the second slice need not end in a multiple of r).
   Remaining gap: A7.3 (a) and (b) with k ≠ 4r (e.g. (a) 36, 72, 100; (b) 24, 40, 63).
+- Attack stage 2026-11-27 (#68, later): Conjecture 5.2 for k = s²·r, s ∣ r − 1, when
+  r ∤ s² − s + 1, and for k = 63 and 2107 (own argument, unreviewed; notes A7.5: A7.4's chain with
+  s for 2, plus T_m = multiples of m for m ∣ k + 1). Remaining gap: A7.3 (a) (36, 72, 100),
+  r·s^b with b ≥ 3 (24, 40, 48, 56, 80, 88, 96), and b = 2 exceptions such as 26533 = 13²·157.
 
 | Id | Item | Status | Where |
 |---|---|---|---|
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
-| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; k = 4r: A7.4 + Lean k = 12; own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2 or r·s^b with b ≥ 2, s ∣ r − 1, k ≠ 4r | notes, A7.3 |
+| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; k = 4r: A7.4 + Lean k = 12; k = s²·r with r ∤ s² − s + 1, and 63, 2107: A7.5; own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2, r·s^b with b ≥ 3, s ∣ r − 1, and b = 2 exceptions (e.g. 26533) | notes, A7.3, A7.5 |
 | WC1c | Conjecture 5.2 for prime-power k | own argument, unreviewed (GSK24 citations re-proved, #80) | notes, A6.3 |
 | WC1b | Conjecture 5.2 for k with ≥ 3 distinct prime factors | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | small-k part done (k ≤ 16, [Lean], `halfline_lt/Proofs/WeaklyConsecutive.lean`); Lemmas 2.2–2.4 not formalized | notes, A5, Log 2026-11-25 (Lean) |

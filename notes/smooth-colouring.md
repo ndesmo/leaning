@@ -654,3 +654,68 @@ Next ideas, ranked:
 3. Run /review on the reduction notes and open the finite-level PR (`Part of #31`). Its scope is
    unchanged: p = 3 at levels ≤ 4, p = 5 at levels ≤ 3, p = 13 at level 1.
 4. Mixed |B| = 15.
+
+### 2026-11-27: pass 11
+
+Two parallel strategies, both computational: test the level bound with f included on the S′
+violators, and extend the odd-p S′ sweep. There is no PR this pass.
+
+1. **The per-partition level bound is false at (54,2)** [numerical: certificate checked by an
+   independent script; the level-0 obstruction can also be checked by hand]. Files are in
+   `search/smooth-colouring/structure/pass11_f/`.
+   - All 2038 S′ violators (from `pass10_sweep/ck/exh_{54,58,60}_2.ck`) were tested for an
+     admissible f. For p = 2, f is forced: it is 1 on every block difference.
+
+     | (n,p) | bound v_p(n/p) | violators | no admissible f | min level 0 | min level 1 |
+     |---|---|---|---|---|---|
+     | (54,2) | 0 | 1936 | 1834 | 72 | **30** |
+     | (58,2) | 0 | 86 | 86 | 0 | 0 |
+     | (60,2) | 1 | 16 | 16 | 0 | 0 |
+
+   - Certificate `cex_level1_T54.json`, on the primes 2..53:
+     - g = (3,5,11,23,3,23,22,10,21,4,5,7,12,18,20,24) mod 27;
+     - F = (2,0,2,1,0,3,2,2,0,1,2,1,2,0,2,0) mod 4.
+     - ψ = (F, g) is injective on T_54 and tiles Z_4×Z_27 with complement {0,1}×{0}.
+     - The resulting colouring was checked directly for all a ≤ 20000; I re-ran `verify.py` this
+       pass.
+   - Level 0 is impossible for this partition. The blocks {1,51}, {5,12}, {27,32}, {30,49} and
+     {17,25} have ratio product (51·12·32·49·25)/(1·5·27·30·17) = (56/3)². So the sum of their
+     differences lies in 2Z^k, while f would have to give it the odd value 5.
+   - **Consequence:** S″ (Lemma S restricted to g that carry an admissible f) is false. Prop. 1
+     combined with any exp Γ_p bound cannot prove "level ≤ v_p(n/p)" partition by partition.
+   - The **per-n form** still survives at n = 54, since T_54 has level-0 solutions [own argument,
+     unreviewed]. The per-n form says that if some level works, then level v_p(n/p) works.
+   - The sanity modes reproduce the known minimal levels: 176/2 needs level 3, 184/2 needs 2,
+     and 162/3 needs 3.
+   - Validation: `verify.py` shares no code with `fcheck.py` or `mkcerts.py`, and it rejected
+     all three mutated certificates.
+   - Reproduction commands are in `pass11_f/README.md`.
+2. **Odd-p S′ sweep: still no odd-p violation** [numerical: single implementation, lems.rs].
+   Outputs are in `pass10_sweep/out_pass11/`, with resume commands in `RESUME.txt`.
+   - (60,5) is complete: 137,082,380 g, all with Γ_5 = 0.
+   - (62,31), (69,23) and (74,37) are complete, with 0 violations.
+   - Partial runs, all with 0 violations so far:
+     - (60,3): 345/11678 tasks; no progress this pass;
+     - (63,7): 321/1343;
+     - (65,13): 180/208;
+     - (66,11): 279/650;
+     - (77,11): 165/524;
+     - (78,13): 129/693.
+   - Process note: Git-Bash `timeout` does not kill `lems.exe` on Windows. Stop runs with
+     `taskkill //F //IM lems.exe`. This is safe, because finished tasks are already in the
+     checkpoint.
+
+Dead ends:
+- Any partition-by-partition route to the level bound (Prop. 1 plus a Γ_p bound). It is refuted
+  at (54,2), level 1 > 0.
+
+Next ideas, ranked:
+1. **Test the per-n level conjecture**: look for an n where every solvable partition needs a level
+   above v_p(n/p). Start by checking whether the level-1 partitions at n = 54 have a structural
+   signature, then run the same test at p = 3. At n = 195, the prime-power-|B| exclusion now rests
+   only on the explicit NONE searches.
+2. Run /review on the reduction notes and open the finite-level PR (`Part of #31`). Its scope is
+   unchanged: p = 3 at levels ≤ 4, p = 5 at levels ≤ 3, p = 13 at level 1. This has been deferred
+   since pass 7 and should now take priority over new searches.
+3. Resume the odd-p sweep: (60,3), then 63/3, 65/5, 75/3, 75/5 and 81/3.
+4. Mixed |B| = 15.

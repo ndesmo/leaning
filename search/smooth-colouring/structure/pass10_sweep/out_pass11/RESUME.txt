@@ -1,0 +1,8 @@
+Pass 11 odd-p T_n sweep (lems.rs from ../, unchanged). Results: sweep_out.txt (last line per (n,p) wins).
+Build:  rustc -O -C target-cpu=native ../lems.rs -o lems.exe
+Run/resume one case:  ./lems.exe exh N P 20 ck/exh_N_P.ck 4     (depth must stay 4)
+Summary only:         ./lems.exe exh N P 0 ck/exh_N_P.ck 4
+Batch:  sh drive.sh SECONDS N:P N:P ...   (NOTE: Git-Bash `timeout` did not reliably kill lems.exe on Windows; use taskkill //F //IM lems.exe)
+Killing is safe: only in-flight tasks are lost; every finished task is a "T" line in the .ck file.
+Complete: (60,5) (62,31) (69,23) (74,37). Partial: (60,3) 345/11678, (63,7) 321/1343, (65,13) 180/208,
+(66,11) 279/650, (77,11) 165/524, (78,13) 129/693. Not started: 63/3 65/5 66/3 75/3 75/5 81/3 etc. 0 violations anywhere.

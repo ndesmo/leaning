@@ -103,7 +103,7 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   ∏(1 − x^{2^j}) (Gawron–Miska–Ulas arXiv:1703.01955, Shen arXiv:2609.16966).
 - Attack stage 2026-11-27 (#65): proof by termwise 2-adic dominance in the entry's u-formula
   (notes, Attack S0–S5), for every q = 2^r and every even n. [own argument, unreviewed; steps
-  checked numerically; Lean check pending (#66); /review 2026-11-27 (two fresh reviewers): no
+  checked numerically; Lean check done (#66, see below); /review 2026-11-27 (two fresh reviewers): no
   mathematical error found, 12 wording findings, all fixed (notes, Review)]
 - Citation stage 2026-11-27 (#77): both `[standard]` inputs checked against source text. Coefficient
   formula for 2T_{2^j}(u/2) in S1: [standard: DLMF 18.5.11_1, text checked 2026-11-27] (notes L7,

@@ -19,7 +19,7 @@ equals A000120(15*n/2). Verified for n <= 1500." [conjecture]
 That is: for every even n ≥ 0, v₂(a(n)) = s₂(15n/2).
 
 **Natural generalization (ours, not in the entry).** For q = 2^r and even n,
-v₂([x^{(q−1)n/2}] (1 + … + x^{q−1})ⁿ) = s₂((q−1)n/2). Was [conjecture] (numerics in N2); now proved in Attack (Theorem) [own argument, unreviewed]
+v₂([x^{(q−1)n/2}] (1 + … + x^{q−1})ⁿ) = s₂((q−1)n/2). Was [conjecture] (numerics in N2); now proved in Attack (Theorem) [own argument, unreviewed]; [Lean] `Central2adic.central_2adic`
 For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 
 ## Setting

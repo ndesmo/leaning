@@ -12,7 +12,10 @@ reviewer pass as soon as an author pass changes a pull request.
   python tools/agents.py once reviewer       # run a single pass, then exit
   python tools/agents.py once author --dry-run
   python tools/agents.py status              # last pass, next pass and open PRs
-  python tools/agents.py setup               # create the worktrees and build Lean
+  python tools/agents.py doctor              # check the prerequisites (read-only)
+  python tools/agents.py setup               # doctor, then create the worktrees and build Lean
+  python tools/agents.py teardown            # remove the worktrees, refusing if work could be lost
+  python tools/agents.py board-sync          # sync the project board with issue and PR state
 
 Permissions: allow and deny rules are read from origin/main's .claude/settings.json (never from
 a PR branch) and passed with --settings, with --permission-mode auto and --permission-prompts
@@ -89,14 +92,19 @@ def git(wt: Path, *args: str) -> subprocess.CompletedProcess:
     return run(["git", "-C", str(wt), *args])
 
 
-def find_claude() -> str:
+def find_claude(required: bool = True) -> str | None:
     native = Path.home() / ".local" / "bin" / ("claude.exe" if os.name == "nt" else "claude")
     if native.exists():
         return str(native)
     found = shutil.which("claude")
-    if not found:
+    if not found and required:
         sys.exit("claude not found: install Claude Code first")
     return found
+
+
+def repo_slug() -> str | None:
+    """owner/repo of the origin remote, or None."""
+    return parse_slug(git(REPO, "remote", "get-url", "origin").stdout)
 
 
 # ---------- pure helpers (tested in tools/test_agents.py) ----------
@@ -216,6 +224,78 @@ def process_command_lines() -> list[str]:
     else:
         r = run(["ps", "-eo", "args"])
     return [line for line in (r.stdout or "").splitlines() if line.strip()]
+
+
+def parse_slug(url: str) -> str | None:
+    """'owner/repo' from a GitHub https or ssh remote URL, or None."""
+    m = re.fullmatch(r"(?:https?://(?:[^@/]+@)?github\.com/|(?:ssh://)?git@github\.com[:/])"
+                     r"([\w.-]+)/([\w.-]+?)(?:\.git)?/?", (url or "").strip())
+    return f"{m.group(1)}/{m.group(2)}" if m else None
+
+
+def doctor_checks(which, runner, py: tuple = sys.version_info[:2], claude: str | None = None,
+                  slug: str | None = None) -> list[tuple[str, str, str]]:
+    """Preflight checks as (level, name, detail) with level OK, WARN or MISSING.
+
+    `which(name)` returns a path or None; `runner(cmd)` returns an object with returncode and
+    stdout (a CompletedProcess). Only MISSING is a hard failure."""
+    out = []
+
+    def add(ok: bool, name: str, good: str, fix: str, hard: bool = True) -> None:
+        out.append(("OK" if ok else "MISSING" if hard else "WARN", name, good if ok else fix))
+
+    add(tuple(py) >= (3, 9), "python", ".".join(map(str, py)),
+        f"Python {'.'.join(map(str, py))} is too old; install Python 3.9 or newer")
+    add(bool(which("git")), "git", "found", "install Git: https://git-scm.com/downloads")
+    gh = bool(which("gh"))
+    add(gh, "gh", "found", "install the GitHub CLI: https://cli.github.com")
+    authed = gh and runner(["gh", "auth", "status"]).returncode == 0
+    if gh:
+        add(authed, "gh auth", "logged in", "run `gh auth login`")
+    add(bool(claude), "claude", claude or "", "install Claude Code: https://claude.com/claude-code")
+    lean = which("elan") or which("lake")
+    add(bool(lean), "lean", lean or "", "install elan (the Lean toolchain manager): "
+        "https://github.com/leanprover/elan, then open a new terminal")
+    add(bool(which("pwsh")), "pwsh", "found", "needed for the Lean audit scripts (check.ps1) and "
+        "CI parity; install PowerShell 7", hard=False)
+    add(bool(slug), "origin", slug or "", "the origin remote is not a GitHub repository; "
+        "clone with `gh repo clone <owner>/<repo>`")
+    if slug and authed:
+        push = runner(["gh", "api", f"repos/{slug}", "--jq", ".permissions.push"]).stdout.strip()
+        add(push == "true", "push access", f"can push to {slug}",
+            f"you cannot push to {slug}; the agents push branches and open pull requests, so "
+            "they need write access (ask the owner to add you as a collaborator)", hard=False)
+    return out
+
+
+def teardown_refusal(dirty: str, branch: str, unpushed: str) -> str | None:
+    """Why a worktree must not be removed (git status --porcelain, current branch, and the
+    branch's commits on no remote), or None if removing it cannot lose work."""
+    if dirty.strip():
+        return "uncommitted changes:\n" + "\n".join(f"  {l}" for l in dirty.splitlines() if l.strip())
+    if unpushed.strip():   # a detached HEAD counts too: its commits would be lost
+        where = f"branch {branch.strip()}" if branch.strip() else "the detached HEAD"
+        return (f"{where} has commits on no remote:\n"
+                + "\n".join(f"  {l}" for l in unpushed.strip().splitlines()))
+    return None
+
+
+def board_status(kind: str, state: str, labels: list[str] = (), assignees: list[str] = ()) -> str:
+    """Project-board Status for an issue or pull request (kind 'issue' or 'pr')."""
+    if (state or "").upper() != "OPEN":
+        return "Done"     # closed or merged
+    if kind == "pr":
+        return "In Review"
+    return "In Progress" if "in-progress" in labels or assignees else "Todo"
+
+
+def find_project(projects: list[dict], repo: str) -> dict | None:
+    """The first open project whose title contains the repo name or 'Proofs'."""
+    for p in projects:
+        title = (p.get("title") or "").lower()
+        if not p.get("closed") and (repo.lower() in title or "proofs" in title):
+            return p
+    return None
 
 
 # ---------- one pass ----------
@@ -417,14 +497,21 @@ def acquire_lock() -> Path:
     return lock
 
 
+def supervisor_pid() -> int:
+    """Pid of a running supervisor (from the lock file), or 0."""
+    lock = LOGS / "supervisor.pid"
+    text = lock.read_text().strip() if lock.exists() else ""
+    pid = int(text) if text.isdigit() else 0
+    return pid if pid and pid_alive(pid) else 0
+
+
 # ---------- commands ----------
 
 def cmd_status(_args) -> None:
     path = LOGS / "state.json"
     state = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
-    lock = LOGS / "supervisor.pid"
-    pid = int(lock.read_text()) if lock.exists() and lock.read_text().strip().isdigit() else 0
-    print(f"supervisor: {'running (pid %d)' % pid if pid and pid_alive(pid) else 'not running'}")
+    pid = supervisor_pid()
+    print(f"supervisor: {'running (pid %d)' % pid if pid else 'not running'}")
     for role in ROLES:
         s = state.get(role, {})
         print(f"{role}: {s.get('status', 'never run')}; last {s.get('finished') or s.get('started', '-')}; "
@@ -457,12 +544,34 @@ def cmd_usage(args) -> None:
                 print(f"            {model:24} {n:>12,} tokens")
 
 
+def doctor() -> bool:
+    """Print the preflight checks; True if no hard requirement is missing."""
+    def runner(cmd):
+        try:
+            return run(cmd, cwd=REPO, timeout=60)
+        except (OSError, subprocess.TimeoutExpired):
+            return subprocess.CompletedProcess(cmd, 1, "", "")
+    checks = doctor_checks(shutil.which, runner, claude=find_claude(required=False), slug=repo_slug())
+    for level, name, detail in checks:
+        print(f"{level:8} {name:12} {detail}")
+    return all(level != "MISSING" for level, _, _ in checks)
+
+
+def cmd_doctor(_args) -> None:
+    if not doctor():
+        sys.exit("some requirements are missing; fix the MISSING lines above and rerun")
+    print("all requirements found")
+
+
 def cmd_setup(args) -> None:
+    if not doctor():
+        sys.exit("setup stopped: fix the MISSING lines above and rerun `python tools/agents.py setup`")
     run(["git", "-C", str(REPO), "fetch", "-q", "origin"])
-    for role in ROLES:
+    for role in args.role_list:   # each step is skipped or cheap when already done
         wt = args.worktrees / role
         if not (wt / ".git").exists():
             log(f"creating worktree {wt}")
+            wt.parent.mkdir(parents=True, exist_ok=True)
             r = run(["git", "-C", str(REPO), "worktree", "add", "--detach", str(wt), "origin/main"])
             if r.returncode:
                 sys.exit(r.stderr)
@@ -472,6 +581,128 @@ def cmd_setup(args) -> None:
             if r.returncode:
                 sys.exit(f"{' '.join(step)} failed in {wt}:\n{r.stdout[-2000:]}{r.stderr[-2000:]}")
     log("worktrees ready")
+
+    # Self-test: the Lean audit in one worktree (needs pwsh, which is only a warning in doctor).
+    wt = args.worktrees / args.role_list[0]
+    if shutil.which("pwsh"):
+        log(f"self-test: Lean audit (check-all.ps1) in {wt}")
+        r = run(["pwsh", "-NoProfile", "-File", ".claude/skills/lean-check/check-all.ps1"],
+                cwd=wt, timeout=3600)
+        last = (r.stdout or "").strip().splitlines()[-1:] or ["(no output)"]
+        log(f"self-test {'passed' if r.returncode == 0 else 'FAILED'}: {last[0]}")
+    else:
+        log("self-test skipped: pwsh not found (install PowerShell 7 to run the Lean audit)")
+    print("\nNext steps:\n  python tools/agents.py run     # start the agents (Ctrl+C to stop)\n"
+          "  To start the supervisor at login, see README.md and CONTRIBUTING.md.")
+
+
+def cmd_teardown(args) -> None:
+    """Remove the role worktrees, refusing whenever work could be lost. Never forces anything."""
+    pid = supervisor_pid()
+    if pid:
+        sys.exit(f"the supervisor is running (pid {pid}); stop it first")
+    lines = process_command_lines()
+    busy = [r for r in args.role_list if any(is_orphan_pass(c, r) for c in lines)]
+    if busy:
+        sys.exit(f"a pass is still running for: {', '.join(busy)}; wait for it to finish")
+    git(REPO, "fetch", "-q", "origin")
+    refused = []
+    for role in args.role_list:
+        wt = args.worktrees / role
+        if not (wt / ".git").exists():
+            print(f"== {wt}: not a worktree, skipping")
+            continue
+        print(f"== {wt}")
+        branch = git(wt, "branch", "--show-current").stdout.strip()   # empty when detached
+        unpushed = git(wt, "log", "--oneline", "HEAD", "--not", "--remotes").stdout
+        why = teardown_refusal(git(wt, "status", "--porcelain").stdout, branch, unpushed)
+        if why:
+            print(f"REFUSED: {why}")
+            refused.append(str(wt))
+            continue
+        # Ignored files (the multi-GB .lake cache) go with the worktree; tracked work is safe above.
+        r = git(REPO, "worktree", "remove", str(wt))
+        if r.returncode:
+            print(f"REFUSED by git: {r.stderr.strip()}")
+            refused.append(str(wt))
+            continue
+        print("removed")
+
+    git(REPO, "worktree", "prune")
+    # Local agent branches already merged into main are safe to delete; others are kept.
+    strip = lambda out: [b.strip(" *+") for b in out.splitlines() if b.strip(" *+")]
+    for b in strip(git(REPO, "branch", "--merged", "origin/main", "--list", "agent/*").stdout):
+        r = git(REPO, "branch", "-d", b)
+        print((r.stdout or r.stderr).strip())
+    kept = strip(git(REPO, "branch", "--no-merged", "origin/main", "--list", "agent/*").stdout)
+    if kept:
+        print("Kept (not merged into main):\n" + "\n".join(f"  {b}" for b in kept))
+    print(git(REPO, "worktree", "list").stdout.rstrip())
+    if refused:
+        sys.exit(f"Refused: {', '.join(refused)}")
+
+
+def gh_json(*args: str):
+    r = run(["gh", *args], cwd=REPO, timeout=120)
+    if r.returncode:
+        sys.exit(f"gh {' '.join(args[:3])} failed: {r.stderr.strip()}")
+    return json.loads(r.stdout or "null")
+
+
+def cmd_board_sync(args) -> None:
+    """Add open issues and PRs missing from the project board and set each item's Status from its
+    real state (see board_status). Idempotent; safe to run any time."""
+    slug = repo_slug()
+    if not slug:
+        sys.exit("origin is not a GitHub repository")
+    owner, repo = slug.split("/")
+    number = args.project or os.environ.get("PROOFS_PROJECT")
+    if number:
+        project = gh_json("project", "view", str(number), "--owner", owner, "--format", "json")
+    else:
+        projects = gh_json("project", "list", "--owner", owner, "--format", "json") or {}
+        project = find_project(projects.get("projects", []), repo)
+        if not project:
+            print("no project board configured; skipping")
+            return
+    number, project_id = str(project["number"]), project["id"]
+    fields = gh_json("project", "field-list", number, "--owner", owner, "--format", "json")
+    status = next(f for f in fields["fields"] if f["name"] == "Status")
+    option = {o["name"]: o["id"] for o in status["options"]}
+    items = gh_json("project", "item-list", number, "--owner", owner, "--limit", "1000",
+                    "--format", "json")["items"]
+    on_board = {i["content"]["url"]: i for i in items if (i.get("content") or {}).get("url")}
+
+    # Current state of every issue and PR, fetched in bulk rather than one call per item.
+    names = lambda xs, key: [x.get(key) for x in xs or []]
+    state = {}
+    for i in gh_json("issue", "list", "--repo", slug, "--state", "all", "--limit", "1000",
+                     "--json", "url,state,labels,assignees"):
+        state[i["url"]] = ("issue", i["state"], names(i["labels"], "name"), names(i["assignees"], "login"))
+    for p in gh_json("pr", "list", "--repo", slug, "--state", "all", "--limit", "1000",
+                     "--json", "url,state"):
+        state[p["url"]] = ("pr", p["state"], [], [])
+
+    added = 0
+    for url, (_, s, _, _) in state.items():
+        if s == "OPEN" and url not in on_board:
+            new = gh_json("project", "item-add", number, "--owner", owner, "--url", url, "--format", "json")
+            on_board[url] = {"id": new["id"], "status": None}
+            added += 1
+
+    changed = 0
+    for url, item in on_board.items():
+        if url not in state:   # another repository's item, or older than the bulk lists reach
+            continue
+        want = board_status(*state[url])
+        if item.get("status") != want:
+            r = run(["gh", "project", "item-edit", "--id", item["id"], "--project-id", project_id,
+                     "--field-id", status["id"], "--single-select-option-id", option[want]],
+                    cwd=REPO, timeout=120)
+            if r.returncode:
+                sys.exit(f"gh project item-edit failed for {url}: {r.stderr.strip()}")
+            changed += 1
+    print(f"board synced: {added} added, {changed} status changes, {len(on_board)} items")
 
 
 def main() -> None:
@@ -494,12 +725,18 @@ def main() -> None:
     once.add_argument("role", choices=ROLES)
     once.add_argument("--dry-run", action="store_true")
     sub.add_parser("status", help="show the last and next pass of each role")
-    sub.add_parser("setup", help="create the worktrees and build Lean")
+    sub.add_parser("doctor", help="check the prerequisites (read-only)")
+    sub.add_parser("setup", help="check prerequisites, create the worktrees, build Lean, self-test")
+    sub.add_parser("teardown", help="remove the worktrees (never forces; refuses if work could be lost)")
+    board = sub.add_parser("board-sync", help="sync the project board with issue and PR state")
+    board.add_argument("--project", type=int, default=None,
+                       help="project number (default: $PROOFS_PROJECT, else found by title)")
     args = ap.parse_args()
     roles = tuple(r for r in args.roles.split(",") if r)
     bad = [r for r in roles if r not in ROLES]
-    if bad:
+    if bad or not roles:
         sys.exit(f"unknown role(s): {', '.join(bad)}; choose from {', '.join(ROLES)}")
+    args.role_list = roles
     try:
         args.daily = parse_budgets(args.daily_budgets, DAILY_BUDGET_USD)
         args.per_pass = parse_budgets(args.pass_budgets, PASS_BUDGET_USD)
@@ -510,8 +747,14 @@ def main() -> None:
         return cmd_status(args)
     if args.cmd == "usage":
         return cmd_usage(args)
+    if args.cmd == "doctor":
+        return cmd_doctor(args)
     if args.cmd == "setup":
         return cmd_setup(args)
+    if args.cmd == "teardown":
+        return cmd_teardown(args)
+    if args.cmd == "board-sync":
+        return cmd_board_sync(args)
     if args.cmd == "once":
         sup = Supervisor(args.worktrees, args.model, dry_run=args.dry_run,
                          explorer_model=args.explorer_model, pass_budget=args.per_pass)

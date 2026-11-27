@@ -2,6 +2,7 @@
 import datetime as dt
 import json
 import sys
+import types
 import unittest
 from pathlib import Path
 
@@ -157,6 +158,105 @@ class WaitUntil(unittest.TestCase):
 
     def test_steps_are_short_so_sleep_cannot_delay_a_pass_for_long(self):
         self.assertLessEqual(agents.WAIT_STEP, 120)
+
+
+class Slug(unittest.TestCase):
+    def test_https_and_ssh_with_and_without_git_suffix(self):
+        for url in ("https://github.com/o/r.git", "https://github.com/o/r", "https://github.com/o/r/\n",
+                    "git@github.com:o/r.git", "git@github.com:o/r", "ssh://git@github.com/o/r.git",
+                    "https://user@github.com/o/r.git"):
+            self.assertEqual(agents.parse_slug(url), "o/r", url)
+
+    def test_dots_and_dashes_in_names(self):
+        self.assertEqual(agents.parse_slug("git@github.com:my-org/proofs.v2.git"), "my-org/proofs.v2")
+
+    def test_garbage_is_none(self):
+        for bad in ("", None, "not a url", "https://gitlab.com/o/r.git", "https://github.com/o",
+                    "error: No such remote 'origin'"):
+            self.assertIsNone(agents.parse_slug(bad), bad)
+
+    def test_no_hardcoded_repo_in_supervisor(self):
+        src = (Path(__file__).resolve().parent / "agents.py").read_text(encoding="utf-8")
+        self.assertNotIn("ndesmo", src)
+        self.assertNotIn("leaning", src)
+
+
+class Doctor(unittest.TestCase):
+    ALL = {"git", "gh", "lake", "pwsh"}
+
+    def run_checks(self, present=ALL, push="true", auth=0, claude="/bin/claude", slug="o/r"):
+        def runner(cmd):
+            if cmd[:3] == ["gh", "auth", "status"]:
+                return types.SimpleNamespace(returncode=auth, stdout="")
+            return types.SimpleNamespace(returncode=0, stdout=push + "\n")
+        which = lambda name: f"/bin/{name}" if name in present else None
+        return {name: level for level, name, _ in
+                agents.doctor_checks(which, runner, py=(3, 11), claude=claude, slug=slug)}
+
+    def test_all_present(self):
+        c = self.run_checks()
+        self.assertTrue(all(v == "OK" for v in c.values()), c)
+        self.assertIn("push access", c)
+
+    def test_missing_gh_is_hard(self):
+        c = self.run_checks(present=self.ALL - {"gh"})
+        self.assertEqual(c["gh"], "MISSING")
+        self.assertNotIn("push access", c)   # cannot be checked without gh
+
+    def test_missing_pwsh_is_only_a_warning(self):
+        c = self.run_checks(present=self.ALL - {"pwsh"})
+        self.assertEqual(c["pwsh"], "WARN")
+        self.assertNotIn("MISSING", c.values())
+
+    def test_no_push_access_warns(self):
+        self.assertEqual(self.run_checks(push="false")["push access"], "WARN")
+
+    def test_hard_failures(self):
+        self.assertEqual(self.run_checks(auth=1)["gh auth"], "MISSING")
+        self.assertEqual(self.run_checks(claude=None)["claude"], "MISSING")
+        self.assertEqual(self.run_checks(slug=None)["origin"], "MISSING")
+        self.assertEqual(self.run_checks(present=self.ALL - {"lake"})["lean"], "MISSING")
+        which = lambda n: f"/bin/{n}"
+        r = lambda cmd: types.SimpleNamespace(returncode=0, stdout="true")
+        old = dict((n, l) for l, n, _ in agents.doctor_checks(which, r, py=(3, 8), claude="c", slug="o/r"))
+        self.assertEqual(old["python"], "MISSING")
+
+
+class Teardown(unittest.TestCase):
+    def test_dirty_tree_is_refused(self):
+        self.assertIn("uncommitted", agents.teardown_refusal(" M foo.lean\n", "", ""))
+
+    def test_unpushed_commits_are_refused(self):
+        why = agents.teardown_refusal("", "agent/x\n", "abc123 wip\n")
+        self.assertIn("agent/x", why)
+        self.assertIn("abc123 wip", why)
+
+    def test_commits_on_a_detached_head_are_refused(self):
+        why = agents.teardown_refusal("", "", "def456 local fix\n")
+        self.assertIn("detached HEAD", why)
+
+    def test_clean_is_allowed(self):
+        self.assertIsNone(agents.teardown_refusal("", "", ""))           # detached at origin/main
+        self.assertIsNone(agents.teardown_refusal("", "agent/x", ""))    # branch fully pushed
+
+
+class Board(unittest.TestCase):
+    def test_status_mapping(self):
+        self.assertEqual(agents.board_status("pr", "MERGED"), "Done")
+        self.assertEqual(agents.board_status("pr", "CLOSED"), "Done")
+        self.assertEqual(agents.board_status("pr", "OPEN"), "In Review")
+        self.assertEqual(agents.board_status("issue", "CLOSED", ["in-progress"], ["a"]), "Done")
+        self.assertEqual(agents.board_status("issue", "OPEN", ["in-progress"], []), "In Progress")
+        self.assertEqual(agents.board_status("issue", "OPEN", [], ["someone"]), "In Progress")
+        self.assertEqual(agents.board_status("issue", "OPEN", ["moonshot"], []), "Todo")
+
+    def test_find_project(self):
+        ps = [{"number": 3, "title": "Old proofs", "closed": True},
+              {"number": 4, "title": "Groceries"},
+              {"number": 1, "title": "Proofs by Claude"}]
+        self.assertEqual(agents.find_project(ps, "myrepo")["number"], 1)
+        self.assertEqual(agents.find_project([{"number": 2, "title": "MyRepo board"}], "myrepo")["number"], 2)
+        self.assertIsNone(agents.find_project(ps[1:2], "myrepo"))
 
 
 if __name__ == "__main__":

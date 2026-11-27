@@ -83,8 +83,8 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | Id | Item | Status | Where |
 |---|---|---|---|
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
-| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; own argument, unreviewed) | partial; open for a, b ≥ 2 or r·s^b with b ≥ 2, s ∣ r − 1 | notes, A7.3 |
-| WC1c | Conjecture 5.2 for prime-power k | own argument, unreviewed | notes, A6.3 |
+| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2 or r·s^b with b ≥ 2, s ∣ r − 1 | notes, A7.3 |
+| WC1c | Conjecture 5.2 for prime-power k | own argument, unreviewed (GSK24 citations re-proved, #80) | notes, A6.3 |
 | WC1b | Conjecture 5.2 for k with ≥ 3 distinct prime factors | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | small-k part done (k ≤ 16, [Lean], `halfline_lt/Proofs/WeaklyConsecutive.lean`); Lemmas 2.2–2.4 not formalized | notes, A5, Log 2026-11-25 (Lean) |
 

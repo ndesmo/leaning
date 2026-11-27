@@ -106,7 +106,7 @@ subscription. Run `/usage` in an interactive session for the plan's real limits.
 - **Linux:** a systemd user unit with `ExecStart=python3 <repo>/tools/agents.py run` and
   `Restart=always`; enable it with `systemctl --user enable --now`.
 
-Keep the machine awake; on Windows, `powercfg /change standby-timeout-ac 0`.
+Keep the machine awake; on Windows, `powercfg /change standby-timeout-ac 0`. While it sleeps nothing runs; on waking, passes that are due start within a minute.
 
 **Windows-only, so far:**
 - `board-sync.ps1` and `agent-status.ps1`; the author runs `board-sync.ps1` after each pass.

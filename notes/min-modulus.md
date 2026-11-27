@@ -23,7 +23,7 @@ So Conjecture 1 says the least valid modulus over all n-sets is exactly 2^n − 
 2, 6, 12, 28, 60, 124, 248, 504, … for n = 2, 3, 4, … .
 
 **Note on the sub-issue.** For n = 8 the bound is 2^8 − 2^3 = **248**, not 252 (252 = 2^8 − 2^2).
-Issue #87 ("certify n = 8, every N < 252") should read N < 248: {2^k − 1 : k < 8} is valid
+Issue #87 was retargeted from N < 252 to N < 248 (2026-11-27): {2^k − 1 : k < 8} is valid
 mod 248 (N3 below), so "no valid set for N < 252" is false.
 [numerical, exact; and arithmetic]
 
@@ -221,6 +221,11 @@ sets containing 0 (translation, Setting) and all multiplicity vectors.
   - C8 (PROBLEMS P3 scout lines): fixed; Conjecture 1 quoted as in notes L1, §7 → §8, openness
     evidence marked superseded 2026-11-27, "N < 252" → "N < 248 (corrected 2026-11-27; the scout
     wrote 252)".
+- **2026-11-27, reviewer-loop on PR #89** (sha a057762).
+  - R1 (Statement note on #87 out of date): fixed; now says #87 was retargeted to N < 248.
+  - R2 (#87's body gave 128 ≤ N ≤ 247): fixed; #87's body now gives the conditional range
+    129 ≤ N ≤ 247 (resting on Inal's claimed bound, not re-checked) and the unconditional range
+    8 ≤ N ≤ 247, matching LEDGER MM2.
 
 ## Log
 
@@ -232,3 +237,4 @@ sets containing 0 (translation, Setting) and all multiplicity vectors.
   "exponential lower bound appears to be open" out of date. Numerics N1–N3: conjecture holds for
   n ≤ 5 by exhaustive search. Found that #87's bound should be N < 248, not 252.
   [numerical, Python, not Lean] P3 marked `taken (#23)` in `PROBLEMS.md`; LEDGER entry added.
+- **2026-11-27.** Answered the reviewer-loop comment on PR #89 (R1, R2 in Review).

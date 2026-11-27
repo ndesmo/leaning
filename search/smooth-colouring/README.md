@@ -81,3 +81,6 @@ whenever (−A) ⊕ B = G, and the checker tests that directly.
     checker.
 - `independent/out/p9/` (pass 9): the n = 195 runs Z625×Z39 at level 3 and Z243×Z65 at level 4,
   both NONE. The commands are in `independent/out/pass9_runs.txt`.
+- `structure/pass12_pern/` (pass 12): the per-n level-conjecture sweep (n ≤ 194, plus n = 205) with
+  dfs3 `--level 0..`. Nothing violates the conjecture, but every p ‖ n case below 195 is already
+  solvable at level 0.

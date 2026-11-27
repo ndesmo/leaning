@@ -719,3 +719,76 @@ Next ideas, ranked:
    since pass 7 and should now take priority over new searches.
 3. Resume the odd-p sweep: (60,3), then 63/3, 65/5, 75/3, 75/5 and 81/3.
 4. Mixed |B| = 15.
+
+### 2026-11-27: pass 12
+
+Three parallel subagents: a mathematics referee of the reduction notes, an audit of the NONE
+claims against the code and logs, and a computational test of the per-n level conjecture. The
+first two had not seen the journal. There is no PR this pass: the audit found the two top levels
+are single-implementation with no genuine controls (item 2).
+
+1. **Referee of `prime_B_reduction.md`, `composite_B.md` and `pass8_level.md` §1: no error that
+   breaks a theorem** [own argument, refereed once by an independent subagent; not yet a full
+   two-reviewer /review].
+   - Checked and judged correct: the Theorem (reduction), D, Δ, Q and Lemma 1; Lemmas V and C;
+     Theorems 1–3, with the Smith-form bound and the Quantifier paragraph; Prop. 1 and Lemma 2.
+   - Five wording fixes, all applied (see the "Revision (pass 12)" sections of both notes):
+     1. The §0 "equivalent form" was false at m = 1. It now reads m ∉ {1} ∪ {primes}, with m = 1
+        excluded only through FP90/CCP.
+     2. In the converse "(b_i^p) is a periodic tiling with |B| = p^i", ψ need not be surjective,
+        so read it as "some period lattice of index 195·p^i".
+     3. D is proved for t ≥ 1. The reduction t ↦ t + N|G| covers t ≤ 0.
+     4. The stale "(b_3^3) running" text in composite_B §0 is corrected.
+     5. pass8 §1 is retitled "level of a pair (𝒫, f)".
+2. **Audit of the n = 195 NONE claims** against dfs2/dfs3/gtile6/gtile7 and every log.
+   - Every run completed all its tasks: complete, unique task-id sets, and no TIMEOUT.
+   - The code searches exactly the objects the notes define, and the symmetry breaking is sound.
+   - Two tiers:
+
+     | Tier | Levels | Evidence |
+     |---|---|---|
+     | Two independent program families (gtile*, dfs2/dfs3) | p = 3 levels 1–3, p = 5 levels 1–2, p = 13 level 1 | p = 3 levels 1 and 2 also have runs without symmetry breaking |
+     | Single program (dfs3 with lex-leader symmetry) | p = 3 level 4 (Z243×Z65), p = 5 level 3 (Z625×Z39) | **no genuine controls at those levels** |
+
+   - By Theorem 1 the levels are monotone, so "levels ≤ 4" rests entirely on the weakest run. The
+     PR must state the two tiers separately.
+   - dfs3 has never produced a genuine (non-lifted) witness at level ≥ 3. Its n = 162 level-3
+     control timed out at 8 s, while gtile7 finds a witness there in 194 s.
+   - The p = 5 level-3 controls are lifts of *level-1* solutions (every h ∈ 25Z), not of level-2
+     solutions.
+   - The p = 13 controls are mostly lifts of level-0 solutions.
+   - Stale labels remain: `prime_B_reduction.md:42, 160-161` and `composite_B.md:50, 238` still
+     say "single implementation", and `pass8_runs.txt:70` still says Z625 is "NOT settled".
+3. **Per-n level conjecture: no counterexample in range** [numerical: dfs3, single
+   implementation; every FOUND witness passes direct_check3.py]. Files are in
+   `search/smooth-colouring/structure/pass12_pern/` (driver `pern.py`, raw results `phaseA.txt` and
+   `phaseB.txt`, commands in `COMMANDS.txt`, 295 witnesses in `w/`).
+   - Numbering: Lk is `dfs3 --level k`, and L0 is the multiplicative case (a). `--level 0` is a
+     new use of dfs3 that the controls do not cover. It agrees with CCP at 54, 162 and 205.
+   - Every (n,p) with n ≤ 194 was run, 298 pairs:
+     - 287 are FOUND at L0;
+     - 8 are L0 NONE, L1 FOUND (4/2, 9/3, 16/2, 121/11, 147/7, 156/2, 169/13, 175/5), each with
+       min ≤ v;
+     - 162/3, 176/2 and 184/2 timed out at 120 s; earlier passes put their minimal levels at v.
+   - **Every p ‖ n case below 195 is L0-solvable, so the per-n conjecture has no content there.**
+     Its first meaningful test is at n ≥ 195.
+   - n = 205 = 5·41:
+     - 205/5: NONE at L0 and at L1 (621/621 tasks, 145 s), L2 TIMEOUT;
+     - 205/41: NONE at L0, L1 and L2 TIMEOUT.
+   - Not run: 212, 214, 217, 218, 220, 235, 242, 244, 246, 247 and 248.
+
+Dead ends: none new. The per-n test below 195 is vacuous for p ‖ n, so it is not worth extending.
+
+Next ideas, ranked:
+1. **Close the audit gap, then open the finite-level PR** (`Part of #31`), with its two tiers.
+   - Run dfs3 `--level 4` controls (n ≤ 60, with direct_check3), plus symcheck3 and brute counts
+     at level 4.
+   - Run symcheck3 at p = 5 level 3.
+   - Run dfs3 at 162/3 level 3 without a short timeout, to get a genuine level-3 witness.
+   - Ideally, run gtile7 hd = 243 and hd = 625 at n = 195 as second programs.
+   - Fix the stale labels from item 2.
+   - Then run the full two-reviewer /review.
+2. **The per-n conjecture at n ≥ 205, where p ‖ n is meaningful.** Run 205/5 and 205/41 at L1
+   and L2, then 217 = 7·31, 235 = 5·47 and 247 = 13·19, each with 18 threads and runs of 10
+   minutes or more. A counterexample here would warn that 195 could need higher levels.
+3. Mixed |B| = 15.

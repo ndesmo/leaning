@@ -1,0 +1,8 @@
+RUN n=205 p=5 L0 NONE :: dfs3 level=0 n=205 p=5 K=41 order=greedy sym=true result=NONE sols_small=0 nodes=818601 tasks_done=223/223 secs=138.65
+RUN n=205 p=41 L0 NONE :: dfs3 level=0 n=205 p=41 K=5 order=greedy sym=true result=NONE sols_small=0 nodes=818601 tasks_done=223/223 secs=143.39
+RUN n=205 p=5 L1 TIMEOUT :: timeout 180s
+RUN n=205 p=41 L1 TIMEOUT :: timeout 180s
+RUN n=205 p=5 L2 TIMEOUT :: timeout 180s
+SUMMARY n=205 p=5 v=0 L0=NONE L1=TIMEOUT L2=TIMEOUT min=?
+RUN n=205 p=41 L2 TIMEOUT :: timeout 180s
+SUMMARY n=205 p=41 v=0 L0=NONE L1=TIMEOUT L2=TIMEOUT min=?

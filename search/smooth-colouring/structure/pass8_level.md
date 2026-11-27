@@ -27,7 +27,9 @@ torsion of Γ, and ḡ: Γ → Z_m is the map induced by g. "Level 0" means a ho
   - n = 176, p = 2: level 3 = v_2(88) (new this pass; level 2 is NONE, level 3 FOUND).
   So the bound would be sharp. A bound in terms of log_p n alone would not be.
 
-## 1. Exact level of a partition [own argument, unreviewed]
+## 1. Exact level of a pair (𝒫, f) [own argument, refereed pass 12]
+
+(The level of the partition 𝒫 is the minimum of this over admissible f; e(𝒫) bounds all of them.)
 
 **Prop. 1.** Fix a separated partition 𝒫, a separating g, and f: M → Z_p with f(x − y) ≠ 0 for all
 x ≠ y in a common block. Let i ≥ 0. Then the following are equivalent:

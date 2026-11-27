@@ -17,9 +17,12 @@ L = φ^{-1}(B). (Lemma A of `pass2.md`; the converse direction is immediate.)
 Note that |B| depends on the choice of Λ. Take Λ = Per(L), the group of all periods of L. Every
 period lattice of L is contained in Per(L), so |B| for Per(L) divides |B| for any Λ. "No periodic
 tiling with |B| prime" therefore means: **no periodic tiling has a period lattice of index 195·p
-with p prime.** Equivalently, for every periodic tiling, [Z^44 : Per(L)] = 195·m with m = 1 or m
-composite. (If some period lattice Λ has index 195·p, then m(Per(L)) divides p, so m(Per(L)) is 1
-or p; conversely Λ = Per(L) is itself a period lattice. The value m = 1 is outcome (a) below.)
+with p prime.** Equivalently, for every periodic tiling, [Z^44 : Per(L)] = 195·m with m ∉ {1} ∪ {primes}.
+(If some period lattice Λ has index 195·p, then m(Per(L)) divides p, so m(Per(L)) is 1 or p;
+conversely, if m(Per(L)) ∈ {1, p} then Per(L), or a sublattice of it of index p, is a period
+lattice of index 195·p. The value m = 1 is outcome (a) below, excluded by FP90/CCP; only together
+with that exclusion does the statement become "m composite".) [Corrected pass 12, referee
+finding 1: the earlier text read "m = 1 or m composite", which is wrong at m = 1.]
 
 **Theorem (reduction).** Suppose (*) holds with |B| = p prime. Then one of the following holds:
 
@@ -212,3 +215,16 @@ Referee fixes from the pass-6 read (journal, pass 6, item 2), applied 2026-11-27
   translation-invariant.
 - Lemma 1: added why kd ≠ 0 (d has order p, p ∤ k), which Δ needs.
 No mathematical content changed; the note is still not formally /reviewed.
+
+## Revision (pass 12): independent referee
+
+A fresh referee (who saw only these notes, never the journal) checked every step of the Theorem
+(reduction), D, Δ, Q and Lemma 1, and found no error that breaks a theorem. Wording fixes:
+1. §0 equivalent form: corrected above (m = 1 is excluded only through FP90/CCP). The same applies
+   to the §4 "Scope" sentence: given CCP, the note excludes index 195·p *and* index 195.
+2. The converse "(b_i^p) is itself a periodic tiling with |B| = p^i": ψ need not be surjective,
+   so ker ψ need not have index 195·p^i. Read it as "L = ψ^{-1}(B) is a periodic tiling that has
+   *some* period lattice of index 195·p^i" (ker ψ has sublattices of every index). No proof step
+   uses surjectivity.
+3. D is proved for t ≥ 1. For t ≤ 0 replace t by t + N|G| > 0, which preserves gcd(t, |B|) since
+   |B| divides |G|. All uses have t > 0.

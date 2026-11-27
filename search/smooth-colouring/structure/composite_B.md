@@ -54,7 +54,8 @@ for all x ≠ y in the same block. (No unbounded group appears.)
   an independent run on a different group; a weak consistency check, same search core.)
 - (b_2^5), G = Z_125 × Z_39: **NONE**, 20/20 splits, 3.39·10^10 nodes. Hence **no periodic tiling
   has m_π ∈ {5, 25}**.
-- (b_3^3), G = Z_81 × Z_65: running, see §6.
+- (b_3^3), G = Z_81 × Z_65: **NONE**, 20/20 splits (§6 and the end-of-pass-5 update). Hence
+  **no periodic tiling has m_π ∈ {3, 9, 27}**. [Stale "running" text corrected pass 12.]
 
 **Remaining gap (exact).** Periodic tilings whose index 195·m has m_π divisible by at least two
 of 3, 5, 13 (m_π ∈ {15, 39, 45, 65, 75, 117, 195, …}), plus (b_i^p) for the i not yet searched,
@@ -282,3 +283,12 @@ Referee fixes from the pass-6 read (journal, pass 6, item 2), applied 2026-11-27
   running" line for Z81 × Z65 is replaced by the final NONE. See
   `../general/out/m27_hd81_controls.txt`.
 No proof changed in substance; the note is still not formally /reviewed.
+
+## Revision (pass 12): independent referee
+
+A fresh referee checked Lemmas V and C, Theorems 1–3, the Smith-form bound (including d_r = 0),
+the §5 mixed observation and the Quantifier paragraph, and found no error. Wording fixes: the
+stale §0 (b_3^3) line is corrected; the Theorem 1 converse must be read with non-surjective ψ
+(see prime_B_reduction.md, Revision pass 12, item 2); §8 item 1 is stale for (b_3^3) and (b_2^5).
+Levels still open after the searches: 3^a for a ≥ 5 (a ≤ 4 searched, pass 9), 5^a for a ≥ 4
+(a ≤ 3 searched, pass 9), 13^a for a ≥ 2.

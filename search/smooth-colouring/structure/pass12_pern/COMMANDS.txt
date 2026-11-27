@@ -1,0 +1,7 @@
+pass 12 per-n level test (dfs3 rebuilt: cd independent; rustc -O -C target-cpu=native dfs3.rs -o dfs3.exe)
+Level L = dfs3 --level L, G = Z_{p^{L+1}} x Z_{n/p} (same numbering as journal; L0 = multiplicative into Z_p x Z_{n/p}).
+python pern.py phaseB.txt 3 3 120 range:4:194        # all (n,p), p|n, p<n; levels 0..v+2, stop at first FOUND; 120 s/run, 3 threads
+python pern.py phaseA.txt 2 6 180 205 217 ...        # stopped after n=205 (time)
+../../independent/dfs3.exe 205 5 --level 1 --threads 9 --split 2 --log L1_205_5.log --out w/w_205_5_L1.json   # NONE, 145 s
+../../independent/dfs3.exe 205 41 --level 1 --threads 9 --split 2 ...   # killed during setup (time up), no result
+Every FOUND witness in w/ checked with independent/direct_check3.py (295 OK, 0 fail).

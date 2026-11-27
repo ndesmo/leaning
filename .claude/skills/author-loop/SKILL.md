@@ -67,10 +67,11 @@ That is the whole iteration. Go to step 5.
   `gh issue list --state open --label approved --json number,title,labels`. Add the open
   sub-issues of each listed issue (`gh api repos/{owner}/{repo}/issues/<n>/sub_issues`), which
   carry no `approved` label of their own, and prefer them to their parent. Skip issues that are
-  claimed (see "Claims" in `/prove`) or labelled `blocked` or `moonshot`; the explorer works the
-  moonshots. Take the highest priority (`priority:high`, then normal, then low). Within a
-  priority, **finish before you start**, in this order:
-  1. units that finish a proved result (citations, Lean, page; "Finishing a result" in `/prove`);
+  claimed (see "Claims" in `/prove`) or labelled `blocked`, `moonshot` or `lean`. The explorer
+  works the moonshots and the formalizer works the Lean units. Take the highest priority
+  (`priority:high`, then normal, then low). Within a priority, **finish before you start**, in
+  this order:
+  1. units that finish a proved result (citations, page; "Finishing a result" in `/prove`);
   2. other units of problems already under way;
   3. a new problem.
 
@@ -93,7 +94,11 @@ That is the whole iteration. Go to step 5.
 - **Finish what is proved.** `/prove` defines when a result is finished (reviewed, citations
   checked, Lean, page).
   - **New results.** When your PR proves a result, or part of one stated exactly, file a sub-issue
-    under the same approved parent for each missing item, and list them in the PR body.
+    under the same approved parent for each missing item, and list them in the PR body. Give
+    each Lean unit the label `lean`, so the formalizer takes it; state in its body the exact
+    statement to formalize and where it is in the notes.
+  - **Formalizer problems.** If the formalizer reports that a statement is wrong or needs a
+    hypothesis, fixing the notes is your unit: an attack or correction, with `/review`.
   - **Results already merged.** When picking a target, check `LEDGER.md` for proved results that
     lack these sub-issues, and file them.
   - **Superseded targets.** When a result supersedes an open sub-issue's target, for example one

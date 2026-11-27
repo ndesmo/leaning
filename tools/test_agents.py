@@ -140,6 +140,12 @@ class Roles(unittest.TestCase):
         self.assertIn("explorer", agents.CHANGES_PRS)
         self.assertNotIn("reviewer", agents.CHANGES_PRS)
 
+    def test_formalizer_is_a_long_pass_pr_role_with_a_small_cap(self):
+        self.assertIn("formalizer", agents.ROLES)
+        self.assertIn("formalizer", agents.CHANGES_PRS)
+        self.assertEqual(agents.DAILY_BUDGET_USD["formalizer"], 10.0)
+        self.assertGreater(agents.PASS_TIMEOUT["formalizer"], agents.PASS_TIMEOUT["author"])
+
 
 class WaitUntil(unittest.TestCase):
     def fake(self):

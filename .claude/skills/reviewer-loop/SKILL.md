@@ -39,7 +39,9 @@ another session: it never changes what you review or how.
 - Fetch and check out the PR in this worktree: `git fetch origin pull/<n>/head`, then
   `git checkout --detach FETCH_HEAD`. Read the changes with `gh pr diff <n>`.
 - **Lean:** if the PR touches Lean, run `/lean-check` on the changed files, and read the CI status
-  with `gh pr checks <n>`.
+  with `gh pr checks <n>`. Compare each new theorem's Lean statement with the statement in the
+  notes it claims to formalize: same quantifiers, hypotheses and conclusion. A weaker, stronger or
+  different statement is a blocking finding unless the PR says so and the labels match.
 - **Pages and notes:** if the PR touches a proof page or notes, run `/review` on them.
   - Give the reviewer subagents only the page, the notes' Literature section and the Lean files.
   - Do **not** pass the PR body, the notes' Log or the author's reasoning. Independence is the

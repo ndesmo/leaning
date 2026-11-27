@@ -65,7 +65,13 @@ That is the whole iteration. Go to step 5.
   sub-issues of each listed issue (`gh api repos/ndesmo/leaning/issues/<n>/sub_issues`), which
   carry no `approved` label of their own, and prefer them to their parent. Skip issues that are
   claimed (see "Claims" in `/prove`) or labelled `blocked` or `moonshot`; the explorer works the
-  moonshots. Take the highest priority (`priority:high`, then normal, then low), oldest first.
+  moonshots. Take the highest priority (`priority:high`, then normal, then low). Within a
+  priority, **finish before you start**, in this order:
+  1. units that finish a proved result (citations, Lean, page; "Finishing a result" in `/prove`);
+  2. other units of problems already under way;
+  3. a new problem.
+
+  Within each group, take the oldest first.
   Only issues the owner labelled `approved` are eligible. You never add or remove `approved`, and
   you never work on an unapproved issue.
 - **Claim it** as "Claims" says, and re-read to make sure you won. If you lost, pick the next one.

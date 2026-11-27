@@ -57,7 +57,9 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | Slice lemma: if 1 < σ^{-1}(1) < k, d = σ(1), d′ = σ(k), then σ(k − d + 1) = d·e with e ∣ k/d, e ≥ 2 and gcd(e, d′) ∣ d − 1; mirror: σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1 | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A7.1 (ii), A8) | Attack ideas, A7.1 |
 | Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A7.2 |
 | General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`) | Log 2026-11-26 |
-| Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2 and s ∣ r − 1 (e.g. 2^b·r, b ≥ 2) | [conjecture] | Attack ideas, A7.3 |
+| Conjecture 5.2 holds for k = 4r, r ≥ 5 prime (with k = 12 from Lean: for every k = 4r, r an odd prime) | [own argument, unreviewed] (k = 12 part: [Lean]) | Attack ideas, A7.4 |
+| No WCS of length 4r with σ(1) ∈ {2, 4}, σ(4r) = r for r = 3, 5, 7 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_4r_check.py`) | Attack ideas, A7.4 |
+| Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with b ≥ 2, s ∣ r − 1 and k ≠ 4r (e.g. 2^b·r, b ≥ 3; 63) | [conjecture] | Attack ideas, A7.3, A7.4 |
 | Conjecture 5.2 for k with at least three distinct prime factors | [conjecture] | Attack ideas, A6.5 |
 
 ## Literature (2026-11-25)
@@ -346,7 +348,7 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
     form in A7.2, i.e. (a) a, b ≥ 2 (36, 72, 100, …), or (b) k = r·s^b with b ≥ 2 and
     s ∣ r − 1 (squarefree k is always covered). Family (b) contains every 2^b·r with b ≥ 2 and r
     an odd prime (12, 20, 24, 28, 40, …) and e.g. 63 = 7·3². The uncovered k ≤ 100 are 12, 20,
-    24, 28, 36, 40, 44, 48, 52, 56, 63, 68, 72, 76, 80, 88, 92, 96, 100. Up to reversal and naming, an interior 1 then has σ(1) = p^α,
+    24, 28, 36, 40, 44, 48, 52, 56, 63, 68, 72, 76, 80, 88, 92, 96, 100 (superseded for k = 4r by A7.4: see the Update below). Up to reversal and naming, an interior 1 then has σ(1) = p^α,
     σ(k) = q^β (1 ≤ α ≤ a, 1 ≤ β ≤ b), and A7.1 with its mirror gives only:
     e ∣ p^{a−α}q^b, gcd(e, q^β) ∣ p^α − 1; e′ ∣ p^a q^{b−β}, gcd(e′, p^α) ∣ q^β − 1. In
     particular α = a forces q ∣ p^a − 1 and β = b forces p ∣ q^b − 1. [own argument, unreviewed]
@@ -363,6 +365,55 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       general way to combine A7.1 with the singleton classes of primes in (k/2, k] (A3), or a
       second slice (e.g. D_e on positions of T_{de}) that again
       starts or ends with a known value; not found.
+    - *Update 2026-11-27.* The sub-family k = 4r (r an odd prime) is closed: A7.4 (r ≥ 5, own
+      argument, unreviewed) and the Lean check (r = 3). Still open in A7.3: (a) and (b) with
+      k ≠ 4r. The uncovered k ≤ 100 are now (a) 36, 72, 100 and (b) 24, 40, 48, 56, 63, 80, 88, 96.
+  - **A7.4. k = 4r (2026-11-27, #68).** [own argument, unreviewed] *Let r ≥ 5 be a prime and
+    k = 4r. Then every WCS of length k has σ(1) = 1 or σ(k) = 1.* With k = 12 (r = 3) from the
+    Lean check k ≤ 16 ([Lean], `conjecture_5_2_le_16`), Conjecture 5.2 holds for every k = 4r, r an
+    odd prime (20, 28, 44, 52, 68, 76, 92, … are newly covered by a proof in these notes; they were already
+    verified numerically, k ≤ 23 here and k ≤ 500 in [GSK24] (authors' claim); 4r is family (b) of
+    A7.3 with s = 2, b = 2). No GSK24 lemma is used beyond those re-proved in A6.0, A7.1 (ii) and
+    step 3 (Lemma 2.4, for the slices).
+    *Proof.* Suppose 1 < pos(1) < k.
+    1. (End values.) By A6.2, d = σ(1) and d′ = σ(k) are coprime divisors of 4r, both ≥ 2. The
+       divisors ≥ 2 of 4r are 2, 4, r, 2r, 4r; a coprime pair of them is {2, r} or {4, r} (2r and
+       4r share a factor with every other one). Reversal (A6.0 (b)) keeps the WCS property and
+       the interiority of pos(1) and swaps σ(1), σ(k), so we may assume d = 2^α (α ∈ {1, 2}), d′ = r.
+    2. (α = 1 and σ(k − 1) = 4.) A7.1 applies (1 < pos(1) < k, d, d′ as there; K = k/d = 4r/2^α):
+       σ(k − d + 1) = d·e with e ∣ K, e ≥ 2, gcd(e, r) ∣ d − 1. If α = 2: K = r, so e = r and
+       r = gcd(r, r) ∣ 3, i.e. r = 3, excluded. So α = 1, K = 2r, e ∈ {2, r, 2r}, and gcd(e, r) ∣ 1
+       rules out r, 2r: e = 2, i.e. σ(4r − 1) = 4.
+    3. (σ(3) = 4r.) 4 ≤ k and 4 ∣ σ(4r − 1), so by A6.0 (a) T_4 is the residue class of 4r − 1
+       mod 4 inside [k], of size ⌊k/4⌋ = r: T_4 = {3, 7, …, 4r − 1} (exactly r points, so the
+       class lemma's count is consistent), and these r positions carry exactly the r multiples
+       4, 8, …, 4r of 4 in [k]. So υ(i) = σ(4i − 1)/4 is a permutation of [r]. It is a WCS (as in
+       A7.1 (ii)): if m ∣ υ(i) and m ∣ i − j, then 4m ∣ σ(4i − 1) and 4m ∣ (4i − 1) − (4j − 1), so
+       4m ∣ σ(4j − 1) by Def. 1.1, i.e. m ∣ υ(j). Now υ(r) = σ(4r − 1)/4 = 1, and r ≥ 2, so
+       υ(1) ≠ 1; A6.1's corollary (σ(1) ∣ k for every WCS) applied to υ gives υ(1) ∣ r, so
+       υ(1) = r, i.e. σ(3) = 4r.
+    4. (Contradiction.) r ≤ k and r ∣ σ(k), so by A6.0 (a) T_r is the residue class of k = 4r
+       mod r inside [k], i.e. {r, 2r, 3r, 4r}. But r ∣ σ(3) = 4r, so 3 ∈ T_r and r ∣ 3: r = 3,
+       excluded. ∎
+    - *Edge cases audited.* Step 2 uses A7.1 only in its stated (interior) form. Step 3 needs
+      4 ∈ [2, k] and r ≥ 2 (υ has length r ≥ 5, so its first and last positions differ). Step 4
+      needs 3 ∉ {r, 2r, 3r, 4r}, true for r ≥ 5 (fails exactly for r = 3: for k = 12 with
+      (σ(1), σ(12)) = (2, 3), steps 2–3 give σ(11) = 4, σ(3) = 12, which is consistent; A7.3
+      closes that sub-case by a different hand argument, and (4, 3) is not excluded by step 2
+      since r = 3 ∣ 3). The mirror of A7.1 is not used. Hypotheses used: Def. 1.1, A6.0 (a), (b),
+      A6.1 (corollary), A6.2, A7.1, uniqueness of the value 1, primality of r.
+    - *Numerics.* [numerical, Python, not Lean] `search/weakly-consecutive/wc_4r_check.py`
+      (backtracking with σ(1) = 2^α, α = 1, 2, and σ(k) = r fixed) finds no WCS for k = 12, 20,
+      28; r = 11 (k = 44) did not finish in 5 minutes. (k = 12, 20 were already covered by the
+      exhaustive k ≤ 23 enumeration.) These are consistent with A7.4 but not part of the proof.
+    - *Failed extension to k = 2^b·r, b ≥ 3.* [own argument, unreviewed] The same chain gives
+      σ(1) = 2^α, σ(k) = r (up to reversal), and A7.1: σ(k − 2^α + 1) = 2^α·e, e ∣ 2^{b−α}r,
+      gcd(e, r) ∣ 2^α − 1. If r ∤ 2^α − 1 then e = 2^c (1 ≤ c ≤ b − α); the slice of
+      T_{2^{α+c}} (class of k − 2^α + 1, length L = 2^{b−α−c}r, ending with 1) gives
+      σ(j) = 2^{α+c}f with j = 2^α(2^c − 1) + 1, f ∣ L, f ≥ 2. The step-4 contradiction needs
+      r ∣ f, but f may be a power of 2 when b − α − c ≥ 1 (for b = 2, α = c = 1 this is
+      L = r, which forced f = r). Iterating the slice (now one starting with 1 at position j)
+      did not close it in this stage. Also open: r ∣ 2^α − 1 (e.g. r = 3, 7) and A7.3 (a).
 - **A8. Citation check (#80) (2026-11-27).** Finishing item 2 for A6.1–A6.3 and A7.1–A7.2. Each
   [GSK24] ingredient these steps used is now re-proved in the notes, so none is cited; the only
   thing taken from the paper is Definition 1.1 itself (the statement of the problem, quoted
@@ -511,6 +562,24 @@ resolve. Wording findings, all fixed:
 5. A8, A7.2 bullet contradicted A8's own statement that Lemma 2.3 is unused. Fixed.
 6. A8 "No error found" read like a review finding. Now marked as the author's re-check.
 
+### 2026-11-27: attack stage A7.4 (#68, k = 4r), `/review` (two independent subagents)
+
+Mathematics reviewer: no mathematical error; every step, hypothesis (interior 1, d·d′ ∣ k, K ≥ 2,
+coprimality), the slice construction and the edge cases (r = 2, 3, position collisions) checked;
+`wc_4r_check.py` re-run. Claims reviewer: labels, the Lean coverage of k = 12
+(`conjecture_5_2_le_16`), the script's scope and the uncovered-k lists all recomputed and correct.
+Wording findings, all fixed:
+1. A7.4 header said no GSK24 lemma is used beyond A6.0, but Lemma 2.4 (slices) is used, re-proved
+   in A7.1 (ii) and step 3. Fixed: the sentence now names them. The A7.2 header ("see A8") is left
+   as is: A8 records the A7.1 (ii) re-proof.
+2. "20, 28, 44, … are new" read as a novelty claim; these k were already verified numerically
+   (k ≤ 23 here, k ≤ 500 in [GSK24]). Fixed: "newly covered by a proof in these notes", with that
+   caveat.
+3. The e.g. lists after "(b) for k ≠ 4r" (notes A7.3 Update and LEDGER.md) included 36, 72, 100,
+   which are family (a). Fixed: split into (a) and (b).
+4. The original A7.3 list of uncovered k ≤ 100 still contained the 4r values. Fixed: marked as
+   superseded for k = 4r by A7.4.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -562,3 +631,8 @@ resolve. Wording findings, all fixed:
   and A8 (step-by-step list). Every GSK24 ingredient of these steps is now re-proved; their
   labels drop the [preprint: GSK24 …] part and stay [own argument, unreviewed]. No fetch needed.
 - **2026-11-27.** `/review` of the citation check: no mathematical error; 6 wording findings fixed (Review).
+- **2026-11-27.** Attack stage for #68 on A7.3: A7.4 proves Conjecture 5.2 for k = 4r, r ≥ 5
+  prime (own argument, unreviewed; A6.2 + A7.1 force σ(1) = 2, σ(k − 1) = 4 up to reversal, the
+  slice of T_4 then forces σ(3) = 4r, contradicting T_r = multiples of r); k = 12 is in the Lean
+  check. `search/weakly-consecutive/wc_4r_check.py`: no WCS with σ(1) ∈ {2, 4}, σ(4r) = r for
+  r = 3, 5, 7 [numerical, Python, not Lean]. Extension to 2^b·r, b ≥ 3, failed (A7.4). Not yet reviewed.

@@ -17,7 +17,9 @@ L = φ^{-1}(B). (Lemma A of `pass2.md`; the converse direction is immediate.)
 Note that |B| depends on the choice of Λ. Take Λ = Per(L), the group of all periods of L. Every
 period lattice of L is contained in Per(L), so |B| for Per(L) divides |B| for any Λ. "No periodic
 tiling with |B| prime" therefore means: **no periodic tiling has a period lattice of index 195·p
-with p prime.** Equivalently, for every periodic tiling, [Z^44 : Per(L)] = 195·m with m composite.
+with p prime.** Equivalently, for every periodic tiling, [Z^44 : Per(L)] = 195·m with m = 1 or m
+composite. (If some period lattice Λ has index 195·p, then m(Per(L)) divides p, so m(Per(L)) is 1
+or p; conversely Λ = Per(L) is itself a period lattice. The value m = 1 is outcome (a) below.)
 
 **Theorem (reduction).** Suppose (*) holds with |B| = p prime. Then one of the following holds:
 
@@ -72,7 +74,8 @@ p = 3, 5]. In (*) with |B| = p prime, suppose some d ∈ B − B, d ≠ 0, has o
 A ⊕ ⟨d⟩ = G, and (a) holds.
 
 *Proof.* Write d = b₁ − b₂. For k = 1, …, p−1 we have gcd(k, p) = 1, so A ⊕ kB = G by D, and
-kd = kb₁ − kb₂ ∈ kB − kB. By Δ, kd ∉ A − A. Since d has order p, ⟨d⟩ = {0, d, …, (p−1)d}, so
+kd = kb₁ − kb₂ ∈ kB − kB. Moreover kd ≠ 0, because d has order p and p ∤ k. Since A ⊕ kB = G,
+Δ gives (A − A) ∩ (kB − kB) = {0}, so kd ∉ A − A. Since d has order p, ⟨d⟩ = {0, d, …, (p−1)d}, so
 (A − A) ∩ (⟨d⟩ − ⟨d⟩) = (A − A) ∩ ⟨d⟩ = {0}. Also |A|·|⟨d⟩| = 195p = |G|, so A ⊕ ⟨d⟩ = G by Δ,
 and Q gives (a). ∎
 
@@ -90,6 +93,9 @@ This covers p = 2 and every prime p ≥ 7 other than 13.
 
 ## 3. Step 2: p ∈ {3, 5, 13}  [own argument, unreviewed]
 
+**Hypothesis used here: 195 = 3·5·13 is squarefree.** Hence p ∥ 195, so p² ∥ |G| and 195/p is
+coprime to p. (For a non-squarefree n in place of 195 this step, and 2a, would need changing.)
+
 Now |G| = 195p = p²·(195/p), and 195/p is squarefree and coprime to p. So G = H × K, with H the
 p-Sylow subgroup, |H| = p², so H ≅ Z_{p²} or Z_p × Z_p, and K of order 195/p, cyclic because it is
 abelian of squarefree order, so K ≅ Z_{195/p}.
@@ -102,7 +108,8 @@ A ⊕ (B' − b₀) = G − b₀ = G. The set A and the map φ are unchanged.
 **2b. Fibres are complements in H** [elementary]. For g ∈ G put C_g := (A ∩ (H + g)) − g ⊆ H.
 Every element of H + g is a + b with a ∈ A and b ∈ B', uniquely, and since B' ⊆ H, a ∈ H + g.
 Hence C_g ⊕ B' = H for every coset H + g, and |C_g| = p²/p = p. Identifying G/H with K, the C_g
-are the fibres of A over K.
+are, **up to translation** (by g), the fibres A ∩ (H + g) of A over K. Being a coset of a subgroup
+of H is invariant under translation, so it does not matter which representative g is used.
 
 **2c. Case B' − B' contains an element of order p.** Then (a), by Lemma 1 applied to A ⊕ B' = G.
 This case includes:
@@ -194,3 +201,14 @@ Szabó–Sands 2009, were not read). Quotes were copied from pdftotext extractio
 **Rédei** (not used): Kiss–Malikiosis–Somlai–Vizer, arXiv:1807.02844v3, Thm 2.1: "Let G = A1 + A2
 + · · · + An be a factorization of an abelian group G, where each Ai contains 0 and is of prime
 cardinality. Then at least one of the sets Ai is a subgroup of G."
+
+## Revision (pass 7)
+
+Referee fixes from the pass-6 read (journal, pass 6, item 2), applied 2026-11-27:
+- §0: the equivalent form now reads "m = 1 or m composite", with a one-line reason why Per(L)
+  gives the right quantifier (m = 1 is outcome (a)).
+- §3: squarefreeness of 195 is stated explicitly as the hypothesis behind p² ∥ |G|.
+- 2b: the C_g are the fibres of A over K *up to translation*; noted that being a coset is
+  translation-invariant.
+- Lemma 1: added why kd ≠ 0 (d has order p, p ∤ k), which Δ needs.
+No mathematical content changed; the note is still not formally /reviewed.

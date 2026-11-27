@@ -1,0 +1,13 @@
+BRUTE3 n=2 p=2 level=2 count=1
+BRUTE3 n=2 p=2 level=3 count=1
+BRUTE3 n=3 p=3 level=2 count=2
+BRUTE3 n=4 p=2 level=2 count=2
+BRUTE3 n=3 p=3 level=3 count=2
+BRUTE3 n=4 p=2 level=3 count=2
+BRUTE3 n=6 p=2 level=2 count=34
+BRUTE3 n=6 p=2 level=3 count=66
+BRUTE3 n=6 p=3 level=2 count=58
+BRUTE3 n=8 p=2 level=2 count=176
+BRUTE3 n=5 p=5 level=2 count=8
+BRUTE3 n=10 p=2 level=2 count=44
+BRUTE3 n=6 p=3 level=3 count=166

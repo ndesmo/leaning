@@ -29,10 +29,17 @@ itself a periodic tiling with |B| = p^i.
 
 **Theorem 2 (prime-power reduction).** Suppose (*) holds and the π-part m_π of m = |B| is a power
 of a single prime, m_π = p^a (a ≥ 0). Then (a) holds, or a ≥ 1 and (b_i^p) holds for some
-1 ≤ i ≤ a. By Theorem 1, **(b_a^p) holds** (or (a)).
+1 ≤ i ≤ a. By Theorem 1 (which also gives (a) ⇒ (b_a^p)), **if a ≥ 1 then (b_a^p) holds**.
 
 So, for example, |B| ∈ {9, 25, 27, 169, 2·9, 7·25, …} all reduce to the single search (b_a^p),
 and **one NONE for (b_i^p) excludes every periodic tiling with m_π ∈ {p, p², …, p^i}** (m_π = 1 is (a), excluded by CCP/FP90).
+
+*Quantifier.* m = |B| depends on the period lattice Λ. The statement is meant for every Λ, and
+it is equivalent to the statement for Λ = Per(L), the full period group: if Λ ⊆ Per(L) then
+m(Λ) = m(Per(L))·[Per(L) : Λ], so m_π(Per(L)) divides m_π(Λ). Precisely, given NONE for (b_i^p)
+and CCP/FP90: **for every periodic tiling L, the π-part of [Z^44 : Per(L)]/195 is not in
+{1, p, …, p^i}**; equivalently, no period lattice of L has index 195·m with m_π ∈ {1, p, …, p^i}.
+All "no periodic tiling has m_π ∈ …" statements below are meant in this sense.
 
 **Theorem 3 (finite reformulation of the whole p-power family).** ∃ i ≥ 1 with (b_i^p) ⇔ there
 are a partition 𝒫 of T into 195/p blocks of size p, a homomorphism ψ_K: Z^44 → Z_{195/p} constant
@@ -149,10 +156,14 @@ hence cyclic, = Z_{p^j} with j ≥ 1. Then ψ = (F, ψ_K): Z^44 → Z_{p^j} × Z
 have distinct ψ_K; inside a block the F-values differ by nonzero elements of the order-p subgroup,
 so the p values are distinct and form one coset of it. This is (a) (j = 1) or (b_{j−1}^p). ∎
 
-Moreover, via the Smith normal form of M ⊆ Z^44 (M = ⊕ d_r Z e_r in a suitable basis), F can be
-chosen with F(e_r) of order p^{v_p(d_r)+1}, so j − 1 ≤ max_r v_p(d_r): **for a given partition
-the required level i is bounded by the p-part of the largest elementary divisor of M.** No
-uniform bound over all partitions is proved.
+Moreover, via the Smith normal form of M ⊆ Z^44 (a basis e_1, …, e_44 of Z^44 and integers
+d_r ≥ 0 with M = ⊕ d_r Z e_r; d_r = 0 when rank M < 44), F can be chosen explicitly. Put
+c_r := f(d_r e_r) ∈ Z_p. If d_r = 0 then d_r e_r = 0, so c_r = 0, and we set F(e_r) := 0: f
+imposes no condition in that direction. If d_r ≠ 0 we need F(e_r) ∈ Z(p^∞) with d_r F(e_r) = c_r;
+writing d_r = p^v u with p ∤ u, such an element exists of order dividing p^{v+1}. Since f ≠ 0
+(blocks have p ≥ 2 elements), j ≥ 1 and j − 1 ≤ max_{r : d_r ≠ 0} v_p(d_r): **for a given
+partition the required level i is bounded by the largest p-adic valuation of a nonzero elementary
+divisor of M.** No uniform bound over all partitions is proved.
 
 ## 5. Mixed m_π: what survives, and the exact gap
 
@@ -177,9 +188,16 @@ here, not cited as verified*) unions of five 3-gons or three 5-gons, again with 
 - Lemma C and Lemma P, **exhaustively** for every factorisation C ⊕ B = H with 0 ∈ C ∩ B,
   |C| = p, H ∈ {Z9, Z3², Z25, Z5², Z27, Z9×Z3, Z3³}; and on **sampled** tiling sets C (25 per
   group, up to 20 complements each) for H ∈ {Z81, Z27×Z3, Z9², Z9×Z3², Z3⁴, Z125, Z25×Z5, Z5³}.
-  Exhaustive part: no counterexample (counts in the .out file). The sampled part was still
-  running when this note was written; check the tail of the .out file. The test "B̂(χ) ≠ 0" is floating point with
+  Exhaustive part: no counterexample (counts in the .out file). Sampled part (final .out file):
+  no counterexample for Z81 (369 pairs, 320 with aperiodic B), Z27×Z3 (260), Z9² (364), Z9×Z3²
+  (434) and Z3⁴ (500), each from 25 sampled tiling sets C. The run did **not** reach Z125, Z25×Z5
+  or Z5³, so those three groups are untested. The test "B̂(χ) ≠ 0" is floating point with
   threshold 1e−7 [numerical].
+- Referee test of the abstract Theorem 2 statement with 195 replaced by n = 6 or 10
+  (`review_pass6/thm2_bruteforce.py`, outputs `thm2_bruteforce*.out`): no failures in 18 groups
+  (one with m_π = 1, Z30); some planned groups ran out of memory. Negative control
+  (`negcontrol_Z36.out`): for Z36 with n = 6 and mixed m_π = 6 there are 14 factorisations with no
+  single-prime cyclic ψ, so the single-prime hypothesis of Theorem 2 is needed.
 - An earlier exhaustive run on the three groups of order 27 (same enumeration, output overwritten
   by the run above; numbers recorded here) found: pairs (C, B') = 6723 / 26919 / 88101 for Z27 /
   Z9×Z3 / Z3³, of which 6561 / 26136 / 84240 have aperiodic B'; for every aperiodic B', C is a
@@ -201,8 +219,21 @@ here, not cited as verified*) unions of five 3-gons or three 5-gons, again with 
   - (b_2^5) Z125 × Z39: `out/m25_Z125_coset_n195.txt`, 20/20 NONE, 33 895 909 445 nodes, 10.5 min wall.
     Positive controls hd=125, p=5: EXISTS for n = 50, 100, 145; the n = 100 witness passes
     `check_general.py` (x ≤ 1500).
-  - (b_3^3) Z81 × Z65: `out/m27_Z81_coset_n195.txt` — launched, **still running** when this note was written
-    (log `out/m25_m27_run.log`); no claim. Positive controls for hd=81 not yet run.
+  - (b_3^3) Z81 × Z65: `out/m27_Z81_coset_n195.txt`, 20/20 NONE, about 1.7·10¹¹ nodes (see the
+    update at the end).
+    Positive controls hd=81, p=3 (pass 7, `out/m27_hd81_controls.txt`, raw runs in
+    `out/hd81_controls/`): EXISTS on all 20 splits for n = 30, 60, 99, 120, 150, and on 7 of 20
+    for n = 180 (the other 13 hit a 60 s wall limit, no result). Most witnesses have all H-values
+    in 27Z81 (images of level-1 solutions), but 19 use H-values outside 27Z81, including units
+    (for example n = 30, split 2, h(2) = 1); all 19 such witnesses checked (n = 30, 60, 99, 180)
+    pass `check_general.py` (x ≤ 2000, or x ≤ 1000 for n = 180).
+    **Strict-level control:** n = 162, p = 3 (NONE at level 1 by gtile6 and dfs2, pass 6) is
+    NONE at level 2 (hd=27, 20/20, 9.9·10⁹ nodes, `out/x162_hd27_g7.txt`) but EXISTS at level 3
+    (hd=81, 2.4·10⁹ nodes, 194 s). The witness passes `check_general.py` (G = Z81 × Z54,
+    x ≤ 2000), and a direct check confirms that all 54 fibres are cosets of 27Z81. So, if the level-2 NONE
+    is right [numerical: single implementation, with symmetry breaking], the hierarchy of
+    Theorem 1 is strict at n = 162, and the level-3 code finds solutions that no lower level has.
+    The EXISTS half needs no such caveat: it is certified by the independent checker.
 - Label: [numerical: single implementation]; the search core is shared with gtile5/6 and has no
   independent second checker (the CP-SAT checker of pass 4 was too weak).
 
@@ -234,4 +265,20 @@ above depends on them.
 
 **Update (main session, end of pass 5):** the (b_3^3) run on Z81 × Z65 finished: 20/20 splits NONE,
 about 1.7·10¹¹ nodes in total (`general/out/m27_Z81_coset_n195.txt`) [numerical: single implementation].
-No hd=81 positive controls were run.
+hd=81 positive controls: see §6 (pass 7).
+
+## Revision (pass 7)
+
+Referee fixes from the pass-6 read (journal, pass 6, item 2), applied 2026-11-27:
+- Theorem 2: dropped the redundant "(or (a))"; now "if a ≥ 1 then (b_a^p)", since (a) ⇒ (b_a^p).
+- §0: added a *Quantifier* paragraph stating the exclusion via Per(L) and why that is equivalent to
+  quantifying over all period lattices.
+- Theorem 3, Smith form: d_r = 0 is handled (F(e_r) := 0); the bound now uses only the nonzero
+  elementary divisors, and "of order p^{v+1}" is corrected to "of order dividing p^{v+1}".
+- §6: recorded the final sampled Lemma C/P result (5 of 8 sampled groups ran, no counterexample;
+  the three p = 5 groups did not run) and the referee's Theorem 2 brute force and negative control.
+- §6: hd = 81 positive controls for gtile7, all witnesses checked by `check_general.py`, plus a
+  strict-level control (n = 162: NONE at levels 1 and 2, EXISTS at level 3); the stale "still
+  running" line for Z81 × Z65 is replaced by the final NONE. See
+  `../general/out/m27_hd81_controls.txt`.
+No proof changed in substance; the note is still not formally /reviewed.

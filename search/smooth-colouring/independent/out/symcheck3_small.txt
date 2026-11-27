@@ -1,0 +1,54 @@
+symcheck3 level=2 n=9 p=3 K=3 |Gamma|=36 sym_sols=2 nosym_sols=24 orbits_of_nosym=2 sum_orbit_sizes(sym)=24 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=9 p=3 K=3 order=greedy sym=true result=FOUND sols_small=2 nodes=4 tasks_done=2/2 secs=0.00
+  nosym: dfs3 level=2 n=9 p=3 K=3 order=greedy sym=false result=FOUND sols_small=24 nodes=48 tasks_done=24/24 secs=0.00
+symcheck3 level=2 n=12 p=3 K=4 |Gamma|=36 sym_sols=29 nosym_sols=356 orbits_of_nosym=29 sum_orbit_sizes(sym)=356 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=12 p=3 K=4 order=greedy sym=true result=FOUND sols_small=29 nodes=63 tasks_done=17/17 secs=0.00
+  nosym: dfs3 level=2 n=12 p=3 K=4 order=greedy sym=false result=FOUND sols_small=356 nodes=812 tasks_done=228/228 secs=0.00
+symcheck3 level=2 n=15 p=3 K=5 |Gamma|=72 sym_sols=46 nosym_sols=1168 orbits_of_nosym=46 sum_orbit_sizes(sym)=1168 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=15 p=3 K=5 order=greedy sym=true result=FOUND sols_small=46 nodes=135 tasks_done=24/24 secs=0.01
+  nosym: dfs3 level=2 n=15 p=3 K=5 order=greedy sym=false result=FOUND sols_small=1168 nodes=3640 tasks_done=672/672 secs=0.02
+symcheck3 level=2 n=18 p=3 K=6 |Gamma|=36 sym_sols=162 nosym_sols=1752 orbits_of_nosym=162 sum_orbit_sizes(sym)=1752 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=18 p=3 K=6 order=greedy sym=true result=FOUND sols_small=162 nodes=370 tasks_done=48/48 secs=0.00
+  nosym: dfs3 level=2 n=18 p=3 K=6 order=greedy sym=false result=FOUND sols_small=1752 nodes=4344 tasks_done=624/624 secs=0.01
+symcheck3 level=2 n=12 p=2 K=6 |Gamma|=8 sym_sols=48 nosym_sols=212 orbits_of_nosym=48 sum_orbit_sizes(sym)=212 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=12 p=2 K=6 order=greedy sym=true result=FOUND sols_small=48 nodes=98 tasks_done=25/25 secs=0.00
+  nosym: dfs3 level=2 n=12 p=2 K=6 order=greedy sym=false result=FOUND sols_small=212 nodes=436 tasks_done=112/112 secs=0.02
+symcheck3 level=2 n=16 p=2 K=8 |Gamma|=16 sym_sols=12 nosym_sols=128 orbits_of_nosym=12 sum_orbit_sizes(sym)=128 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=16 p=2 K=8 order=greedy sym=true result=FOUND sols_small=12 nodes=30 tasks_done=6/6 secs=0.23
+  nosym: dfs3 level=2 n=16 p=2 K=8 order=greedy sym=false result=FOUND sols_small=128 nodes=320 tasks_done=64/64 secs=0.67
+symcheck3 level=2 n=10 p=5 K=2 |Gamma|=100 sym_sols=5 nosym_sols=20 orbits_of_nosym=5 sum_orbit_sizes(sym)=20 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=10 p=5 K=2 order=greedy sym=true result=FOUND sols_small=5 nodes=13 tasks_done=4/4 secs=0.05
+  nosym: dfs3 level=2 n=10 p=5 K=2 order=greedy sym=false result=FOUND sols_small=20 nodes=52 tasks_done=16/16 secs=0.00
+symcheck3 level=2 n=15 p=5 K=3 |Gamma|=200 sym_sols=34 nosym_sols=1168 orbits_of_nosym=34 sum_orbit_sizes(sym)=1168 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=15 p=5 K=3 order=greedy sym=true result=FOUND sols_small=34 nodes=103 tasks_done=20/20 secs=0.00
+  nosym: dfs3 level=2 n=15 p=5 K=3 order=greedy sym=false result=FOUND sols_small=1168 nodes=4408 tasks_done=1056/1056 secs=0.01
+symcheck3 level=3 n=9 p=3 K=3 |Gamma|=108 sym_sols=2 nosym_sols=24 orbits_of_nosym=2 sum_orbit_sizes(sym)=24 nosym_closed=True PASS
+  sym  : dfs3 level=3 n=9 p=3 K=3 order=greedy sym=true result=FOUND sols_small=2 nodes=4 tasks_done=2/2 secs=0.00
+  nosym: dfs3 level=3 n=9 p=3 K=3 order=greedy sym=false result=FOUND sols_small=24 nodes=48 tasks_done=24/24 secs=0.00
+symcheck3 level=3 n=12 p=3 K=4 |Gamma|=108 sym_sols=35 nosym_sols=1004 orbits_of_nosym=35 sum_orbit_sizes(sym)=1004 nosym_closed=True PASS
+  sym  : dfs3 level=3 n=12 p=3 K=4 order=greedy sym=true result=FOUND sols_small=35 nodes=77 tasks_done=21/21 secs=0.00
+  nosym: dfs3 level=3 n=12 p=3 K=4 order=greedy sym=false result=FOUND sols_small=1004 nodes=2324 tasks_done=660/660 secs=0.01
+symcheck3 level=3 n=8 p=2 K=4 |Gamma|=16 sym_sols=26 nosym_sols=168 orbits_of_nosym=26 sum_orbit_sizes(sym)=168 nosym_closed=True PASS
+  sym  : dfs3 level=3 n=8 p=2 K=4 order=greedy sym=true result=FOUND sols_small=26 nodes=52 tasks_done=26/26 secs=0.00
+  nosym: dfs3 level=3 n=8 p=2 K=4 order=greedy sym=false result=FOUND sols_small=168 nodes=336 tasks_done=168/168 secs=0.00
+symcheck3 level=3 n=12 p=2 K=6 |Gamma|=16 sym_sols=59 nosym_sols=388 orbits_of_nosym=59 sum_orbit_sizes(sym)=388 nosym_closed=True PASS
+  sym  : dfs3 level=3 n=12 p=2 K=6 order=greedy sym=true result=FOUND sols_small=59 nodes=121 tasks_done=31/31 secs=0.00
+  nosym: dfs3 level=3 n=12 p=2 K=6 order=greedy sym=false result=FOUND sols_small=388 nodes=804 tasks_done=208/208 secs=0.00
+symcheck3 level=2 n=14 p=7 K=2 |Gamma|=294 sym_sols=52 nosym_sols=312 orbits_of_nosym=52 sum_orbit_sizes(sym)=312 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=14 p=7 K=2 order=greedy sym=true result=FOUND sols_small=52 nodes=102 tasks_done=9/9 secs=0.01
+  nosym: dfs3 level=2 n=14 p=7 K=2 order=greedy sym=false result=FOUND sols_small=312 nodes=612 tasks_done=54/54 secs=0.01
+symcheck3 level=2 n=13 p=13 K=1 |Gamma|=2028 sym_sols=13 nosym_sols=156 orbits_of_nosym=13 sum_orbit_sizes(sym)=156 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=13 p=13 K=1 order=greedy sym=true result=FOUND sols_small=13 nodes=23 tasks_done=5/5 secs=0.00
+  nosym: dfs3 level=2 n=13 p=13 K=1 order=greedy sym=false result=FOUND sols_small=156 nodes=276 tasks_done=60/60 secs=0.00
+symcheck3 level=2 n=21 p=3 K=7 |Gamma|=108 sym_sols=42 nosym_sols=984 orbits_of_nosym=42 sum_orbit_sizes(sym)=984 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=21 p=3 K=7 order=greedy sym=true result=FOUND sols_small=42 nodes=198 tasks_done=34/34 secs=0.00
+  nosym: dfs3 level=2 n=21 p=3 K=7 order=greedy sym=false result=FOUND sols_small=984 nodes=6936 tasks_done=1368/1368 secs=0.01
+symcheck3 level=2 n=20 p=5 K=4 |Gamma|=200 sym_sols=119 nosym_sols=4536 orbits_of_nosym=119 sum_orbit_sizes(sym)=4536 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=20 p=5 K=4 order=greedy sym=true result=FOUND sols_small=119 nodes=204 tasks_done=24/24 secs=0.00
+  nosym: dfs3 level=2 n=20 p=5 K=4 order=greedy sym=false result=FOUND sols_small=4536 nodes=7904 tasks_done=1088/1088 secs=0.03
+symcheck3 level=3 n=24 p=3 K=8 |Gamma|=216 sym_sols=1392 nosym_sols=141504 orbits_of_nosym=1392 sum_orbit_sizes(sym)=141504 nosym_closed=True PASS
+  sym  : dfs3 level=3 n=24 p=3 K=8 order=greedy sym=true result=FOUND sols_small=1392 nodes=3005 tasks_done=64/64 secs=0.01
+  nosym: dfs3 level=3 n=24 p=3 K=8 order=greedy sym=false result=FOUND sols_small=141504 nodes=334688 tasks_done=3964/3964 secs=0.77
+symcheck3 level=2 n=26 p=13 K=2 |Gamma|=2028 sym_sols=508 nosym_sols=6096 orbits_of_nosym=508 sum_orbit_sizes(sym)=6096 nosym_closed=True PASS
+  sym  : dfs3 level=2 n=26 p=13 K=2 order=greedy sym=true result=FOUND sols_small=508 nodes=1008 tasks_done=24/24 secs=0.01
+  nosym: dfs3 level=2 n=26 p=13 K=2 order=greedy sym=false result=FOUND sols_small=6096 nodes=12096 tasks_done=288/288 secs=0.04

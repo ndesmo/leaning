@@ -67,3 +67,10 @@ whenever (−A) ⊕ B = G, and the checker tests that directly.
   `./dfs2.exe 195 P --threads 20 --split 3 --log out/dfs2_n195_pP.txt`. Controls are in
   `dfs2_controls.sh`, and there are `--nosym` and `--count` options.
 - `structure/composite_B.md` and `composite_bruteforce.py` (pass 5): the prime-power |B| reduction.
+- `independent/dfs3.rs` (pass 7): dfs2 extended to level i (`--level i`, `--resume LOG`, `--all`).
+  Build with `rustc -O -C target-cpu=native dfs3.rs -o dfs3.exe`; run
+  `./dfs3.exe 195 3 --level 2 --threads 18 --split 3 --log out/dfs3_n195_p3_L2.log`.
+  `brute_count3.py`, `direct_check3.py`, `symcheck3.py` and `dfs3_controls.sh` are its validators.
+  The per-task logs are gzipped (`out/*.log.gz`); gunzip one before using `--resume`.
+- `general/out/m27_hd81_controls.txt` (pass 7): the hd = 81 controls for gtile7, and the n = 162
+  level-3 witness.

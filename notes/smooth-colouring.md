@@ -425,3 +425,66 @@ Next ideas, ranked:
 2. dfs2 at level 2 (Z27×Z65, Z125×Z39), as a second implementation for gtile7.
 3. Bound the level via Thm 3 (pass 5, idea 2).
 4. Mixed |B| = 15 (pass 5, idea 3).
+
+### 2026-11-27: pass 7
+
+Two parallel strategies: applying the referee's fixes together with the missing gtile7 controls,
+and a second independent implementation at levels 2 and 3. Both completed. There is no PR this
+pass, because the formal /review has still not been run on the reduction notes.
+
+1. **Referee fixes applied** to `structure/prime_B_reduction.md` and `structure/composite_B.md`.
+   Each file now ends with a "Revision (pass 7)" section.
+   - All eight fixes from pass 6 are in. None turned out to be wrong when re-derived.
+   - Two changes go slightly beyond wording:
+     - Thm 3's Smith form now handles d_r = 0: the bound ranges over the nonzero d_r only.
+     - The quantifier now goes through m(Λ) = m(Per(L))·[Per(L):Λ].
+   - §6 now records the sampled Lemma C/P result: no counterexample on Z81, Z27×Z3, Z9², Z9×Z3²
+     and Z3⁴. **The p = 5 groups Z125, Z25×Z5 and Z5³ were never tested.**
+2. **hd = 81 positive controls for gtile7** (`general/out/m27_hd81_controls.txt`).
+   - gtile7.exe was rebuilt first.
+   - Controls: n = 30, 60, 99, 120 and 150 give EXISTS on all 20 splits; n = 180 gives EXISTS on 7
+     splits and hit the time limit on the rest.
+   - 19 witnesses really use the level-3 residues: their H-values lie outside 27Z81. All 19 pass
+     `check_general.py`. A perturbed witness is rejected.
+   - **n = 162, p = 3 is NONE at levels 1 and 2 but EXISTS at level 3.**
+     - Level 1: two implementations (pass 6).
+     - Level 2: gtile7 gives 20/20 NONE, and dfs3 also gives NONE (item 3).
+     - Level 3: gtile7 finds a witness, 2.4·10⁹ nodes, which passes `check_general.py` and a
+       direct check of its fibres.
+     - So the level hierarchy is strict, and a NONE at low levels says nothing about higher
+       levels. This makes idea 2 below (bounding the level) essential.
+3. **dfs3, an independent search at levels 2 and 3** (`independent/dfs3.rs`). It extends dfs2 with
+   `--level i` and shares no code with gtile7 [numerical: two independent implementations; dfs3
+   uses symmetry breaking].
+   - Validation:
+     - At level 1 it reproduces dfs2 exactly, node counts included.
+     - Exact counts match `brute_count3.py` on 13 tiny cases at levels 2 and 3.
+     - The greedy, asc and desc orders agree.
+     - The orbit test (`symcheck3.py`) passes on 18 cases.
+     - 159 level-2 controls and 58 level-3 controls are FOUND, and every witness passes
+       `direct_check3.py`.
+     - The 107 level-1 witnesses, lifted to each higher level, are accepted; perturbed copies are
+       rejected.
+   - Also found: n = 189 has a level-2 witness, although it is NONE at level 1.
+   - n = 195 results, all tasks done, agreeing with gtile7:
+     - Z27×Z65: NONE, 2.1·10⁶ nodes;
+     - Z125×Z39: NONE, 2.0·10⁶ nodes;
+     - Z81×Z65: NONE, 5.2·10⁶ nodes.
+     Commands are in `independent/out/dfs3_n195_*.txt`.
+   - Gaps:
+     - None of the n = 195 runs at levels 2 and 3 was repeated without symmetry breaking.
+     - p = 13 has only 3 controls at level 2.
+     - Level 3 has controls only for p = 3.
+     - Z625×Z39 (p = 5, level 3) was not run.
+
+Dead ends: none new.
+
+Next ideas, ranked:
+1. Run the formal **/review** on both reduction notes, then open the PR "no periodic tiling with
+   |B| a prime power: p = 3 with a ≤ 3, p = 5 with a ≤ 2, p = 13 with a = 1" (`Part of #31`). The
+   searches now have two implementations at every level. Before the PR, if there is time, rerun the
+   dfs3 Z27×Z65 case without symmetry (`--nosym`).
+2. **Bound the level** via Thm 3, the lattice of block differences. The n = 162 result shows this
+   is essential: any full exclusion of prime-power |B| needs a finite bound on the level.
+3. Extend the levels: Z243×Z65 and Z625×Z39 with dfs3, and Z13³×Z15 at level 2.
+4. Mixed |B| = 15: a two-character argument (pass 5, idea 3).

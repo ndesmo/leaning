@@ -1,0 +1,10 @@
+dfs3 level=2 n=186 p=3 K=62 order=greedy sym=true result=FOUND sols_small=1 nodes=1424776 tasks_done=117323/147851 secs=96.81
+DIRECT3 OK n=186 p=3 level=2 K=62
+dfs3 level=2 n=192 p=3 K=64 order=greedy sym=true result=FOUND sols_small=1 nodes=1641758 tasks_done=134843/153701 secs=231.64
+DIRECT3 OK n=192 p=3 level=2 K=64
+dfs3 level=2 n=162 p=3 K=54 order=greedy sym=true result=NONE sols_small=0 nodes=1822725 tasks_done=120555/120555 secs=105.17
+Traceback (most recent call last):
+  File "C:\w\explorer\search\smooth-colouring\independent\direct_check3.py", line 5, in <module>
+    d = json.load(open(sys.argv[1])); n, p, K, lv = d["n"], d["p"], d["K"], d["level"]
+                  ^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'out/dfs3_w/w_162_3_L2.json'

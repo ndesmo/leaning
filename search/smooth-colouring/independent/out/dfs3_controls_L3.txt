@@ -1,0 +1,122 @@
+3 3 L3: dfs3 level=3 n=3 p=3 K=1 order=greedy sym=true result=FOUND sols_small=1 nodes=0 tasks_done=1/1 secs=0.00
+DIRECT3 OK n=3 p=3 level=3 K=1
+6 3 L3: dfs3 level=3 n=6 p=3 K=2 order=greedy sym=true result=FOUND sols_small=1 nodes=2 tasks_done=1/11 secs=0.00
+DIRECT3 OK n=6 p=3 level=3 K=2
+9 3 L3: dfs3 level=3 n=9 p=3 K=3 order=greedy sym=true result=FOUND sols_small=1 nodes=2 tasks_done=1/2 secs=0.00
+DIRECT3 OK n=9 p=3 level=3 K=3
+12 3 L3: dfs3 level=3 n=12 p=3 K=4 order=greedy sym=true result=FOUND sols_small=1 nodes=3 tasks_done=1/21 secs=0.11
+DIRECT3 OK n=12 p=3 level=3 K=4
+15 3 L3: dfs3 level=3 n=15 p=3 K=5 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/30 secs=0.06
+DIRECT3 OK n=15 p=3 level=3 K=5
+18 3 L3: dfs3 level=3 n=18 p=3 K=6 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/58 secs=0.13
+DIRECT3 OK n=18 p=3 level=3 K=6
+21 3 L3: dfs3 level=3 n=21 p=3 K=7 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/42 secs=0.14
+DIRECT3 OK n=21 p=3 level=3 K=7
+24 3 L3: dfs3 level=3 n=24 p=3 K=8 order=greedy sym=true result=FOUND sols_small=1 nodes=5 tasks_done=1/64 secs=0.17
+DIRECT3 OK n=24 p=3 level=3 K=8
+27 3 L3: dfs3 level=3 n=27 p=3 K=9 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/34 secs=0.12
+DIRECT3 OK n=27 p=3 level=3 K=9
+30 3 L3: dfs3 level=3 n=30 p=3 K=10 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/106 secs=0.05
+DIRECT3 OK n=30 p=3 level=3 K=10
+33 3 L3: dfs3 level=3 n=33 p=3 K=11 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/51 secs=0.10
+DIRECT3 OK n=33 p=3 level=3 K=11
+36 3 L3: dfs3 level=3 n=36 p=3 K=12 order=greedy sym=true result=FOUND sols_small=1 nodes=7 tasks_done=1/167 secs=0.09
+DIRECT3 OK n=36 p=3 level=3 K=12
+39 3 L3: dfs3 level=3 n=39 p=3 K=13 order=greedy sym=true result=FOUND sols_small=1 nodes=8 tasks_done=1/71 secs=0.08
+DIRECT3 OK n=39 p=3 level=3 K=13
+42 3 L3: dfs3 level=3 n=42 p=3 K=14 order=greedy sym=true result=FOUND sols_small=1 nodes=27 tasks_done=2/172 secs=0.07
+DIRECT3 OK n=42 p=3 level=3 K=14
+45 3 L3: dfs3 level=3 n=45 p=3 K=15 order=greedy sym=true result=FOUND sols_small=1 nodes=19 tasks_done=2/205 secs=0.08
+DIRECT3 OK n=45 p=3 level=3 K=15
+48 3 L3: dfs3 level=3 n=48 p=3 K=16 order=greedy sym=true result=FOUND sols_small=1 nodes=11 tasks_done=1/194 secs=0.37
+DIRECT3 OK n=48 p=3 level=3 K=16
+51 3 L3: dfs3 level=3 n=51 p=3 K=17 order=greedy sym=true result=FOUND sols_small=1 nodes=16 tasks_done=2/128 secs=0.07
+DIRECT3 OK n=51 p=3 level=3 K=17
+54 3 L3: dfs3 level=3 n=54 p=3 K=18 order=greedy sym=true result=FOUND sols_small=1 nodes=68 tasks_done=5/548 secs=0.07
+DIRECT3 OK n=54 p=3 level=3 K=18
+57 3 L3: dfs3 level=3 n=57 p=3 K=19 order=greedy sym=true result=FOUND sols_small=1 nodes=41 tasks_done=3/153 secs=0.07
+DIRECT3 OK n=57 p=3 level=3 K=19
+60 3 L3: dfs3 level=3 n=60 p=3 K=20 order=greedy sym=true result=FOUND sols_small=1 nodes=13 tasks_done=1/653 secs=0.05
+DIRECT3 OK n=60 p=3 level=3 K=20
+63 3 L3: dfs3 level=3 n=63 p=3 K=21 order=greedy sym=true result=FOUND sols_small=1 nodes=11 tasks_done=1/828 secs=0.09
+DIRECT3 OK n=63 p=3 level=3 K=21
+66 3 L3: dfs3 level=3 n=66 p=3 K=22 order=greedy sym=true result=FOUND sols_small=1 nodes=12 tasks_done=1/753 secs=0.01
+DIRECT3 OK n=66 p=3 level=3 K=22
+69 3 L3: dfs3 level=3 n=69 p=3 K=23 order=greedy sym=true result=FOUND sols_small=1 nodes=25 tasks_done=3/636 secs=0.01
+DIRECT3 OK n=69 p=3 level=3 K=23
+72 3 L3: dfs3 level=3 n=72 p=3 K=24 order=greedy sym=true result=FOUND sols_small=1 nodes=30 tasks_done=2/1134 secs=0.02
+DIRECT3 OK n=72 p=3 level=3 K=24
+75 3 L3: dfs3 level=3 n=75 p=3 K=25 order=greedy sym=true result=FOUND sols_small=1 nodes=71 tasks_done=4/842 secs=0.02
+DIRECT3 OK n=75 p=3 level=3 K=25
+78 3 L3: dfs3 level=3 n=78 p=3 K=26 order=greedy sym=true result=FOUND sols_small=1 nodes=18 tasks_done=3/1592 secs=0.03
+DIRECT3 OK n=78 p=3 level=3 K=26
+81 3 L3: dfs3 level=3 n=81 p=3 K=27 order=greedy sym=true result=FOUND sols_small=1 nodes=63 tasks_done=2/843 secs=0.02
+DIRECT3 OK n=81 p=3 level=3 K=27
+84 3 L3: dfs3 level=3 n=84 p=3 K=28 order=greedy sym=true result=FOUND sols_small=1 nodes=13 tasks_done=1/928 secs=0.03
+DIRECT3 OK n=84 p=3 level=3 K=28
+87 3 L3: dfs3 level=3 n=87 p=3 K=29 order=greedy sym=true result=FOUND sols_small=1 nodes=30 tasks_done=1/994 secs=0.03
+DIRECT3 OK n=87 p=3 level=3 K=29
+90 3 L3: dfs3 level=3 n=90 p=3 K=30 order=greedy sym=true result=FOUND sols_small=1 nodes=28 tasks_done=1/2166 secs=0.08
+DIRECT3 OK n=90 p=3 level=3 K=30
+93 3 L3: dfs3 level=3 n=93 p=3 K=31 order=greedy sym=true result=FOUND sols_small=1 nodes=163 tasks_done=2/1316 secs=0.04
+DIRECT3 OK n=93 p=3 level=3 K=31
+96 3 L3: dfs3 level=3 n=96 p=3 K=32 order=greedy sym=true result=FOUND sols_small=1 nodes=28 tasks_done=1/1692 secs=0.08
+DIRECT3 OK n=96 p=3 level=3 K=32
+99 3 L3: dfs3 level=3 n=99 p=3 K=33 order=greedy sym=true result=FOUND sols_small=1 nodes=145 tasks_done=3/2076 secs=0.08
+DIRECT3 OK n=99 p=3 level=3 K=33
+102 3 L3: dfs3 level=3 n=102 p=3 K=34 order=greedy sym=true result=FOUND sols_small=1 nodes=183 tasks_done=2/2332 secs=0.10
+DIRECT3 OK n=102 p=3 level=3 K=34
+105 3 L3: dfs3 level=3 n=105 p=3 K=35 order=greedy sym=true result=FOUND sols_small=1 nodes=93 tasks_done=1/2980 secs=0.22
+DIRECT3 OK n=105 p=3 level=3 K=35
+108 3 L3: dfs3 level=3 n=108 p=3 K=36 order=greedy sym=true result=FOUND sols_small=1 nodes=96 tasks_done=1/3258 secs=0.33
+DIRECT3 OK n=108 p=3 level=3 K=36
+111 3 L3: dfs3 level=3 n=111 p=3 K=37 order=greedy sym=true result=FOUND sols_small=1 nodes=87 tasks_done=1/1978 secs=0.13
+DIRECT3 OK n=111 p=3 level=3 K=37
+114 3 L3: dfs3 level=3 n=114 p=3 K=38 order=greedy sym=true result=FOUND sols_small=1 nodes=21 tasks_done=1/3171 secs=0.25
+DIRECT3 OK n=114 p=3 level=3 K=38
+117 3 L3: dfs3 level=3 n=117 p=3 K=39 order=greedy sym=true result=FOUND sols_small=1 nodes=77 tasks_done=1/3231 secs=0.23
+DIRECT3 OK n=117 p=3 level=3 K=39
+120 3 L3: dfs3 level=3 n=120 p=3 K=40 order=greedy sym=true result=FOUND sols_small=1 nodes=423 tasks_done=1/4752 secs=1.74
+DIRECT3 OK n=120 p=3 level=3 K=40
+123 3 L3: dfs3 level=3 n=123 p=3 K=41 order=greedy sym=true result=FOUND sols_small=1 nodes=954 tasks_done=1/2622 secs=0.21
+DIRECT3 OK n=123 p=3 level=3 K=41
+126 3 L3: dfs3 level=3 n=126 p=3 K=42 order=greedy sym=true result=FOUND sols_small=1 nodes=1052 tasks_done=6/6752 secs=0.50
+DIRECT3 OK n=126 p=3 level=3 K=42
+129 3 L3: dfs3 level=3 n=129 p=3 K=43 order=greedy sym=true result=FOUND sols_small=1 nodes=3355 tasks_done=14/2336 secs=0.24
+DIRECT3 OK n=129 p=3 level=3 K=43
+132 3 L3: dfs3 level=3 n=132 p=3 K=44 order=greedy sym=true result=FOUND sols_small=1 nodes=1621 tasks_done=6/4005 secs=0.30
+DIRECT3 OK n=132 p=3 level=3 K=44
+135 3 L3: dfs3 level=3 n=135 p=3 K=45 order=greedy sym=true result=FOUND sols_small=1 nodes=11878 tasks_done=77/5086 secs=0.50
+DIRECT3 OK n=135 p=3 level=3 K=45
+138 3 L3: dfs3 level=3 n=138 p=3 K=46 order=greedy sym=true result=FOUND sols_small=1 nodes=2943 tasks_done=10/4531 secs=0.44
+DIRECT3 OK n=138 p=3 level=3 K=46
+141 3 L3: dfs3 level=3 n=141 p=3 K=47 order=greedy sym=true result=FOUND sols_small=1 nodes=1586 tasks_done=4/2980 secs=0.32
+DIRECT3 OK n=141 p=3 level=3 K=47
+144 3 L3: dfs3 level=3 n=144 p=3 K=48 order=greedy sym=true result=FOUND sols_small=1 nodes=33429 tasks_done=92/6844 secs=4.14
+DIRECT3 OK n=144 p=3 level=3 K=48
+147 3 L3: dfs3 level=3 n=147 p=3 K=49 order=greedy sym=true result=FOUND sols_small=1 nodes=628 tasks_done=2/3356 secs=0.41
+DIRECT3 OK n=147 p=3 level=3 K=49
+150 3 L3: dfs3 level=3 n=150 p=3 K=50 order=greedy sym=true result=FOUND sols_small=1 nodes=1844 tasks_done=5/6580 secs=1.11
+DIRECT3 OK n=150 p=3 level=3 K=50
+153 3 L3: dfs3 level=3 n=153 p=3 K=51 order=greedy sym=true result=FOUND sols_small=1 nodes=25401 tasks_done=101/5229 secs=11.81
+DIRECT3 OK n=153 p=3 level=3 K=51
+156 3 L3: dfs3 level=3 n=156 p=3 K=52 order=greedy sym=true result=FOUND sols_small=1 nodes=40567 tasks_done=116/5875 secs=8.24
+DIRECT3 OK n=156 p=3 level=3 K=52
+159 3 L3: dfs3 level=3 n=159 p=3 K=53 order=greedy sym=true result=FOUND sols_small=1 nodes=75 tasks_done=3/3946 secs=0.36
+DIRECT3 OK n=159 p=3 level=3 K=53
+162 3 L3: TIMEOUT8s
+165 3 L3: dfs3 level=3 n=165 p=3 K=55 order=greedy sym=true result=FOUND sols_small=1 nodes=12157 tasks_done=16/5936 secs=2.96
+DIRECT3 OK n=165 p=3 level=3 K=55
+168 3 L3: dfs3 level=3 n=168 p=3 K=56 order=greedy sym=true result=FOUND sols_small=1 nodes=12896 tasks_done=14/7557 secs=3.23
+DIRECT3 OK n=168 p=3 level=3 K=56
+171 3 L3: TIMEOUT8s
+174 3 L3: dfs3 level=3 n=174 p=3 K=58 order=greedy sym=true result=FOUND sols_small=1 nodes=34437 tasks_done=26/7056 secs=6.67
+DIRECT3 OK n=174 p=3 level=3 K=58
+177 3 L3: dfs3 level=3 n=177 p=3 K=59 order=greedy sym=true result=FOUND sols_small=1 nodes=953 tasks_done=4/4760 secs=1.35
+DIRECT3 OK n=177 p=3 level=3 K=59
+180 3 L3: dfs3 level=3 n=180 p=3 K=60 order=greedy sym=true result=FOUND sols_small=1 nodes=2961 tasks_done=5/13489 secs=3.91
+DIRECT3 OK n=180 p=3 level=3 K=60
+183 3 L3: TIMEOUT8s
+186 3 L3: TIMEOUT8s
+189 3 L3: TIMEOUT8s
+192 3 L3: TIMEOUT8s

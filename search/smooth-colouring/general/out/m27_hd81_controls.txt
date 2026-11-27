@@ -1,0 +1,144 @@
+# gtile7 hd=81 (level 3, (b_3^3), G = Z81 x Z_{n/3}) positive controls, pass 7 (2026-11-27)
+# gtile7.exe rebuilt from gtile7.rs: rustc -O gtile7.rs -o gtile7.exe
+# Runs (from general/):
+#   for n in 30 60 99 120 150 180; for i in 0..19:
+#     timeout 60 ./gtile7.exe n=$n p=3 hd=81 mode=coset split=$i/20 limit=2000000000
+#   timeout 500 ./gtile7.exe n=162 p=3 hd=81 mode=coset limit=5000000000
+#   sh run7.sh x162_hd27_g7 20 "n=162 p=3 hd=27 mode=coset limit=3000000000"   (level-2 comparison)
+# Raw per-run outputs: out/hd81_controls/ ; level-2 comparison: out/x162_hd27_g7.txt
+# Checker (independent, no shared code): python check_general.py n 81,n/3 "0/0,1/0,...,26/0" "<solution line>" XMAX
+# "min v3" = least 3-adic valuation of a nonzero H-coordinate of a prime; v3 = 3 means all H-values in
+# 27Z81, i.e. the witness is the image of a level-1 solution under x -> 9x; v3 < 3 witnesses are not
+# images of lower-level solutions under the Theorem 1 embeddings and exercise the q = 27 residue logic.
+
+## Per-n results (20 splits each)
+n=30:  20 EXISTS
+n=60:  20 EXISTS
+n=99:  20 EXISTS
+n=120: 20 EXISTS
+n=150: 20 EXISTS
+n=180: 7 EXISTS, 13 killed by the 60 s wall timeout (no result line; not NONE)
+n=162: unsplit run EXISTS, 2444929166 nodes, 194 s
+n=162 hd=27 (level 2): 20/20 NONE, 9921874348 nodes total (no TIMEOUT)
+(n=162, p=3 is NONE at level 1 by gtile6 and dfs2, pass 6.)
+
+## Witness classification (min v3 over nonzero prime H-values) and checker verdicts
+n30_s0.txt min v3(nonzero h)= 3
+n30_s1.txt min v3(nonzero h)= 3
+n30_s2.txt min v3(nonzero h)= 0
+n30_s3.txt min v3(nonzero h)= 3
+n30_s4.txt min v3(nonzero h)= 0
+n30_s5.txt min v3(nonzero h)= 3
+n30_s6.txt min v3(nonzero h)= 1
+n30_s7.txt min v3(nonzero h)= 2
+n30_s8.txt min v3(nonzero h)= 3
+n30_s9.txt min v3(nonzero h)= 3
+n30_s10.txt min v3(nonzero h)= 3
+n30_s11.txt min v3(nonzero h)= 0
+n30_s12.txt min v3(nonzero h)= 3
+n30_s13.txt min v3(nonzero h)= 3
+n30_s14.txt min v3(nonzero h)= 3
+n30_s15.txt min v3(nonzero h)= 0
+n30_s16.txt min v3(nonzero h)= 3
+n30_s17.txt min v3(nonzero h)= 3
+n30_s18.txt min v3(nonzero h)= 3
+n30_s19.txt min v3(nonzero h)= 3
+n60_s0.txt min v3(nonzero h)= 3
+n60_s1.txt min v3(nonzero h)= 0
+n60_s2.txt min v3(nonzero h)= 1
+n60_s3.txt min v3(nonzero h)= 3
+n60_s4.txt min v3(nonzero h)= 2
+n60_s5.txt min v3(nonzero h)= 3
+n60_s6.txt min v3(nonzero h)= 3
+n60_s7.txt min v3(nonzero h)= 2
+n60_s8.txt min v3(nonzero h)= 0
+n60_s9.txt min v3(nonzero h)= 3
+n60_s10.txt min v3(nonzero h)= 3
+n60_s11.txt min v3(nonzero h)= 3
+n60_s12.txt min v3(nonzero h)= 3
+n60_s13.txt min v3(nonzero h)= 3
+n60_s14.txt min v3(nonzero h)= 2
+n60_s15.txt min v3(nonzero h)= 0
+n60_s16.txt min v3(nonzero h)= 3
+n60_s17.txt min v3(nonzero h)= 3
+n60_s18.txt min v3(nonzero h)= 3
+n60_s19.txt min v3(nonzero h)= 3
+n99_s0.txt min v3(nonzero h)= 3
+n99_s1.txt min v3(nonzero h)= 3
+n99_s2.txt min v3(nonzero h)= 3
+n99_s3.txt min v3(nonzero h)= 3
+n99_s4.txt min v3(nonzero h)= 3
+n99_s5.txt min v3(nonzero h)= 3
+n99_s6.txt min v3(nonzero h)= 3
+n99_s7.txt min v3(nonzero h)= 3
+n99_s8.txt min v3(nonzero h)= 3
+n99_s9.txt min v3(nonzero h)= 0
+n99_s10.txt min v3(nonzero h)= 3
+n99_s11.txt min v3(nonzero h)= 2
+n99_s12.txt min v3(nonzero h)= 3
+n99_s13.txt min v3(nonzero h)= 3
+n99_s14.txt min v3(nonzero h)= 3
+n99_s15.txt min v3(nonzero h)= 3
+n99_s16.txt min v3(nonzero h)= 3
+n99_s17.txt min v3(nonzero h)= 3
+n99_s18.txt min v3(nonzero h)= 3
+n99_s19.txt min v3(nonzero h)= 3
+n120_s0.txt min v3(nonzero h)= 3
+n120_s1.txt min v3(nonzero h)= 3
+n120_s2.txt min v3(nonzero h)= 3
+n120_s3.txt min v3(nonzero h)= 3
+n120_s4.txt min v3(nonzero h)= 3
+n120_s5.txt min v3(nonzero h)= 3
+n120_s6.txt min v3(nonzero h)= 3
+n120_s7.txt min v3(nonzero h)= 3
+n120_s8.txt min v3(nonzero h)= 3
+n120_s9.txt min v3(nonzero h)= 3
+n120_s10.txt min v3(nonzero h)= 3
+n120_s11.txt min v3(nonzero h)= 3
+n120_s12.txt min v3(nonzero h)= 3
+n120_s13.txt min v3(nonzero h)= 3
+n120_s14.txt min v3(nonzero h)= 3
+n120_s15.txt min v3(nonzero h)= 3
+n120_s16.txt min v3(nonzero h)= 3
+n120_s17.txt min v3(nonzero h)= 3
+n120_s18.txt min v3(nonzero h)= 3
+n120_s19.txt min v3(nonzero h)= 3
+n150_s0.txt min v3(nonzero h)= 3
+n150_s1.txt min v3(nonzero h)= 3
+n150_s2.txt min v3(nonzero h)= 3
+n150_s3.txt min v3(nonzero h)= 3
+n150_s4.txt min v3(nonzero h)= 3
+n150_s5.txt min v3(nonzero h)= 3
+n150_s6.txt min v3(nonzero h)= 3
+n150_s7.txt min v3(nonzero h)= 3
+n150_s8.txt min v3(nonzero h)= 3
+n150_s9.txt min v3(nonzero h)= 3
+n150_s10.txt min v3(nonzero h)= 3
+n150_s11.txt min v3(nonzero h)= 3
+n150_s12.txt min v3(nonzero h)= 3
+n150_s13.txt min v3(nonzero h)= 3
+n150_s14.txt min v3(nonzero h)= 3
+n150_s15.txt min v3(nonzero h)= 3
+n150_s16.txt min v3(nonzero h)= 3
+n150_s17.txt min v3(nonzero h)= 3
+n150_s18.txt min v3(nonzero h)= 3
+n150_s19.txt min v3(nonzero h)= 3
+n180_s0.txt min v3(nonzero h)= 2
+n180_s1.txt min v3(nonzero h)= 2
+n180_s5.txt min v3(nonzero h)= 2
+n180_s9.txt min v3(nonzero h)= 2
+n180_s12.txt min v3(nonzero h)= 3
+n180_s14.txt min v3(nonzero h)= 2
+n180_s17.txt min v3(nonzero h)= 2
+
+check_general.py verdicts:
+  every v3<3 witness for n=30,60,99 (15 witnesses): OK, rainbow for all x<=2000
+  v3<3 witnesses n=180 s0,s1,s5,s9: OK, rainbow for all x<=1000
+  trivial (v3=3) witnesses n=120 s0, n=150 s0: OK, rainbow for all x<=1000
+  n=162 hd=81 witness: OK n=162 G=[81, 54]: rainbow for all x<=2000
+  direct structure check of n=162 witness: all 54 fibres over Z54 are cosets of 27Z81; 25 primes have unit H-value
+  negative test: n=30 s2 witness with 7:1/6 -> 7:11/6 is rejected ('(-A)+B not a tiling')
+
+## n=162 hd=81 witness
+gtile7 split=0/1 n=162 p=3 H=[81] B=coset-of-27Z81 mode=coset complements=3 result=EXISTS nodes=2444929166 secs=194.27 depth=[1, 2, 2771, 70496, 353244, 114329, 12965, 3716, 949, 130, 72, 21, 37, 105, 137, 1, 1, 1, 1, 1, 1, 1, 1]
+solution 2:1/1 3:19/19 5:53/26 7:71/17 11:14/14 13:0/27 17:40/13 19:46/46 23:46/19 29:50/23 31:15/42 37:30/3 41:60/6 43:8/8 47:12/12 53:69/15 59:55/1 61:63/9 67:25/25 71:63/36 73:76/49 79:23/50 83:33/6 89:35/8 97:37/10 101:39/12 103:67/13 107:80/26 109:32/32 113:6/33 127:8/35 131:37/37 137:13/40 139:70/43 149:50/50 151:51/51 157:79/52

@@ -1,0 +1,2 @@
+gtile7 split=8/20 n=30 p=3 H=[81] B=coset-of-27Z81 mode=coset complements=3 result=EXISTS nodes=3719 secs=0.00 depth=[1, 5, 2, 2, 1, 1, 1]
+solution 2:27/1 3:0/8 5:54/6 7:54/1 11:27/6 13:54/8 17:27/0 19:54/3 23:27/5 29:54/5

@@ -25,7 +25,9 @@ work, leave all state in files and PRs, then schedule the next wakeup.
   branch starts with `agent/`. Other people's PRs are not yours to fix. "Claims" in `/prove`
   defines `<me>`, claiming and releasing.
 - Work only in this worktree. Never edit `.claude/settings*.json` or `.github/workflows/`.
-- Tidy the queue. Release your own claims whose PR was merged or closed, as "Claims" says. Never
+- Tidy the queue. Release your own claims whose PR was merged or closed, as "Claims" says. Only
+  claims whose claim comment names an `agent/` branch are the author's: the explorer and reviewer
+  may share your login, so skip `moonshot` issues and any claim naming another branch prefix. Never
   touch an issue claimed by someone else.
 
 ## 2. Keep your open PRs healthy (this comes before new work)

@@ -1,0 +1,6 @@
+cex1 (m=5, R={(3,3),(1,1),(2,2),(1,4)}) torsion: [10]
+m=2: subsets=2 foreign primes: [] examples: {}
+m=3: subsets=8 foreign primes: [] examples: {}
+m=4: subsets=64 foreign primes: [] examples: {}
+m=5: subsets=1024 foreign primes: [2, 3] examples: {2: ((1, 1), (2, 3), (4, 4)), 3: ((1, 1), (2, 2), (3, 3), (4, 4))}
+m=6: subsets=32768 foreign primes: [] examples: {}

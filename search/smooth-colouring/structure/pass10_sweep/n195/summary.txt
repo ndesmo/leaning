@@ -1,0 +1,1 @@
+rand n=195 p=13 m=15 restarts=100000 cap=200000 nodes=21401729 samples=99952 histogram={0: 99952} bound=0

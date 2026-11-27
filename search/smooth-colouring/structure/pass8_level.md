@@ -61,6 +61,9 @@ the blocks alone.
 
 ## 2. The conjectured lemma and what it gives
 
+> **Pass 10:** Lemma S is false even for T_n: it fails at n = 54, p = 2
+> (`pass10_sweep/cex_T54_p2.json`). The level bound would have to use the admissible f. See the journal.
+
 **Lemma K (conjecture).** Let T be a finite downset of N^k containing 0, with |T| = p·m, and let
 g: Z^k → Z_m have all fibres on T of size p. Then ḡ is injective on the torsion subgroup of
 Γ = Z^k/M.

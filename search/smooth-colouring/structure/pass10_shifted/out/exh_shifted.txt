@@ -1,0 +1,3 @@
+p=3 m=4 |T|=12 shifted_downsets=119 pairs(T,g)=97221 violations=0 time=33.4s
+p=7 m=2 |T|=14 shifted_downsets=279 pairs(T,g)=7074 violations=0 time=1.6s
+(p,m) = (2,7), (5,3), (3,5): started, killed unfinished at the pass time limit; nothing printed

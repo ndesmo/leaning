@@ -600,3 +600,57 @@ Next ideas, ranked:
 4. Add controls at levels 3 and 4, and rerun the level-3 and level-4 cases at n = 195 with
    `--nosym --first`.
 5. Mixed |B| = 15.
+
+### 2026-11-27: pass 10
+
+Two parallel strategies: a structural attempt on S′ (shifted downsets), and a faster exhaustive
+T_n sweep plus a T_195 search. There is no PR this pass, because the main result is a refutation
+of our own conjecture.
+
+1. **S′ is false for T_n itself** [numerical: certificate checked by two independent scripts, plus
+   a mod-2 character checkable by hand]. Files are in `structure/pass10_sweep/`.
+   - The counterexample is at n = 54, p = 2, m = 27, where S′ predicts Γ_2 = 0:
+     g = (3,25,22,13,24,13,9,15,2,5,6,8,10,14,17,21) on the primes 2…53, and Γ has order 54.
+     - h = v7+v13+v37+v43 mod 2 is constant on every block (checked by hand), and it has no integer
+       lift because rank_Q M = 16.
+     - `tiny_check.py cex_T54_p2.json` reports rank_Q 16, rank_F2 15, index 54. I re-ran it this
+       pass. `check_indep.py` agrees.
+   - In total there are 1936 violators at (54,2), 86 at (58,2), and 16 at (60,2), where exp Γ_2 = 4
+     exceeds the bound 2. Both checkers confirm the violation at (60,2), but only check_indep
+     computes the exponent there.
+   - The sweep used a new Rust tool, `lems.rs`. It reproduces the pass-9 Python histograms exactly,
+     and 453 samples match check_indep. Every (n,p) with 44 ≤ n ≤ 58 is complete, as is (60,2).
+     (60,3) is partial and resumable; (60,5) was not started.
+   - **Every violation so far has p = 2.** No odd p up to n = 60 violates the bound, and odd p is
+     the relevant case at n = 195.
+   - **Not checked:** whether these g carry an admissible f, which is the only case pass 8's
+     Prop. 1 needs. So the *level* bound itself is not refuted.
+2. **T_195 is out of reach exhaustively.** Knuth tree-size estimates are 10^25 to 10^29 nodes for
+   p = 3, 5 and 13.
+   - Random sampling found Γ_p = 0 for 99,952 g at p = 13 and 5,778 g at p = 5.
+   - A targeted joint (g,h) search at p = 13 found 1,711 hits, all with Γ_13 = 0.
+   - p = 3 was not run.
+   - This is weak, biased evidence [numerical: single implementation].
+3. **Structural results** (`structure/pass10_shifted.md`) [own argument, unreviewed].
+   - Lemma P gives a full presentation of Γ by the partial-additivity relations R on Z_m. So S′ for
+     p ∤ m is a lifting statement for R-additive maps Z_m → F_p.
+   - Small-m special case: Lemma S holds for every downset when m ≤ 4, and when m ∈ {5,6} with
+     p ∉ {2,3} [Lemma P + numerical]. This does not cover m ∈ {15,39,65}.
+   - Lemma C, a cyclic-chain criterion, applies to only part of the T_195 samples, and to none of
+     them for p = 3.
+   - The exhaustive shifted-downset test for small (p,m) found 0 violations. That is consistent
+     with item 1, because those m are below 27.
+
+Dead ends:
+- S′ (any g, shifted or T_n) as a route to the level bound. It is refuted at (54,2).
+- Exhaustive search over g on T_195 is infeasible at about 10^27 nodes.
+
+Next ideas, ranked:
+1. **Test the level bound where pass 8 actually needs it:** for the T_54/T_58/T_60 violators, does
+   some g carry an admissible f (an actual tiling at level > v_p(n/p))? If none does, restate the
+   conjecture with f included (S″). If one does, the level conjecture itself is false at p = 2.
+2. Try an odd-p version: is S′ true for odd p? Extend the sweep to (60,3), (60,5) and n ≤ 80 for
+   odd p only.
+3. Run /review on the reduction notes and open the finite-level PR (`Part of #31`). Its scope is
+   unchanged: p = 3 at levels ≤ 4, p = 5 at levels ≤ 3, p = 13 at level 1.
+4. Mixed |B| = 15.

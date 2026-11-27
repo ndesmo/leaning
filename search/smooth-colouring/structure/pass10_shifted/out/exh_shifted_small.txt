@@ -1,0 +1,4 @@
+p=2 m=3 |T|=6 shifted_downsets=8 pairs(T,g)=33 violations=0 time=0.0s
+p=3 m=2 |T|=6 shifted_downsets=8 pairs(T,g)=23 violations=0 time=0.0s
+p=2 m=5 |T|=10 shifted_downsets=50 pairs(T,g)=10116 violations=0 time=0.8s
+p=5 m=2 |T|=10 shifted_downsets=50 pairs(T,g)=431 violations=0 time=0.1s

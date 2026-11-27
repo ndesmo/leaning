@@ -1,0 +1,26 @@
+n=44 p=2 m=22 k=14 singletons=6 tasks_done=3008/3008 nodes=858167 solutions=583887 histogram={0: 59296, 1: 524591} bound=1 violations=0 COMPLETE
+n=44 p=11 m=4 k=14 singletons=6 tasks_done=150/150 nodes=23109 solutions=15333 histogram={0: 15333} bound=0 violations=0 COMPLETE
+n=45 p=3 m=15 k=14 singletons=6 tasks_done=3416/3416 nodes=1737329 solutions=1236515 histogram={0: 28458, 1: 1208057} bound=1 violations=0 COMPLETE
+n=45 p=5 m=9 k=14 singletons=6 tasks_done=958/958 nodes=640005 solutions=468616 histogram={0: 468616} bound=0 violations=0 COMPLETE
+n=46 p=2 m=23 k=14 singletons=5 tasks_done=2089/2089 nodes=2265614 solutions=1360296 histogram={0: 1360296} bound=0 violations=0 COMPLETE
+n=46 p=23 m=2 k=14 singletons=5 tasks_done=15/15 nodes=723 solutions=337 histogram={0: 337} bound=0 violations=0 COMPLETE
+n=48 p=2 m=24 k=15 singletons=6 tasks_done=9713/9713 nodes=20705619 solutions=13912500 histogram={0: 1451196, 1: 403596, 2: 268473, 3: 11789235} bound=3 violations=0 COMPLETE
+n=48 p=3 m=16 k=15 singletons=6 tasks_done=4374/4374 nodes=17178277 solutions=12098204 histogram={0: 12098204} bound=0 violations=0 COMPLETE
+n=49 p=7 m=7 k=15 singletons=6 tasks_done=374/374 nodes=934414 solutions=668844 histogram={0: 2133, 1: 666711} bound=1 violations=0 COMPLETE
+n=50 p=2 m=25 k=15 singletons=6 tasks_done=3864/3864 nodes=6854255 solutions=4568550 histogram={0: 4568550} bound=0 violations=0 COMPLETE
+n=50 p=5 m=10 k=15 singletons=6 tasks_done=1515/1515 nodes=5822689 solutions=4216400 histogram={0: 44045, 1: 4172355} bound=1 violations=0 COMPLETE
+n=51 p=3 m=17 k=15 singletons=6 tasks_done=1784/1784 nodes=5340284 solutions=3680061 histogram={0: 3680061} bound=0 violations=0 COMPLETE
+n=51 p=17 m=3 k=15 singletons=6 tasks_done=47/47 nodes=11045 solutions=6672 histogram={0: 6672} bound=0 violations=0 COMPLETE
+n=52 p=2 m=26 k=15 singletons=6 tasks_done=4084/4084 nodes=3124342 solutions=1979974 histogram={0: 79768, 1: 1900206} bound=1 violations=0 COMPLETE
+n=52 p=13 m=4 k=15 singletons=6 tasks_done=151/151 nodes=73684 solutions=48175 histogram={0: 48175} bound=0 violations=0 COMPLETE
+n=54 p=2 m=27 k=16 singletons=7 tasks_done=6540/6540 nodes=10553769 solutions=7314726 histogram={0: 7312790, 1: 1936} bound=0 violations=1936 COMPLETE
+n=54 p=3 m=18 k=16 singletons=7 tasks_done=7255/7255 nodes=29529040 solutions=21713913 histogram={0: 277602, 1: 992203, 2: 20444108} bound=2 violations=0 COMPLETE
+n=55 p=5 m=11 k=16 singletons=7 tasks_done=970/970 nodes=5285146 solutions=3968473 histogram={0: 3968473} bound=0 violations=0 COMPLETE
+n=55 p=11 m=5 k=16 singletons=7 tasks_done=191/191 nodes=224557 solutions=158363 histogram={0: 158363} bound=0 violations=0 COMPLETE
+n=56 p=2 m=28 k=16 singletons=7 tasks_done=9912/9912 nodes=7870630 solutions=5333609 histogram={0: 128872, 1: 29057, 2: 5175680} bound=2 violations=0 COMPLETE
+n=56 p=7 m=8 k=16 singletons=7 tasks_done=1174/1174 nodes=3883660 solutions=2898705 histogram={0: 2898705} bound=0 violations=0 COMPLETE
+n=57 p=3 m=19 k=16 singletons=7 tasks_done=2768/2768 nodes=6671876 solutions=4605315 histogram={0: 4605315} bound=0 violations=0 COMPLETE
+n=57 p=19 m=3 k=16 singletons=7 tasks_done=47/47 nodes=11293 solutions=6906 histogram={0: 6906} bound=0 violations=0 COMPLETE
+n=58 p=2 m=29 k=16 singletons=6 tasks_done=4220/4220 nodes=11969857 solutions=7192618 histogram={0: 7192532, 1: 86} bound=0 violations=86 COMPLETE
+n=58 p=29 m=2 k=16 singletons=6 tasks_done=15/15 nodes=1468 solutions=687 histogram={0: 687} bound=0 violations=0 COMPLETE
+n=60 p=2 m=30 k=17 singletons=7 tasks_done=20537/20537 nodes=121638714 solutions=81583240 histogram={0: 1955020, 1: 79628204, 2: 16} bound=1 violations=16 COMPLETE

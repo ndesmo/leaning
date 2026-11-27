@@ -30,7 +30,7 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 - 1 + x + … + x¹⁵ = (1+x)(1+x²)(1+x⁴)(1+x⁸), so for even n
   a(n) = Σ_{i+2j+4k+8l = 15n/2} C(n,i) C(n,j) C(n,k) C(n,l). [standard]
 - By Kummer's theorem (L3), s₂(15n/2) = v₂(C(15n, 15n/2)) for even n, so the conjecture says
-  v₂(a(n)) = v₂(C(15n, 15n/2)). [standard + own argument, unreviewed (one line)]
+  v₂(a(n)) = v₂(C(15n, 15n/2)). [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] + [own argument, unreviewed (one line)]
 - Mod 2, 1 + … + x¹⁵ ≡ (1+x)¹⁵, which gives the parity result proved in the entry (L1: a(n) is odd iff n = (16^k−1)/15).
 - Symmetric-variable form (the entry's third %F): with u = x^{1/2} + x^{−1/2},
   x^{−1/2}(1+x) = u, x^{−1}(1+x²) = u² − 2, x^{−2}(1+x⁴) = u⁴ − 4u² + 2,
@@ -54,8 +54,8 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 | a(n) = Σ_m c(n,m) C(m, ⌊m/2⌋) with c(n,m) = [u^m] f(u)ⁿ | [own argument, unreviewed] (source: the entry's %F); checked exactly n ≤ 120 | Setting |
 | Termwise dominance: for every even n ≤ 120 and every m < 15n with c(n,m) ≠ 0, v₂(c(n,m) C(m, m/2)) > s₂(15n/2) (excess ≥ 1) | [numerical, exact integers; Python] | Numerics, N4 |
 | q = 4 carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) for even n ≤ 2000, 1 ≤ t ≤ n | proved for all even n [own argument, unreviewed] (Attack, Audit: q = 4 case); [numerical, exact] for n ≤ 2000 | Numerics, N5; A1; Attack |
-| **Theorem: for q = 2^r and every even n, v₂(a_q(n)) = s₂((q−1)n/2); q = 16 is the A402341 conjecture** | [own argument, unreviewed] + [standard: Kummer] + [standard: Lucas/Dickson coefficient formula, no reference text checked; numerical j ≤ 6]; S0–S5 checked numerically (`attack_lemma.py 40`) | Attack, S0–S5 |
-| v₂(γ_{j,k}) ≥ j − v₂(k) > s₂(k) for 1 ≤ k < 2^{j−1}; γ_{j,2^{j−1}} = ±2 | [standard: coefficient formula, no reference text checked] + [own argument, unreviewed]; [numerical, exact] j ≤ 6 | Attack, S1–S2 |
+| **Theorem: for q = 2^r and every even n, v₂(a_q(n)) = s₂((q−1)n/2); q = 16 is the A402341 conjecture** | [own argument, unreviewed] + [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] + [standard: DLMF 18.5.11_1, text checked 2026-11-27, L7]; S0–S5 checked numerically (`attack_lemma.py 40`) | Attack, S0–S5 |
+| v₂(γ_{j,k}) ≥ j − v₂(k) > s₂(k) for 1 ≤ k < 2^{j−1}; γ_{j,2^{j−1}} = ±2 | [standard: DLMF 18.5.11_1, text checked 2026-11-27, L7] + [own argument, unreviewed]; [numerical, exact] j ≤ 6 | Attack, S1–S2 |
 | Key lemma: n even, t ≥ 1 ⇒ v₂([u^{2^j n−2t}] g_jⁿ) ≥ s₂(t) + 1 | [own argument, unreviewed]; numerical j ≤ 4, even n ≤ 40 | Attack, S3 |
 | Termwise dominance for all even n implies the conjecture | [own argument, unreviewed] (the top term has valuation exactly s₂(15n/2) by Kummer, every other term strictly more) | Attack ideas, A1; Attack S5 |
 | Termwise dominance for every even n and every q = 2^r (each t ≥ 1 term has valuation > s₂((q−1)n/2)) | [own argument, unreviewed]; [numerical, exact] q = 4, 8, 16, even n ≤ 40 (`attack_lemma.py`); supersedes N4 as evidence | Attack, S4–S5 |
@@ -116,6 +116,24 @@ form (Wikipedia "Kummer's theorem", verbatim from the page source as relayed by 
 subagent): "ν_p binom(n; m_1,…,m_k) = (1/(p−1)) ((Σ_{i=1}^k S_p(m_i)) − S_p(n))". Primary source
 suggested: D. Singmaster, "Divisibility of binomial and multinomial coefficients by primes and prime
 powers", Fibonacci Assoc. 18th Anniv. Vol. (1980) 98–113 (not accessed).
+*Checked 2026-11-27 against Mathlib* (`halfline_lt/.lake/packages/mathlib`, rev 31ce06ea,
+`Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`, `section multiplicity`, `variable {p : ℕ}`),
+verbatim:
+```lean
+/-- **Kummer's Theorem**
+Taking (`p - 1`) times the `p`-adic valuation of the binomial `n` over `k` equals the sum of the
+digits of `k` plus the sum of the digits of `n - k` minus the sum of digits of `n`, all base `p`.
+-/
+theorem sub_one_mul_multiplicity_choose_eq_sub_sum_digits {k n : ℕ} [hp : Fact p.Prime]
+    (h : k ≤ n) : (p - 1) * multiplicity p (choose n k) =
+    (p.digits k).sum + (p.digits (n - k)).sum - (p.digits n).sum
+```
+(the old name `sub_one_mul_padicValNat_choose_eq_sub_sum_digits` is a deprecated alias since
+2026-10-28; `multiplicity p a : ℕ` from `Mathlib/RingTheory/Multiplicity.lean`, the `toNat` of `emultiplicity`, so 0 when infinite; here p = 2 and C(2m, m) ≥ 1, so it is v₂(C(2m, m))). Specialisation:
+p = 2, n := 2m, k := m (h : m ≤ 2m holds): (2 − 1)·v₂(C(2m, m)) = s₂(m) + s₂(m) − s₂(2m), and
+s₂(2m) = s₂(m) (doubling shifts the binary digits), so v₂(C(2m, m)) = 2s₂(m) − s₂(m) = s₂(m)
+(no truncation issue, since 2s₂(m) ≥ s₂(m)). This is the only form of L3 the proof uses (S5,
+with m = N and m = N − t). [own argument, unreviewed] for the one-line specialisation.
 
 **L4. Lucas-type congruence for (1+…+x^{k−1})ⁿ.** R. C. Bollinger, C. L. Burchard, "Lucas's
 theorem and some related results for extended Pascal triangles", Amer. Math. Monthly 97 (1990)
@@ -151,6 +169,22 @@ binomial coefficients", Acta Arith. 140 (2009), arXiv:0811.2028 (coefficients of
 D. M. Davis, "Some 2-adic Integers Related to the Odd Part of 2^e!", J. Integer Seq. 29 (2026),
 Art. 26.3.1 (title and abstract read via pdftotext: about OEIS A359349); Boros–Moll–Shallit
 arXiv:math/0308072; Deutsch–Sagan and Pan–Sun / Mikić (central trinomial, odd p or 3-adic).
+
+**L7. Explicit power series of Chebyshev T_n (used in Attack S1).** NIST DLMF §18.5(iii) "Finite
+Power Series, the Hypergeometric Function, and Generalized Hypergeometric Functions", paragraph
+"Chebyshev" (added in DLMF 1.2.0), eq. 18.5.11_1, https://dlmf.nist.gov/18.5, read 2026-11-27 by a
+fetch subagent (page text, fractions flattened in the HTML-to-text rendering; transcription):
+"T_n(x) = ½n Σ_{ℓ=0}^{⌊n/2⌋} (−1)^ℓ (n−ℓ−1)! / (ℓ!(n−2ℓ)!) (2x)^{n−2ℓ}
+= 2^{n−1} x^n ₂F₁(−½n, −½n+½; 1−n; 1/x²), n ≥ 1" (source line: Erdélyi et al. (1953b, 10.11(22))).
+Specialisation to γ_{j,k}: take n = M = 2^j ≥ 2 (so n ≥ 1 holds) and x = u/2, so 2x = u and
+⌊M/2⌋ = M/2: g_j(u) = 2T_M(u/2) = M Σ_{k=0}^{M/2} (−1)^k (M−k−1)!/(k!(M−2k)!) u^{M−2k}. Hence
+γ_{j,k} = (−1)^k M (M−k−1)!/(k!(M−2k)!) for 0 ≤ k ≤ M/2. Since k ≤ M/2 < M, M − k ≥ 1 and
+(M/(M−k)) C(M−k, k) = M (M−k−1)!/(k!(M−2k)!), which is the form written in S1; for k ≥ 1 it also
+equals (M/k) C(M−k−1, k−1), the form S1 uses. At k = M/2: γ = (−1)^{M/2} M (M/2−1)!/((M/2)!·0!) =
+(−1)^{M/2}·2 = ±2 (−2 for j = 1, +2 for j ≥ 2); at k = 0, γ = M·(M−1)!/M! = 1 (monic). Not part
+of the quote: the identity g_j = 2T_{2^j}(u/2) with g_1 = u² − 2, g_{j+1} = g_j² − 2 follows from
+T_2(x) = 2x² − 1 and T_{2m} = 2T_m² − 1 (T_n(cos θ) = cos nθ) [own argument, unreviewed], as in S0.
+[standard: DLMF 18.5.11_1, text checked 2026-11-27] for the quoted formula only; [own argument, unreviewed] for the specialisation, the alternate forms and the evaluations at k = 0 and k = M/2.
 
 **Search scope (2026-11-26).**
 - OEIS: A402341 (entry, b-file, history), A077042, A273975, A201552, A005190, A005721, A005723,
@@ -239,8 +273,8 @@ explicit coefficients of 2T_{2^j}(u/2). Write a_q(n) = [x^{(q−1)n/2}](1 + … 
 a(n) = a_16(n). Notation: s₂ = binary digit sum, v₂(0) = +∞.
 
 **Theorem.** For r ≥ 1, q = 2^r and every even n ≥ 0, v₂(a_q(n)) = s₂((q−1)n/2). In particular
-(q = 16) the A402341 conjecture holds. [own argument, unreviewed] + [standard: Kummer, L3] +
-[standard: Lucas/Dickson coefficient formula, no reference text checked; numerical j ≤ 6]; steps
+(q = 16) the A402341 conjecture holds. [own argument, unreviewed] + [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] +
+[standard: DLMF 18.5.11_1, text checked 2026-11-27, L7]; [numerical, exact] j ≤ 6 for the coefficient formula; steps
 checked numerically by `search/central-2adic/attack_lemma.py` (`python -I attack_lemma.py 40`:
 S1–S2 for j ≤ 6; S3 for j ≤ 4, even n ≤ 40, all t; S0, S4, the S5 termwise bound and the final
 equality for q = 4, 8, 16, even n ≤ 40, exact integers).
@@ -255,8 +289,8 @@ m = (q−1)n − 2t, 0 ≤ t ≤ (q−1)n/2. [own argument, unreviewed] (the q =
 third %F; checked exactly for n ≤ 120 by `dominant_term.py` and for q = 4, 8, 16 by `attack_lemma.py`)
 
 **S1 (coefficients of g_j).** With M = 2^j, g_j(u) = Σ_{k=0}^{M/2} γ_{j,k} u^{M−2k},
-γ_{j,k} = (−1)^k (M/(M−k)) C(M−k, k) [standard: explicit formula for 2T_M(u/2) (Lucas/Dickson
-polynomials); no reference text checked here; [numerical, exact] for j ≤ 6 from the recursion]. For
+γ_{j,k} = (−1)^k (M/(M−k)) C(M−k, k) [standard: DLMF 18.5.11_1 with n = M, x = u/2, text checked
+2026-11-27, L7; [numerical, exact] for j ≤ 6 from the recursion]. For
 1 ≤ k ≤ M/2 (so k and M − k are nonzero, and v₂(k) ≤ j − 1), γ_{j,k} = (−1)^k (M/k) C(M−k−1, k−1), so
 v₂(γ_{j,k}) ≥ j − v₂(k). [own argument, unreviewed] (one line: C(M−k,k) = ((M−k)/k)C(M−k−1,k−1))
 
@@ -289,7 +323,7 @@ sum is empty for t ≥ 1: c = 0, and the claim is trivial)
 
 **S5 (conclusion).** Let N = (q−1)n/2. The t = 0 term is c(n,2N)C(2N,N) = C(2N, N) (c(n,2N) = 1 because f
 is monic, each g_j being monic), of valuation
-s₂(N) by Kummer [standard: L3]. For t ≥ 1 the term c(n,2N−2t)C(2(N−t), N−t) has valuation
+s₂(N) by Kummer [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] + [own argument, unreviewed] (central-binomial specialisation in L3). For t ≥ 1 the term c(n,2N−2t)C(2(N−t), N−t) has valuation
 ≥ s₂(t) + 1 + s₂(N−t) ≥ s₂(N) + 1 (S4, Kummer, subadditivity). Hence
 a_q(n) ≡ C(2N, N) ≢ 0 (mod 2^{s₂(N)+1}) and v₂(a_q(n)) = s₂(N). ∎ [own argument, unreviewed]
 
@@ -362,6 +396,14 @@ proof survives. Findings (M = mathematics, C = claims):
 Rebutted: none. No proof step changed in substance (only clarifications), so no second review round. Claim labels unchanged in substance: Theorem [own argument, unreviewed] +
 [standard: Kummer, L3] + [standard: coefficient formula]; no gap found.
 
+### 2026-11-27: `/review` of the citation stage (L3, L7, labels in S1, S5, Claims ledger, LEDGER), two fresh reviewers (mathematics; claims)
+
+Both reviewers re-read the Mathlib source and fetched DLMF §18.5 on their own. Both quotes are verbatim and both specialisations are correct. No blocking finding. Four wording findings, all fixed:
+- R1 (both reviewers). S5 labelled v₂(C(2N, N)) = s₂(N) as cited only, but the central-binomial form is L3's own one-line specialisation. Fixed: added [own argument, unreviewed].
+- R2. Setting (Kummer bullet) still had a bare `[standard]`. Fixed: it now names the Mathlib theorem.
+- R3. L3 did not say that Mathlib's `multiplicity` is ℕ-valued (0 when infinite). Fixed: it is v₂ here since C(2m, m) ≥ 1.
+- R4. L7's closing `[standard]` tag covered our own specialisation algebra. Fixed: `[standard]` now covers the quoted formula only, and `[own argument, unreviewed]` covers the specialisation and evaluations.
+
 ## Log
 
 - **2026-11-26.** Literature stage (issue #22, branch `agent/central-2adic-literature`). Re-checked
@@ -379,3 +421,11 @@ Rebutted: none. No proof step changed in substance (only clarifications), so no 
   the A402341 conjecture (q = 16) and the q = 4 case CA2. Key input: γ_{j,k} = ±(2^j/k)C(2^j−k−1,k−1)
   and the n-even case split in S3. Steps checked by `search/central-2adic/attack_lemma.py`.
   [own argument, unreviewed; Lean pending, #66]
+- **2026-11-27.** Citation stage (issue #77, branch `agent/central-2adic-citations`). Checked the
+  two `[standard]` inputs of the Theorem. S1 coefficient formula: DLMF 18.5.11_1 read (L7),
+  specialised to γ_{j,k} with n = M, x = u/2 (including γ_{j,0} = 1, γ_{j,M/2} = ±2); agrees with
+  S1. L3/S5 Kummer: Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits` (statement quoted
+  in L3), specialised to p = 2, C(2m, m). Labels upgraded from "no reference text checked" to
+  "text/statement checked 2026-11-27" in the Theorem line, S1, S5 and the Claims ledger; own steps
+  stay [own argument, unreviewed]. No discrepancy found.
+- **2026-11-27.** `/review` of the citation stage: no error, 4 wording findings, all fixed (Review).

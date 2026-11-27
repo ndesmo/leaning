@@ -100,6 +100,12 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   (notes, Attack S0–S5), for every q = 2^r and every even n. [own argument, unreviewed; steps
   checked numerically; Lean check pending (#66); /review 2026-11-27 (two fresh reviewers): no
   mathematical error found, 12 wording findings, all fixed (notes, Review)]
+- Citation stage 2026-11-27 (#77): both `[standard]` inputs checked against source text. Coefficient
+  formula for 2T_{2^j}(u/2) in S1: [standard: DLMF 18.5.11_1, text checked 2026-11-27] (notes L7,
+  with the specialisation to γ_{j,k}). Kummer v₂(C(2m, m)) = s₂(m) in S5: [standard: Mathlib
+  `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27] (notes L3).
+  Before this the coefficient formula was labelled "no reference text checked". /review 2026-11-27
+  (two fresh reviewers): no error, 4 wording findings, all fixed (notes, Review).
 - Numerics (Python, not Lean): holds for even n ≤ 4000; the analogue for q = 2^r (q = 4, 8, 32,
   64) holds for even n ≤ 2000 and fails for q = 3, 6, 12. In the entry's u-formula the top term
   C(15n, 15n/2) strictly dominates every other term 2-adically for even n ≤ 120 (notes A1); termwise dominance

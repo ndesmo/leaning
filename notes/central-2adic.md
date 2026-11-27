@@ -44,7 +44,7 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 
 | Claim | Label | Where |
 |---|---|---|
-| For even n, v₂(a(n)) = s₂(15n/2) | proved [own argument, unreviewed] (Attack, Theorem row below); was [conjecture] ([A402341]: "Verified for n <= 1500") | Statement |
+| For even n, v₂(a(n)) = s₂(15n/2) | [Lean] `Central2adic.a402341_conjecture` (PR for #66); also proved [own argument, unreviewed] (Attack, Theorem row below); was [conjecture] ([A402341]: "Verified for n <= 1500") | Statement |
 | a(n) is odd iff n = (16^k − 1)/15 for some k ≥ 0 | [own argument, unreviewed] (short Lucas argument; the proof is given in the A402341 entry, not yet re-checked) | Literature, L1 |
 | Conjecture holds for every even n ≤ 4000 | [numerical, exact mod 2^48, no undetermined case; Python, not Lean] | Numerics, N1 |
 | Analogue v₂ = s₂((q−1)n/2) holds for all even n ≤ 2000 when q = 4, 8, 32, 64, and for even n ≤ 300 when q = 2 | [numerical, exact mod 2^48; Python, not Lean] | Numerics, N2 |
@@ -53,7 +53,7 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 | a(n) = Σ_m c(n,m) C(m, ⌊m/2⌋) with c(n,m) = [u^m] f(u)ⁿ | [own argument, unreviewed] (source: the entry's %F); checked exactly n ≤ 120 | Setting |
 | Termwise dominance: for every even n ≤ 120 and every m < 15n with c(n,m) ≠ 0, v₂(c(n,m) C(m, m/2)) > s₂(15n/2) (excess ≥ 1) | [numerical, exact integers; Python] | Numerics, N4 |
 | q = 4 carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) for even n ≤ 2000, 1 ≤ t ≤ n | proved for all even n [own argument, unreviewed] (Attack, Audit: q = 4 case); [numerical, exact] for n ≤ 2000 | Numerics, N5; A1; Attack |
-| **Theorem: for q = 2^r and every even n, v₂(a_q(n)) = s₂((q−1)n/2); q = 16 is the A402341 conjecture** | [own argument, unreviewed] + [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] + [standard: DLMF 18.5.11_1, text checked 2026-11-27, L7]; S0–S5 checked numerically (`attack_lemma.py 40`) | Attack, S0–S5 |
+| **Theorem: for q = 2^r and every even n, v₂(a_q(n)) = s₂((q−1)n/2); q = 16 is the A402341 conjecture** | [Lean] `Central2adic.central_2adic` (`halfline_lt/Proofs/Central2adic.lean`, PR for #66; the Lean proof reorganises S0–S5, see the file's docstring); the written proof: [own argument, unreviewed] + [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] + [standard: DLMF 18.5.11_1, text checked 2026-11-27, L7]; S0–S5 checked numerically (`attack_lemma.py 40`) | Attack, S0–S5 |
 | v₂(γ_{j,k}) ≥ j − v₂(k) > s₂(k) for 1 ≤ k < 2^{j−1}; γ_{j,2^{j−1}} = ±2 | [standard: DLMF 18.5.11_1, text checked 2026-11-27, L7] + [own argument, unreviewed]; [numerical, exact] j ≤ 6 | Attack, S1–S2 |
 | Key lemma: n even, t ≥ 1 ⇒ v₂([u^{2^j n−2t}] g_jⁿ) ≥ s₂(t) + 1 | [own argument, unreviewed]; numerical j ≤ 4, even n ≤ 40 | Attack, S3 |
 | Termwise dominance for all even n implies the conjecture | [own argument, unreviewed] (the top term has valuation exactly s₂(15n/2) by Kummer, every other term strictly more) | Attack ideas, A1; Attack S5 |
@@ -273,7 +273,7 @@ explicit coefficients of 2T_{2^j}(u/2). Write a_q(n) = [x^{(q−1)n/2}](1 + … 
 a(n) = a_16(n). Notation: s₂ = binary digit sum, v₂(0) = +∞.
 
 **Theorem.** For r ≥ 1, q = 2^r and every even n ≥ 0, v₂(a_q(n)) = s₂((q−1)n/2). In particular
-(q = 16) the A402341 conjecture holds. [own argument, unreviewed] + [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] +
+(q = 16) the A402341 conjecture holds. [Lean] (`Central2adic.central_2adic`, `Central2adic.a402341_conjecture`) for the statement; the written proof below: [own argument, unreviewed] + [standard: Kummer, Mathlib `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`, statement checked 2026-11-27, L3] +
 [standard: DLMF 18.5.11_1, text checked 2026-11-27, L7]; [numerical, exact] j ≤ 6 for the coefficient formula; steps
 checked numerically by `search/central-2adic/attack_lemma.py` (`python -I attack_lemma.py 40`:
 S1–S2 for j ≤ 6; S3 for j ≤ 4, even n ≤ 40, all t; S0, S4, the S5 termwise bound and the final
@@ -447,3 +447,12 @@ accessed" list now records Shen's verbatim text as still to check.
 - **2026-11-27.** `/review` of the citation stage: no error, 4 wording findings, all fixed (Review).
 - **2026-11-27.** Issue #76 (branch `agent/ndesmo/central-2adic-citation-labels`): fixed the three
   pre-existing label findings (Review). No mathematical claim changed.
+- **2026-11-27.** Lean stage (issue #66, branch `agent/ndesmo/lean-central-2adic`). Proved the
+  Theorem in Lean, for every r ≥ 1 and every even n: `Central2adic.central_2adic`, with the q = 16
+  case `Central2adic.a402341_conjecture` (`halfline_lt/Proofs/Central2adic.lean`; standard axioms
+  only, no sorry). The Lean proof uses the same ingredients as S0–S5, organised differently: the
+  u-form S0 becomes a ring-hom identity in ℤ⟦X⟧ with w = u⁻² = X(1+X)⁻², and S1–S4 become the
+  fact that the square of a polynomial whose t-th coefficient is divisible by 2^{s₂(t)} has its t-th
+  coefficients (t ≥ 1) divisible by 2^{s₂(t)+1}. This removes the need for the DLMF formula of S1
+  and the multiset grouping of S3. Kummer enters through Mathlib
+  `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`.

@@ -497,3 +497,4 @@ Nine wording and label findings, no mathematical error; all fixed:
   re-enumerates all WCS for k ≤ 20 (counts as in the 2026-11-25 line), checks the general
   form of A7.1 and its mirror on all of them (no failures), and lists the covered k ≤ 100.
   [numerical, Python, not Lean] `/review` (two subagents) found no mathematical error; 9 wording/label findings fixed (Review section).
+- 2026-11-27: opened PR #69 for the A7 attack stage (#68).

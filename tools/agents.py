@@ -49,6 +49,7 @@ PASS_BUDGET_USD = {"author": 6.0, "reviewer": 3.0, "explorer": 20.0}    # one pa
 DAILY_BUDGET_USD = {"author": 30.0, "reviewer": 12.0, "explorer": 40.0}  # role pauses until midnight
 IDLE_NEXT = 60
 RETRY_BACKOFF = [5, 15, 30, 60]     # minutes after consecutive failures
+WAIT_STEP = 60                      # seconds; waits recheck the wall clock this often (see wait_until)
 SUPERVISOR_NOTE = ("[supervisor] Started by tools/agents.py for a single iteration. Do not call "
                    "ScheduleWakeup and do not message other sessions; the supervisor schedules "
                    "and notifies. This run ends when your turn ends, and any subagent still "
@@ -339,8 +340,7 @@ class Supervisor:
                 log(f"{role}: daily budget reached (${today:.2f} of ${self.daily_budget[role]:.0f}); "
                     f"paused until {resume:%a %H:%M}")
                 self.save_state(role, status="budget-paused", resumes=resume.isoformat(timespec="minutes"))
-                self.wake[role].wait(timeout=(resume - dt.datetime.now()).total_seconds())
-                self.wake[role].clear()
+                self.wait_until(role, resume)
                 continue
             before = self.open_pr_heads() if role in CHANGES_PRS else None
             try:
@@ -358,8 +358,19 @@ class Supervisor:
                 self.wake["reviewer"].set()
             nxt_at = dt.datetime.now() + dt.timedelta(minutes=nxt)
             self.save_state(role, next=nxt_at.isoformat(timespec="minutes"))
-            self.wake[role].wait(timeout=nxt * 60)
-            self.wake[role].clear()
+            self.wait_until(role, nxt_at)
+
+    def wait_until(self, role: str, when: dt.datetime) -> None:
+        """Wait until the wall-clock time `when`, or until woken.
+
+        Waits in short steps and rereads the clock each time: on Windows a timed wait does not
+        count time the machine spends asleep, so one long wait can run hours late after sleep.
+        """
+        while not self.stop.is_set():
+            left = (when - dt.datetime.now()).total_seconds()
+            if left <= 0 or self.wake[role].wait(timeout=min(left, WAIT_STEP)):
+                break
+        self.wake[role].clear()
 
     def run_forever(self) -> None:
         threads = [threading.Thread(target=self.worker, args=(r,), daemon=True) for r in self.roles]

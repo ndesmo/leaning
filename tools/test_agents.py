@@ -140,5 +140,24 @@ class Roles(unittest.TestCase):
         self.assertNotIn("reviewer", agents.CHANGES_PRS)
 
 
+class WaitUntil(unittest.TestCase):
+    def fake(self):
+        import threading, types
+        return types.SimpleNamespace(stop=threading.Event(), wake={"author": threading.Event()})
+
+    def test_returns_at_once_for_a_past_time(self):
+        f = self.fake()
+        agents.Supervisor.wait_until(f, "author", dt.datetime.now() - dt.timedelta(hours=3))
+
+    def test_a_wake_ends_the_wait_and_is_cleared(self):
+        f = self.fake()
+        f.wake["author"].set()
+        agents.Supervisor.wait_until(f, "author", dt.datetime.now() + dt.timedelta(hours=3))
+        self.assertFalse(f.wake["author"].is_set())
+
+    def test_steps_are_short_so_sleep_cannot_delay_a_pass_for_long(self):
+        self.assertLessEqual(agents.WAIT_STEP, 120)
+
+
 if __name__ == "__main__":
     unittest.main()

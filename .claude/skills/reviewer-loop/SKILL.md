@@ -42,7 +42,10 @@ another session: it never changes what you review or how.
   with `gh pr checks <n>`. Compare each new theorem's Lean statement with the statement in the
   notes it claims to formalize: same quantifiers, hypotheses and conclusion. A weaker, stronger or
   different statement is a blocking finding unless the PR says so and the labels match.
-- **Pages and notes:** if the PR touches a proof page or notes, run `/review` on them.
+- **Pages and notes:** if the PR touches a proof page or notes, run `/review` on them. For a page
+  that adds or changes a result, check that the notes record a novelty re-check ("Re-check
+  novelty first" in `/proof-page`) dated within a week of the PR, and that the page's Novelty line
+  matches it. If it is missing or stale, that is a blocking finding.
   - Give the reviewer subagents only the page, the notes' Literature section and the Lean files.
   - Do **not** pass the PR body, the notes' Log or the author's reasoning. Independence is the
     point.

@@ -47,7 +47,8 @@ A proof in the notes is not the end. A result is **finished** when all four of t
 3. **Lean.** The statement actually proved is formalized, not just a weaker or special case. If that
    is out of reach for now, the notes say why. Lean units carry the label `lean`, and the
    formalizer agent does them.
-4. **Page.** It has a page on the site (`/proof-page`), with every step labelled.
+4. **Page.** It has a page on the site (`/proof-page`), with every step labelled. Writing it
+   starts with a fresh novelty re-check ("Re-check novelty first" in `/proof-page`).
 
 - **One item, one unit.** Each missing item is a unit of work, done in that order.
 - **Page before Lean** only when the notes record why Lean is out of reach; update the page when

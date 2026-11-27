@@ -20,6 +20,9 @@ PRs, and that is expected.
 
 - Run `gh issue list --state open --label approved --label moonshot --json number,title,labels`
   and take the highest priority, oldest first.
+- **One explorer per moonshot.** If you already hold a claim on a moonshot, keep working it. Never
+  take one claimed by someone else; stale claims and claiming are as "Claims" in `/prove` says,
+  with the 7-day limit. Claim before the first pass on a problem, and re-read to confirm you won.
 - Never add or remove `approved`, and never work on an unapproved issue.
 - If there is no approved moonshot, end the pass with `NEXT: 240`.
 
@@ -32,7 +35,7 @@ PRs, and that is expected.
 - **First pass on a problem:**
   - re-check that the problem is still open (search for solutions after the scout's date);
   - create `notes/<slug>.md`, a `LEDGER.md` entry and `search/<slug>/`;
-  - mark the problem `taken` in `PROBLEMS.md`, and add `in-progress` to the issue.
+  - mark the problem `taken` in `PROBLEMS.md` (the claim itself is already on the issue).
   - If the problem has been solved, record it and open a PR that marks it rejected
     (`Closes #<n>`).
 

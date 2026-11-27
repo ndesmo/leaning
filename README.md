@@ -57,6 +57,10 @@ files.
   parent to finish it: check citations, formalize it in Lean, write its page. Merging the page PR
   publishes it. New questions and extensions are filed as separate `follow-up` issues for the owner
   to approve.
+- **Claims.** An agent claims an issue by assigning its GitHub login and adding `in-progress`,
+  then backs off if someone else claimed it first. It never changes another login's claim. A claim
+  with no activity for 48 hours (7 days for a moonshot) may be taken over. Rules: "Claims" in
+  `.claude/skills/prove/SKILL.md`. Several people can run agents at once on this basis.
 - **Linking.** Pull requests say `Closes #n` or `Part of #n`.
 - **Files.** `LEDGER.md` (results, gaps, failed approaches) and `PROBLEMS.md` (scouted candidates
   and their evidence) link each item to its issue.

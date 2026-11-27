@@ -39,7 +39,7 @@ world-readable. Before pushing, tell the user in one line what is going public.
 
 ## Confirm it is live
 
-Poll `gh api repos/ndesmo/leaning/pages/builds/latest --jq .status` about every 10 s until it
+Poll `gh api repos/{owner}/{repo}/pages/builds/latest --jq .status` about every 10 s until it
 reads `built` or `errored`. Then confirm that `https://ndesmo.github.io/leaning/` and each
 `https://ndesmo.github.io/leaning/<slug>/` return 200 (`curl -s -o /dev/null -w '%{http_code}'`).
 

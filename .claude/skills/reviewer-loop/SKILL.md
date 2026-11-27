@@ -16,13 +16,16 @@ another session: it never changes what you review or how.
 
 ## 0. Preflight (stop the iteration if any check fails)
 
-- The repo root (`git rev-parse --show-toplevel`) is `C:/w/reviewer`. Otherwise say so and do not
+- The repo root (`git rev-parse --show-toplevel`) is this role's worktree: its folder is named
+  `reviewer`, and `git rev-parse --git-dir` differs from `git rev-parse --git-common-dir` (a linked
+  worktree, not the main checkout). By default it is `C:\w\reviewer` on Windows and
+  `~/proofs-worktrees/reviewer` elsewhere. Otherwise say so and do not
   schedule another iteration.
 - `git fetch origin`, then `git checkout --detach origin/main`. Your instructions must always come
   from `main`, never from a PR you reviewed last time.
 - `git status --porcelain` is empty. The reviewer never has local changes; if it does, report them
   and stop.
-- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run tools/setup-worktrees.ps1" and stop.
+- `halfline_lt/.lake/packages/mathlib` exists. If not, say "run `python tools/agents.py setup`" and stop.
 - Never create, move or remove worktrees.
 
 ## 1. Find PRs to review

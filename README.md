@@ -49,8 +49,8 @@ files.
 - **Approving.** To approve something, add the `approved` label on GitHub; no pull request is
   needed.
 - **Board.** The [project board](https://github.com/users/ndesmo/projects/1) shows the same
-  items in Todo / In Progress / In Review / Done. `tools\board-sync.ps1` keeps it in step, and the
-  author runs it after each iteration.
+  items in Todo / In Progress / In Review / Done. `python tools/agents.py board-sync` keeps it in
+  step, and the author runs it after each iteration.
 - **Sub-issues.** Big items are split into sub-issues, one per pull request-sized unit. A sub-issue
   is approved while its parent is.
 - **Finishing results.** When a result is proved, the author files sub-issues under the same
@@ -68,91 +68,78 @@ files.
 
 ## Running the agents
 
-An author and a reviewer agent work in separate git worktrees. Only the owner merges.
+Three agents work in separate git worktrees, and only the owner merges. To run them yourself, see
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ### Roles
 
 - **Author:** works approved issues in small, reviewed units, one pull request each.
 - **Reviewer:** independently reviews every pull request.
-- **Explorer:** works approved `moonshot` issues in long passes on a stronger model
-  (`claude-fable-5-2`). It runs several strategies in parallel, including computer searches for
-  certificates, keeps a research journal on a branch `explore/<slug>`, and opens a pull request
-  only for a verified finding or a clean negative result.
+- **Explorer:** works approved `moonshot` issues in long passes. It runs several strategies in
+  parallel, including computer searches for certificates, keeps a research journal on a branch
+  `explore/<slug>`, and opens a pull request only for a verified finding or a clean negative result.
 
 Searches may use any tool. A claim needs an independently checked certificate, ideally checked
 in Lean.
 
-### Supervisor (recommended, any OS)
+### Supervisor (Windows, macOS, Linux)
 
 `tools/agents.py` (Python 3.9+, standard library only) runs each agent pass as a fresh,
 non-interactive `claude -p` session. It schedules the next pass, waits out usage limits, retries
-after failures, and starts a reviewer pass as soon as the author changes a pull request. It needs
-Claude Code, `git`, `gh` (signed in) and Lean's `elan`.
+after failures, and starts a reviewer pass as soon as the author changes a pull request.
 
 ```
-python tools/agents.py setup           # create the worktrees and build Lean (once)
-python tools/agents.py run             # run both agents until stopped
+python tools/agents.py doctor          # check the prerequisites; changes nothing
+python tools/agents.py setup           # create the worktrees and build Lean (once; safe to rerun)
+python tools/agents.py run             # run the agents until stopped
 python tools/agents.py status          # last pass, next pass, open pull requests
-python tools/agents.py once reviewer   # a single pass, for testing
 python tools/agents.py usage           # passes, tokens and estimated cost per role
+python tools/agents.py once reviewer   # a single pass, for testing
+python tools/agents.py board-sync      # bring the project board in step with GitHub
+python tools/agents.py teardown        # remove the worktrees; refuses if work would be lost
 ```
 
-**Budgets.** All agents share one plan allowance. Each pass is capped (`--pass-budgets`), and each
-role has a daily cap (`--daily-budgets`, for example `explorer=25`); a role that reaches its cap
-pauses until midnight. The amounts are Claude Code's estimated USD, which is a proxy on a
-subscription. Run `/usage` in an interactive session for the plan's real limits.
-
+- **Models.** The author and reviewer use `claude-opus-5-5`. The explorer defaults to
+  `claude-fable-5-2`; `--explorer-model` changes it.
+- **Budgets.** All agents share one plan allowance. Each pass is capped (`--pass-budgets`), and
+  each role has a daily cap (`--daily-budgets`, for example `explorer=25`). A role that reaches its
+  cap pauses until midnight. The amounts are Claude Code's estimated USD, which is only a proxy on a
+  subscription; run `/usage` in an interactive session for the plan's real limits.
 - **Worktrees:** `C:\w\` on Windows, `~/proofs-worktrees/` elsewhere. Change with `--worktrees`.
-- **Logs:** every pass is logged in `.agent-logs/`.
+- **Logs:** every pass is logged in `.agent-logs/`, with a summary in `.agent-logs/supervisor.log`.
 - **Permissions:** the agents' allow and deny rules always come from `main`'s
-  `.claude/settings.json`, and anything unlisted is denied, never left waiting on a prompt.
+  `.claude/settings.json`, and anything unlisted is denied, never left waiting on a prompt. The
+  agents cannot push to `main`, merge, approve issues, or change CI or permissions.
+- **Sleep.** Nothing runs while the machine sleeps; passes that are due start within a minute of
+  waking.
 
-**Start it at login:**
+**Start it at login** (replace `<repo>` with the full path of your clone):
 - **Windows** (PowerShell, once):
-  `Register-ScheduledTask -TaskName "Proofs supervisor" -Trigger (New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME) -Action (New-ScheduledTaskAction -Execute pythonw.exe -Argument "C:\Users\nicho\leaning\tools\agents.py run" -WorkingDirectory C:\Users\nicho\leaning)`
+  `Register-ScheduledTask -TaskName "Proofs supervisor" -Trigger (New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME) -Action (New-ScheduledTaskAction -Execute pythonw.exe -Argument "<repo>\tools\agents.py run" -WorkingDirectory <repo>)`
 - **macOS:** a LaunchAgent plist whose `ProgramArguments` is `python3 <repo>/tools/agents.py run`,
   with `RunAtLoad` and `KeepAlive` set.
 - **Linux:** a systemd user unit with `ExecStart=python3 <repo>/tools/agents.py run` and
   `Restart=always`; enable it with `systemctl --user enable --now`.
 
-Keep the machine awake; on Windows, `powercfg /change standby-timeout-ac 0`. While it sleeps nothing runs; on waking, passes that are due start within a minute.
+After pulling changes to `tools/`, restart the supervisor so it runs the new code.
 
-**Windows-only, so far:**
-- `board-sync.ps1` and `agent-status.ps1`; the author runs `board-sync.ps1` after each pass.
-- `setup-worktrees.ps1` and `teardown-worktrees.ps1`.
-
-These have yet to be ported to Python.
-
-### Interactive loops (Windows, alternative)
-
-```
-.\tools\setup-worktrees.ps1      # creates C:\w\author and C:\w\reviewer; safe to rerun
-cd C:\w\author;   claude --model claude-opus-5-5 --name author   "/loop /author-loop"
-cd C:\w\reviewer; claude --model claude-opus-5-5 --name reviewer "/loop /reviewer-loop"
-.\tools\teardown-worktrees.ps1   # removes them; refuses if any work would be lost
-```
-
-**Keep them running unattended.** `.\tools\start-agents.ps1` opens both loops in one Windows
-Terminal window, one tab each. It skips a loop that is already running and moves a clean worktree
-to the latest `main` first. To restart the loops after a reboot, register it to run at login (once,
-in PowerShell):
-
-```
-Register-ScheduledTask -TaskName "Proofs agents" -Trigger (New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME) -Action (New-ScheduledTaskAction -Execute powershell.exe -Argument "-NoProfile -WindowStyle Hidden -File C:\Users\nicho\leaning\tools\start-agents.ps1")
-```
-
-Also stop the PC sleeping while plugged in (`powercfg /change standby-timeout-ac 0`). Loops end
-after 30 days, and a weekly usage limit stops them. Rerunning `start-agents.ps1` restarts whatever
-has stopped.
-
-The author opens one pull request per unit of work and messages the reviewer, which comments on
-each one within minutes. The reviewer also checks hourly. CI must pass before a pull request can
-merge. Stop a loop with Esc on an empty prompt. A loop ends by itself after 30 days, so restart it
-monthly. `.\tools\agent-status.ps1` shows what both are doing. The agents cannot push to `main`, merge, or change CI
-or permissions (`.claude/settings.json`).
+**Older Windows scripts.** `tools/*.ps1` (interactive `/loop` terminals, worktree setup and
+teardown, status, board sync) still work on Windows but are superseded by the commands above.
 
 ## Adding a proof
 
-1. Put the write-up in `docs/<slug>/index.html`, labeling each step as Lean, paper or standard.
+Proofs reach the site through pull requests, like everything else:
+
+1. Put the write-up in `docs/<slug>/index.html`, labelling each step as Lean, paper or standard.
 2. Add an entry at the top of the list in `docs/index.html` and a row to the table above.
-3. Push to `main`; the site updates within a few minutes.
+3. Open a pull request. When the owner merges it, the site updates within a few minutes.
+
+## Licence
+
+- **Code** (Lean, Python, PowerShell, agent instructions under `.claude/`, CI): Apache License 2.0,
+  in [`LICENSE`](LICENSE). Mathlib uses the same licence.
+- **Mathematics and prose** (`docs/`, `notes/`, `RESULTS.md`, `LEDGER.md`, `PROBLEMS.md` and other
+  Markdown): Creative Commons Attribution 4.0 International, in
+  [`LICENSE-CC-BY-4.0`](LICENSE-CC-BY-4.0).
+
+Copyright the "Proofs by Claude" contributors. Contributions are accepted under the same terms.

@@ -118,6 +118,25 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | CA3 | General q = 2^r analogue, even n | proved [own argument, unreviewed]; Lean #66 | notes, Attack |
 | CA4 | Odd n: any closed form for v₂(a(n)) (N3 shows v₂ − s₂(⌊15n/2⌋) ranges −11..10) | open, no conjecture | notes, N3 |
 
+### min-modulus: open (P3, #23)
+
+- Notes: [notes/min-modulus.md](notes/min-modulus.md)
+- Target: Fonollosa's Conjecture 1 (arXiv:2607.08366 v2): for n ≥ 2 and N < 2^n − 2^⌊log₂ n⌋, no
+  set of n residues mod N is valid. [conjecture] Statement in Lean:
+  formal-conjectures `Arxiv/2607.08366/MinModulus.lean`, `min_modulus` (tagged open).
+- Literature + setup 2026-11-27 (#86): not found resolved for n ≥ 8 in the works searched (notes, Search scope); the paper's
+  CP-SAT certifies n ≤ 7.
+  Known: the bound is attained by {2^k − 1} [preprint: Fon26, Thms A, B]; N ≥ 2^{n−1} (Inal, OSF
+  preprint, not accessed; several Lean proofs); third-party Lean claims of n ≤ 6 and
+  N ≥ 2^{n−1}(1 + 1/(72(n−1)√((n−1) ln n))) (Sun16z/min-modulus-gap, 2026-11-27). None re-checked here.
+- Numerics (Python, not Lean): least valid modulus is 2, 6, 12, 28 for n = 2..5 (exhaustive).
+
+| Id | Item | Status | Where |
+|---|---|---|---|
+| MM1 (#23) | **Conjecture 1** for all n | open | notes, Statement |
+| MM2 (#87) | n = 8: no valid set for N < 248 (the scout wrote 252; the threshold is 248). Unconditional target 8 ≤ N < 248; N < 129 follows from Inal's/L3's claimed bound and equality case (not re-checked), leaving 129 ≤ N < 248 | open | notes, Attack ideas |
+| MM3 (#88) | A general lower bound beating 2^{n−1}(1 + 1/(72(n−1)√((n−1) ln n))) | open, crowded | notes, L3–L4 |
+
 ## Approaches that failed
 
 Don't repeat these without a new ingredient.

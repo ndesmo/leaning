@@ -30,7 +30,7 @@ Scores are 0–2:
 |---|---|---|---|---|---|---|---|
 | P1 | Weakly consecutive sequences start or end with 1 | combinatorics | 2 | 2 | 2 | 1 | taken (#21) |
 | P2 | 2-adic valuation of central coefficients of (1+x+…+x¹⁵)ⁿ (OEIS A402341) | number theory | 1 | 2 | 2 | 1 | taken (#22) |
-| P3 | Minimum modulus for valid residue sets (Fonollosa) | additive combinatorics | 2 | 2 | 2 | 1 | candidate (#23) |
+| P3 | Minimum modulus for valid residue sets (Fonollosa) | additive combinatorics | 2 | 2 | 2 | 1 | taken (#23) |
 | P4 | Periodicity of 3-sumfree sequences S₁,d−1,2d−1 | combinatorial number theory | 1 | 2 | 2 | 1 | candidate (#24) |
 | P5 | Order reciprocity of prime pairs, case (3,3) | number theory | 1 | 2 | 1 | 1 | candidate (#25) |
 | P6 | Centered maximal function: Var(Mf) bound, small discrete cases | real analysis | 2 | 1 | 1 | 2 | candidate (#26) |
@@ -86,14 +86,20 @@ group.
 ### P3. Minimum modulus for valid residue sets (Fonollosa)
 - **Source:** arXiv:2607.08366 (v2, 14 Jul 2026). The statement is already in Lean in
   `formal-conjectures`: `Arxiv/2607.08366/MinModulus.lean`.
-- **Statement (verbatim):** "Conjecture 1 (Fonollosa, 2026). For every n ≥ 2 and every
-  N < 2^n − 2^⌊log₂ n⌋, no set of n residues mod N is valid."
+- **Statement (verbatim):** "For every n ≥ 2 and every N < 2^n − 2^floor(log_2 n), no set of n
+  residues is valid mod N;"
 - **Open evidence:** tagged open in the repository, last touched 2026-10-29, with no PRs or issues.
-  No later work was found (2026-11-25).
+  No later work was found (2026-11-25). (superseded 2026-11-27, see Status)
 - **Known:** CP-SAT certifies it for n ≤ 7, and a search finds no counterexample for n ≤ 13. An
-  exponential lower bound "appears to be open" (paper §7).
-- **First target:** certify n = 8, every N < 252, or prove any general lower bound.
+  exponential lower bound "appears to be open" (paper §8). (superseded 2026-11-27, see Status)
+- **First target:** certify n = 8, every N < 248 (corrected 2026-11-27; the scout wrote 252), or prove
+  any general lower bound.
 - **Risks:** the author may extend the computations. n = 8 may be heavy for Lean's kernel.
+- **Status:** taken (#23), slug `min-modulus`. Openness re-checked 2026-11-27; notes in
+  [notes/min-modulus.md](notes/min-modulus.md). Crowded since the scout: a general bound
+  N ≥ 2^{n−1} is claimed (Inal, OSF preprint, not accessed; reported with Lean proofs by third
+  parties, not re-checked) and n ≤ 6 plus a slightly better bound were posted in
+  Lean on 2026-11-27 (Sun16z/min-modulus-gap). For n = 8 the threshold is 248, not 252.
 
 ### P4. Periodicity of the 3-sumfree sequences S₁,d−1,2d−1
 - **Source:** van Berkel, Bosma, "On t-sumfree sequences", arXiv:2609.16843 (v1 15 Sep 2026).

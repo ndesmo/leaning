@@ -53,6 +53,10 @@ files.
   author runs it after each iteration.
 - **Sub-issues.** Big items are split into sub-issues, one per pull request-sized unit. A sub-issue
   is approved while its parent is.
+- **Finishing results.** When a result is proved, the author files sub-issues under the same
+  parent to finish it: check citations, formalize it in Lean, write its page. Merging the page PR
+  publishes it. New questions and extensions are filed as separate `follow-up` issues for the owner
+  to approve.
 - **Linking.** Pull requests say `Closes #n` or `Part of #n`.
 - **Files.** `LEDGER.md` (results, gaps, failed approaches) and `PROBLEMS.md` (scouted candidates
   and their evidence) link each item to its issue.

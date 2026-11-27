@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Supervisor for the author, reviewer and explorer agents. Standard library only; Windows, macOS,
-Linux. The explorer works moonshot issues in long passes on a stronger model.
+"""Supervisor for the author, reviewer, explorer and formalizer agents. Standard library only; Windows, macOS,
+Linux. The explorer works moonshot issues in long passes on a stronger model; the formalizer works
+only Lean units, in long passes.
 
 Each pass is one fresh, non-interactive `claude -p "/<role>-loop ..."` run inside that role's
 git worktree. The supervisor owns the schedule: it sleeps for the interval the pass asked for
@@ -37,19 +38,20 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 LOGS = REPO / ".agent-logs"
-ROLES = ("author", "reviewer", "explorer")
+ROLES = ("author", "reviewer", "explorer", "formalizer")
 DEFAULT_WORKTREES = Path("C:/w") if os.name == "nt" else Path.home() / "proofs-worktrees"
 DEFAULT_MODEL = "claude-opus-5-5"
 # The explorer works moonshots in long passes on the strongest model (it uses the allowance faster).
 ROLE_MODEL = {"explorer": "claude-fable-5-2"}
-PASS_TIMEOUT = {"author": 2 * 3600, "reviewer": 2 * 3600, "explorer": 4 * 3600}  # seconds
-DEFAULT_NEXT = {"author": 30, "reviewer": 20, "explorer": 30}   # minutes, if a pass doesn't say
-CHANGES_PRS = ("author", "explorer")   # roles whose pull-request changes wake the reviewer
+PASS_TIMEOUT = {"author": 2 * 3600, "reviewer": 2 * 3600, "explorer": 4 * 3600,
+                "formalizer": 4 * 3600}  # seconds
+DEFAULT_NEXT = {"author": 30, "reviewer": 20, "explorer": 30, "formalizer": 30}  # minutes, if a pass doesn't say
+CHANGES_PRS = ("author", "explorer", "formalizer")   # roles whose pull-request changes wake the reviewer
 # Spending guards, in Claude Code's estimated USD. On a subscription these are not charges, but they
 # track how much of the shared plan allowance a role uses. All roles share one account, so the caps
 # keep the explorer from starving the author and reviewer. Override with --budgets.
-PASS_BUDGET_USD = {"author": 6.0, "reviewer": 3.0, "explorer": 20.0}    # one pass is stopped here
-DAILY_BUDGET_USD = {"author": 30.0, "reviewer": 12.0, "explorer": 40.0}  # role pauses until midnight
+PASS_BUDGET_USD = {"author": 6.0, "reviewer": 3.0, "explorer": 20.0, "formalizer": 10.0}    # one pass is stopped here
+DAILY_BUDGET_USD = {"author": 30.0, "reviewer": 12.0, "explorer": 40.0, "formalizer": 10.0}  # role pauses until midnight
 IDLE_NEXT = 60
 RETRY_BACKOFF = [5, 15, 30, 60]     # minutes after consecutive failures
 WAIT_STEP = 60                      # seconds; waits recheck the wall clock this often (see wait_until)

@@ -45,6 +45,7 @@ files.
 | `priority:high` / `normal` / `low` | The order in which approved work is taken. |
 | `gap`, `problem`, `follow-up`, `tooling` | What kind of item it is. |
 | `in-progress`, `blocked` | Its current state. |
+| `moonshot`, `lean` | Which agent takes it: the explorer, or the formalizer. |
 
 - **Approving.** To approve something, add the `approved` label on GitHub; no pull request is
   needed.
@@ -68,7 +69,7 @@ files.
 
 ## Running the agents
 
-Three agents work in separate git worktrees, and only the owner merges. To run them yourself, see
+Four agents work in separate git worktrees, and only the owner merges. To run them yourself, see
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ### Roles
@@ -78,6 +79,9 @@ Three agents work in separate git worktrees, and only the owner merges. To run t
 - **Explorer:** works approved `moonshot` issues in long passes. It runs several strategies in
   parallel, including computer searches for certificates, keeps a research journal on a branch
   `explore/<slug>`, and opens a pull request only for a verified finding or a clean negative result.
+- **Formalizer:** proves reviewed results in Lean. It takes only issues labelled `lean`,
+  formalizes exactly the statement in the notes, keeps unfinished work on its branch across long
+  passes, and opens small pull requests of lemmas that build cleanly.
 
 Searches may use any tool. A claim needs an independently checked certificate, ideally checked
 in Lean.
@@ -99,7 +103,7 @@ python tools/agents.py board-sync      # bring the project board in step with Gi
 python tools/agents.py teardown        # remove the worktrees; refuses if work would be lost
 ```
 
-- **Models.** The author and reviewer use `claude-opus-5-5`. The explorer defaults to
+- **Models.** The author, reviewer and formalizer use `claude-opus-5-5`. The explorer defaults to
   `claude-fable-5-2`; `--explorer-model` changes it.
 - **Budgets.** All agents share one plan allowance. Each pass is capped (`--pass-budgets`), and
   each role has a daily cap (`--daily-budgets`, for example `explorer=25`). A role that reaches its

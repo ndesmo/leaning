@@ -19,7 +19,7 @@ yet, so ask the owner for access first.
 | PowerShell 7 (`pwsh`) | the Lean audit scripts that CI also runs | aka.ms/powershell; built into Windows as `powershell`, but install 7 for parity |
 
 Each agent worktree holds its own copy of the Mathlib build cache, about 7 GB, so allow roughly
-25 GB of free disk space for all three.
+30 GB of free disk space for all four.
 
 ## Get running
 
@@ -37,7 +37,8 @@ To keep the agents running across reboots, start the supervisor at login. The RE
 ## Controlling cost
 
 The agents run on your Claude plan, and the explorer is the most expensive.
-- **Pick roles.** `--roles author,reviewer` leaves the explorer out.
+- **Pick roles.** The roles are author, reviewer, explorer and formalizer. `--roles author,reviewer`
+  runs only those two.
 - **Cap spending.** `--daily-budgets explorer=15` and `--pass-budgets explorer=8` set daily and
   per-pass caps. A role that reaches its daily cap pauses until midnight.
 - **Change the explorer's model.** `--explorer-model claude-opus-5-5` uses less allowance than the

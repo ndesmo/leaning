@@ -1,0 +1,51 @@
+n=4 p=2 m=2 k=2 singletons=1 exhaustive nodes=2 solutions=1 exp_p-valuation histogram={1: 1} bound=1 violations=0 time=0.0s
+n=6 p=2 m=3 k=3 singletons=1 exhaustive nodes=5 solutions=3 exp_p-valuation histogram={0: 3} bound=0 violations=0 time=0.0s
+n=6 p=3 m=2 k=3 singletons=1 exhaustive nodes=6 solutions=3 exp_p-valuation histogram={0: 3} bound=0 violations=0 time=0.0s
+n=8 p=2 m=4 k=4 singletons=2 exhaustive nodes=9 solutions=6 exp_p-valuation histogram={0: 3, 2: 1, 1: 2} bound=2 violations=0 time=0.0s
+n=9 p=3 m=3 k=4 singletons=2 exhaustive nodes=4 solutions=2 exp_p-valuation histogram={1: 2} bound=1 violations=0 time=0.0s
+n=10 p=2 m=5 k=4 singletons=1 exhaustive nodes=9 solutions=4 exp_p-valuation histogram={0: 4} bound=0 violations=0 time=0.0s
+n=10 p=5 m=2 k=4 singletons=1 exhaustive nodes=11 solutions=5 exp_p-valuation histogram={0: 5} bound=0 violations=0 time=0.0s
+n=12 p=2 m=6 k=5 singletons=2 exhaustive nodes=37 solutions=23 exp_p-valuation histogram={0: 4, 1: 19} bound=1 violations=0 time=0.0s
+n=12 p=3 m=4 k=5 singletons=2 exhaustive nodes=23 solutions=14 exp_p-valuation histogram={0: 14} bound=0 violations=0 time=0.0s
+n=14 p=2 m=7 k=6 singletons=2 exhaustive nodes=68 solutions=41 exp_p-valuation histogram={0: 41} bound=0 violations=0 time=0.0s
+n=14 p=7 m=2 k=6 singletons=2 exhaustive nodes=23 solutions=11 exp_p-valuation histogram={0: 11} bound=0 violations=0 time=0.0s
+n=15 p=3 m=5 k=6 singletons=2 exhaustive nodes=57 solutions=32 exp_p-valuation histogram={0: 32} bound=0 violations=0 time=0.0s
+n=15 p=5 m=3 k=6 singletons=2 exhaustive nodes=44 solutions=24 exp_p-valuation histogram={0: 24} bound=0 violations=0 time=0.0s
+n=16 p=2 m=8 k=6 singletons=2 exhaustive nodes=89 solutions=47 exp_p-valuation histogram={3: 38, 0: 6, 1: 3} bound=3 violations=0 time=0.0s
+n=18 p=2 m=9 k=7 singletons=3 exhaustive nodes=181 solutions=116 exp_p-valuation histogram={0: 116} bound=0 violations=0 time=0.0s
+n=18 p=3 m=6 k=7 singletons=3 exhaustive nodes=174 solutions=113 exp_p-valuation histogram={0: 22, 1: 91} bound=1 violations=0 time=0.0s
+n=20 p=2 m=10 k=8 singletons=4 exhaustive nodes=285 solutions=209 exp_p-valuation histogram={0: 83, 1: 126} bound=1 violations=0 time=0.0s
+n=20 p=5 m=4 k=8 singletons=4 exhaustive nodes=103 solutions=66 exp_p-valuation histogram={0: 66} bound=0 violations=0 time=0.0s
+n=21 p=3 m=7 k=8 singletons=4 exhaustive nodes=134 solutions=90 exp_p-valuation histogram={0: 90} bound=0 violations=0 time=0.0s
+n=21 p=7 m=3 k=8 singletons=4 exhaustive nodes=53 solutions=32 exp_p-valuation histogram={0: 32} bound=0 violations=0 time=0.0s
+n=22 p=2 m=11 k=8 singletons=3 exhaustive nodes=538 solutions=323 exp_p-valuation histogram={0: 323} bound=0 violations=0 time=0.0s
+n=22 p=11 m=2 k=8 singletons=3 exhaustive nodes=45 solutions=19 exp_p-valuation histogram={0: 19} bound=0 violations=0 time=0.0s
+n=24 p=2 m=12 k=9 singletons=4 exhaustive nodes=2735 solutions=1827 exp_p-valuation histogram={0: 384, 2: 1174, 1: 269} bound=2 violations=0 time=0.2s
+n=24 p=3 m=8 k=9 singletons=4 exhaustive nodes=1532 solutions=1074 exp_p-valuation histogram={0: 1074} bound=0 violations=0 time=0.2s
+n=25 p=5 m=5 k=9 singletons=4 exhaustive nodes=404 solutions=269 exp_p-valuation histogram={0: 29, 1: 240} bound=1 violations=0 time=0.1s
+n=26 p=2 m=13 k=9 singletons=3 exhaustive nodes=2802 solutions=1556 exp_p-valuation histogram={0: 1556} bound=0 violations=0 time=0.3s
+n=26 p=13 m=2 k=9 singletons=3 exhaustive nodes=87 solutions=37 exp_p-valuation histogram={0: 37} bound=0 violations=0 time=0.0s
+n=27 p=3 m=9 k=9 singletons=3 exhaustive nodes=3796 solutions=2203 exp_p-valuation histogram={2: 2146, 0: 57} bound=2 violations=0 time=0.6s
+n=28 p=2 m=14 k=9 singletons=3 exhaustive nodes=3450 solutions=1863 exp_p-valuation histogram={1: 1691, 0: 172} bound=1 violations=0 time=0.4s
+n=28 p=7 m=4 k=9 singletons=3 exhaustive nodes=1057 solutions=625 exp_p-valuation histogram={0: 625} bound=0 violations=0 time=0.2s
+n=30 p=2 m=15 k=10 singletons=4 exhaustive nodes=9730 solutions=6025 exp_p-valuation histogram={0: 6025} bound=0 violations=0 time=1.2s
+n=30 p=3 m=10 k=10 singletons=4 exhaustive nodes=8721 solutions=5761 exp_p-valuation histogram={0: 5761} bound=0 violations=0 time=1.4s
+n=30 p=5 m=6 k=10 singletons=4 exhaustive nodes=4560 solutions=3037 exp_p-valuation histogram={0: 3037} bound=0 violations=0 time=0.8s
+n=32 p=2 m=16 k=11 singletons=5 exhaustive nodes=15855 solutions=11064 exp_p-valuation histogram={0: 1129, 4: 9162, 1: 245, 2: 528} bound=4 violations=0 time=2.4s
+n=33 p=3 m=11 k=11 singletons=5 exhaustive nodes=6889 solutions=4827 exp_p-valuation histogram={0: 4827} bound=0 violations=0 time=1.4s
+n=33 p=11 m=3 k=11 singletons=5 exhaustive nodes=416 solutions=252 exp_p-valuation histogram={0: 252} bound=0 violations=0 time=0.1s
+n=34 p=2 m=17 k=11 singletons=4 exhaustive nodes=25319 solutions=14776 exp_p-valuation histogram={0: 14776} bound=0 violations=0 time=3.6s
+n=35 p=5 m=7 k=11 singletons=4 exhaustive nodes=14497 solutions=9500 exp_p-valuation histogram={0: 9500} bound=0 violations=0 time=3.6s
+n=35 p=7 m=5 k=11 singletons=4 exhaustive nodes=6221 solutions=3987 exp_p-valuation histogram={0: 3987} bound=0 violations=0 time=1.5s
+n=36 p=2 m=18 k=11 singletons=4 exhaustive nodes=46783 solutions=26574 exp_p-valuation histogram={0: 2306, 1: 24268} bound=1 violations=0 time=7.5s
+n=36 p=3 m=12 k=11 singletons=4 exhaustive nodes=77786 solutions=48572 exp_p-valuation histogram={1: 47685, 0: 887} bound=1 violations=0 time=14.4s
+n=38 p=2 m=19 k=12 singletons=4 exhaustive nodes=173834 solutions=97350 exp_p-valuation histogram={0: 97350} bound=0 violations=0 time=28.8s
+n=39 p=3 m=13 k=12 singletons=4 exhaustive nodes=195082 solutions=115193 exp_p-valuation histogram={0: 115193} bound=0 violations=0 time=37.1s
+n=39 p=13 m=3 k=12 singletons=4 exhaustive nodes=3104 solutions=1744 exp_p-valuation histogram={0: 1744} bound=0 violations=0 time=0.6s
+n=40 p=2 m=20 k=12 singletons=4 exhaustive nodes=347586 solutions=185360 exp_p-valuation histogram={0: 9406, 2: 173782, 1: 2172} bound=2 violations=0 time=60.7s
+n=40 p=5 m=8 k=12 singletons=4 exhaustive nodes=211256 solutions=133983 exp_p-valuation histogram={0: 133983} bound=0 violations=0 time=100.9s
+n=42 p=2 m=21 k=13 singletons=5 exhaustive nodes=604521 solutions=371699 exp_p-valuation histogram={0: 371699} bound=0 violations=0 time=224.2s
+n=42 p=3 m=14 k=13 singletons=5 exhaustive nodes=692806 solutions=458722 exp_p-valuation histogram={0: 458722} bound=0 violations=0 time=337.3s
+n=42 p=7 m=6 k=13 singletons=5 exhaustive nodes=153667 solutions=104808 exp_p-valuation histogram={0: 104808} bound=0 violations=0 time=86.2s
+n=44 p=2 TIMEOUT
+n=44 p=11 m=4 k=14 singletons=6 exhaustive nodes=23164 solutions=15333 exp_p-valuation histogram={0: 15333} bound=0 violations=0 time=16.5s

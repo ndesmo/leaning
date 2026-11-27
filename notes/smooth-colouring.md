@@ -542,3 +542,61 @@ Next ideas, ranked:
    (`Part of #31`).
 3. Finish Z625×Z39 at level 3 (resume), then Z243×Z65 at level 4.
 4. Mixed |B| = 15.
+
+### 2026-11-27: pass 9
+
+Two parallel strategies: testing and proving Lemma S (structural plus computational), and finishing
+the level-3 and level-4 runs (computational). There is no PR this pass: /review has still not been
+run, and the result below changes the statement under review.
+
+1. **Lemma S and Lemma K are false for general downsets** [numerical: certificate checked by an
+   independent script, and by hand]. Notes are in `structure/pass9_lemmaS.md`; the certificate is
+   `structure/pass9_lemmaS/cex_downsets.json`.
+   - cex1: p = 2, k = 5, T = {0, e5, e4, 2e4, e3, e2, 2e2, e1, e1+e3, 2e1}, g = (1, 2, 4, 3, 3) mod 5.
+     - The blocks are {0, e1+e3}, {e1, 2e4}, {e2, 2e1}, {e3, 2e2} and {e4, e5}.
+     - So e1 = 2e4, e2 = 4e4 and e3 = −e1 = 8e4, which gives Γ ≅ Z_10 and Γ_2 = Z_2, although 2 ∤ 5.
+     - For this (𝒫, g) the minimal level is exactly 1 > v_2(5) = 0: level 0 is NONE and level 1
+       is FOUND.
+     - T itself still has 32 level-0 bijections through other partitions, so the weaker claim
+       "some level works ⇒ level 0 works" is not refuted for this T.
+   - cex2 is midpoint-convex, with Γ ≅ Z ⊕ Z_2.
+   - **So the pass-8 corollary cannot follow from the downset property alone.** §2 of
+     pass8_level.md is amended to say so.
+2. **Refined conjecture S′ [conjecture]: Lemma S holds for *shifted* downsets.** A downset is
+   shifted if x ∈ T, i < j and x_j > 0 imply x − e_j + e_i ∈ T. T_n is shifted, and neither
+   counterexample is shifted under any ordering of the coordinates.
+   - Shifted downsets: 0 violations in 220,389 pairs (T, g), with p ∈ {2, 3, 5} and k ≤ 8.
+   - Threshold downsets: 0 violations in 429,786 pairs.
+   - T_n: exhaustive over all g with fibres of size p, for every n ≤ 42 and every prime p | n with
+     p < n, with 0 violations [numerical: single implementation, `lemS.py exh`; cross-checked on
+     samples against `check_indep.py`]. The n = 44 run was stopped unfinished.
+   - T_195: sampled only. 400 samples for p = 3, 600 for p = 5 and 1000 for p = 13, all with
+     Γ_p = 0. The sampling is biased, so this is weak evidence.
+3. **Proof attempt** [own argument, unreviewed].
+   - Lemma R: a prime that occurs in only one element of T can be dropped without changing the
+     torsion of Γ. At n = 195 only the 25 primes ≤ 97 matter.
+   - Lemma E: Γ_p = 0 exactly when every edge-additive, block-constant map to F_p lifts to Z.
+   - The gap: cex1 is exactly such a map that does not lift. I have not used shiftedness to force a
+     lift. Induction on |T| fails because removing points breaks both shiftedness and the equal
+     fibres.
+4. **Runs at n = 195, all NONE with lex-leader symmetry** [numerical: dfs3, single implementation
+   at these levels]. Commands are in `independent/out/pass9_runs.txt`; logs are in
+   `independent/out/p9/`.
+   - Z625×Z39 (p = 5, level 3): 11149/11149 tasks, 7.89·10⁶ nodes over passes 8 and 9.
+   - Z243×Z65 (p = 3, level 4): 22703/22703 tasks, 2.05·10⁷ nodes, 1513 s.
+   - Gaps: neither run was repeated with `--nosym`. There are no genuine level-3 controls for p = 5,
+     and no level-4 controls at all.
+
+Dead ends: Lemma S for general downsets is refuted by cex1. Midpoint convexity does not rescue it
+either (cex2).
+
+Next ideas, ranked:
+1. **Prove S′ for T_n**, or at least directly for T_195. Lift edge-additive block-constant maps by
+   shifting along e_j → e_i, the move that cex1 lacks. In parallel, search T_195 exhaustively,
+   ordering the search by the 25 primes ≤ 97 with block-constant h assigned at the same time.
+2. Finish the exhaustive T_n sweep at n = 44 … 60, as a stronger test of S′.
+3. Run /review on the reduction notes, with Prop. 1 and §2 as amended, then open the finite-level
+   PR (`Part of #31`). It covers p = 3 at levels ≤ 4, p = 5 at levels ≤ 3 and p = 13 at level 1.
+4. Add controls at levels 3 and 4, and rerun the level-3 and level-4 cases at n = 195 with
+   `--nosym --first`.
+5. Mixed |B| = 15.

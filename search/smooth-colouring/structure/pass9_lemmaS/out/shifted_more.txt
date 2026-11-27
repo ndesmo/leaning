@@ -1,0 +1,6 @@
+shifted p=2 m=4 k=6 downsets=200 pairs=4240 violations=0 example=None
+shifted p=2 m=6 k=7 downsets=60 pairs=12720 violations=0 example=None
+shifted p=3 m=3 k=7 downsets=100 pairs=2546 violations=0 example=None
+shifted p=2 m=8 k=7 downsets=30 pairs=24348 violations=0 example=None
+shifted p=3 m=2 k=8 downsets=200 pairs=571 violations=0 example=None
+shifted p=5 m=3 k=8 downsets=100 pairs=6884 violations=0 example=None

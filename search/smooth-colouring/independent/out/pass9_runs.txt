@@ -1,0 +1,25 @@
+P11 smooth-colouring pass 9 runs (dfs3.exe rebuilt from dfs3.rs: rustc -O -C target-cpu=native dfs3.rs -o dfs3.exe)
+Machine: 22 logical CPUs, 18 threads used.
+
+== 1. n=195, p=5, level 3 (Z625 x Z39), with symmetry: resumed and FINISHED ==
+
+  gunzip -c out/p8/dfs3_n195_p5_L3_s2.log.gz > out/p9/dfs3_n195_p5_L3_s2.log    # 8994 done tasks
+  ./dfs3.exe 195 5 --level 3 --threads 18 --split 2 --resume out/p9/dfs3_n195_p5_L3_s2.log --log out/p9/dfs3_n195_p5_L3_s2.log
+  -> |G|=24375, |S|=176, constraints=8098 (unary 39), |Gamma|=12000; split=2 tasks=11149
+     resume: skipping 8994 tasks already done (setup this time ~1.5 min)
+  -> dfs3 level=3 n=195 p=5 K=39 order=greedy sym=true result=NONE sols_small=0 nodes=6359594
+     tasks_done=11149/11149 secs=420.71   (exit 0; nodes counts only the 2155 resumed tasks)
+  Log audit (out/p9/dfs3_n195_p5_L3_s2.log.gz = pass-8 lines + pass-9 lines):
+     11149 distinct task ids, all "stopped=false", 0 "stopped=true", 0 FOUND;
+     summed per-task nodes over both passes = 7,889,005 (= 1,529,411 pass 8 + 6,359,594 pass 9).
+VERDICT: Z625 x Z39 level 3 at n=195 is NONE (with dfs3 lex-leader symmetry, sym=true).
+
+== 2. n=195, p=3, level 4 (Z243 x Z65), with symmetry: FINISHED ==
+
+  ./dfs3.exe 195 3 --level 4 --threads 18 --split 2 --log out/p9/dfs3_n195_p3_L4_s2.log   (wrapped in timeout 2640; not hit)
+  -> |G|=15795, |S|=176, constraints=8098 (unary 39), |Gamma|=7776; split=2 tasks=22703 (setup < 1 min)
+  -> dfs3 level=4 n=195 p=3 K=65 order=greedy sym=true result=NONE sols_small=0 nodes=20505873
+     tasks_done=22703/22703 secs=1512.54   (exit 0)
+  Log audit (out/p9/dfs3_n195_p3_L4_s2.log.gz): 22703 distinct task ids, all "stopped=false", 0 "stopped=true", 0 FOUND.
+VERDICT: Z243 x Z65 level 4 at n=195 is NONE (with dfs3 lex-leader symmetry, sym=true).
+No positive controls were rerun this pass (level-4 p=3 controls not run; level-3 p=5 controls are in out/p8/).

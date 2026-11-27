@@ -1,0 +1,4 @@
+level=4 n=195 p=3 K=65 |G|=15795 small=25 large=19 |S|=176 constraints=8098 (unary 39) |Gamma|=7776 order=[2, 3, 5, 7, 11, 13, 17, 19, 23, 31, 29, 37, 47, 43, 41, 61, 59, 53, 97, 89, 83, 79, 73, 71, 67]
+split=2 tasks=22703 threads=18
+resume: skipping 0 tasks already done
+dfs3 level=4 n=195 p=3 K=65 order=greedy sym=true result=NONE sols_small=0 nodes=20505873 tasks_done=22703/22703 secs=1512.54

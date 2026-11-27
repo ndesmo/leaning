@@ -74,3 +74,10 @@ whenever (−A) ⊕ B = G, and the checker tests that directly.
   The per-task logs are gzipped (`out/*.log.gz`); gunzip one before using `--resume`.
 - `general/out/m27_hd81_controls.txt` (pass 7): the hd = 81 controls for gtile7, and the n = 162
   level-3 witness.
+- `structure/pass9_lemmaS.md` and `structure/pass9_lemmaS/` (pass 9): cex1 and cex2 refute Lemma S
+  for general downsets; check them with `python cex_downset_check.py`. The refined conjecture S′ is
+  for shifted downsets.
+  - `lemS.py exh <n> <p>` runs the exhaustive T_n sweep, and `check_indep.py` is its independent
+    checker.
+- `independent/out/p9/` (pass 9): the n = 195 runs Z625×Z39 at level 3 and Z243×Z65 at level 4,
+  both NONE. The commands are in `independent/out/pass9_runs.txt`.

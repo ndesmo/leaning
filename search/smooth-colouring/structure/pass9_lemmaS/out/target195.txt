@@ -1,0 +1,2 @@
+rand n=195 p=5 m=39 nodes=537182 hits(g,h with h!=0 block-constant)=37 hist={0: 37} violations=0 time=274.0s
+rand n=195 p=13 m=15 nodes=1316277 hits(g,h with h!=0 block-constant)=28 hist={0: 28} violations=0 time=267.8s

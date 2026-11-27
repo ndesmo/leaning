@@ -1,0 +1,2 @@
+n=195 p=3 m=65 random restarts=400 samples=400 nodes=1600915 histogram={0: 400} bound=0 violations=0 time=561.6s
+n=195 p=3 checked=100 log_p exp(Gamma_p) histogram={0: 100} per-sample disagreements with lemS.py=0

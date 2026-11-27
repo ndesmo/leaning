@@ -182,3 +182,12 @@ cross-checked against sympy's `smith_normal_form`].
 3. If Lemma S holds, then the level-1 NONE searches for n = 195 become independent confirmations
    rather than the proof. Every m_π that is a power of a single prime is then excluded by FP90
    alone.
+
+## Amendment (pass 9)
+
+The proposed Lemma S and Lemma K are **false for general downsets**. The counterexample cex1 is in
+`pass9_lemmaS.md` and its certificate is `pass9_lemmaS/cex_downsets.json`. It has p = 2, k = 5,
+Γ ≅ Z_10 and a minimal level of 1 > v_2(5) = 0.
+
+The conjecture is restricted to *shifted* downsets, called S′ there; T_n is shifted. Read every
+use of "downset" in §2 as "shifted downset (e.g. T_n)". The corollary at n = 195 now depends on S′.

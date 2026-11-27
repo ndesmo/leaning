@@ -24,8 +24,7 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 
 ## Setting
 
-- Exact formula ([A402341] %F, also A077042, A273975; the entry also attributes it to Bollinger–Burchard
-  property d), via Meštrović, original not checked):
+- Exact formula ([A402341] %F, verbatim in L1; also A077042, A273975):
   a(n) = Σ_{j=0..⌊h/16⌋} (−1)^j C(n,j) C(n−1+h−16j, n−1), h = ⌊15n/2⌋, n ≥ 1.
 - 1 + x + … + x¹⁵ = (1+x)(1+x²)(1+x⁴)(1+x⁸), so for even n
   a(n) = Σ_{i+2j+4k+8l = 15n/2} C(n,i) C(n,j) C(n,k) C(n,l). [standard]
@@ -145,8 +144,8 @@ msp^s are the p-adic expansions of n and m, then (108) Ck(n, m) ≡ Σ_{r0,...,r
 Ck(ni, ri) (mod p), where the sum is taken over all (s + 1)-tuples (r0, r1, . . . , rs) such that
 i) m = r0 + r1p + · · · + rsp^s and ii) 0 ≤ ri ≤ (k − 1)ni for each i = 0, 1, . . . , s; if m is not
 representable in this form, then certainly Ck(n, m) ≡ 0 (mod p)." Mod p only; gives parity, not
-v₂. [standard: via Meštrović arXiv:1409.3820, not checked against Bollinger–Burchard 1990; verify against the original
-before citing]
+v₂. [standard: Bollinger–Burchard 1990, second-hand via Meštrović arXiv:1409.3820; original not
+checked, verify against it before citing] (background only; no step of the proof uses it)
 
 **L5. Same-shape results for the infinite product ∏(1 − x^{2^j}).** (Background; different
 object, but the identical "v₂ = v₂(binomial)" shape and 2-adic recurrence methods.)
@@ -154,13 +153,14 @@ object, but the identical "v₂ = v₂(binomial)" shape and 2-adic recurrence me
   ∏_{n=0}^∞(1−x^{2^n})^t (with an Appendix by Andrzej Schinzel)", arXiv:1703.01955 v1 (6 Mar 2017),
   no journal ref on arXiv. Theorem 3.3 (read by a subagent in the HTML version, not quoted
   verbatim because of tool limits): for k ∈ ℕ and all n, ν₂(t_{2^k}(n)) = ν₂(C(n+2^k−1, 2^k−1)),
-  where t_m(n) = [x^n] ∏(1−x^{2^j})^m. [preprint: GMU17, Thm 3.3] (unverified paraphrase; verbatim text still to be
-  extracted)
+  where t_m(n) = [x^n] ∏(1−x^{2^j})^m. [preprint: GMU17, Thm 3.3; text not checked: a subagent's paraphrase of the HTML version,
+  not quoted verbatim] (background only; no step of the proof uses it)
 - Z. Shen, "Powers of the Thue–Morse Series: 2-Adic Valuations and Automatic Odd Parts",
   arXiv:2609.16966 (15 Sep 2026). Theorem 1.1 (pdftotext by the search subagent; ν and binomial
   garbled): "Let r ≥ 1 and put m = 2^r. For every n ≥ 0, ν2(tm(n)) = ν2 C(n+m−1, m−1). Moreover,
   for every s ≥ 1, the sequence (odd(tm(n)) mod 2^s)_{n≥0} is 2-automatic." Method: the
-  functional equation T(x) = (1 − x)T(x²). [preprint: Shen 2026, Thm 1.1] (garbled pdftotext; verbatim check still to do)
+  functional equation T(x) = (1 − x)T(x²). [preprint: Shen 2026, Thm 1.1; text not checked: quoted from garbled pdftotext, ν and binomial
+  symbols reconstructed, not re-extracted verbatim] (background only; no step of the proof uses it)
 - Note the analogy: here ∏_{j<r}(1 + x^{2^j}) = (1 − x^{2^r})/(1 − x) satisfies
   F_r(x) = (1 + x)F_{r−1}(x²), a finite analogue of that functional equation.
 
@@ -203,7 +203,7 @@ T_2(x) = 2x² − 1 and T_{2m} = 2T_m² − 1 (T_n(cos θ) = cos nθ) [own argum
   "1+x+x^2+x^3 coefficients power of 2", "A402341", and all posts since 2026-11-01 matching
   "2-adic", "central coefficient", "x^{15}", "binary digit sum coefficient".
 - Not accessed: Bollinger–Burchard original; Singmaster 1980; Granville's polynomial-power formula
-  (images only on the HTML page); full verbatim theorem text of GMU17; A402341 revisions #1–#3.
+  (images only on the HTML page); full verbatim theorem text of GMU17; verbatim text of Shen Thm 1.1; A402341 revisions #1–#3.
 
 **Verdict.** Open: no proof, disproof or discussion of the conjecture (or of the q = 2^r
 analogue) found in the works searched, as of 2026-11-26.
@@ -254,7 +254,7 @@ Results (2026-11-26):
   i + 2j + 4k + 8l = 15n/2; v₂ of each term is a sum of carry counts. Identify the terms of minimal
   valuation and show their number is odd (2-adic cancellation control).
 - **A3. Recursion F_r(x) = (1 + x)F_{r−1}(x²).** a_{2^r}(n) = Σ_i C(n, i) [x^{(c−i)/2}]
-  F_{r−1}(x)ⁿ with c − i even, mirroring Gawron–Miska–Ulas / Shen's T(x) = (1−x)T(x²). Induction on
+  F_{r−1}(x)ⁿ with c − i even, mirroring Gawron–Miska–Ulas / Shen's T(x) = (1−x)T(x²) (analogy only). Induction on
   r, with q = 2 (Kummer) as base, might go through if the off-centre coefficients
   [x^{c'}]F_{r−1}ⁿ also have controlled valuation — tabulate v₂ of off-centre coefficients first.
 - **A4. 2-adic Lucas / Granville-type congruence mod 2^{s+1}.** Use
@@ -404,6 +404,22 @@ Both reviewers re-read the Mathlib source and fetched DLMF §18.5 on their own. 
 - R3. L3 did not say that Mathlib's `multiplicity` is ℕ-valued (0 when infinite). Fixed: it is v₂ here since C(2m, m) ≥ 1.
 - R4. L7's closing `[standard]` tag covered our own specialisation algebra. Fixed: `[standard]` now covers the quoted formula only, and `[own argument, unreviewed]` covers the specialisation and evaluations.
 
+### 2026-11-27: issue #76 (pre-existing label findings from the review of PR #72)
+
+1. Setting attributed the %F formula to Bollinger–Burchard property d) via Meštrović; the verbatim
+   L1 extract has no such attribution (and the parenthesis was unbalanced). Fixed: attribution
+   deleted; the bullet now cites only [A402341] %F (verbatim in L1).
+2. L5 GMU17 Thm 3.3 (paraphrase) and Shen Thm 1.1 (garbled pdftotext) carried plain `[preprint]`
+   labels. Fixed: both labels now say "text not checked" with the reason, and mark the items as
+   background that no proof step uses.
+3. Bollinger–Burchard `[standard]` tags. The only one is in L4; it now says "second-hand via
+   Meštrović, original not checked". The other mentions (search scope, "Not accessed", earlier
+   Review entries) are not tags.
+
+Checked by one fresh review subagent (budget-limited, not the full two-reviewer `/review`): no FIX,
+2 MINOR, both fixed: A3 now says "(analogy only)" for the GMU17/Shen mention, and the "Not
+accessed" list now records Shen's verbatim text as still to check.
+
 ## Log
 
 - **2026-11-26.** Literature stage (issue #22, branch `agent/central-2adic-literature`). Re-checked
@@ -429,3 +445,5 @@ Both reviewers re-read the Mathlib source and fetched DLMF §18.5 on their own. 
   "text/statement checked 2026-11-27" in the Theorem line, S1, S5 and the Claims ledger; own steps
   stay [own argument, unreviewed]. No discrepancy found.
 - **2026-11-27.** `/review` of the citation stage: no error, 4 wording findings, all fixed (Review).
+- **2026-11-27.** Issue #76 (branch `agent/ndesmo/central-2adic-citation-labels`): fixed the three
+  pre-existing label findings (Review). No mathematical claim changed.

@@ -19,7 +19,7 @@ equals A000120(15*n/2). Verified for n <= 1500." [conjecture]
 That is: for every even n ≥ 0, v₂(a(n)) = s₂(15n/2).
 
 **Natural generalization (ours, not in the entry).** For q = 2^r and even n,
-v₂([x^{(q−1)n/2}] (1 + … + x^{q−1})ⁿ) = s₂((q−1)n/2). [conjecture] (numerics in N2)
+v₂([x^{(q−1)n/2}] (1 + … + x^{q−1})ⁿ) = s₂((q−1)n/2). Was [conjecture] (numerics in N2); now proved in Attack (Theorem) [own argument, unreviewed]
 For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 
 ## Setting
@@ -45,7 +45,7 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 
 | Claim | Label | Where |
 |---|---|---|
-| For even n, v₂(a(n)) = s₂(15n/2) | [conjecture] ([A402341]: "Verified for n <= 1500") | Statement |
+| For even n, v₂(a(n)) = s₂(15n/2) | proved [own argument, unreviewed] (Attack, Theorem row below); was [conjecture] ([A402341]: "Verified for n <= 1500") | Statement |
 | a(n) is odd iff n = (16^k − 1)/15 for some k ≥ 0 | [own argument, unreviewed] (short Lucas argument; the proof is given in the A402341 entry, not yet re-checked) | Literature, L1 |
 | Conjecture holds for every even n ≤ 4000 | [numerical, exact mod 2^48, no undetermined case; Python, not Lean] | Numerics, N1 |
 | Analogue v₂ = s₂((q−1)n/2) holds for all even n ≤ 2000 when q = 4, 8, 32, 64, and for even n ≤ 300 when q = 2 | [numerical, exact mod 2^48; Python, not Lean] | Numerics, N2 |
@@ -53,8 +53,12 @@ For q = 2 this is Kummer's theorem for C(n, n/2) (see Literature, L3).
 | For odd n, v₂(a(n)) − s₂(⌊15n/2⌋) takes values from −11 to 10 for n ≤ 4000 (no simple equality) | [numerical, exact mod 2^48] | Numerics, N3 |
 | a(n) = Σ_m c(n,m) C(m, ⌊m/2⌋) with c(n,m) = [u^m] f(u)ⁿ | [own argument, unreviewed] (source: the entry's %F); checked exactly n ≤ 120 | Setting |
 | Termwise dominance: for every even n ≤ 120 and every m < 15n with c(n,m) ≠ 0, v₂(c(n,m) C(m, m/2)) > s₂(15n/2) (excess ≥ 1) | [numerical, exact integers; Python] | Numerics, N4 |
-| q = 4 carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) for even n ≤ 2000, 1 ≤ t ≤ n | [numerical, exact] | Numerics, N5; A1 |
-| Termwise dominance for all even n implies the conjecture | [own argument, unreviewed] (the top term has valuation exactly s₂(15n/2) by Kummer, every other term strictly more) | Attack ideas, A1 |
+| q = 4 carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) for even n ≤ 2000, 1 ≤ t ≤ n | proved for all even n [own argument, unreviewed] (Attack, Audit: q = 4 case); [numerical, exact] for n ≤ 2000 | Numerics, N5; A1; Attack |
+| **Theorem: for q = 2^r and every even n, v₂(a_q(n)) = s₂((q−1)n/2); q = 16 is the A402341 conjecture** | [own argument, unreviewed] + [standard: Kummer] + [standard: Lucas/Dickson coefficient formula, no reference text checked; numerical j ≤ 6]; S0–S5 checked numerically (`attack_lemma.py 40`) | Attack, S0–S5 |
+| v₂(γ_{j,k}) ≥ j − v₂(k) > s₂(k) for 1 ≤ k < 2^{j−1}; γ_{j,2^{j−1}} = ±2 | [standard: coefficient formula, no reference text checked] + [own argument, unreviewed]; [numerical, exact] j ≤ 6 | Attack, S1–S2 |
+| Key lemma: n even, t ≥ 1 ⇒ v₂([u^{2^j n−2t}] g_jⁿ) ≥ s₂(t) + 1 | [own argument, unreviewed]; numerical j ≤ 4, even n ≤ 40 | Attack, S3 |
+| Termwise dominance for all even n implies the conjecture | [own argument, unreviewed] (the top term has valuation exactly s₂(15n/2) by Kummer, every other term strictly more) | Attack ideas, A1; Attack S5 |
+| Termwise dominance for every even n and every q = 2^r (each t ≥ 1 term has valuation > s₂((q−1)n/2)) | [own argument, unreviewed]; [numerical, exact] q = 4, 8, 16, even n ≤ 40 (`attack_lemma.py`); supersedes N4 as evidence | Attack, S4–S5 |
 
 ## Literature (2026-11-26)
 
@@ -227,6 +231,83 @@ Results (2026-11-26):
   (`Mathlib/Data/Nat/Choose/Factorization.lean`) and `multiplicity_choose`
   (`Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`); small cases can be checked by `decide`.
 
+## Attack (2026-11-27)
+
+Proof of the conjecture, for every q = 2^r (r ≥ 1) and every even n ≥ 0, by route A1 (termwise
+2-adic dominance in the u-expansion), using only Kummer's theorem for central binomials and the
+explicit coefficients of 2T_{2^j}(u/2). Write a_q(n) = [x^{(q−1)n/2}](1 + … + x^{q−1})ⁿ, so
+a(n) = a_16(n). Notation: s₂ = binary digit sum, v₂(0) = +∞.
+
+**Theorem.** For r ≥ 1, q = 2^r and every even n ≥ 0, v₂(a_q(n)) = s₂((q−1)n/2). In particular
+(q = 16) the A402341 conjecture holds. [own argument, unreviewed] + [standard: Kummer, L3] +
+[standard: Lucas/Dickson coefficient formula, no reference text checked; numerical j ≤ 6]; steps
+checked numerically by `search/central-2adic/attack_lemma.py` (`python -I attack_lemma.py 40`:
+S1–S2 for j ≤ 6; S3 for j ≤ 4, even n ≤ 40, all t; S0, S4, the S5 termwise bound and the final
+equality for q = 4, 8, 16, even n ≤ 40, exact integers).
+
+**S0 (u-form).** For j ≥ 1 put g_j(u) = 2T_{2^j}(u/2), so g_1 = u² − 2 and g_{j+1} = g_j² − 2. With
+u = x^{1/2} + x^{−1/2} one has x^{−2^{j−1}}(1 + x^{2^j}) = g_j(u) (both equal 2cos(2^j θ) at
+x^{1/2} = e^{iθ}, u = 2cos θ) and x^{−1/2}(1 + x) = u. Since 1 + … + x^{q−1} = ∏_{j<r}(1 + x^{2^j}),
+x^{−(q−1)n/2}(1 + … + x^{q−1})ⁿ = f(u)ⁿ with f = u·g_1⋯g_{r−1}, and
+a_q(n) = [x⁰] f(u)ⁿ = Σ_m c(n,m) C(m, m/2), c(n,m) = [u^m] f(u)ⁿ, since [x⁰]u^m = C(m, m/2) for m
+even and 0 for m odd. For n even, f(u)ⁿ is even in u (f is odd), so only even m occur; write
+m = (q−1)n − 2t, 0 ≤ t ≤ (q−1)n/2. [own argument, unreviewed] (the q = 16 case is the entry's
+third %F; checked exactly for n ≤ 120 by `dominant_term.py` and for q = 4, 8, 16 by `attack_lemma.py`)
+
+**S1 (coefficients of g_j).** With M = 2^j, g_j(u) = Σ_{k=0}^{M/2} γ_{j,k} u^{M−2k},
+γ_{j,k} = (−1)^k (M/(M−k)) C(M−k, k) [standard: explicit formula for 2T_M(u/2) (Lucas/Dickson
+polynomials); no reference text checked here; [numerical, exact] for j ≤ 6 from the recursion]. For
+1 ≤ k ≤ M/2 (so k and M − k are nonzero, and v₂(k) ≤ j − 1), γ_{j,k} = (−1)^k (M/k) C(M−k−1, k−1), so
+v₂(γ_{j,k}) ≥ j − v₂(k). [own argument, unreviewed] (one line: C(M−k,k) = ((M−k)/k)C(M−k−1,k−1))
+
+**S2 (bit count).** For 1 ≤ k < 2^{j−1}: j − v₂(k) > s₂(k), because the binary digits of k lie in
+positions v₂(k), …, j − 2, so s₂(k) ≤ j − 1 − v₂(k). For k = 2^{j−1}: γ_{j,k} = ±2, valuation
+1 = s₂(k). [own argument, unreviewed]
+
+**S3 (key lemma).** For j ≥ 1, n even and 1 ≤ t ≤ 2^{j−1}n:
+v₂([u^{2^j n − 2t}] g_j(u)ⁿ) ≥ s₂(t) + 1. [own argument, unreviewed; numerical for j ≤ 4,
+even n ≤ 40, minimum excess exactly 1 for each j]
+Proof. Expanding the n-fold product, the coefficient is Σ over (k_1,…,k_n), 0 ≤ k_i ≤ 2^{j−1},
+Σk_i = t, of ∏γ_{j,k_i}. Group sequences with the same multiset of nonzero k_i; each group equals
+(number of arrangements, an integer) × ∏γ, so its valuation is ≥ Σ_{k_i≠0} v₂(γ_{j,k_i}), and the
+valuation of the sum is ≥ the minimum over groups. Fix a group.
+(A) Some nonzero k_i < 2^{j−1}: by S1–S2 the valuation is > Σ s₂(k_i) ≥ s₂(Σ k_i) = s₂(t)
+(subadditivity of s₂).
+(B) All nonzero k_i equal 2^{j−1}, say m ≥ 1 of them, so t = m·2^{j−1} and s₂(t) = s₂(m). The group
+is C(n, m)(±2)^m, valuation m + v₂(C(n,m)). If m ≥ 2, m > s₂(m). If m = 1, the valuation is
+1 + v₂(n) ≥ 2 > 1 = s₂(m), since n is even. ∎
+(This is the only use of n even in S3; for odd n, case B with m = 1 gives equality and the
+lemma fails, consistent with N3. The grouping is needed only in case B with m = 1, where a single
+term has valuation 1 = s₂(t) and the count C(n,1) = n supplies the extra factor 2; in case A each
+term already satisfies the bound. A Lean proof by induction on n must keep this factor n.)
+
+**S4 (lower bound).** For n even and t ≥ 1, v₂(c(n, (q−1)n − 2t)) ≥ s₂(t) + 1.
+Proof: c(n,(q−1)n−2t) = Σ_{t_1+…+t_{r−1}=t} ∏_j [u^{2^j n − 2t_j}] g_j(u)ⁿ (the factor uⁿ only
+shifts degrees). In each product some t_j ≥ 1; by S3 its valuation is ≥ Σ_j s₂(t_j) + 1 ≥
+s₂(t) + 1 (factors with t_j = 0 have coefficient 1). [own argument, unreviewed] (for r = 1 the
+sum is empty for t ≥ 1: c = 0, and the claim is trivial)
+
+**S5 (conclusion).** Let N = (q−1)n/2. The t = 0 term is c(n,2N)C(2N,N) = C(2N, N) (c(n,2N) = 1 because f
+is monic, each g_j being monic), of valuation
+s₂(N) by Kummer [standard: L3]. For t ≥ 1 the term c(n,2N−2t)C(2(N−t), N−t) has valuation
+≥ s₂(t) + 1 + s₂(N−t) ≥ s₂(N) + 1 (S4, Kummer, subadditivity). Hence
+a_q(n) ≡ C(2N, N) ≢ 0 (mod 2^{s₂(N)+1}) and v₂(a_q(n)) = s₂(N). ∎ [own argument, unreviewed]
+
+**Audit.**
+- n = 0: a_q(0) = 1, s₂(0) = 0; the proof also covers it (no t ≥ 1 terms). Odd n: not claimed.
+- q = 2 (r = 1): f = u, the statement is Kummer's v₂(C(n, n/2)) = s₂(n/2).
+- Ranges: in S3, 0 ≤ k_i ≤ 2^{j−1} is the full support of g_j (degree 2^j, even powers only);
+  t_j ≤ 2^{j−1}n automatically. No division by a quantity of unknown sign; only lower bounds on
+  valuations of sums (ultrametric inequality), plus one exact valuation (the t = 0 term).
+- The bound in S3 is sharp in the checked range (excess 1 attained) [numerical, j ≤ 4, even
+  n ≤ 40], so no slack is evident; S5 only needs ≥ 1.
+- q = 4 (CA2): f = u³ − 2u = u(u² − 2), so c(n, 3n − 2t) = (−2)^t C(n,t), and S4 gives
+  t + v₂(C(n,t)) ≥ s₂(t) + 1; with s₂(t) + s₂(3n/2 − t) ≥ s₂(3n/2) this is the carry inequality
+  t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) for even n, 1 ≤ t ≤ n. [own argument, unreviewed]
+- Lean (issue #66): every step is elementary. Natural units: S1 as a statement about the
+  integer coefficients defined by the recursion g_{j+1} = g_j² − 2 (avoids Chebyshev), S2, S3 by
+  induction on n (rather than multisets), S5 with `Nat.factorization_choose`/Kummer.
+
 ## Review
 
 ### 2026-11-26: literature stage, one independent review subagent (budget-limited, not the full two-reviewer `/review`)
@@ -251,6 +332,36 @@ inequality (n ≤ 2000), and checked that termwise dominance implies the conject
 6. A1 implication attributed to N4: fixed, the implication is stated on its own and N4 is cited
    only as numerical evidence for the inequality.
 
+### 2026-11-27: `/review` of the Attack section (S0–S5), two fresh reviewers (mathematics; claims)
+
+Both reviewers saw only Statement, Setting, L3, the Attack section and `attack_lemma.py`, not the
+derivation. The mathematics reviewer re-derived S0–S5 and found no error (also an independent
+brute-force check of the theorem for q = 2, 4, 8, 16, 32, even n ≤ 30). No blocking finding; the
+proof survives. Findings (M = mathematics, C = claims):
+- M1. S5 uses c(n,2N) = 1 without reason: fixed, "(f is monic, each g_j being monic)".
+- M2. The S3 grouping is needed only in case B, m = 1: fixed, remark added (and the factor n must
+  survive a Lean induction).
+- M3. S1 divides by k and M − k: fixed, range 1 ≤ k ≤ M/2 and v₂(k) ≤ j − 1 stated.
+- C1. "S1–S5 checked numerically" overclaimed (the script did not check S4 or the S5 termwise
+  bound; docstring wrong): fixed, `attack_lemma.py` L3 now also asserts c(n,2N) = 1, the S4 bound
+  and the S5 termwise bound for q = 4, 8, 16, even n ≤ 40; re-run passes; docstring and labels updated.
+- C2. Statement still labels the q = 2^r generalisation [conjecture]: fixed ("was [conjecture]; now proved").
+- C3. q = 4 carry inequality: ledger row still numerical-only while LEDGER CA2 says proved, and the
+  derivation was not written: fixed, one-line derivation in the Audit; row and CA2 updated.
+- C4. "[standard: Chebyshev coefficients]" names no reference: fixed by relabelling honestly as
+  "[standard: Lucas/Dickson coefficient formula, no reference text checked] + [numerical, exact] j ≤ 6".
+  Not a gap: the formula is classical and checked exactly for every j used numerically; the planned
+  Lean proof (#66) derives the coefficients from the recursion g_{j+1} = g_j² − 2 instead.
+- C5. "S3 bound is sharp" unlabelled: fixed, labelled numerical (j ≤ 4, even n ≤ 40).
+- C6. "n ≤ 40" should be "even n ≤ 40": fixed (S3 label and ledger row).
+- C7. Ledger row for the conjecture lacked its own label: fixed.
+- C8. No row recorded termwise dominance for all even n: fixed, row added (Attack S4–S5); LEDGER
+  numerics bullet updated.
+- C9. Typo "lower lowering bound": fixed.
+
+Rebutted: none. No proof step changed in substance (only clarifications), so no second review round. Claim labels unchanged in substance: Theorem [own argument, unreviewed] +
+[standard: Kummer, L3] + [standard: coefficient formula]; no gap found.
+
 ## Log
 
 - **2026-11-26.** Literature stage (issue #22, branch `agent/central-2adic-literature`). Re-checked
@@ -263,3 +374,8 @@ inequality (n ≤ 2000), and checked that termwise dominance implies the conject
   Review: one independent subagent, 7 minor findings, 6 fixed and 1 rebutted (see Review).
 - **2026-11-26.** Opened PR #67 (literature + setup, closes #64).
 - **2026-11-26.** Addressed the reviewer-loop comment on PR #67 (1 FIX, 5 MINOR; all fixed).
+- **2026-11-27.** Attack stage (issue #65, branch `agent/central-2adic-attack`). Route A1 closes:
+  proved v₂(a_q(n)) = s₂((q−1)n/2) for all q = 2^r and all even n (Attack, S0–S5), which includes
+  the A402341 conjecture (q = 16) and the q = 4 case CA2. Key input: γ_{j,k} = ±(2^j/k)C(2^j−k−1,k−1)
+  and the n-even case split in S3. Steps checked by `search/central-2adic/attack_lemma.py`.
+  [own argument, unreviewed; Lean pending, #66]

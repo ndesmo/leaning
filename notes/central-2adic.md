@@ -502,6 +502,12 @@ No theorem statement or proof step changed, so no Lean rerun and no second revie
 
 No Lean or claim label changed (the chip change in 2 removes an under-label of a proved result; the Lean label of Corollary 2 is unchanged).
 
+### 2026-11-28: reviewer-loop comment on PR #102 (sha a6aaf6a), no blocking findings
+
+1. MINOR, the odd-n sentence joined two points (where the factor 2 comes from; why odd n is not covered): fixed, split into two sentences after "with n = 2m".
+
+No mathematical content, Lean or claim label changed.
+
 ## Log
 
 - **2026-11-26.** Literature stage (issue #22, branch `agent/central-2adic-literature`). Re-checked
@@ -547,3 +553,4 @@ No Lean or claim label changed (the chip change in 2 removes an under-label of a
   reviewed yet (`/review` next).
 - 2026-11-27: `/review` of the page (two fresh reviewers): no mathematical error, 11 wording findings, all fixed (Review).
 - 2026-11-28: answered the reviewer-loop comment on PR #102: 1 FIX and 7 MINOR, all fixed on the page (Review).
+- 2026-11-28: answered the second reviewer-loop comment on PR #102: 1 MINOR, fixed (Review).

@@ -1,1 +1,2 @@
 import Proofs.WeaklyConsecutive
+import Proofs.WeaklyConsecutiveEnds

@@ -6,7 +6,8 @@ import Proofs.WeaklyConsecutiveSlice
 
 Progress note (issue #96): A7.5 of `notes/weakly-consecutive.md` is proved: (i)
 `conjecture_5_2_s_sq_mul_r` (`r ∤ s² − s + 1`), (ii) `conjecture_5_2_63` and
-`conjecture_5_2_2107`, and the combined form of the issue, `conjecture_5_2_s_sq_mul_r'`.
+`conjecture_5_2_2107`, and the combined form of the issue, `conjecture_5_2_s_sq_mul_r'`; and A7.4 (k = 4r) as the
+corollary `conjecture_5_2_four_mul`.
 Nothing is left in this unit.
 
 Notation as in `Proofs/WeaklyConsecutive.lean`: `σ : Equiv.Perm (Fin k)`, the 0-indexed position
@@ -279,5 +280,26 @@ theorem conjecture_5_2_s_sq_mul_r' {r s : ℕ} (hr : r.Prime) (hs : s.Prime) (hr
   · exact conjecture_5_2_s_sq_mul_r hr hs hrs hsr hc hk σ h
   · exact conjecture_5_2_63 σ h
   · exact conjecture_5_2_2107 σ h
+
+/-- **A7.4** (`notes/weakly-consecutive.md`, Attack ideas A7.4). "Let r ≥ 5 be a prime and
+k = 4r. Then every WCS of length k has σ(1) = 1 or σ(k) = 1. With k = 12 (r = 3) from the Lean
+check k ≤ 16, Conjecture 5.2 holds for every k = 4r, r an odd prime." Stated here in that final
+form (r an odd prime); r ≥ 5 is `conjecture_5_2_s_sq_mul_r` with s = 2 (s² − s + 1 = 3), and
+r = 3 is `conjecture_5_2_le_16`. -/
+theorem conjecture_5_2_four_mul {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hk : k = 4 * r)
+    (σ : Equiv.Perm (Fin k)) (h : IsWeaklyConsecutive σ) :
+    σ ⟨0, by have := hr.pos; omega⟩ = ⟨0, by have := hr.pos; omega⟩ ∨
+      σ ⟨k - 1, by have := hr.pos; omega⟩ = ⟨0, by have := hr.pos; omega⟩ := by
+  have hodd : Odd r := hr.odd_of_ne_two hr2
+  by_cases h3 : r = 3
+  · subst h3
+    exact conjecture_5_2_le_16 k (by omega) (by omega) σ h
+  · have hsr : 2 ∣ r - 1 := by
+      obtain ⟨m, hm⟩ := hodd; exact ⟨m, by omega⟩
+    have hrs1 : ¬ r ∣ 2 ^ 2 - 2 + 1 := by
+      intro hd
+      have := (Nat.prime_dvd_prime_iff_eq hr Nat.prime_three).mp (by simpa using hd)
+      exact h3 this
+    exact conjecture_5_2_s_sq_mul_r hr Nat.prime_two hr2 hsr hrs1 (by rw [hk]; norm_num) σ h
 
 end WeaklyConsecutiveS2R

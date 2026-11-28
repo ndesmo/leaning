@@ -57,7 +57,7 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | Slice lemma: if 1 < σ^{-1}(1) < k, d = σ(1), d′ = σ(k), then σ(k − d + 1) = d·e with e ∣ k/d, e ≥ 2 and gcd(e, d′) ∣ d − 1; mirror: σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1 | [Lean] `WeaklyConsecutiveSlice.slice`, `slice_mirror` | Attack ideas, A7.1 |
 | Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [Lean] `WeaklyConsecutiveSlice.conjecture_5_2_r_mul_s_pow` (pq case: `conjecture_5_2_mul_primes`; 2·s^b: instance r = 2, since s ∤ 1) | Attack ideas, A7.2 |
 | General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`) | Log 2026-11-26 |
-| Conjecture 5.2 holds for k = 4r, r ≥ 5 prime (with k = 12 from Lean: for every k = 4r, r an odd prime) | [own argument, unreviewed] (k = 12 part: [Lean]) | Attack ideas, A7.4 |
+| Conjecture 5.2 holds for k = 4r, r ≥ 5 prime (with k = 12 from Lean: for every k = 4r, r an odd prime) | [Lean] `WeaklyConsecutiveS2R.conjecture_5_2_four_mul` (all odd primes r; via `conjecture_5_2_s_sq_mul_r` with s = 2, and `conjecture_5_2_le_16` for k = 12) | Attack ideas, A7.4 |
 | No WCS of length 4r with σ(1) ∈ {2, 4}, σ(4r) = r for r = 3, 5, 7 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_4r_check.py`) | Attack ideas, A7.4 |
 | Conjecture 5.2 holds for k = s²·r (r, s distinct primes, s ∣ r − 1) when r ∤ s² − s + 1, and for k = 63 and k = 2107 (generalizes A7.4: s = 2) | [Lean] `WeaklyConsecutiveS2R.conjecture_5_2_s_sq_mul_r` (i), `conjecture_5_2_63`, `conjecture_5_2_2107` (ii), combined `conjecture_5_2_s_sq_mul_r'` (#96) | Attack ideas, A7.5 |
 | For primes s < 60, the pairs with s ∣ r − 1 and r ∣ s² − s + 1 are (2, 3), (3, 7), (7, 43), (13, 157); A7.5's k + 1 step closes 63 and 2107, not 12 or 26533 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_s2r_check.py`) | Attack ideas, A7.5 |
@@ -375,7 +375,8 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       and also k = 63 and 2107 among those exceptions ([Lean], #96). Still open in
       (b): b ≥ 3, and b = 2 exceptions such as 26533 = 13²·157. The uncovered k ≤ 100 are now
       (a) 36, 72, 100 and (b) 24, 40, 48, 56, 80, 88, 96 (all 2^b·r with b ≥ 3).
-  - **A7.4. k = 4r (2026-11-27, #68).** [own argument, unreviewed] *Let r ≥ 5 be a prime and
+  - **A7.4. k = 4r (2026-11-27, #68).** [Lean] `conjecture_5_2_four_mul` (2026-11-27, #106; the
+    own argument below is not the Lean route: Lean uses A7.5 (i) with s = 2) *Let r ≥ 5 be a prime and
     k = 4r. Then every WCS of length k has σ(1) = 1 or σ(k) = 1.* With k = 12 (r = 3) from the
     Lean check k ≤ 16 ([Lean], `conjecture_5_2_le_16`), Conjecture 5.2 holds for every k = 4r, r an
     odd prime (20, 28, 44, 52, 68, 76, 92, … are newly covered by a proof in these notes; they were already
@@ -724,3 +725,7 @@ No mathematical error found; two wording points, both fixed:
   s²·u instead of building the slice υ, and step 5 proves T_m = {m, 2m, …} for m ∣ k + 1 from
   A6.0 (a) and A6.1 instead of counting; the statement is unchanged. `check.ps1`: CLEAN,
   standard axioms only. Ledger row relabelled [Lean].
+- 2026-11-27: Lean, review of #106. A7.4 (k = 4r, r an odd prime) added as the corollary
+  `WeaklyConsecutiveS2R.conjecture_5_2_four_mul`: r ≥ 5 is A7.5 (i) with s = 2
+  (s² − s + 1 = 3), r = 3 is `conjecture_5_2_le_16`. `check.ps1`: CLEAN (8 theorems, standard
+  axioms only). A7.4 and its ledger rows relabelled [Lean].

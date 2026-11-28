@@ -646,6 +646,14 @@ No mathematical error found; two wording points, both fixed:
 2. `wc_s2r_check.py` defaulted to s < 200 (slow; did not finish in 120 s) while the claims cite s < 60.
    Fixed: the default bound is now 60, matching the stated output.
 
+### 2026-11-28: Lean, reviewer-loop re-review of #106 (abb8ba4)
+
+1. Earlier findings 1–3: resolved (reviewer's confirmation). No change.
+2. MINOR: the A7.4 italic statement says "r ≥ 5 prime" while the Lean name covers every odd prime r.
+   Rebutted, no change: the italic statement is the scope of the human proof (r = 3 comes from the
+   k ≤ 16 enumeration instead), the next sentence and the label line name the Lean form, and the
+   claims-ledger row already reads "(Lean: all odd primes r)".
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -729,3 +737,4 @@ No mathematical error found; two wording points, both fixed:
   `WeaklyConsecutiveS2R.conjecture_5_2_four_mul`: r ≥ 5 is A7.5 (i) with s = 2
   (s² − s + 1 = 3), r = 3 is `conjecture_5_2_le_16`. `check.ps1`: CLEAN (8 theorems, standard
   axioms only). A7.4 and its ledger rows relabelled [Lean].
+- 2026-11-28: reviewer-loop re-review of #106 answered (one MINOR note rebutted, no math change).

@@ -123,6 +123,11 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   for all even n is now part of the Attack proof (S4–S5).
 - Lean stage 2026-11-27 (#66): the full Theorem (every q = 2^r, every even n) is proved in Lean,
   `Central2adic.central_2adic` and `Central2adic.a402341_conjecture`, standard axioms only.
+- Page stage 2026-11-27 (#78): page `docs/central-2adic/index.html`, listed in the site index and the
+  README. /review 2026-11-27 (two fresh reviewers): no mathematical error, 11 wording findings, all fixed (notes, Review). Novelty re-check 2026-11-27 found nothing new: no proof or discussion in
+  the works searched. Bollinger–Burchard (original not accessible) and Granville (partly read) give
+  only mod p results. MathOverflow and Math.SE could not be fetched this round (notes, Search scope
+  2026-11-27).
 
 | Id | Item | Status | Where |
 |---|---|---|---|

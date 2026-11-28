@@ -208,6 +208,59 @@ T_2(x) = 2x² − 1 and T_{2m} = 2T_m² − 1 (T_n(cos θ) = cos nθ) [own argum
 **Verdict.** Open: no proof, disproof or discussion of the conjecture (or of the q = 2^r
 analogue) found in the works searched, as of 2026-11-26.
 
+**Search scope (2026-11-27), page-stage novelty re-check (#78).** Done by one search subagent plus
+two direct fetches. WebFetch returns model summaries, so the OEIS "quotes" below are partly
+paraphrase. The Meštrović and Granville quotes are verbatim from the extracted text.
+- OEIS: A402341 (`search?q=id:A402341&fmt=text`) is still at revision #13, last revised Nov 17 2026
+  10:25:10, with the same conjecture comment ("Verified for n <= 1500"). History
+  (`history?seq=A402341`): revisions #4–#13, all Nov 17 2026. The latest are #13 (OEIS Server, b-file
+  link) and #12 (De Vlieger, approved; "Installed first b-file as b402341.txt."). The only discussion
+  is Kotesovec's "Asymptotics is correct." and a reference request. Nothing on the 2-adic
+  conjecture. `search?q=A402341` returns only A402341. A005190 and A025013 (`fmt=text`) have no
+  2-adic, digit-sum or A000120 comment.
+- Web search: "A402341"; "2-adic valuation central coefficient (1+x+...+x^15)^n"; "2-adic valuation
+  central quadrinomial coefficient"; "central multinomial coefficient 2-adic valuation binary digit
+  sum"; and a site-restricted MathOverflow/Math.SE query. They found only adjacent work already listed
+  (Boros–Moll–Shallit math/0308072, GMU17, Shen arXiv:2609.16966) or unrelated work (arXiv:2407.07103,
+  math/0508498, Amdeberhan–Manna–Moll 0707.3104). No MathOverflow or Math.SE page was returned.
+- arXiv API: `all:"central coefficient" AND all:2-adic`, `all:"extended Pascal" AND all:2-adic` and
+  `all:multinomial AND all:2-adic AND all:central` returned 0 results. `all:quadrinomial AND
+  all:valuation` returned one unrelated paper, arXiv:2609.36811, on monogenity.
+- MathOverflow and Math.SE: **not checked this round**. Neither api.stackexchange.com nor
+  mathoverflow.net could be fetched on 2026-11-27, so the last check of both is the 2026-11-26 one
+  above.
+- Nothing posted after 2026-11-26 was found.
+
+**Sources that could imply the result (read 2026-11-27).**
+- **Bollinger–Burchard [L4]: original still inaccessible.** The Taylor & Francis page
+  (doi 10.1080/00029890.1990.11995574) returned HTTP 403. JSTOR was not tried. The subagent re-read
+  the survey's account (Meštrović, arXiv:1409.3820, PDF text extracted locally), verbatim: "In 1990
+  R. Bollinger and C. Burchard [17] considered the extended pascal's triangles which arise ... as the
+  (left-justified) arrays of the coefficients in the expansion (1 + x + x^2 + ... + x^{k-1})^n." The
+  survey's [17, Theorem 1] is the mod p congruence quoted in L4. The survey also quotes the identity
+  "C_k(n,m) = Σ_j (-1)^j binom(n,j) binom(n-1+m-kj, n-1)" (p. 199 of the paper). The survey reports
+  no valuation result beyond mod p. **Verdict:** as far as the survey shows, it gives congruences
+  mod p only, so it gives parity but not v₂, and it does not imply the theorem. This is unverified at
+  the source.
+- **Granville, "Arithmetic properties of binomial coefficients I" (web version
+  https://dms.umontreal.ca/~andrew/Binomial/): partly read.** genlucas.html, Theorem 1 (a
+  generalized Lucas congruence modulo prime powers; the formula is an image), verbatim opening: "For
+  any prime power ... and positive integers m=n+r, we have". It is about binomial coefficients and
+  carries. genfns.html, verbatim: "We may also generalize this method to evaluate, modulo p, the
+  coefficients of powers of any given polynomial:". Its formula (24) is an image and could not be
+  read. highpower.html ("Congruences modulo higher powers of primes"; Proposition 5, Lemma 4): the
+  visible text has nothing on coefficients of polynomial powers. Lemma 4 concerns "the power of p
+  that divides" a quantity shown only as an image. **Verdict:** the readable text gives polynomial
+  power coefficients only modulo p, and nothing on their exact 2-adic valuation. It does not imply
+  the theorem, as far as could be read. The formula images and the PDF were not read. Granville's
+  "Zaphod Beeblebrox's brain and the fifty-ninth row of Pascal's triangle" (Monthly 1992) was not
+  fetched.
+
+**Verdict (2026-11-27).** No proof, disproof or discussion of the A402341 conjecture or of the
+q = 2^r theorem was found in the works searched. The page claims at most "not found in the works
+searched (as of 2026-11-27)" and names the unread sources (Bollinger–Burchard original, Granville's
+formula images, MathOverflow/Math.SE this round).
+
 ## Numerics
 
 Scripts in `search/central-2adic/` (run with `python -I`):
@@ -420,6 +473,22 @@ Checked by one fresh review subagent (budget-limited, not the full two-reviewer 
 2 MINOR, both fixed: A3 now says "(analogy only)" for the GMU17/Shen mention, and the "Not
 accessed" list now records Shen's verbatim text as still to check.
 
+### 2026-11-27: `/review` of the proof page `docs/central-2adic/index.html` (#78), two fresh reviewers (mathematics; claims and Lean)
+
+No mathematical error found; both reviewers recomputed the table (a₁₆(2) = 16, a₁₆(4) = 2736, v₂ = s₂(N) in every column), the q = 3, 6 counterexamples and the odd-n range −11..10 except −2. All findings were wording; all fixed on the page:
+
+- M1/C5. Step 5 said "the only place where n even is used"; evenness also makes N = (q−1)n/2 an integer in steps 2 and 6. Fixed.
+- M2/C1. Lean section said the only outside input is Kummer; `s₂_add_le` also uses Legendre's formula `Nat.Prime.sub_one_mul_multiplicity_factorial` and `Nat.digit_sum_le`. Fixed: all three named.
+- M3. Count "34 lemmas and theorems" missed `@[simp] lemma s₂_zero`; the file has 35. Fixed (two places). (C reviewer counted 34 with the same grep miss; verified 35.)
+- M4. Step 2 identity B^{2N}z^t = X^t(1+X)^{2(N−t)} only for t ≤ N. Fixed: added the t > N case.
+- C2. Abstract "no formula is known" for odd n is a literature claim beyond scope. Fixed: "we found no formula in the works searched, and we propose none".
+- C3. Novelty item implied [BB90] was read; it was read only via [Meš14]. Also the [Gra97] PDF and Granville's 1992 Monthly paper were unread but not listed. Fixed both.
+- C4. Corollary 2 called the central coefficient "largest", unproved and unlabelled. Fixed: "central coefficient, which is how the entry defines a(n)".
+- C6. "For odd n the bound of step 6 fails" was unsupported. Fixed: the setup of steps 2–6 does not apply since (q−1)n is odd.
+- C7 (nit). `SG.WG` missing from the Lean table's steps 3–5 row. Fixed.
+
+No theorem statement or proof step changed, so no Lean rerun and no second review round.
+
 ## Log
 
 - **2026-11-26.** Literature stage (issue #22, branch `agent/central-2adic-literature`). Re-checked
@@ -456,3 +525,11 @@ accessed" list now records Shen's verbatim text as still to check.
   coefficients (t ≥ 1) divisible by 2^{s₂(t)+1}. This removes the need for the DLMF formula of S1
   and the multiset grouping of S3. Kummer enters through Mathlib
   `sub_one_mul_multiplicity_choose_eq_sub_sum_digits`.
+- **2026-11-27.** Page stage (issue #78, branch `agent/ndesmo/central-2adic-page`). Novelty
+  re-checked (Search scope 2026-11-27): nothing new, and nothing found implies the theorem.
+  Bollinger–Burchard's original is still not accessible. Granville was partly read (mod p only).
+  MathOverflow and Math.SE could not be fetched. Wrote `docs/central-2adic/index.html`, presenting
+  the Lean route (steps 1–6, each step [Lean]) with S0–S5 as a remark, and quoting both Lean
+  statements verbatim. Added the page to `docs/index.html` and `README.md`. The page has not been
+  reviewed yet (`/review` next).
+- 2026-11-27: `/review` of the page (two fresh reviewers): no mathematical error, 11 wording findings, all fixed (Review).

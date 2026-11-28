@@ -661,6 +661,39 @@ No mathematical error found; two wording points, both fixed:
 2. `wc_s2r_check.py` defaulted to s < 200 (slow; did not finish in 120 s) while the claims cite s < 60.
    Fixed: the default bound is now 60, matching the stated output.
 
+### 2026-11-27: proof page docs/weakly-consecutive/index.html (#83), `/review` (two independent subagents)
+
+Reviewers saw only the page, the Literature section and the three Lean files. Both found no
+mathematical error and nothing blocking; the claims reviewer confirmed every Lean name and quoted
+statement against the source, no `sorry`/`axiom`/`native_decide`, the 11/14/7 counts and the list
+of uncovered k ≤ 100; the mathematics reviewer re-ran the k ≤ 100 list and brute-forced the counts
+for k ≤ 18. Nine wording points (one raised by both), all fixed in the page:
+1. (both) Lemma 2 remark said the page's lemma is [GSK24, Lemma 2.3] "for every multiple of m, not
+   just the value m", misdescribing the cited lemma, whose m is unbound. Fixed: "whose statement
+   leaves m unbound; we read it as applying to every x with m ∣ x".
+2. (maths) What remains open, case (b) as written contained k = 12, which Theorem 8 proves. Fixed:
+   the open cases are stated for k > 16 with k = 12 noted as settled; "every 2^b·r > 16".
+3. (claims) Lemma 5 step 2 carried a Lean chip for the slice τ being a WCS, which Lean never builds.
+   Fixed: that part is labelled Own argument; the Lean chip is on "e ≥ 2 and e ∣ K" only, with the
+   note on how Lean proves it.
+4. (claims) Theorem 6 step 1 said "the other is s^β" under a Lean chip, but Lean
+   (`s_dvd_of_not_r_dvd`) proves only s ∣ the other end. Fixed: the text says it is divisible by s
+   (indeed a power of s, but only divisibility is used and only that is in Lean); steps 2–3 use
+   s ∣ d′ instead of d′ = s^β.
+5. (claims) Theorem 6 step 2 cited `reversal` for "we may assume σ(1) = r", but Lean does not reduce
+   by symmetry. Fixed: the chip is `conjecture_5_2_r_mul_s_pow`, with a note that Lean treats the
+   two orientations separately via `slice` and `slice_mirror` (checked: Slice.lean lines 196, 207).
+   (The reviewer also mentioned Lemma 1 step 3; that step's `reversal` chip is on "R(σ) is a WCS",
+   which `reversal` does prove, plus the elementary end swap; no change.)
+6. (claims) Novelty said "OEIS (only [A395372] …)", but the search had nine hits, eight not opened.
+   Fixed: "nine hits; only [A395372] concerns WCS …; the other eight were not opened".
+7. (claims) The "In progress" label was not in the legend. Fixed: added.
+8. (claims) Legend read "Own argument: written by us". Fixed: "written by Claude".
+9. (claims) "Only m ∈ [2, k] matter" had no reason. Fixed: one-clause reason added (m = 0, ±1,
+   sign, |m| > k).
+No theorem statement or proof step in Lean changed, so no Lean re-check or second review was run.
+Masthead Review line updated.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after

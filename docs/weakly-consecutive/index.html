@@ -313,7 +313,8 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         <ul class="plain">
           <li><b>Searched on 27 November 2026:</b> the arXiv API (“weakly consecutive”, and “weakly consecutive” with
             “permutation” in the abstract: only [GSK24]); MathOverflow and Math.SE through the Stack Exchange API
-            (no results); OEIS (only [A395372], which lists the counts and does not discuss the conjecture);
+            (no results); OEIS (nine hits; only [A395372] concerns WCS, and it lists the counts and does not discuss the conjecture; the
+            other eight were not opened);
             OpenAlex (no citing works); a web search (only [GSK24] and its mirrors).</li>
           <li><b>Searched on 25 November 2026 only:</b> arXiv author searches, zbMATH Open and Crossref (no journal
             version).</li>
@@ -322,13 +323,16 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       <dt>Review</dt>
       <dd>No human review. The written arguments behind Lemmas 1–5 and Theorems 4 and 6 were reviewed before Lean by two
         independent Claude subagents (25–27 November 2026), one for the mathematics and one for the claims. They found
-        no mathematical error, and each wording finding was fixed. This page has not yet been reviewed. The record is in
+        no mathematical error, and each wording finding was fixed. This page was reviewed by two independent Claude
+        subagents on 27 November 2026 (mathematics; claims and Lean); they found no mathematical error and nine wording
+        points, all fixed. The record is in
         the <a href="https://github.com/ndesmo/leaning/blob/main/notes/weakly-consecutive.md#review">notes</a>.</dd>
     </dl>
     <p class="legend-ev">
       <span class="item"><span class="ev lean">Lean</span> checked in Lean</span>
       <span class="item"><span class="ev paper">Preprint</span> stated in an unrefereed preprint</span>
-      <span class="item"><span class="ev std">Own argument</span> written by us, not checked in Lean</span>
+      <span class="item"><span class="ev std">Own argument</span> written by Claude, not checked in Lean</span>
+      <span class="item"><span class="ev conj">In progress</span> not proved here, work under way</span>
       <span class="item"><span class="ev std">Numerical</span> computed, not a proof</span>
       <span class="item"><span class="ev conj">Conjecture</span> open</span>
     </p>
@@ -340,7 +344,8 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       Write [<var>k</var>] = {1, …, <var>k</var>}. A <i>weakly consecutive sequence</i> (WCS) of length <var>k</var> is a
       permutation σ of [<var>k</var>] such that, for all <var>i</var>, <var>j</var> ∈ [<var>k</var>] and all integers
       <var>m</var>, if <var>m</var> ∣ σ(<var>i</var>) and <var>m</var> ∣ (<var>i</var> − <var>j</var>) then
-      <var>m</var> ∣ σ(<var>j</var>) [GSK24, Def. 1.1]. Only <var>m</var> ∈ [2, <var>k</var>] matter.
+      <var>m</var> ∣ σ(<var>j</var>) [GSK24, Def. 1.1]. Only <var>m</var> ∈ [2, <var>k</var>] matter: <var>m</var> = 0 divides no σ(<var>i</var>) ≥ 1, the
+      sign of <var>m</var> and <var>m</var> = ±1 change nothing, and |<var>m</var>| &gt; <var>k</var> divides no σ(<var>i</var>) ≤ <var>k</var>.
     </p>
     <div class="conj">
       <span class="ev conj">Conjecture 5.2 of [GSK24]; open</span>
@@ -433,8 +438,8 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         <span class="ev lean">Lean</span> <code>first_dvd</code>, <code>last_dvd</code> <span class="qed">∎</span></li>
     </ol>
     <p>
-      This is [GSK24, Lemma 2.3] for every multiple of <var>m</var>, not just the value <var>m</var>; the proof above does not
-      use that lemma.
+      Compare [GSK24, Lemma 2.3], whose statement leaves <var>m</var> unbound; we read it as applying to every
+      <var>x</var> with <var>m</var> ∣ <var>x</var>. The proof above does not use that lemma.
     </p>
   </section>
 
@@ -496,10 +501,12 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       <li>The slice τ(<var>i</var>) = σ(1 + (<var>i</var> − 1)<var>d</var>)/<var>d</var> is a permutation of [<var>K</var>], and a WCS:
         if <var>m</var> ∣ τ(<var>i</var>) and <var>m</var> ∣ <var>i</var> − <var>j</var>, then <var>md</var> divides
         σ(1 + (<var>i</var> − 1)<var>d</var>) and the position difference (<var>i</var> − <var>j</var>)<var>d</var>, so
-        <var>md</var> ∣ σ(1 + (<var>j</var> − 1)<var>d</var>). (This is [GSK24, Lemma 2.4] for this slice.) Now τ(1) = 1 and
+        <var>md</var> ∣ σ(1 + (<var>j</var> − 1)<var>d</var>). (This is [GSK24, Lemma 2.4] for this slice.)
+        <span class="ev std">Own argument</span> (τ is not built in Lean). Now τ(1) = 1 and
         <var>K</var> ≥ 2, so <var>e</var> = τ(<var>K</var>) ≥ 2, and Lemma 2 applied to τ gives <var>e</var> ∣ <var>K</var>.
-        <span class="ev lean">Lean</span> <code>slice</code> (the Lean proof gets <var>e</var> ∣ <var>K</var> differently: it applies
-        <code>window</code> to σ itself at position <var>k</var> − <var>d</var> + 1 with modulus <var>de</var>, without building τ)</li>
+        The conclusion “<var>e</var> ≥ 2 and <var>e</var> ∣ <var>K</var>” is
+        <span class="ev lean">Lean</span> <code>slice</code>, proved differently: Lean applies
+        <code>window</code> to σ itself at position <var>k</var> − <var>d</var> + 1 with modulus <var>de</var>, without building τ.</li>
       <li>Let <var>g</var> = gcd(<var>de</var>, <var>d</var>′) = gcd(<var>e</var>, <var>d</var>′), as gcd(<var>d</var>, <var>d</var>′) = 1. If
         <var>g</var> ≥ 2, then <var>g</var> ∈ [2, <var>k</var>] and positions <var>k</var> − <var>d</var> + 1 and <var>k</var> lie in
         <var>T</var><sub><var>g</var></sub>, one class mod <var>g</var> (Lemma 1 (a)), so <var>g</var> ∣ <var>d</var> − 1.
@@ -523,14 +530,17 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       <li>Suppose 1 &lt; pos(1) &lt; <var>k</var>. By Lemma 3, σ(1) and σ(<var>k</var>) are coprime divisors of <var>k</var>,
         both ≥ 2, built from the primes <var>r</var> and <var>s</var>. No prime divides both, so if one were divisible by
         <var>r</var> and <var>s</var> the other would be 1. Hence one is a power of <var>r</var> dividing <var>k</var>, i.e.
-        <var>r</var>, and the other is <var>s</var><sup>β</sup> with 1 ≤ β ≤ <var>b</var>.
+        <var>r</var>, and the other is divisible by <var>s</var> (indeed it is a power <var>s</var><sup>β</sup>, 1 ≤ β ≤ <var>b</var>,
+        but only divisibility by <var>s</var> is used, and only that is in Lean).
         <span class="ev lean">Lean</span> <code>s_dvd_of_not_r_dvd</code>, <code>eq_r_of_not_s_dvd</code></li>
       <li>Reversal (Lemma 1 (b)) keeps the WCS property and the interior 1 and swaps the ends, so we may assume
-        σ(1) = <var>r</var>, σ(<var>k</var>) = <var>s</var><sup>β</sup>.
-        <span class="ev lean">Lean</span> <code>reversal</code>, <code>conjecture_5_2_r_mul_s_pow</code></li>
-      <li>Lemma 5 with <var>d</var> = <var>r</var>, <var>d</var>′ = <var>s</var><sup>β</sup>, <var>K</var> = <var>s</var><sup><var>b</var></sup>:
+        σ(1) = <var>r</var> and <var>s</var> ∣ σ(<var>k</var>) = <var>d</var>′.
+        <span class="ev lean">Lean</span> <code>conjecture_5_2_r_mul_s_pow</code> (Lean does not reduce by symmetry: it treats the two
+        orientations separately, using <code>slice</code> when σ(1) = <var>r</var> and <code>slice_mirror</code> when
+        σ(<var>k</var>) = <var>r</var>)</li>
+      <li>Lemma 5 with <var>d</var> = <var>r</var>, <var>K</var> = <var>s</var><sup><var>b</var></sup>:
         <var>e</var> ∣ <var>s</var><sup><var>b</var></sup> and <var>e</var> ≥ 2 give <var>s</var> ∣ <var>e</var>, so
-        <var>s</var> ∣ gcd(<var>e</var>, <var>s</var><sup>β</sup>) ∣ <var>r</var> − 1, contradicting <var>s</var> ∤ <var>r</var> − 1.
+        <var>s</var> ∣ gcd(<var>e</var>, <var>d</var>′) ∣ <var>r</var> − 1, contradicting <var>s</var> ∤ <var>r</var> − 1.
         <span class="ev lean">Lean</span> <code>closing</code>, <code>slice</code>, <code>conjecture_5_2_r_mul_s_pow</code> <span class="qed">∎</span></li>
     </ol>
     <p>
@@ -614,9 +624,9 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       <li><b>Two distinct prime factors, not covered by Theorem 6.</b> Up to reversal an interior 1 then has
         σ(1) = <var>p</var><sup>α</sup>, σ(<var>k</var>) = <var>q</var><sup>β</sup>, and Lemma 5 with its mirror does not give a
         contradiction by itself: for <var>k</var> = 12 with (σ(1), σ(12)) = (4, 3), <var>e</var> = 3 and <var>e</var>′ = 2 satisfy
-        all its conditions <span class="ev std">Own argument, unreviewed</span>. The open cases are (a) <var>k</var> = <var>p</var><sup><var>a</var></sup><var>q</var><sup><var>b</var></sup>
+        all its conditions <span class="ev std">Own argument, unreviewed</span>. The open cases (all with <var>k</var> &gt; 16; <var>k</var> = 12 is settled by Theorem 8) are (a) <var>k</var> = <var>p</var><sup><var>a</var></sup><var>q</var><sup><var>b</var></sup>
         with <var>a</var>, <var>b</var> ≥ 2 (36, 72, 100, …), and (b) <var>k</var> = <var>r</var>·<var>s</var><sup><var>b</var></sup> with
-        <var>b</var> ≥ 2 and <var>s</var> ∣ <var>r</var> − 1 (20, 24, 28, 40, 44, …, 63, …; every 2<sup><var>b</var></sup>·<var>r</var>
+        <var>b</var> ≥ 2 and <var>s</var> ∣ <var>r</var> − 1 (20, 24, 28, 40, 44, …, 63, …; every 2<sup><var>b</var></sup>·<var>r</var> &gt; 16
         with <var>b</var> ≥ 2 and <var>r</var> an odd prime is in (b)). The cases of the previous section are part of (b).
         <span class="ev conj">Conjecture</span></li>
       <li><b>Three or more distinct prime factors.</b> No case is proved for <var>k</var> &gt; 16 (the smallest such

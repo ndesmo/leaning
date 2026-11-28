@@ -77,6 +77,17 @@ another session: it never changes what you review or how.
 - **Verdict:** "No blocking findings" or "N blocking findings".
 - **Findings:** a numbered list. Each entry gives the location, the claim, why it is wrong or
   unsupported, the severity (BLOCKER, FIX or MINOR) and a suggested fix.
+- **Severity.** The verdict counts BLOCKERs only, so get this right:
+  - **BLOCKER:** anything that would leave the repo saying something false or unsupported. This
+    includes a mathematical error, a gap, any overclaim (on a page, or in notes, `LEDGER.md`,
+    `README.md` or the PR body), an evidence label stronger than the evidence (for example a
+    numerical result without its Numerical label, or "proved" for a paper argument), a Lean
+    statement that differs from the notes, and a missing or stale novelty re-check. An overclaim
+    is a BLOCKER however small, even a single sentence.
+  - **FIX:** true but misleading or incomplete, and should change in this PR: a claim weaker than
+    what was shown, a missing cross-reference, an unexplained step that is nonetheless correct.
+  - **MINOR:** wording, style, layout.
+  - When unsure between two levels, pick the higher.
 - **Checks:** what you checked and found fine, in one line, so the user can see the coverage.
 
 Then return to `main`: `git checkout --detach origin/main`. The next iteration must not start from

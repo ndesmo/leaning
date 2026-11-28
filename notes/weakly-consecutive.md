@@ -55,7 +55,7 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | A6.1, A6.2 and the Y-form, k + 1 and unit-class parts of A6.4 hold on every WCS with k ≤ 20; enumerating Y mod lcm(1..k) gives exactly N(k) WCS for k ≤ 13 | [numerical, Python, not Lean] | Log 2026-11-25 (attack) |
 | Class sizes + compatibility alone admit an interior 1 (e.g. k = 8, 12); adding disjointness of coprime prime-power classes with product > k excludes it for k ≤ 18, primes only do not (k = 6, 14) | [numerical, Python, not Lean] | Attack ideas, A6.5 |
 | Slice lemma: if 1 < σ^{-1}(1) < k, d = σ(1), d′ = σ(k), then σ(k − d + 1) = d·e with e ∣ k/d, e ≥ 2 and gcd(e, d′) ∣ d − 1; mirror: σ(d′) = d′·e′ with e′ ∣ k/d′, e′ ≥ 2, gcd(e′, d) ∣ d′ − 1 | [Lean] `WeaklyConsecutiveSlice.slice`, `slice_mirror` | Attack ideas, A7.1 |
-| Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [Lean] `WeaklyConsecutiveSlice.conjecture_5_2_r_mul_s_pow` (pq case: `conjecture_5_2_mul_primes`) | Attack ideas, A7.2 |
+| Conjecture 5.2 holds for k = r·s^b (r, s distinct primes, b ≥ 1) with s ∤ r − 1; in particular for every squarefree k = pq and every k = 2·s^b | [Lean] `WeaklyConsecutiveSlice.conjecture_5_2_r_mul_s_pow` (pq case: `conjecture_5_2_mul_primes`; 2·s^b: instance r = 2, since s ∤ 1) | Attack ideas, A7.2 |
 | General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`) | Log 2026-11-26 |
 | Conjecture 5.2 holds for k = 4r, r ≥ 5 prime (with k = 12 from Lean: for every k = 4r, r an odd prime) | [own argument, unreviewed] (k = 12 part: [Lean]) | Attack ideas, A7.4 |
 | No WCS of length 4r with σ(1) ∈ {2, 4}, σ(4r) = r for r = 3, 5, 7 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_4r_check.py`) | Attack ideas, A7.4 |
@@ -337,7 +337,8 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
     - *Squarefree k = pq* (p < q primes): take r = p, s = q; then 1 ≤ p − 1 < q, so q ∤ p − 1.
       (With r = q the hypothesis can fail, e.g. 2 ∣ 3 − 1 for k = 6, which is why the
       orientation matters.) Together with A6.3: Conjecture 5.2 holds for every prime power k and
-      every squarefree k = pq. [own argument, unreviewed]
+      every squarefree k = pq. [Lean] `WeaklyConsecutiveSlice.conjecture_5_2_mul_primes` (pq),
+      with `WeaklyConsecutiveEnds.conjecture_5_2_prime_pow` (prime powers, A6.3)
     - *Covered k ≤ 100 with two distinct prime factors* (`search/weakly-consecutive/wc_slice_check.py`): 6, 10, 14, 15,
       18, 21, 22, 26, 33, 34, 35, 38, 39, 45, 46, 50, 51, 54, 55, 57, 58, 62, 65, 69, 74, 75, 77,
       82, 85, 86, 87, 91, 93, 94, 95, 98, 99. This includes every k = 2·s^b (r = 2, s odd) and

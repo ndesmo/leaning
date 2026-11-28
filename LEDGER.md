@@ -99,7 +99,7 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | WC1b | Conjecture 5.2 for k with ≥ 3 distinct prime factors | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | small-k part done (k ≤ 16, [Lean], `halfline_lt/Proofs/WeaklyConsecutive.lean`); Lemmas 2.2–2.4 not formalized | notes, A5, Log 2026-11-25 (Lean) |
 
-### central-2adic: proved, unreviewed (P2, #22)
+### central-2adic: proved in Lean (P2, #22)
 
 - Notes: [notes/central-2adic.md](notes/central-2adic.md)
 - Target: OEIS A402341 conjecture: for even n, v₂(a(n)) = s₂(15n/2), where a(n) is the central
@@ -109,7 +109,7 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   ∏(1 − x^{2^j}) (Gawron–Miska–Ulas arXiv:1703.01955, Shen arXiv:2609.16966).
 - Attack stage 2026-11-27 (#65): proof by termwise 2-adic dominance in the entry's u-formula
   (notes, Attack S0–S5), for every q = 2^r and every even n. [own argument, unreviewed; steps
-  checked numerically; Lean check pending (#66); /review 2026-11-27 (two fresh reviewers): no
+  checked numerically; Lean check done (#66, see below); /review 2026-11-27 (two fresh reviewers): no
   mathematical error found, 12 wording findings, all fixed (notes, Review)]
 - Citation stage 2026-11-27 (#77): both `[standard]` inputs checked against source text. Coefficient
   formula for 2T_{2^j}(u/2) in S1: [standard: DLMF 18.5.11_1, text checked 2026-11-27] (notes L7,
@@ -121,12 +121,14 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   64) holds for even n ≤ 2000 and fails for q = 3, 6, 12. In the entry's u-formula the top term
   C(15n, 15n/2) strictly dominates every other term 2-adically for even n ≤ 120 (notes A1); termwise dominance
   for all even n is now part of the Attack proof (S4–S5).
+- Lean stage 2026-11-27 (#66): the full Theorem (every q = 2^r, every even n) is proved in Lean,
+  `Central2adic.central_2adic` and `Central2adic.a402341_conjecture`, standard axioms only.
 
 | Id | Item | Status | Where |
 |---|---|---|---|
-| CA1 (#22) | **A402341 conjecture** for all even n | proved [own argument, unreviewed]; Lean #66 | notes, Attack |
+| CA1 (#22) | **A402341 conjecture** for all even n | [Lean] `Central2adic.a402341_conjecture` (#66) | notes, Attack; `halfline_lt/Proofs/Central2adic.lean` |
 | CA2 | q = 4 case (A005190): termwise carry inequality t + v₂(C(n,t)) + s₂(3n/2 − t) > s₂(3n/2) | proved (special case of CA3, derived in the Attack Audit) [own argument, unreviewed] | notes, Attack |
-| CA3 | General q = 2^r analogue, even n | proved [own argument, unreviewed]; Lean #66 | notes, Attack |
+| CA3 | General q = 2^r analogue, even n | [Lean] `Central2adic.central_2adic` (#66) | notes, Attack; `halfline_lt/Proofs/Central2adic.lean` |
 | CA4 | Odd n: any closed form for v₂(a(n)) (N3 shows v₂ − s₂(⌊15n/2⌋) ranges −11..10) | open, no conjecture | notes, N3 |
 
 ### min-modulus: open (P3, #23)
@@ -141,11 +143,12 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   preprint, not accessed; several Lean proofs); third-party Lean claims of n ≤ 6 and
   N ≥ 2^{n−1}(1 + 1/(72(n−1)√((n−1) ln n))) (Sun16z/min-modulus-gap, 2026-11-27). None re-checked here.
 - Numerics (Python, not Lean): least valid modulus is 2, 6, 12, 28 for n = 2..5 (exhaustive).
+  Rust search (not Lean, 2026-11-27, `search/min-modulus/`): 60, 124, 248 for n = 6, 7, 8 (notes N4).
 
 | Id | Item | Status | Where |
 |---|---|---|---|
 | MM1 (#23) | **Conjecture 1** for all n | open | notes, Statement |
-| MM2 (#87) | n = 8: no valid set for N < 248 (the scout wrote 252; the threshold is 248). Unconditional target 8 ≤ N < 248; N < 129 follows from Inal's/L3's claimed bound and equality case (not re-checked), leaving 129 ≤ N < 248 | open | notes, Attack ideas |
+| MM2 (#87) | n = 8: no valid set for N < 248 (the scout wrote 252; the threshold is 248) | done by exhaustive search for all 8 ≤ N ≤ 247, valid sets exist at 248 [numerical, exact exhaustive search; Rust, not Lean; symmetry step own argument, reviewed 2026-11-28]; not a proof or Lean certificate | notes, N4 |
 | MM3 (#88) | A general lower bound beating 2^{n−1}(1 + 1/(72(n−1)√((n−1) ln n))) | open, crowded | notes, L3–L4 |
 
 ## Approaches that failed

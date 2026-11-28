@@ -43,7 +43,11 @@ one-line summary. It exits 1 if anything is wrong.
 Two more scripts run in CI on every PR:
 - `check-all.ps1` runs `check.ps1` on every file in `HalflineLt/` and `Proofs/`.
 - `check-pages.ps1` fails if a page under `docs/` cites a Lean name (`<code>name_with_underscore</code>`)
-  that is not declared in those files.
+  that is declared neither in those files nor in Mathlib. Project names must match exactly. Mathlib
+  names match on the last component in any namespace, so a pass shows only that some Mathlib
+  declaration has that name: check yourself that it is the theorem you mean. Deprecated Mathlib
+  names (aliases, or `@[deprecated]` declarations) do not count, so cite the current name. It needs
+  `lake build` first, since it reads Mathlib's sources from `.lake`.
 
 Before publishing, also run `lake build` in `halfline_lt/`. Run both in the background, because a
 build can take minutes (see `reference.md`).

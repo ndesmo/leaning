@@ -47,7 +47,9 @@ Two more scripts run in CI on every PR:
   names match on the last component in any namespace, so a pass shows only that some Mathlib
   declaration has that name: check yourself that it is the theorem you mean. Deprecated Mathlib
   names (aliases, or `@[deprecated]` declarations) do not count, so cite the current name. It needs
-  `lake build` first, since it reads Mathlib's sources from `.lake`.
+  `lake build` first, since it reads Mathlib's sources from `.lake`. It also fails on a page that
+  breaks the design rules in `DESIGN.md`: no shared stylesheet or vendored KaTeX, an inline
+  `<style>`, an external script, or maths built from `<var>`.
 
 Before publishing, also run `lake build` in `halfline_lt/`. Run both in the background, because a
 build can take minutes (see `reference.md`).

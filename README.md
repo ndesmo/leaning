@@ -135,7 +135,8 @@ teardown, status, board sync) still work on Windows but are superseded by the co
 
 Proofs reach the site through pull requests, like everything else:
 
-1. Put the write-up in `docs/<slug>/index.html`, labelling each step as Lean, paper or standard.
+1. Put the write-up in `docs/<slug>/index.html`, following [`DESIGN.md`](DESIGN.md), and label
+   each step as Lean, paper or standard.
 2. Add an entry at the top of the list in `docs/index.html` and a row to the table above.
 3. Open a pull request. When the owner merges it, the site updates within a few minutes.
 

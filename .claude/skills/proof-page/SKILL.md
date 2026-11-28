@@ -32,38 +32,29 @@ pass from weeks ago is not enough, because new preprints and comments appear all
 The page's **Novelty** line states the search date and scope, for example "Not found in the works
 searched (OEIS, arXiv, MathOverflow; 2026-11-27)".
 
-## Start from the existing page
+## Follow DESIGN.md
 
-Copy the following from `docs/halfline-lieb-thirring/index.html`; don't restyle per proof:
-- the whole `<head>`: fonts, the `:root` tokens and both dark-mode blocks;
-- the masthead markup;
-- the `.ev` chip classes.
+Read [`DESIGN.md`](../../../DESIGN.md) first; it is the design specification, and
+`docs/central-2adic/index.html` is the reference page. Copy that page and replace the content. Don't
+restyle per proof: there is one stylesheet (`docs/assets/proof.css`), and a new component goes there.
 
-Then replace the content. Every proof page keeps:
-- **Masthead:**
-  - an eyebrow `<a href="../">Proofs by Claude</a> · <arXiv area>`;
-  - the `h1` title;
-  - the byline `Claude (AI model) · <date> · Not peer reviewed`;
-  - an abstract that says plainly what is proved and what stays open;
-  - the status list (Method, Lean, Novelty, Review). Novelty gives the re-check's date and scope;
-  - the chip legend.
-- **Setting:** definitions and notation, and the prior results with their labels.
-- **One section per result:**
-  - a kind label (Theorem n, Corollary n);
-  - the statement in italics;
-  - a numbered proof. Each step ends with one or more chips:
-    - `ev lean` with the theorem names in `<code>`;
-    - `ev paper` with a bracketed reference key;
-    - `ev std` for classical results;
-    - `ev conj` for open claims.
-- **What remains open:** the exact gap, plus any step whose uniformity or hypothesis is unchecked.
-- **What Lean checks:**
-  - the Lean version and a link to the source file on GitHub:
-    `https://github.com/ndesmo/leaning/blob/main/halfline_lt/...`;
-  - a result → theorem-names table;
-  - the list of cited theorems that enter Lean as hypotheses.
-- **References:** keyed like `[ELU14]`, with arXiv links where they exist.
-- **Footer:** credits Claude, says no expert has reviewed it, and links to `../` and the repo.
+The essentials, set like a mathematics textbook:
+- **All maths in LaTeX** (`\( … \)`, `\[ … \]`), rendered by the vendored KaTeX. Never `<var>`,
+  `<sup>` or Unicode look-alikes for formulas. Display every identity a reader should stop at.
+- **Statements** in a `.thm` block; the verbatim Lean statement in `pre.lean`.
+- **Proofs** as numbered `.step` blocks, each with a short run-in title, its key formulas displayed
+  on their own lines, and its evidence on a separate `p.evidence` line, never inside a sentence:
+  - `ev lean` with the theorem names in `<code>`;
+  - `ev paper` with a bracketed reference key;
+  - `ev std` for classical results, own arguments and numerical checks;
+  - `ev conj` for open claims.
+- **Sections in order:** masthead (eyebrow, title, byline `Claude (AI model) · <date> · Not peer
+  reviewed`, abstract saying plainly what is proved and what stays open, the `.facts` list Method /
+  Lean / Novelty / Review, the chip legend), Setting, one section per result, What remains open, What
+  Lean checks (versions, source link `https://github.com/ndesmo/leaning/blob/main/halfline_lt/...`,
+  result → theorem table, cited theorems that enter Lean as hypotheses), Novelty and review (the full
+  search record), References (keyed like `[ELU14]`, arXiv links where they exist), footer (credits
+  Claude, says no expert has reviewed it, links to `../` and the repo).
 
 ## Rules
 
@@ -72,8 +63,8 @@ Then replace the content. Every proof page keeps:
 - **Figures:** inline SVG drawn by a small inline script from the real functions, to scale, with
   colors from the tokens (see the critical-envelope figure). Draw a figure only when it shows the
   mechanism.
-- **External resources:** the only one allowed is Google Fonts. No scripts from CDNs, so the page
-  keeps working.
+- **External resources:** the only one allowed is Google Fonts. KaTeX is vendored in
+  `docs/assets/katex/`; no scripts from CDNs, so the page keeps working.
 - **Wording:** plain, active sentences; no hype. "Not found in the works searched", never "new" on
   its own.
 - **Credit and privacy:** follow the shared rules in `/prove`.
@@ -86,6 +77,10 @@ Then replace the content. Every proof page keeps:
 2. **README:** add a row at the top of the table in `README.md`.
 3. **Check:**
    - Count open and close tags for `div`, `section`, `ol`, `ul`, `li`, `table`, `span` and `p`.
-   - Run `node --check` on the extracted inline script.
+   - Run `node --check` on any extracted inline script.
+   - Run `.claude/skills/lean-check/check-pages.ps1`: it checks the Lean names and the design rules.
+   - Serve `docs/` (`python -m http.server --directory docs`) and load the page in a browser, if you
+     have one, at desktop width and at 390 px: no red KaTeX errors, no horizontal scrolling, both
+     themes legible. Say in the PR whether you did this.
 4. **Next step:** `/review`, before `/publish-proofs`. The reviewer checks that the novelty
    re-check is recorded in the notes and dated within the last week.

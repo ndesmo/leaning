@@ -39,7 +39,8 @@ nothing is lost and nothing is added.
 The cases "H = Z_p × Z_p" and "B a subgroup" are not separate outcomes. Both fall into (a) (§3).
 Whether (a) or any of the three (b) searches has a solution is not part of this note. (a) is
 excluded by CCP. The three (b) searches (Z9 × Z65, Z25 × Z39, Z169 × Z15) are reported NONE in
-the journal, passes 2 and 3 [numerical: single implementation].
+the journal, passes 2 and 3 [numerical: two independent program families, gtile5/6 and dfs2 (label
+updated pass 13; originally single implementation)].
 
 ## 1. Tools
 
@@ -157,8 +158,9 @@ This proves the Theorem. ∎
   - (i) D, proved here, and also in the literature (§5).
   - (ii) CCP's result that no multiplicative colouring exists for 195, to exclude (a). See §5 for
     exactly what CCP state.
-  - (iii) The three (b) searches. These are numerical, single implementation, and the NONE
-    results lack a second checker.
+  - (iii) The three (b) searches. These are numerical. Each NONE is now confirmed by two
+    independent program families (gtile5/6 and dfs2; label updated pass 13). For Z9 × Z65 there are
+    also runs without symmetry breaking.
   - The reduction itself has no known gap. It has not been independently reviewed.
 - **Scope.** This excludes only the periodic tilings whose period group has index 195p. Composite
   |B| (9, 15, 25, …) and non-periodic tilings are untouched. As the journal says, this does not

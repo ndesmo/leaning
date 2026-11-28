@@ -1,0 +1,6 @@
+DIRECT3 OK n=12 p=3 level=4 K=4
+liftcheck3 n=12 p=3 level=4 K=4 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+DIRECT3 OK n=30 p=3 level=4 K=10
+liftcheck3 n=30 p=3 level=4 K=10 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+DIRECT3 OK n=60 p=3 level=4 K=20
+liftcheck3 n=60 p=3 level=4 K=20 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]

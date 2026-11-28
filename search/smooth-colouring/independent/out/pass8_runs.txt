@@ -68,5 +68,7 @@ Main run:
     gunzip -k out/p8/dfs3_n195_p5_L3_s2.log.gz
     ./dfs3.exe 195 5 --level 3 --threads 21 --split 2 --resume out/p8/dfs3_n195_p5_L3_s2.log --log out/p8/dfs3_n195_p5_L3_s2.log
 VERDICT: INCOMPLETE (80.7% of tasks, no witness). Z625 x Z39 level 3 at n=195 is NOT settled.
+[UPDATE pass 13: superseded. The run was completed in pass 9 (out/pass9_runs.txt, out/p9/): NONE, by dfs3
+ with lex-leader symmetry. This is a single-program result; controls in out/p13/README.md.]
 
 == 3. n=195, p=3, level 4 (Z243 x Z65): NOT RUN (|G|=15795, same setup cost; no time left).

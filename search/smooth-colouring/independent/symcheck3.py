@@ -3,12 +3,12 @@
 # Runs dfs2_dump.exe --all with and without symmetry, then checks that the symmetric solution set is
 # exactly the set of lex-minimal orbit representatives (under U(Z_{p^2}) x U(Z_K), as in dfs2) of the
 # no-symmetry solution set.  Solutions are small-prime assignments, element index e = h*K + f.
-import subprocess, sys
+import subprocess, sys, os
 from math import gcd
 n, p, lv = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]); th = sys.argv[4] if len(sys.argv) > 4 else "4"
 K, p2 = n // p, p ** (lv + 1)
 def run(extra):
-    o = subprocess.run(["./dfs3.exe", str(n), str(p), "--level", str(lv), "--threads", th, "--split", "2", "--all"] + extra,
+    o = subprocess.run([os.environ.get("DFS3_EXE", "./dfs3.exe"), str(n), str(p), "--level", str(lv), "--threads", th, "--split", "2", "--all"] + extra,
                        capture_output=True, text=True, timeout=580).stdout
     sols = {tuple(map(int, l.split()[1:])) for l in o.splitlines() if l.startswith("SOL")}
     res = [l for l in o.splitlines() if l.startswith("dfs3")][0]

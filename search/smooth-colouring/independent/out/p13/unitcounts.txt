@@ -1,0 +1,10 @@
+6 3 L4 unit-h(2): dfs3 COUNT=0 | BRUTE3B n=6 p=3 level=4 unit_h_at=2 count=0
+9 3 L4 unit-h(2): dfs3 COUNT=0 | BRUTE3B n=9 p=3 level=4 unit_h_at=2 count=0
+12 3 L4 unit-h(2): dfs3 COUNT=3888 | BRUTE3B n=12 p=3 level=4 unit_h_at=2 count=3888
+15 3 L4 unit-h(2): dfs3 COUNT=12960 | BRUTE3B n=15 p=3 level=4 unit_h_at=2 count=12960
+18 3 L4 unit-h(2): dfs3 COUNT=23328 | BRUTE3B n=18 p=3 level=4 unit_h_at=2 count=23328
+10 5 L3 unit-h(2): dfs3 COUNT=0 | BRUTE3B n=10 p=5 level=3 unit_h_at=2 count=0
+15 5 L3 unit-h(2): dfs3 COUNT=0 | BRUTE3B n=15 p=5 level=3 unit_h_at=2 count=0
+20 5 L3 unit-h(2): dfs3 COUNT=0 | BRUTE3B n=20 p=5 level=3 unit_h_at=2 count=0
+9 3 L3 unit-h(2): dfs3 COUNT=0 | BRUTE3B n=9 p=3 level=3 unit_h_at=2 count=0
+12 3 L3 unit-h(2): dfs3 COUNT=1296 | BRUTE3B n=12 p=3 level=3 unit_h_at=2 count=1296

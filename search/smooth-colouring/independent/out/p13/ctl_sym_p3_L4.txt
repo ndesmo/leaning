@@ -1,0 +1,119 @@
+sym 3 3 L4: dfs3 level=4 n=3 p=3 K=1 order=greedy sym=true result=FOUND sols_small=1 nodes=0 tasks_done=1/1 secs=0.00
+   DIRECT3 OK n=3 p=3 level=4 K=1
+   
+sym 6 3 L4: dfs3 level=4 n=6 p=3 K=2 order=greedy sym=true result=FOUND sols_small=1 nodes=2 tasks_done=1/13 secs=0.01
+   DIRECT3 OK n=6 p=3 level=4 K=2
+   liftcheck3 n=6 p=3 level=4 K=2 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=6 p=3 level=4 K=2 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 9 3 L4: dfs3 level=4 n=9 p=3 K=3 order=greedy sym=true result=FOUND sols_small=1 nodes=2 tasks_done=1/2 secs=0.00
+   DIRECT3 OK n=9 p=3 level=4 K=3
+   liftcheck3 n=9 p=3 level=4 K=3 v_p(K)=1 H_small: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=9 p=3 level=4 K=3 v_p(K)=1 H_all: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 12 3 L4: dfs3 level=4 n=12 p=3 K=4 order=greedy sym=true result=FOUND sols_small=1 nodes=3 tasks_done=1/25 secs=0.00
+   DIRECT3 OK n=12 p=3 level=4 K=4
+   liftcheck3 n=12 p=3 level=4 K=4 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=12 p=3 level=4 K=4 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 15 3 L4: dfs3 level=4 n=15 p=3 K=5 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/36 secs=0.00
+   DIRECT3 OK n=15 p=3 level=4 K=5
+   liftcheck3 n=15 p=3 level=4 K=5 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=15 p=3 level=4 K=5 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 18 3 L4: dfs3 level=4 n=18 p=3 K=6 order=greedy sym=true result=FOUND sols_small=1 nodes=4 tasks_done=1/68 secs=0.00
+   DIRECT3 OK n=18 p=3 level=4 K=6
+   liftcheck3 n=18 p=3 level=4 K=6 v_p(K)=1 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=18 p=3 level=4 K=6 v_p(K)=1 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 21 3 L4: dfs3 level=4 n=21 p=3 K=7 order=greedy sym=true result=FOUND sols_small=2 nodes=9 tasks_done=2/50 secs=0.00
+   DIRECT3 OK n=21 p=3 level=4 K=7
+   liftcheck3 n=21 p=3 level=4 K=7 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=21 p=3 level=4 K=7 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 24 3 L4: dfs3 level=4 n=24 p=3 K=8 order=greedy sym=true result=FOUND sols_small=1 nodes=5 tasks_done=1/76 secs=0.00
+   DIRECT3 OK n=24 p=3 level=4 K=8
+   liftcheck3 n=24 p=3 level=4 K=8 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=24 p=3 level=4 K=8 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 27 3 L4: dfs3 level=4 n=27 p=3 K=9 order=greedy sym=true result=FOUND sols_small=1 nodes=12 tasks_done=2/38 secs=0.00
+   DIRECT3 OK n=27 p=3 level=4 K=9
+   liftcheck3 n=27 p=3 level=4 K=9 v_p(K)=2 H_small: plain_lift=True level0_lift=True p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=27 p=3 level=4 K=9 v_p(K)=2 H_all: plain_lift=True level0_lift=True p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 30 3 L4: dfs3 level=4 n=30 p=3 K=10 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/128 secs=0.00
+   DIRECT3 OK n=30 p=3 level=4 K=10
+   liftcheck3 n=30 p=3 level=4 K=10 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=30 p=3 level=4 K=10 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 33 3 L4: dfs3 level=4 n=33 p=3 K=11 order=greedy sym=true result=FOUND sols_small=1 nodes=6 tasks_done=1/61 secs=0.00
+   DIRECT3 OK n=33 p=3 level=4 K=11
+   liftcheck3 n=33 p=3 level=4 K=11 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=33 p=3 level=4 K=11 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 36 3 L4: dfs3 level=4 n=36 p=3 K=12 order=greedy sym=true result=FOUND sols_small=2 nodes=15 tasks_done=2/203 secs=0.00
+   DIRECT3 OK n=36 p=3 level=4 K=12
+   liftcheck3 n=36 p=3 level=4 K=12 v_p(K)=1 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=36 p=3 level=4 K=12 v_p(K)=1 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 39 3 L4: dfs3 level=4 n=39 p=3 K=13 order=greedy sym=true result=FOUND sols_small=1 nodes=10 tasks_done=3/85 secs=0.00
+   DIRECT3 OK n=39 p=3 level=4 K=13
+   liftcheck3 n=39 p=3 level=4 K=13 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=39 p=3 level=4 K=13 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 42 3 L4: dfs3 level=4 n=42 p=3 K=14 order=greedy sym=true result=FOUND sols_small=1 nodes=33 tasks_done=3/208 secs=0.00
+   DIRECT3 OK n=42 p=3 level=4 K=14
+   liftcheck3 n=42 p=3 level=4 K=14 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=42 p=3 level=4 K=14 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 45 3 L4: dfs3 level=4 n=45 p=3 K=15 order=greedy sym=true result=FOUND sols_small=1 nodes=22 tasks_done=3/253 secs=0.01
+   DIRECT3 OK n=45 p=3 level=4 K=15
+   liftcheck3 n=45 p=3 level=4 K=15 v_p(K)=1 H_small: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=45 p=3 level=4 K=15 v_p(K)=1 H_all: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 48 3 L4: dfs3 level=4 n=48 p=3 K=16 order=greedy sym=true result=FOUND sols_small=1 nodes=22 tasks_done=3/234 secs=0.01
+   DIRECT3 OK n=48 p=3 level=4 K=16
+   liftcheck3 n=48 p=3 level=4 K=16 v_p(K)=0 H_small: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=48 p=3 level=4 K=16 v_p(K)=0 H_all: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 51 3 L4: dfs3 level=4 n=51 p=3 K=17 order=greedy sym=true result=FOUND sols_small=1 nodes=16 tasks_done=2/156 secs=0.01
+   DIRECT3 OK n=51 p=3 level=4 K=17
+   liftcheck3 n=51 p=3 level=4 K=17 v_p(K)=0 H_small: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=51 p=3 level=4 K=17 v_p(K)=0 H_all: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 54 3 L4: dfs3 level=4 n=54 p=3 K=18 order=greedy sym=true result=FOUND sols_small=1 nodes=80 tasks_done=7/962 secs=0.02
+   DIRECT3 OK n=54 p=3 level=4 K=18
+   liftcheck3 n=54 p=3 level=4 K=18 v_p(K)=2 H_small: plain_lift=True level0_lift=True p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=54 p=3 level=4 K=18 v_p(K)=2 H_all: plain_lift=True level0_lift=True p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 57 3 L4: dfs3 level=4 n=57 p=3 K=19 order=greedy sym=true result=FOUND sols_small=1 nodes=47 tasks_done=4/187 secs=0.01
+   DIRECT3 OK n=57 p=3 level=4 K=19
+   liftcheck3 n=57 p=3 level=4 K=19 v_p(K)=0 H_small: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=57 p=3 level=4 K=19 v_p(K)=0 H_all: plain_lift=True level0_lift=False p-exp(H)=p^2 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 60 3 L4: dfs3 level=4 n=60 p=3 K=20 order=greedy sym=true result=FOUND sols_small=1 nodes=21 tasks_done=2/1371 secs=0.06
+   DIRECT3 OK n=60 p=3 level=4 K=20
+   liftcheck3 n=60 p=3 level=4 K=20 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=60 p=3 level=4 K=20 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 63 3 L4: dfs3 level=4 n=63 p=3 K=21 order=greedy sym=true result=FOUND sols_small=1 nodes=14 tasks_done=2/1888 secs=0.06
+   DIRECT3 OK n=63 p=3 level=4 K=21
+   liftcheck3 n=63 p=3 level=4 K=21 v_p(K)=1 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=63 p=3 level=4 K=21 v_p(K)=1 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 66 3 L4: dfs3 level=4 n=66 p=3 K=22 order=greedy sym=true result=FOUND sols_small=1 nodes=12 tasks_done=1/1783 secs=0.06
+   DIRECT3 OK n=66 p=3 level=4 K=22
+   liftcheck3 n=66 p=3 level=4 K=22 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=66 p=3 level=4 K=22 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 69 3 L4: dfs3 level=4 n=69 p=3 K=23 order=greedy sym=true result=FOUND sols_small=1 nodes=36 tasks_done=2/1642 secs=0.10
+   DIRECT3 OK n=69 p=3 level=4 K=23
+   liftcheck3 n=69 p=3 level=4 K=23 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=69 p=3 level=4 K=23 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 72 3 L4: dfs3 level=4 n=72 p=3 K=24 order=greedy sym=true result=FOUND sols_small=1 nodes=39 tasks_done=2/2270 secs=0.09
+   DIRECT3 OK n=72 p=3 level=4 K=24
+   liftcheck3 n=72 p=3 level=4 K=24 v_p(K)=1 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=72 p=3 level=4 K=24 v_p(K)=1 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 75 3 L4: dfs3 level=4 n=75 p=3 K=25 order=greedy sym=true result=FOUND sols_small=1 nodes=87 tasks_done=2/2182 secs=0.09
+   DIRECT3 OK n=75 p=3 level=4 K=25
+   liftcheck3 n=75 p=3 level=4 K=25 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=75 p=3 level=4 K=25 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 78 3 L4: dfs3 level=4 n=78 p=3 K=26 order=greedy sym=true result=FOUND sols_small=1 nodes=19 tasks_done=2/4250 secs=0.18
+   DIRECT3 OK n=78 p=3 level=4 K=26
+   liftcheck3 n=78 p=3 level=4 K=26 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=78 p=3 level=4 K=26 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 81 3 L4: dfs3 level=4 n=81 p=3 K=27 order=greedy sym=true result=FOUND sols_small=1 nodes=38 tasks_done=1/1905 secs=0.09
+   DIRECT3 OK n=81 p=3 level=4 K=27
+   liftcheck3 n=81 p=3 level=4 K=27 v_p(K)=3 H_small: plain_lift=True level0_lift=True p-exp(H)=p^3 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=81 p=3 level=4 K=27 v_p(K)=3 H_all: plain_lift=True level0_lift=True p-exp(H)=p^3 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 84 3 L4: dfs3 level=4 n=84 p=3 K=28 order=greedy sym=true result=FOUND sols_small=1 nodes=13 tasks_done=1/1996 secs=0.12
+   DIRECT3 OK n=84 p=3 level=4 K=28
+   liftcheck3 n=84 p=3 level=4 K=28 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=84 p=3 level=4 K=28 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 87 3 L4: dfs3 level=4 n=87 p=3 K=29 order=greedy sym=true result=FOUND sols_small=1 nodes=68 tasks_done=4/2656 secs=0.17
+   DIRECT3 OK n=87 p=3 level=4 K=29
+   liftcheck3 n=87 p=3 level=4 K=29 v_p(K)=0 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=87 p=3 level=4 K=29 v_p(K)=0 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+sym 90 3 L4: dfs3 level=4 n=90 p=3 K=30 order=greedy sym=true result=FOUND sols_small=2 nodes=63 tasks_done=4/4974 secs=0.35
+   DIRECT3 OK n=90 p=3 level=4 K=30
+   liftcheck3 n=90 p=3 level=4 K=30 v_p(K)=1 H_small: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]
+   liftcheck3 n=90 p=3 level=4 K=30 v_p(K)=1 H_all: plain_lift=True level0_lift=True p-exp(H)=p^1 bound=p^4 NOT_A_LIFT_strong=False unit-h primes=[]

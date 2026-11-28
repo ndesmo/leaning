@@ -792,3 +792,62 @@ Next ideas, ranked:
    and L2, then 217 = 7·31, 235 = 5·47 and 247 = 13·19, each with 18 threads and runs of 10
    minutes or more. A counterexample here would warn that 195 could need higher levels.
 3. Mixed |B| = 15.
+
+### 2026-11-28: pass 13
+
+Three parallel subagents: controls for the two single-program levels, a per-n level test at
+n ≥ 205, and a structural attack on mixed m_π = 15. There is no PR this pass.
+
+1. **Controls at the top levels** (`independent/out/p13/`, README has commands)
+   [numerical: dfs3 vs independent brute force].
+   - dfs3 now finds a strict level-3 witness at n = 162, p = 3: FOUND in 5.6 s, level 2 NONE.
+     direct_check3 accepts it. The new `liftcheck3.py` shows it is a strong non-lift
+     (elements of order 81).
+   - Forced non-lift controls (`--nosym --first U`, with h(2) a unit):
+     - p = 3 level 4: 16 witnesses for 12 ≤ n ≤ 60, all strong non-lifts.
+     - p = 5 level 3: witnesses at n = 25, 40, 45.
+     - All pass direct_check3.
+   - The full counts and the h(2)-unit restricted counts from dfs3 match a new brute force,
+     `brute_count3b.py` (all primes, no symmetry). The restricted zeros serve as negative
+     controls.
+   - symcheck3 passes at p = 3 level 4 (n ≤ 21) and at p = 5 level 3 (n ≤ 30).
+   - **The tiers are unchanged:** both n = 195 NONEs at the top levels still rest on one
+     program. The controls are at n ≤ 60.
+   - The second program has started: gtile7 hd = 243 (p = 3, level 4) at n = 195. 24 of 400
+     parts are done, all NONE (1.27·10¹¹ nodes), and the whole run needs about 9 CPU hours. It
+     was stopped at the end of the pass; resume it from `independent/` with
+     `sh ../general/out/g7_n195_hd243/run.sh 4 400`. gtile7 controls at n = 12, 30 and 60 give
+     genuine level-4 witnesses.
+   - The stale labels from pass 12 are fixed in `prime_B_reduction.md`, `composite_B.md` and
+     `pass8_runs.txt`.
+2. **Per-n level test at n ≥ 205** (`structure/pass13_pern/`) [numerical: dfs3 only].
+   - L1 is NONE at 205/41, 217/7, 217/31, 235/5, 235/47, 247/13, 247/19, 214/2, 218/2 and
+     220/5. L2 is NONE at 205/5.
+   - There is no counterexample, and no FOUND result to check.
+   - 205/41 L2 hangs in dfs3's symmetry setup (2.5 GB, no tasks started after 28 min). Try
+     `--nosym` next time.
+   - Unfinished L1 runs (212/53, 214/107, 218/109, 220/11) have resume commands in the
+     README.
+   - The colouring checker `colour_check.py` was validated on old witnesses and rejects a
+     perturbed one.
+3. **Mixed m_π = 15** (`structure/pass13_mixed.md`) [own argument, unreviewed].
+   - Prop. 1: if B′ is periodic, quotienting reduces the tiling to cases already excluded.
+     The exact gap is now **B′ aperiodic with ≥ 2 primes of π in m_π**.
+   - Prop. 2: an explicit aperiodic B′ in Z9×Z25 has complements that no homomorphism
+     handles. So no Theorem-2-style argument (homomorphisms of G only) can close the mixed
+     case.
+   - New family (c_{x,y}): ψ into Z_{3^x}×Z_{5^y}×Z13, with fibres that are cosets of the
+     order-15 subgroup.
+     - Theorem 3′ gives its finite form.
+     - (c_{x,1}) ⇒ (b^3) and (c_{1,y}) ⇒ (b^5).
+     - [conjecture] Mixed implies some (c_{x,y}). It holds in all 162 n = 30 tilings tested,
+       including 36 that are genuinely mixed [numerical: tilings verified by two scripts; the
+       partition test was single implementation].
+
+Dead ends: none new. (Prop. 2 kills the homomorphism-only route for the mixed case.)
+
+Next ideas, ranked:
+1. Resume gtile7 hd = 243 at n = 195. When it finishes, run gtile7 hd = 625 (p = 5, level 3).
+   Then run /review and open the finite-level PR with the two tiers.
+2. Implement the (c_{2,2}) search on Z9×Z25×Z13, with controls at n = 30 and n = 105.
+3. L2 per-n runs at 217, 235 and 247, and 205/41 with `--nosym`.

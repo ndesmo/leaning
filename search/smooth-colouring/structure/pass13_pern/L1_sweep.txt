@@ -1,0 +1,19 @@
+RUN n=217 p=7 L1 NONE :: dfs3 level=1 n=217 p=7 K=31 order=greedy sym=true result=NONE sols_small=0 nodes=1627346 tasks_done=441/441 secs=98.48
+RUN n=217 p=31 L1 NONE :: dfs3 level=1 n=217 p=31 K=7 order=greedy sym=true result=NONE sols_small=0 nodes=1516084 tasks_done=247/247 secs=205.78
+RUN n=235 p=5 L1 NONE :: dfs3 level=1 n=235 p=5 K=47 order=greedy sym=true result=NONE sols_small=0 nodes=2733312 tasks_done=843/843 secs=230.75
+RUN n=235 p=47 L1 TIMEOUT :: timeout 300s, task-done lines in log=155 (log L1_235_47.log)
+RUN n=247 p=13 L1 NONE :: dfs3 level=1 n=247 p=13 K=19 order=greedy sym=true result=NONE sols_small=0 nodes=1622043 tasks_done=349/349 secs=222.29
+RUN n=247 p=19 L1 NONE :: dfs3 level=1 n=247 p=19 K=13 order=greedy sym=true result=NONE sols_small=0 nodes=1580997 tasks_done=331/331 secs=251.29
+RUN n=212 p=53 L1 TIMEOUT :: timeout 300s, task-done lines in log=259 (log L1_212_53.log)
+RUN n=214 p=2 L1 NONE :: dfs3 level=1 n=214 p=2 K=107 order=greedy sym=true result=NONE sols_small=0 nodes=3250503 tasks_done=822/822 secs=175.22
+RUN n=218 p=2 L1 NONE :: dfs3 level=1 n=218 p=2 K=109 order=greedy sym=true result=NONE sols_small=0 nodes=58059016 tasks_done=842/842 secs=199.55
+RUN n=214 p=107 L1 TIMEOUT :: timeout 300s, task-done lines in log=99 (log L1_214_107.log)
+RUN n=220 p=5 L1 NONE :: dfs3 level=1 n=220 p=5 K=44 order=greedy sym=true result=NONE sols_small=0 nodes=3917979 tasks_done=1441/1441 secs=238.72
+RUN n=220 p=11 L1 ERR :: ERROR Gamma|=880 order=[2, 3, 5, 7, 11, 13, 17, 19, 23, 31, 29, 43, 41, 37, 53, 47, 73, 71, 67, 61, 59, 109, 107, 103, 101, 97, 89, 83, 79]
+split=2 tasks=855 threads=2
+resume: skipping 0 tasks already done
+
+RUN n=218 p=109 L1 ERR :: ERROR mma|=11772 order=[2, 3, 5, 7, 11, 13, 17, 19, 23, 31, 29, 43, 41, 37, 53, 47, 71, 67, 61, 59, 109, 107, 103, 101, 97, 89, 83, 79, 73]
+split=2 tasks=356 threads=2
+resume: skipping 0 tasks already done
+

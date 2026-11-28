@@ -1,0 +1,77 @@
+genu 6 3 L4: dfs3 level=4 n=6 p=3 K=2 order=greedy sym=false result=NONE sols_small=0 nodes=0 tasks_done=0/0 secs=0.00
+genu 9 3 L4: dfs3 level=4 n=9 p=3 K=3 order=greedy sym=false result=NONE sols_small=0 nodes=0 tasks_done=0/0 secs=0.00
+genu 12 3 L4: dfs3 level=4 n=12 p=3 K=4 order=greedy sym=false result=FOUND sols_small=1 nodes=3 tasks_done=1/1296 secs=0.00
+   DIRECT3 OK n=12 p=3 level=4 K=4
+   liftcheck3 n=12 p=3 level=4 K=4 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 5]
+   liftcheck3 n=12 p=3 level=4 K=4 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 5]
+genu 15 3 L4: dfs3 level=4 n=15 p=3 K=5 order=greedy sym=false result=FOUND sols_small=1 nodes=4 tasks_done=1/3888 secs=0.01
+   DIRECT3 OK n=15 p=3 level=4 K=5
+   liftcheck3 n=15 p=3 level=4 K=5 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7]
+   liftcheck3 n=15 p=3 level=4 K=5 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7, 11, 13]
+genu 18 3 L4: dfs3 level=4 n=18 p=3 K=6 order=greedy sym=false result=FOUND sols_small=1 nodes=4 tasks_done=1/1944 secs=0.00
+   DIRECT3 OK n=18 p=3 level=4 K=6
+   liftcheck3 n=18 p=3 level=4 K=6 v_p(K)=1 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7]
+   liftcheck3 n=18 p=3 level=4 K=6 v_p(K)=1 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7, 11, 13, 17]
+genu 21 3 L4: dfs3 level=4 n=21 p=3 K=7 order=greedy sym=false result=FOUND sols_small=1 nodes=10 tasks_done=3/7776 secs=0.02
+   DIRECT3 OK n=21 p=3 level=4 K=7
+   liftcheck3 n=21 p=3 level=4 K=7 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7]
+   liftcheck3 n=21 p=3 level=4 K=7 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7, 11, 13]
+genu 24 3 L4: dfs3 level=4 n=24 p=3 K=8 order=greedy sym=false result=FOUND sols_small=2 nodes=10 tasks_done=2/6480 secs=0.03
+   DIRECT3 OK n=24 p=3 level=4 K=8
+   liftcheck3 n=24 p=3 level=4 K=8 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7, 11]
+   liftcheck3 n=24 p=3 level=4 K=8 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 7, 11, 13, 17, 23]
+genu 27 3 L4: dfs3 level=4 n=27 p=3 K=9 order=greedy sym=false result=FOUND sols_small=1 nodes=6 tasks_done=1/3888 secs=0.03
+   DIRECT3 OK n=27 p=3 level=4 K=9
+   liftcheck3 n=27 p=3 level=4 K=9 v_p(K)=2 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3]
+   liftcheck3 n=27 p=3 level=4 K=9 v_p(K)=2 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 17, 19, 23]
+genu 30 3 L4: dfs3 level=4 n=30 p=3 K=10 order=greedy sym=false result=FOUND sols_small=1 nodes=13 tasks_done=3/11664 secs=0.07
+   DIRECT3 OK n=30 p=3 level=4 K=10
+   liftcheck3 n=30 p=3 level=4 K=10 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 5, 7, 13]
+   liftcheck3 n=30 p=3 level=4 K=10 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 5, 7, 13, 17, 23, 29]
+genu 33 3 L4: dfs3 level=4 n=33 p=3 K=11 order=greedy sym=false result=FOUND sols_small=1 nodes=7 tasks_done=1/16200 secs=0.12
+   DIRECT3 OK n=33 p=3 level=4 K=11
+   liftcheck3 n=33 p=3 level=4 K=11 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 11, 13]
+   liftcheck3 n=33 p=3 level=4 K=11 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 11, 13, 19, 23]
+genu 36 3 L4: dfs3 level=4 n=36 p=3 K=12 order=greedy sym=false result=FOUND sols_small=1 nodes=34 tasks_done=8/10368 secs=0.14
+   DIRECT3 OK n=36 p=3 level=4 K=12
+   liftcheck3 n=36 p=3 level=4 K=12 v_p(K)=1 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 7, 11, 13, 17]
+   liftcheck3 n=36 p=3 level=4 K=12 v_p(K)=1 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 7, 11, 13, 17, 23]
+genu 39 3 L4: dfs3 level=4 n=39 p=3 K=13 order=greedy sym=false result=FOUND sols_small=1 nodes=9 tasks_done=1/27216 secs=0.32
+   DIRECT3 OK n=39 p=3 level=4 K=13
+   liftcheck3 n=39 p=3 level=4 K=13 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 7, 11, 17]
+   liftcheck3 n=39 p=3 level=4 K=13 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 7, 11, 17, 31, 37]
+genu 42 3 L4: dfs3 level=4 n=42 p=3 K=14 order=greedy sym=false result=FOUND sols_small=2 nodes=16 tasks_done=2/29160 secs=0.45
+   DIRECT3 OK n=42 p=3 level=4 K=14
+   liftcheck3 n=42 p=3 level=4 K=14 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 17, 19]
+   liftcheck3 n=42 p=3 level=4 K=14 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 17, 19, 23, 31, 37, 41]
+genu 45 3 L4: dfs3 level=4 n=45 p=3 K=15 order=greedy sym=false result=FOUND sols_small=1 nodes=20 tasks_done=3/38880 secs=0.64
+   DIRECT3 OK n=45 p=3 level=4 K=15
+   liftcheck3 n=45 p=3 level=4 K=15 v_p(K)=1 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 19]
+   liftcheck3 n=45 p=3 level=4 K=15 v_p(K)=1 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 19, 23, 29]
+genu 48 3 L4: dfs3 level=4 n=48 p=3 K=16 order=greedy sym=false result=FOUND sols_small=2 nodes=53 tasks_done=5/34992 secs=0.74
+   DIRECT3 OK n=48 p=3 level=4 K=16
+   liftcheck3 n=48 p=3 level=4 K=16 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 11, 17, 19, 23]
+   liftcheck3 n=48 p=3 level=4 K=16 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 11, 17, 19, 23, 29, 31, 41]
+genu 51 3 L4: dfs3 level=4 n=51 p=3 K=17 order=greedy sym=false result=FOUND sols_small=1 nodes=551 tasks_done=34/57024 secs=1.29
+   DIRECT3 OK n=51 p=3 level=4 K=17
+   liftcheck3 n=51 p=3 level=4 K=17 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 7, 13, 17, 19, 23]
+   liftcheck3 n=51 p=3 level=4 K=17 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 7, 13, 17, 19, 23]
+genu 54 3 L4: dfs3 level=4 n=54 p=3 K=18 order=greedy sym=false result=FOUND sols_small=1 nodes=150 tasks_done=13/302292 secs=9.39
+   DIRECT3 OK n=54 p=3 level=4 K=18
+   liftcheck3 n=54 p=3 level=4 K=18 v_p(K)=2 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 7, 11, 17, 23]
+   liftcheck3 n=54 p=3 level=4 K=18 v_p(K)=2 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 7, 11, 17, 23, 29]
+genu 57 3 L4: dfs3 level=4 n=57 p=3 K=19 order=greedy sym=false result=NONE sols_small=0 nodes=3633336 tasks_done=69984/69984 secs=28.11
+genu 60 3 L4: dfs3 level=4 n=60 p=3 K=20 order=greedy sym=false result=FOUND sols_small=1 nodes=36 tasks_done=4/673920 secs=26.47
+   DIRECT3 OK n=60 p=3 level=4 K=20
+   liftcheck3 n=60 p=3 level=4 K=20 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 11, 19, 23]
+   liftcheck3 n=60 p=3 level=4 K=20 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^5 bound=p^4 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 5, 11, 19, 23, 31, 37]
+genu 63 3 L4: TIMEOUT60s
+genu 66 3 L4: TIMEOUT60s
+genu 69 3 L4: TIMEOUT60s
+genu 72 3 L4: TIMEOUT60s
+genu 75 3 L4: TIMEOUT60s
+genu 78 3 L4: TIMEOUT60s
+genu 81 3 L4: TIMEOUT60s
+genu 84 3 L4: TIMEOUT60s
+genu 87 3 L4: TIMEOUT60s
+genu 90 3 L4: TIMEOUT60s

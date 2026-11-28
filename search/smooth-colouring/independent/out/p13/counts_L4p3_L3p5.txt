@@ -1,0 +1,10 @@
+3 3 L4 dfs3 COUNT=2 | BRUTE3B n=3 p=3 level=4 count=2
+6 3 L4 dfs3 COUNT=490 | BRUTE3B n=6 p=3 level=4 count=490
+9 3 L4 dfs3 COUNT=48 | BRUTE3B n=9 p=3 level=4 count=48
+12 3 L4 dfs3 COUNT=5896 | BRUTE3B n=12 p=3 level=4 count=5896
+5 5 L3 dfs3 COUNT=8 | BRUTE3B n=5 p=5 level=3 count=8
+10 5 L3 dfs3 COUNT=20 | BRUTE3B n=10 p=5 level=3 count=20
+15 5 L3 dfs3 COUNT=10336 | BRUTE3B n=15 p=5 level=3 count=10336
+9 3 L3 dfs3 COUNT=48 | BRUTE3B n=9 p=3 level=3 count=48
+12 3 L3 dfs3 COUNT=2008 | BRUTE3B n=12 p=3 level=3 count=2008
+10 5 L2 dfs3 COUNT=20 | BRUTE3B n=10 p=5 level=2 count=20

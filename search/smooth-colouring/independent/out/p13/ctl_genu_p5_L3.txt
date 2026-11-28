@@ -1,0 +1,20 @@
+genu 10 5 L3: dfs3 level=3 n=10 p=5 K=2 order=greedy sym=false result=NONE sols_small=0 nodes=0 tasks_done=0/0 secs=0.00
+genu 15 5 L3: dfs3 level=3 n=15 p=5 K=3 order=greedy sym=false result=NONE sols_small=0 nodes=0 tasks_done=0/0 secs=0.00
+genu 20 5 L3: dfs3 level=3 n=20 p=5 K=4 order=greedy sym=false result=NONE sols_small=0 nodes=0 tasks_done=0/0 secs=0.00
+genu 25 5 L3: dfs3 level=3 n=25 p=5 K=5 order=greedy sym=false result=FOUND sols_small=1 nodes=5 tasks_done=1/16000 secs=0.10
+   DIRECT3 OK n=25 p=5 level=3 K=5
+   liftcheck3 n=25 p=5 level=3 K=5 v_p(K)=1 H_small: plain_lift=False level0_lift=False p-exp(H)=p^4 bound=p^3 NOT_A_LIFT_strong=True unit-h primes=[2, 5, 11]
+   liftcheck3 n=25 p=5 level=3 K=5 v_p(K)=1 H_all: plain_lift=False level0_lift=False p-exp(H)=p^4 bound=p^3 NOT_A_LIFT_strong=True unit-h primes=[2, 5, 11, 13, 17, 19, 23]
+genu 30 5 L3: dfs3 level=3 n=30 p=5 K=6 order=greedy sym=false result=NONE sols_small=0 nodes=48000 tasks_done=8000/8000 secs=0.22
+genu 35 5 L3: dfs3 level=3 n=35 p=5 K=7 order=greedy sym=false result=NONE sols_small=0 nodes=180000 tasks_done=36000/36000 secs=1.00
+genu 40 5 L3: dfs3 level=3 n=40 p=5 K=8 order=greedy sym=false result=FOUND sols_small=1 nodes=25 tasks_done=4/24000 secs=0.44
+   DIRECT3 OK n=40 p=5 level=3 K=8
+   liftcheck3 n=40 p=5 level=3 K=8 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^4 bound=p^3 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 7, 11, 13, 17, 19]
+   liftcheck3 n=40 p=5 level=3 K=8 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^4 bound=p^3 NOT_A_LIFT_strong=True unit-h primes=[2, 3, 7, 11, 13, 17, 19, 23]
+genu 45 5 L3: dfs3 level=3 n=45 p=5 K=9 order=greedy sym=false result=FOUND sols_small=1 nodes=22 tasks_done=5/48000 secs=1.26
+   DIRECT3 OK n=45 p=5 level=3 K=9
+   liftcheck3 n=45 p=5 level=3 K=9 v_p(K)=0 H_small: plain_lift=False level0_lift=False p-exp(H)=p^4 bound=p^3 NOT_A_LIFT_strong=True unit-h primes=[2, 5, 7, 11, 13, 17, 19]
+   liftcheck3 n=45 p=5 level=3 K=9 v_p(K)=0 H_all: plain_lift=False level0_lift=False p-exp(H)=p^4 bound=p^3 NOT_A_LIFT_strong=True unit-h primes=[2, 5, 7, 11, 13, 17, 19, 29]
+genu 50 5 L3: dfs3 level=3 n=50 p=5 K=10 order=greedy sym=false result=NONE sols_small=0 nodes=240000 tasks_done=40000/40000 secs=2.92
+genu 55 5 L3: dfs3 level=3 n=55 p=5 K=11 order=greedy sym=false result=NONE sols_small=0 nodes=980000 tasks_done=120000/120000 secs=13.32
+genu 60 5 L3: dfs3 level=3 n=60 p=5 K=12 order=greedy sym=false result=NONE sols_small=0 nodes=1032000 tasks_done=88000/88000 secs=14.87

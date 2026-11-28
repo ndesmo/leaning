@@ -1,0 +1,1 @@
+gtile7 split=5/400 n=195 p=3 H=[243] B=coset-of-81Z243 mode=coset complements=3 result=NONE nodes=4326330013 secs=89.34 depth=[1, 13, 350, 21888, 200117, 51164, 345, 40, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

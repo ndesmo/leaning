@@ -301,7 +301,7 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         <code>decide</code>. The check for <var>k</var> ≤ 16 is a kernel computation.</dd>
       <dt>Lean</dt>
       <dd>Three source files, with 11, 14 and 7 lemmas and theorems, none using <code>sorry</code>. The axiom check
-        (<code>check.ps1</code>, run at the Lean stage) shows only the standard axioms; no <code>native_decide</code>.
+        (<code>check.ps1</code>, run at the Lean stage) shows only the standard axioms; no native_decide.
         The main statements are <code>WeaklyConsecutiveEnds.conjecture_5_2_prime_pow</code>,
         <code>WeaklyConsecutiveSlice.conjecture_5_2_r_mul_s_pow</code>,
         <code>WeaklyConsecutiveSlice.conjecture_5_2_mul_primes</code> and
@@ -590,7 +590,7 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         equal to either gcd). Lean proves that every WCS survives the pruning.
         <span class="ev lean">Lean</span> <code>pairOK_of_wc</code>, <code>compat_pre</code>, <code>mem_level</code>, <code>conj52_of_check</code></li>
       <li>The kernel evaluates the enumerator for <var>k</var> = 1, …, 16 by <code>decide +kernel</code> (no
-        <code>native_decide</code>) and finds that every surviving sequence has 1 at an end.
+        native_decide) and finds that every surviving sequence has 1 at an end.
         <span class="ev lean">Lean</span> <code>checksUpTo_16</code>, <code>conjecture_5_2_le_16</code> <span class="qed">∎</span></li>
     </ol>
     <p>

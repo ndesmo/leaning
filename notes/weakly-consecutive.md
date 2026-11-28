@@ -706,6 +706,10 @@ Masthead Review line updated.
 5. Masthead Review line. Fixed: it now also reports this pass.
 No Lean or theorem statement changed.
 
+### Review of PR #107 (reviewer-loop on 7f4acbd, 2026-11-28)
+1. CI `check-pages.ps1` read `<code>native_decide</code>` (page lines 304, 593) as a cited Lean
+   name. Fixed: both now plain text; `check-pages.ps1` reports CLEAN locally. Wording unchanged.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -784,3 +788,4 @@ No Lean or theorem statement changed.
   in progress (Lean PR not merged); A7.3 and ≥ 3 prime factors as open. Novelty re-checked the same
   day (Literature, re-check). Page not yet reviewed.
 - **2026-11-28.** Addressed the PR #107 reviewer comment (1 blocker, 4 minor; all fixed, see Review).
+- **2026-11-28.** Fixed the CI page-name check failure from the second PR #107 review (see Review).

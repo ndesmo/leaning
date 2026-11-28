@@ -59,7 +59,7 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | General form of the slice lemma (σ(1) = d ≥ 2, k/d ≥ 2 ⇒ d ∣ σ(k − d + 1), e ∣ k/d, e ≥ 2, gcd(σ(k − d + 1), σ(k)) ∣ d − 1, and the mirror) holds on every WCS with k ≤ 20 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_slice_check.py`) | Log 2026-11-26 |
 | Conjecture 5.2 holds for k = 4r, r ≥ 5 prime (with k = 12 from Lean: for every k = 4r, r an odd prime) | [own argument, unreviewed] (k = 12 part: [Lean]) | Attack ideas, A7.4 |
 | No WCS of length 4r with σ(1) ∈ {2, 4}, σ(4r) = r for r = 3, 5, 7 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_4r_check.py`) | Attack ideas, A7.4 |
-| Conjecture 5.2 holds for k = s²·r (r, s distinct primes, s ∣ r − 1) when r ∤ s² − s + 1, and for k = 63 and k = 2107 (generalizes A7.4: s = 2) | [own argument, unreviewed] | Attack ideas, A7.5 |
+| Conjecture 5.2 holds for k = s²·r (r, s distinct primes, s ∣ r − 1) when r ∤ s² − s + 1, and for k = 63 and k = 2107 (generalizes A7.4: s = 2) | [Lean] `WeaklyConsecutiveS2R.conjecture_5_2_s_sq_mul_r` (i), `conjecture_5_2_63`, `conjecture_5_2_2107` (ii), combined `conjecture_5_2_s_sq_mul_r'` (#96) | Attack ideas, A7.5 |
 | For primes s < 60, the pairs with s ∣ r − 1 and r ∣ s² − s + 1 are (2, 3), (3, 7), (7, 43), (13, 157); A7.5's k + 1 step closes 63 and 2107, not 12 or 26533 | [numerical, Python, not Lean] (`search/weakly-consecutive/wc_s2r_check.py`) | Attack ideas, A7.5 |
 | Conjecture 5.2 for the remaining k with two distinct prime factors: p^a q^b with a, b ≥ 2, or r·s^b with s ∣ r − 1 and b ≥ 3, or b = 2 with r ∣ s² − s + 1 not closed by A7.5 (e.g. 2^b·r, b ≥ 3; 26533) | [conjecture] | Attack ideas, A7.3, A7.4, A7.5 |
 | Conjecture 5.2 for k with at least three distinct prime factors | [conjecture] | Attack ideas, A6.5 |
@@ -372,7 +372,7 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       argument, unreviewed) and the Lean check (r = 3). Still open in A7.3: (a) and (b) with
       k ≠ 4r. The uncovered k ≤ 100 are now (a) 36, 72, 100 and (b) 24, 40, 48, 56, 63, 80, 88, 96.
     - *Update 2026-11-27 (later).* A7.5 closes k = s²·r (s ∣ r − 1) except when r ∣ s² − s + 1,
-      and also k = 63 and 2107 among those exceptions (own argument, unreviewed). Still open in
+      and also k = 63 and 2107 among those exceptions ([Lean], #96). Still open in
       (b): b ≥ 3, and b = 2 exceptions such as 26533 = 13²·157. The uncovered k ≤ 100 are now
       (a) 36, 72, 100 and (b) 24, 40, 48, 56, 80, 88, 96 (all 2^b·r with b ≥ 3).
   - **A7.4. k = 4r (2026-11-27, #68).** [own argument, unreviewed] *Let r ≥ 5 be a prime and
@@ -421,7 +421,8 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       r ∣ f, but f may be a power of 2 when b − α − c ≥ 1 (for b = 2, α = c = 1 this is
       L = r, which forced f = r). Iterating the slice (now one starting with 1 at position j)
       did not close it in this stage. Also open: r ∣ 2^α − 1 (e.g. r = 3, 7) and A7.3 (a).
-  - **A7.5. k = s²·r (2026-11-27, #68).** [own argument, unreviewed] *Let r, s be distinct
+  - **A7.5. k = s²·r (2026-11-27, #68).** [Lean] `WeaklyConsecutiveS2R.conjecture_5_2_s_sq_mul_r`
+    (i), `conjecture_5_2_63` and `conjecture_5_2_2107` (ii) (#96). *Let r, s be distinct
     primes with s ∣ r − 1 and k = s²·r. (i) If r ∤ s² − s + 1, every WCS of length k has
     σ(1) = 1 or σ(k) = 1. (ii) The same holds for k = 63 (s = 3, r = 7) and k = 2107 (s = 7,
     r = 43), where r ∣ s² − s + 1.* For s = 2 this is A7.4 (s² − s + 1 = 3, so (i) is k = 4r,
@@ -716,3 +717,10 @@ No mathematical error found; two wording points, both fixed:
   proof of e ∣ K applies the window lemma A6.1 to σ at position k − d + 1 with modulus d·e
   instead of building the slice τ; the statement is unchanged. `check.ps1`: CLEAN, standard
   axioms only. Ledger rows relabelled [Lean].
+- **2026-11-28.** Lean for A7.5 (#96), `Proofs/WeaklyConsecutiveS2R.lean`: (i)
+  `conjecture_5_2_s_sq_mul_r`, (ii) `conjecture_5_2_63` and `conjecture_5_2_2107`, and the
+  combined form of #96, `conjecture_5_2_s_sq_mul_r'`, for all such k, not by `decide`. Step 3
+  (σ(s² − s + 1) = k) applies the window lemma A6.1 to σ at position s² − s + 1 with modulus
+  s²·u instead of building the slice υ, and step 5 proves T_m = {m, 2m, …} for m ∣ k + 1 from
+  A6.0 (a) and A6.1 instead of counting; the statement is unchanged. `check.ps1`: CLEAN,
+  standard axioms only. Ledger row relabelled [Lean].

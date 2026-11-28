@@ -2,3 +2,4 @@ import Proofs.WeaklyConsecutive
 import Proofs.WeaklyConsecutiveEnds
 import Proofs.Central2adic
 import Proofs.WeaklyConsecutiveSlice
+import Proofs.WeaklyConsecutiveS2R

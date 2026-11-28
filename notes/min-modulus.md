@@ -53,7 +53,7 @@ mod 248 (N3 below), so "no valid set for N < 252" is false.
 | [Fon26] Lemma 1: A valid mod N iff no balanced c has N \| V(c) | [preprint: Fon26, Lemma 1] (as relayed) | Setting |
 | formal-conjectures `min_modulus` matches [Fon26] Conjecture 1 (no mismatch of substance) | [own argument, unreviewed] | L2 |
 | {2^k − 1 : k < 8} is valid mod 248 | [numerical, exact] | N3 |
-| n = 8: no valid 8-set mod N for 8 ≤ N ≤ 247; valid sets exist mod 248 (least valid modulus 248) | [numerical, exact exhaustive search; Rust, not Lean]; symmetry reduction [own argument, unreviewed] | N4 |
+| n = 8: no valid 8-set mod N for 8 ≤ N ≤ 247; valid sets exist mod 248 (least valid modulus 248) | [numerical, exact exhaustive search; Rust, not Lean]; symmetry reduction [own argument, reviewed 2026-11-28] | N4 |
 | Least valid modulus over all n-sets is 60, 124 for n = 6, 7 | [numerical, exact exhaustive search; Rust, not Lean] | N4 |
 
 ## Literature (2026-11-27)
@@ -177,8 +177,8 @@ sets containing 0 (translation, Setting) and all multiplicity vectors.
   [numerical, exact]
 - Scale for n = 8: naive enumeration has C(247, 7) ≈ 1.0·10^13 sets per modulus; N4 below
   uses unit-scaling symmetry and prefix pruning instead.
-- **N4. Exhaustive search for n = 8 (issue #87).** Program `tools/min_modulus/search.rs` (Rust,
-  std only; no C compiler was available), output in `tools/min_modulus/n8_results.txt`.
+- **N4. Exhaustive search for n = 8 (issue #87).** Program `search/min-modulus/search.rs` (Rust,
+  std only; no C compiler was available), output in `search/min-modulus/n8_results.txt`.
   **Result: for every N with 8 ≤ N ≤ 247 no 8-subset of ℤ_N is valid; at N = 248 valid sets
   exist** (e.g. {0, 1, 5, 21, 83, 85, 93, 125}, also checked by brute force; and {2^k − 1}, N3).
   So the least valid modulus for n = 8 is 248 = 2^8 − 2^3, as Conjecture 1 predicts.
@@ -205,7 +205,7 @@ sets containing 0 (translation, Setting) and all multiplicity vectors.
     example above and {2^k − 1} mod 248 valid, {2^k − 1} mod 247 invalid. (iii) With `VERIFY=1` the full DP update also runs
     on every candidate the quick filter rejects, with an assertion that they agree; this ran for
     n = 8, N = 8..200 with no failure and node counts identical to the main run. An earlier build
-    without the quick filter gave identical node counts and no valid set for N = 199..215.
+    without the quick filter gave identical node counts and no valid set for N = 198..215.
     (iv) Translation-only mode (`plain`, no unit scaling) agrees on the least valid modulus for
     n ≤ 7, and for n = 8 finds no valid set for N = 8..180 and N = 247 (7.6·10^10 and 5.1·10^10 nodes).
   - *Cost.* 4.1·10^10 candidate nodes over N = 8..248, 198 s wall clock on 22 threads (2026-11-27).
@@ -262,7 +262,7 @@ sets containing 0 (translation, Setting) and all multiplicity vectors.
     129 ≤ N ≤ 247 (resting on Inal's claimed bound, not re-checked) and the unconditional range
     8 ≤ N ≤ 247, matching LEDGER MM2.
 - **2026-11-27, /review of N4** (one fresh read-only reviewer, budget-limited; saw only the
-  definition, N4, `tools/min_modulus/` and LEDGER MM2). No blocking findings. Minor points:
+  definition, N4, `search/min-modulus/` and LEDGER MM2). No blocking findings. Minor points:
   - M1 (a missing N line would pass silently): rebutted for this run; `n8_results.txt` has a line
     for every N in 8..248, and only N = 248 has valid sets.
   - M2 (`VERIFY=1` covered N ≤ 200 only, so bits 192–255 of the quick filter were cross-checked
@@ -273,6 +273,20 @@ sets containing 0 (translation, Setting) and all multiplicity vectors.
     record it): acknowledged; that check was run in the session and is not logged in the file.
   - The author checked the symmetry step separately (d ≡ u·gcd(d, N) for a unit u; a positive
     a_1 with gcd(a_1, N) ≥ g has a_1 ≥ g). Its label stays "own argument" until the PR review.
+- **2026-11-28, reviewer-loop on PR #100** (sha c3d4069).
+  - F1 (search code under `tools/`): fixed; `search.rs`, `README.md` and `n8_results.txt` moved to
+    `search/min-modulus/`, paths updated in N4, the Review and Log entries and LEDGER.
+  - F2 (no-filter cross-check range said 199..215, file starts at 198): fixed in N4 (iii) and the
+    `n8_results.txt` section header.
+  - F3 (open items in the PR body had no issues): the optional `VERIFY=1` rerun is not tracked;
+    the reviewer ran `VERIFY=1` on N = 230..247 (no failure, identical node counts), so N ≤ 200
+    and 230..247 have a `VERIFY` pass, 198..215 also have the no-filter build, and only
+    N = 216..229 have neither cross-check. A Lean or
+    `decide` certificate for n = 8 is not tracked either (judged too expensive).
+  - F4 (a panicking task aborts the run without a SUMMARY): fixed; the README states that a run
+    without a line for every N and a SUMMARY is invalid.
+  - The reviewer checked the symmetry step independently and found it sound; its label is now
+    `[own argument, reviewed 2026-11-28]` in the Claims table and LEDGER MM2.
 
 ## Log
 
@@ -285,10 +299,12 @@ sets containing 0 (translation, Setting) and all multiplicity vectors.
   n ≤ 5 by exhaustive search. Found that #87's bound should be N < 248, not 252.
   [numerical, Python, not Lean] P3 marked `taken (#23)` in `PROBLEMS.md`; LEDGER entry added.
 - **2026-11-27.** Answered the reviewer-loop comment on PR #89 (R1, R2 in Review).
-- **2026-11-27.** Issue #87: exhaustive search for n = 8 (N4, `tools/min_modulus/`). No valid
+- **2026-11-27.** Issue #87: exhaustive search for n = 8 (N4, `search/min-modulus/`). No valid
   8-set mod N for 8 ≤ N ≤ 247; valid sets exist mod 248. Also least valid modulus 60, 124 for
   n = 6, 7. [numerical, exact exhaustive search; Rust, not Lean]; symmetry reduction
   [own argument, unreviewed].
 - **2026-11-27.** Exhaustive search stage (issue #87, part of #23, branch
   `agent/ndesmo/min-modulus-n8`): no valid 8-set mod N for 8 ≤ N ≤ 247, and valid sets exist at
   248 (N4). [numerical, exact exhaustive search; Rust, not Lean]
+- **2026-11-28.** Answered the reviewer-loop comment on PR #100 (F1–F4 in Review); search files
+  moved to `search/min-modulus/`; symmetry step relabelled reviewed.

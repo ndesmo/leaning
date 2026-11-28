@@ -1,4 +1,4 @@
-# n = 8 exhaustive search, tools/min_modulus/search.rs, 2026-11-27, 22 threads (Windows 11).
+# n = 8 exhaustive search, search/min-modulus/search.rs, 2026-11-27, 22 threads (Windows 11).
 # valid_found = valid sets found (canon: canonical representatives, one valid set may be counted
 # several times); nodes = candidate (prefix, x) pairs tested; finished_at = wall time from run start
 # at which the last task for that N finished (tasks for many N run interleaved, so not per-N time).
@@ -623,7 +623,7 @@ SUMMARY n=8 N=8..180 least_valid_N=None total_nodes=76118623527 total_time=652.6
 ## Cross-check: search 8 247 247 plain
 SUMMARY n=8 N=247..247 least_valid_N=None total_nodes=51110140631 total_time=177.0s threads=22
 
-## Cross-check: build without the quick filter (DP update on every candidate), N = 199..215, canon
+## Cross-check: build without the quick filter (DP update on every candidate), N = 198..215, canon
 n=8 N=198 mode=canon valid_found=0 nodes=276858207 finished_at=634.0s example=None
 n=8 N=199 mode=canon valid_found=0 nodes=251080104 finished_at=606.6s example=None
 n=8 N=200 mode=canon valid_found=0 nodes=295084618 finished_at=539.1s example=None

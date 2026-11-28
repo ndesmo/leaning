@@ -17,6 +17,10 @@ No C compiler was available on the machine used, so the search is in Rust (std o
     mm.exe check <N> <a_0> ... <a_{n-1}>                    # DP and brute-force validity of one set
     mm.exe crosscheck <trials> [seed]                       # DP vs brute force on random sets
 
+A run is valid only if it prints one line for every N in the range and ends with a SUMMARY
+line. If a task panics (for example a `VERIFY=1` assertion), the shared mutex is poisoned and the
+program aborts: some N then have no line and there is no SUMMARY, and that run must be discarded.
+
 - `canon` (default) fixes 0 and g = a_1 as the pair with the least gcd(difference, N), using
   translation plus unit scaling. `plain` fixes only a_0 = 0 (translation only).
 - `THREADS=k` sets the thread count (default: all cores).

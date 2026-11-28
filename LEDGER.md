@@ -97,7 +97,7 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 | Id | Item | Status | Where |
 |---|---|---|---|
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
-| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2, [Lean] `conjecture_5_2_r_mul_s_pow` (#82); k = 4r: A7.4 + Lean k = 12; k = s²·r with r ∤ s² − s + 1, and 63, 2107: A7.5; own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2, r·s^b with b ≥ 3, s ∣ r − 1, and b = 2 exceptions (e.g. 26533) | notes, A7.3, A7.5 |
+| WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2, [Lean] `conjecture_5_2_r_mul_s_pow` (#82); k = 4r: A7.4, [Lean] `conjecture_5_2_four_mul` (#106); k = s²·r with r ∤ s² − s + 1, and 63, 2107: A7.5, [Lean] `conjecture_5_2_s_sq_mul_r'` (#96); otherwise own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2, r·s^b with b ≥ 3, s ∣ r − 1, and b = 2 exceptions (e.g. 26533) | notes, A7.3, A7.5 |
 | WC1c | Conjecture 5.2 for prime-power k | [Lean] `conjecture_5_2_prime_pow` (#81, `halfline_lt/Proofs/WeaklyConsecutiveEnds.lean`) | notes, A6.3 |
 | WC1b | Conjecture 5.2 for k with ≥ 3 distinct prime factors | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | small-k part done (k ≤ 16, [Lean], `halfline_lt/Proofs/WeaklyConsecutive.lean`); Lemmas 2.2–2.4 not formalized | notes, A5, Log 2026-11-25 (Lean) |

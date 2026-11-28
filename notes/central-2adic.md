@@ -489,6 +489,19 @@ No mathematical error found; both reviewers recomputed the table (a₁₆(2) = 1
 
 No theorem statement or proof step changed, so no Lean rerun and no second review round.
 
+### 2026-11-28: reviewer-loop comment on PR #102 (sha 2e95165), no blocking findings
+
+1. FIX, "Other q" said the statement needs q to be a power of 2, but only q = 3, 6, 12 are refuted: fixed, now "fails for some q that are not powers of 2; we do not know whether it fails for every such q".
+2. MINOR, Conjecture chip on a proved statement: fixed, now "Conjectured in A402341 (17 November 2026); proved here as Corollary 2".
+3. MINOR, odd-n bullet credited the factor 2 to step 5: fixed, now "steps 4–5", the squaring in step 4 applied in step 5 via F^n = (F²)^m.
+4. MINOR, step 3 lists `WG.sub` without mentioning differences: fixed, step 3 now says differences of weakly good polynomials are weakly good.
+5. MINOR, ℕ[X] to ℤ[X] cast not mentioned: fixed, one sentence in "What Lean checks" on `hcast`.
+6. MINOR, q = 16 table lacked a Numerical chip: fixed, chip added.
+7. MINOR, "which ... which" in Corollary 2 step 1: fixed, reworded.
+8. MINOR (optional), related results of L5 not on the page: fixed, a "Related results" item in Novelty names GMU17 Thm 3.3 and Shen Thm 1.1 as a different object, unused, texts not checked verbatim.
+
+No Lean or claim label changed (the chip change in 2 removes an under-label of a proved result; the Lean label of Corollary 2 is unchanged).
+
 ## Log
 
 - **2026-11-26.** Literature stage (issue #22, branch `agent/central-2adic-literature`). Re-checked
@@ -533,3 +546,4 @@ No theorem statement or proof step changed, so no Lean rerun and no second revie
   statements verbatim. Added the page to `docs/index.html` and `README.md`. The page has not been
   reviewed yet (`/review` next).
 - 2026-11-27: `/review` of the page (two fresh reviewers): no mathematical error, 11 wording findings, all fixed (Review).
+- 2026-11-28: answered the reviewer-loop comment on PR #102: 1 FIX and 7 MINOR, all fixed on the page (Review).

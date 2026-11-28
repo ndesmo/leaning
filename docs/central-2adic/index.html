@@ -308,6 +308,10 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
           <li><b>Read for possible implication:</b> Meštrović’s survey account [Meš14] of the Lucas-type theorem of Bollinger–Burchard
             [BB90], which is only a congruence mod <var>p</var>, and the web version of [Gra97]. Granville’s survey [Gra97] has generalized-Lucas
             congruences, but it was only partly read (see the next item).</li>
+          <li><b>Related results:</b> results of the same shape, “<var>v</var><sub>2</sub> of a coefficient equals <var>v</var><sub>2</sub> of a binomial
+            coefficient”, are known for a different object, the powers of ∏(1 − <var>x</var><sup>2<sup><var>j</var></sup></sup>):
+            Gawron–Miska–Ulas (arXiv:1703.01955, Thm 3.3) and Shen (arXiv:2609.16966, Thm 1.1). Neither implies
+            the theorem here, and no step uses them; their texts were not checked verbatim (notes, Literature L5).</li>
           <li><b>Not checked:</b>
             <ul class="plain">
               <li>[BB90] itself: the publisher page returned 403, so it is known only through the survey [Meš14].</li>
@@ -343,7 +347,7 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       A402341 is <var>a</var><sub>16</sub> [A402341], and A005190 and A025013 are the cases <var>q</var> = 4 and 8.
     </p>
     <div class="conj">
-      <span class="ev conj">Conjecture (A402341, 17 November 2026)</span>
+      <span class="ev conj">Conjectured in A402341 (17 November 2026); proved here as Corollary 2</span>
       <p class="statement">“Conjecture: for even n, the 2-adic valuation of a(n) equals A000120(15*n/2).
         Verified for n &lt;= 1500.”</p>
     </div>
@@ -368,6 +372,7 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     <p>
       The table was computed exactly in Python by expanding the polynomial; the values for
       <var>n</var> = 34 and 36 have too many digits to show.
+      <span class="ev std">Numerical</span> exact integers, Python
     </p>
   </section>
 
@@ -416,7 +421,8 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         </span>
         <span class="ev lean">Lean</span> <code>coeff_extract</code>, <code>main_identity</code></li>
       <li><b>Closure.</b> Since <var>s</var><sub>2</sub>(<var>a</var> + <var>b</var>) ≤ <var>s</var><sub>2</sub>(<var>a</var>) + <var>s</var><sub>2</sub>(<var>b</var>),
-        products of weakly good polynomials are weakly good. Products and powers of strongly good
+        products of weakly good polynomials are weakly good, and so are differences (coefficients
+        subtract term by term). Products and powers of strongly good
         polynomials are strongly good, and a strongly good polynomial is weakly good.
         <span class="ev lean">Lean</span> <code>s₂_add_le</code>, <code>WG.mul</code>, <code>WG.sub</code>, <code>SG.mul</code>, <code>SG.pow</code>, <code>SG.WG</code></li>
       <li><b>Squaring gains a factor 2.</b> If <var>R</var> is weakly good, then <var>R</var>² is strongly good.
@@ -470,8 +476,8 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       (Nat.digits 2 (15 * n / 2)).sum</code></pre>
     <p class="proof">Proof.</p>
     <ol class="steps">
-      <li>Theorem 1 with <var>r</var> = 4. For even <var>n</var>, 15<var>n</var>/2 = ⌊15<var>n</var>/2⌋, which is the
-        exponent of the central coefficient, which is how the entry defines <var>a</var>(<var>n</var>).
+      <li>Theorem 1 with <var>r</var> = 4. For even <var>n</var>, 15<var>n</var>/2 = ⌊15<var>n</var>/2⌋ is the
+        exponent of the central coefficient, and the entry defines <var>a</var>(<var>n</var>) as that coefficient.
         <span class="ev lean">Lean</span> <code>a402341_conjecture</code> <span class="qed">∎</span></li>
     </ol>
   </section>
@@ -481,10 +487,10 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     <ul class="plain">
       <li><b>Odd <var>n</var>.</b> For <var>q</var> = 16 and odd <var>n</var> ≤ 4000, the difference
         <var>v</var><sub>2</sub>(<var>a</var>(<var>n</var>)) − <var>s</var><sub>2</sub>(⌊15<var>n</var>/2⌋) takes every value from −11 to 10
-        except −2. We propose no conjecture there. In step 5 the extra factor 2 comes from
-        <var>n</var> = 2<var>m</var>, and for odd <var>n</var> the setup of steps 2–6 does not apply, since (<var>q</var>−1)<var>n</var> is odd and there is no integer <var>N</var> with (<var>q</var>−1)<var>n</var> = 2<var>N</var>.
+        except −2. We propose no conjecture there. In steps 4–5 the extra factor 2 comes from the
+        squaring in step 4, which step 5 applies through <var>F</var><sup><var>n</var></sup> = (<var>F</var>²)<sup><var>m</var></sup> with <var>n</var> = 2<var>m</var>, and for odd <var>n</var> the setup of steps 2–6 does not apply, since (<var>q</var>−1)<var>n</var> is odd and there is no integer <var>N</var> with (<var>q</var>−1)<var>n</var> = 2<var>N</var>.
         <span class="ev std">Numerical</span> exact integers mod 2<sup>48</sup>, Python</li>
-      <li><b>Other <var>q</var>.</b> The statement needs <var>q</var> to be a power of 2. For <var>q</var> = 3 and
+      <li><b>Other <var>q</var>.</b> The statement fails for some <var>q</var> that are not powers of 2; we do not know whether it fails for every such <var>q</var>. For <var>q</var> = 3 and
         <var>n</var> = 2 the coefficient is 3, with <var>v</var><sub>2</sub> = 0 and <var>s</var><sub>2</sub>(2) = 1. For <var>q</var> = 6 and
         <var>n</var> = 2 it is 6, with <var>v</var><sub>2</sub> = 1 and <var>s</var><sub>2</sub>(5) = 2. No replacement statement has been
         formulated for such <var>q</var>.</li>
@@ -500,7 +506,9 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
       Lean 4.37.0-rc1 with Mathlib v4.37.0-rc1. Source:
       <a href="https://github.com/ndesmo/leaning/blob/main/halfline_lt/Proofs/Central2adic.lean"><code>halfline_lt/Proofs/Central2adic.lean</code></a>.
       All 35 lemmas and theorems in the file are proved without <code>sorry</code>, and the axiom check shows
-      only the standard axioms. The statements quoted above are the exact Lean statements. The
+      only the standard axioms. The statements quoted above are the exact Lean statements. They are stated over ℕ[<var>X</var>]; the proof
+      casts the coefficient to ℤ (it equals the coefficient of the same power in ℤ[<var>X</var>], by mapping the polynomial
+      along ℕ → ℤ; this is the step <code>hcast</code> in the proof of <code>central_2adic</code>) and runs steps 1–6 there. The
       number-theoretic inputs are Mathlib’s Kummer theorem
       <code>sub_one_mul_multiplicity_choose_eq_sub_sum_digits</code>, Legendre’s formula
       <code>Nat.Prime.sub_one_mul_multiplicity_factorial</code> and <code>Nat.digit_sum_le</code> (the last two give

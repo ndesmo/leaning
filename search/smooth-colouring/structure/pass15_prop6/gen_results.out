@@ -1,0 +1,30 @@
+gen/exp2_n30_4x9_301_r.json rho = 3 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 14
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 6
+gen/exp2_n30_4x9_302_r.json rho = 3 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 14
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 6
+gen/exp2_n30_4x9_303_r.json rho = 3 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 13
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 7
+gen/exp2_n30_4x9_304_r.json rho = 3 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 14
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 6
+gen/exp2_n30_4x9_305_r.json rho = 3 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 14
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 6
+gen/exp2_n30_4x9_306_r.json rho = 3 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 14
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 6
+gen/exp2_n30_4x9_207_r.json rho = 2 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 9
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 11
+gen/exp2_n30_4x9_208_r.json rho = 2 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 9
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 11
+gen/exp2_n30_4x9_209_r.json rho = 2 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 9
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 11
+gen/exp2_n30_4x9_210_r.json rho = 2 tilings 20
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 7
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 13

@@ -1,0 +1,22 @@
+../pass13_mixed/exp2_n30_4x9_1.json rho = 2 tilings 200
+   not pure-C 96
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 104
+../pass13_mixed/exp2_n30_4x9_1.json rho = 3 tilings 200
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 104
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 96
+../pass13_mixed/exp2_n30_4x9_1_r.json rho = 2 tilings 30
+   not pure-C 12
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 18
+../pass13_mixed/exp2_n30_4x9_1_r.json rho = 3 tilings 30
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 18
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 12
+../pass13_mixed/exp2_n30_4x9_2_r.json rho = 2 tilings 30
+   not pure-C 30
+../pass13_mixed/exp2_n30_4x9_2_r.json rho = 3 tilings 30
+   not pure-C 30
+../pass13_mixed/exp2_n30_4x9_3_r.json rho = 2 tilings 30
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 16
+   ('pure-C', 'nonconst-fibres>0', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 14
+../pass13_mixed/exp2_n30_4x9_3_r.json rho = 3 tilings 30
+   not pure-C 14
+   ('pure-C', 'all P-cosets', 'L', True, 'brute(L,F,inj,rank)', (True, True, True)) 16

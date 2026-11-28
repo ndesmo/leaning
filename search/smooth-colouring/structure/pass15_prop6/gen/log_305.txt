@@ -1,0 +1,4 @@
+H = (4, 9) B' = [(0, 0), (0, 7), (0, 8), (1, 0), (1, 1), (1, 2)] #complements 3
+solutions found 20 nodes 72720 time 0.0s
+test outcomes (T1 c, T3 b^p, T4 b^q): Counter({(True, False, False): 14, (False, False, False): 6})
+genuinely mixed (through G): 6

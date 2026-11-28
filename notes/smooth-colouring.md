@@ -900,3 +900,45 @@ Next ideas, ranked:
    source, or replace it via CM Lemma 2.4.
 3. A second program for (c_{2,2}) at 195, for example a CP-SAT model in ortools. Then push to
    (c_{3,3}) and (c_{4,2}).
+
+### 2026-11-28: pass 15
+
+Two subagents ran this pass. The gtile7 hd = 243 driver from pass 14 kept running with 14
+workers. There is no PR.
+
+1. **gtile7 hd = 243 (p = 3, level 4) at n = 195.**
+   - **240 of 400 parts are done, all NONE** (1.56e12 nodes, 62k CPU-seconds).
+   - The driver is still running detached. Resume it as in pass 14 only if `tasklist` shows no
+     gtile7_p13.exe.
+2. **Sands citation check** (`structure/pass15_sands/CITATION.md`) [cited, secondary sources only].
+   - Four arXiv surveys and papers plus MathWorld, with verbatim quotes, agree on three facts:
+     - Z225 and Z75 are good (every factorisation has a periodic factor).
+     - Z3²×Z25, Z9×Z5² and Z3²×Z5² are not good.
+     - The sense of "good" matches its use in NOTE §3.
+   - Correction: the completed classification is Sands 1962 (Acta Math. Acad. Sci. Hungar. 13,
+     153–169), not 1957 alone. I fixed this in pass14 NOTE.md.
+   - I did not read a primary source (paywalled).
+3. **Prop-6 F_3 test** (`structure/pass15_prop6/`, README has commands) [numerical on the n = 30
+   analogue; own argument, unreviewed].
+   - **Dead end as an exclusion route.** Prop 6 is a test on one *given* tiling, and no tiling
+     exists at 195 to feed it. It cannot exclude the pure-C_s part of R without either a proof
+     for every hypothetical R-tiling or an exhaustive search restricted to R.
+   - **NOTE's "iff" is too strong.** Its criterion 3v ∉ R + 3M_3 (= condition L) is strictly
+     stronger than Prop 6's hypothesis F. L fixes the sign of f_3 = ±φ_3/3 per row: 44 of 500
+     synthetic instances satisfy F but not L. With rows of 2, L and F coincide.
+   - **n = 30 analogue (H = Z4×Z9):**
+     - 230 pass-13 tilings and 200 new tilings were checked, the new ones verified by pass-13
+       `verify.py`.
+     - Every tiling is pure-C, as Theorem 4 predicts.
+     - L and F hold in every non-trivial one.
+   - This is weak evidence: the tilings are random-restart samples, and many have shifts on
+     free primes, where L holds trivially.
+
+Dead ends: Prop 6 as a standalone exclusion of R (reason above).
+
+Next ideas, ranked:
+1. Finish gtile7 hd = 243, then hd = 625. Then run /review and open the finite-level PR.
+2. Do a coset-mode exact search restricted to R at 195, in the style of c22.rs: S_{B′} = {3,5},
+   Φ45 ∤ B′, C_s/D_t fibres. Alternatively, prove F for all R-tilings using the per-row sign
+   freedom.
+3. A second program for (c_{2,2}) (CP-SAT), then (c_{3,3}) and (c_{4,2}).

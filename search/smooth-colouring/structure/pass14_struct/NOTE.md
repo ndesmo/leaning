@@ -62,7 +62,9 @@ displayed formulas were missing from that rendering.
 period n such that A is finite, 0∈A∩C, and n has one or two prime factors. Then there is a prime
 factor p of n such that either A⊂pℤ or C⊆pℤ."
 
-**[unverified citation]** Sands (Acta Math. Acad. Sci. Hungar. 8 (1957); from memory). A cyclic
+**[cited, secondary sources only — pass 15, see `../pass15_sands/CITATION.md`]** Sands, Acta Math.
+Acad. Sci. Hungar. 8 (1957) and "On the factorisation of finite abelian groups II", ibid. 13 (1962)
+153–169 (the 1962 paper completes the classification); also Szabó–Sands (2009). A cyclic
 group Z_N is *good*, meaning every factorization has a periodic factor, iff N divides one of
 p^n q, p²q², p²qr, pqrs. Only two instances are used here: Z225 = Z_{3²5²} and Z75 = Z_{3·5²}
 (the latter is the p^n q case, de Bruijn).

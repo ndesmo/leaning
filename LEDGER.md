@@ -141,11 +141,12 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   preprint, not accessed; several Lean proofs); third-party Lean claims of n ≤ 6 and
   N ≥ 2^{n−1}(1 + 1/(72(n−1)√((n−1) ln n))) (Sun16z/min-modulus-gap, 2026-11-27). None re-checked here.
 - Numerics (Python, not Lean): least valid modulus is 2, 6, 12, 28 for n = 2..5 (exhaustive).
+  Rust search (not Lean, 2026-11-27, `search/min-modulus/`): 60, 124, 248 for n = 6, 7, 8 (notes N4).
 
 | Id | Item | Status | Where |
 |---|---|---|---|
 | MM1 (#23) | **Conjecture 1** for all n | open | notes, Statement |
-| MM2 (#87) | n = 8: no valid set for N < 248 (the scout wrote 252; the threshold is 248). Unconditional target 8 ≤ N < 248; N < 129 follows from Inal's/L3's claimed bound and equality case (not re-checked), leaving 129 ≤ N < 248 | open | notes, Attack ideas |
+| MM2 (#87) | n = 8: no valid set for N < 248 (the scout wrote 252; the threshold is 248) | done by exhaustive search for all 8 ≤ N ≤ 247, valid sets exist at 248 [numerical, exact exhaustive search; Rust, not Lean; symmetry step own argument, reviewed 2026-11-28]; not a proof or Lean certificate | notes, N4 |
 | MM3 (#88) | A general lower bound beating 2^{n−1}(1 + 1/(72(n−1)√((n−1) ln n))) | open, crowded | notes, L3–L4 |
 
 ## Approaches that failed

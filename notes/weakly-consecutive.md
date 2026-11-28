@@ -151,6 +151,23 @@ should re-prove them (and Lean should formalize them) rather than rely on the pr
 counterexample or citing work was found in the sources above, other than OEIS A395372,
 which links the paper and lists the counts but does not discuss Conjecture 5.2.
 
+### Novelty re-check for the proof page (2026-11-27, #83)
+
+- arXiv API (`all:"weakly consecutive"`; `abs:"weakly consecutive" AND abs:permutation`): only
+  2401.09497 v1. Verdict: nothing new.
+- Stack Exchange API, MathOverflow and Math.SE, "weakly consecutive": 0 results each.
+- OEIS search `"weakly consecutive"`: hits A000670, A003242, A025047, A128761, A344604, A344605,
+  A344614, A344615, A395372. Only A395372 was identified as about WCS; the others are well-known
+  composition/ordering sequences and were not opened. (An OEIS search for "2401.09497" returned
+  no hits, not even A395372, so that search does not detect links to the paper.)
+- OpenAlex W4391046639: cited_by_count 0.
+- Web search (title with author names): only the paper, its mirrors (ar5iv, arXiv HTML/PDF) and
+  an author profile page; nothing on Conjecture 5.2.
+- Not re-run: arXiv author searches, zbMATH Open, Crossref (last run 2026-11-25). Still not
+  accessed: Semantic Scholar, Google Scholar.
+- Verdict: no proof, disproof or partial result on Conjecture 5.2 found; the page's Novelty line
+  states this scope, including the two indexes not accessed.
+
 ## Attack ideas
 
 Write T_m = T_m^σ and pos(v) = σ^{-1}(v). For a WCS, T_m is the residue class of pos(m) mod m
@@ -716,3 +733,8 @@ No mathematical error found; two wording points, both fixed:
   proof of e ∣ K applies the window lemma A6.1 to σ at position k − d + 1 with modulus d·e
   instead of building the slice τ; the statement is unchanged. `check.ps1`: CLEAN, standard
   axioms only. Ledger rows relabelled [Lean].
+- **2026-11-27.** Proof page drafted (#83): `docs/weakly-consecutive/index.html`, with entries in
+  `docs/index.html` and `README.md`. It presents A6.0–A6.3, A7.1–A7.2 and `conjecture_5_2_le_16`
+  as [Lean]; A7.4 only as [own argument, unreviewed] under "In progress, not proved here"; A7.5 as
+  in progress (Lean PR not merged); A7.3 and ≥ 3 prime factors as open. Novelty re-checked the same
+  day (Literature, re-check). Page not yet reviewed.

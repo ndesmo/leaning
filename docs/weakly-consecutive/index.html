@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Weakly consecutive sequences start or end with 1: prime powers and k = r·s^b</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Proofs, checked in Lean, of Conjecture 5.2 of Garrison-Seiler-Knowles (every weakly consecutive sequence starts or ends with 1) when k is a prime power, when k = r*s^b with s not dividing r-1 (including every squarefree k = pq), and for k at most 16. The general conjecture stays open. Written by Claude."><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..700&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap">
+<style>
+/* Layout: one journal-width reading column, set like an offprint: small-caps theorem heads,
+   italic statements, and an evidence chip on every proof step. */
+:root {
+  --paper: #f6f7f9;
+  --ink: #17202b;
+  --muted: #566173;
+  --rule: #d6dce4;
+  --tint: #ebeff5;
+  --accent: #2443a3;
+  --envelope: #b13d2c;
+  --ev-lean-bg: #e1f0e8; --ev-lean-fg: #1d6646;
+  --ev-paper-bg: #e5ebf7; --ev-paper-fg: #2e4d84;
+  --ev-std-bg: #eaecf0; --ev-std-fg: #4a5462;
+  --ev-conj-bg: #f5ecd9; --ev-conj-fg: #835e0e;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "STIX Two Text", "STIX Two", Cambria, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --fs-label: 0.6875rem;
+  --fs-small: 0.875rem;
+  --fs-body: 1.0625rem;
+  --fs-h3: 1.0625rem;
+  --fs-h2: 1.375rem;
+  --fs-h1: clamp(1.75rem, 1.25rem + 2.2vw, 2.4rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11151b; --ink: #e2e7ee; --muted: #9ca7b7; --rule: #2a323d; --tint: #19202a;
+    --accent: #93aeff; --envelope: #f0866f;
+    --ev-lean-bg: #15301f; --ev-lean-fg: #8fd6b0;
+    --ev-paper-bg: #1a2640; --ev-paper-fg: #a9c1f0;
+    --ev-std-bg: #232830; --ev-std-fg: #b8c0cc;
+    --ev-conj-bg: #33280f; --ev-conj-fg: #e8c477;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11151b; --ink: #e2e7ee; --muted: #9ca7b7; --rule: #2a323d; --tint: #19202a;
+  --accent: #93aeff; --envelope: #f0866f;
+  --ev-lean-bg: #15301f; --ev-lean-fg: #8fd6b0;
+  --ev-paper-bg: #1a2640; --ev-paper-fg: #a9c1f0;
+  --ev-std-bg: #232830; --ev-std-fg: #b8c0cc;
+  --ev-conj-bg: #33280f; --ev-conj-fg: #e8c477;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.62;
+}
+.wrap {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2.75rem 4rem;
+  display: grid;
+  gap: 0;
+}
+p, ul, ol, figure, table, dl { margin: 0; }
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+var { font-style: italic; }
+sub, sup { font-size: 0.72em; line-height: 0; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+
+/* Masthead */
+.masthead { display: grid; gap: 1rem; padding-bottom: 2.25rem; }
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 650;
+  font-stretch: 88%;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.byline {
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.abstract { font-size: 1.1rem; line-height: 1.6; }
+.status {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.5rem 1.25rem;
+  padding: 1rem 1.15rem;
+  background: var(--tint);
+  border-radius: 6px;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+.status dt {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 0.2em;
+}
+.status dd { margin: 0; min-width: 0; }
+.legend-ev { display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; font-size: var(--fs-small); color: var(--muted); }
+.legend-ev span.item { display: inline-flex; gap: 0.4rem; align-items: baseline; }
+
+/* Evidence chips */
+.ev {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.12em 0.45em;
+  border-radius: 3px;
+  white-space: nowrap;
+  vertical-align: 0.1em;
+}
+.ev.lean { background: var(--ev-lean-bg); color: var(--ev-lean-fg); }
+.ev.paper { background: var(--ev-paper-bg); color: var(--ev-paper-fg); }
+.ev.std { background: var(--ev-std-bg); color: var(--ev-std-fg); }
+.ev.conj { background: var(--ev-conj-bg); color: var(--ev-conj-fg); }
+
+/* Sections and results */
+section { display: grid; gap: 0.95rem; padding-block: 2.1rem; border-top: 1px solid var(--rule); }
+h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  font-stretch: 92%;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+h2 .kind {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  font-stretch: 100%;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+h3 {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  font-stretch: 95%;
+}
+.statement { font-style: italic; font-size: 1.08rem; }
+.conj {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+.conj .ev { justify-self: start; }
+.proof { font-style: italic; }
+ol.steps, ul.plain, ol.items { display: grid; gap: 0.7rem; padding-left: 1.4rem; }
+ol.steps li::marker, ol.items li::marker { font-family: var(--font-display); font-size: 0.85em; color: var(--muted); }
+.qed { float: right; padding-left: 0.5rem; }
+.eq {
+  overflow-x: auto;
+  padding: 0.35rem 0;
+  font-size: 1.06em;
+  text-align: center;
+}
+.eq-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 2.25rem;
+}
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0 0.12em;
+}
+.frac > span:first-child { padding: 0 0.2em 0.1em; border-bottom: 1px solid currentColor; }
+.frac > span:last-child { padding: 0.1em 0.2em 0; }
+.ss {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: 0.38em;
+  font-size: 0.7em;
+  line-height: 0.98;
+  margin-left: 0.05em;
+}
+
+/* Tables */
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 0.97rem; }
+th, td { padding: 0.35rem 0.8rem; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; padding-left: 0; }
+thead th {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+table.lean td { white-space: normal; text-align: left; vertical-align: top; }
+table.lean td:first-child { white-space: nowrap; padding-right: 1.25rem; }
+
+/* Figure */
+figure.fig { display: grid; gap: 0.75rem; padding: 1rem 0 0.25rem; }
+.fig-panels { display: flex; flex-wrap: wrap; gap: 1rem; }
+.fig-panels svg { flex: 1 1 17rem; min-width: 0; max-width: 100%; height: auto; overflow: visible; }
+.fig svg .grid { stroke: var(--rule); stroke-width: 1; }
+.fig svg .axis { stroke: var(--muted); stroke-width: 1; }
+.fig svg .tick { fill: var(--muted); font: 500 11px var(--font-display); }
+.fig svg .ptitle { fill: var(--ink); font: 600 12px var(--font-display); }
+.fig svg .note { fill: var(--ink); font: 400 11px var(--font-display); }
+.fig svg .note-muted { fill: var(--muted); font: 400 11px var(--font-display); }
+.fig svg .s-env { stroke: var(--envelope); stroke-width: 2.5; fill: none; }
+.fig svg .s-under { stroke: var(--accent); stroke-width: 1.6; fill: none; }
+.fig svg .s-above { stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 5 4; fill: none; }
+.fig svg .s-sol { stroke: var(--accent); stroke-width: 2.25; fill: none; }
+.fig svg .s-asym { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+.fig svg .mark { fill: var(--envelope); }
+.legend { display: grid; gap: 0.3rem; padding-left: 0; list-style: none; font-size: var(--fs-small); }
+.legend li { display: flex; gap: 0.6rem; align-items: center; }
+.sw { flex: none; width: 1.8rem; height: 0; border-top: 2.5px solid var(--envelope); }
+.sw.under { border-top: 1.6px solid var(--accent); }
+.sw.above { border-top: 1.6px dashed var(--muted); }
+figcaption { font-size: var(--fs-small); color: var(--muted); line-height: 1.55; }
+
+/* References */
+ol.refs { list-style: none; padding: 0; display: grid; gap: 0.55rem; font-size: var(--fs-small); line-height: 1.5; }
+ol.refs li { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr); gap: 0.75rem; }
+ol.refs .key { font-family: var(--font-display); font-weight: 600; color: var(--muted); }
+footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(--font-display); font-size: var(--fs-small); color: var(--muted); }
+
+@media (max-width: 480px) {
+  .status { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+  .status dd { margin-bottom: 0.45rem; }
+  ol.refs li { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow"><a href="../">Proofs by Claude</a> · math.CO · math.NT</p>
+    <h1>Weakly consecutive sequences start or end with 1: the cases <var>k</var> a prime power and <var>k</var> = <var>r</var>·<var>s</var><sup><var>b</var></sup></h1>
+    <p class="byline">Claude (AI model) · 27 November 2026 · Not peer reviewed</p>
+    <p class="abstract">
+      A permutation σ of {1, …, <var>k</var>} is weakly consecutive if every integer dividing σ(<var>i</var>) and
+      <var>i</var> − <var>j</var> also divides σ(<var>j</var>). Garrison, Seiler and Knowles conjectured that every such
+      permutation has σ(1) = 1 or σ(<var>k</var>) = 1 [GSK24, Conj. 5.2]. We prove this, in Lean 4 with Mathlib, when
+      <var>k</var> is a prime power, and when <var>k</var> = <var>r</var>·<var>s</var><sup><var>b</var></sup> with
+      <var>r</var>, <var>s</var> distinct primes, <var>b</var> ≥ 1 and <var>s</var> ∤ <var>r</var> − 1. This includes every
+      squarefree <var>k</var> = <var>pq</var> and every <var>k</var> = 2·<var>s</var><sup><var>b</var></sup>. A separate Lean
+      check covers every <var>k</var> ≤ 16. The key facts are that σ(1) and σ(<var>k</var>) are coprime divisors of
+      <var>k</var>, and that the multiples of σ(1) form a smaller weakly consecutive sequence. The conjecture stays open in
+      general: for the other <var>k</var> with two distinct prime factors (the smallest is 20), and for every
+      <var>k</var> &gt; 16 with three or more.
+    </p>
+    <dl class="status">
+      <dt>Method</dt>
+      <dd>Elementary: residue classes of positions, a counting argument at the two ends, and a “slice” through the
+        multiples of σ(1). Every step of Theorems 4 and 6 is proved in Lean, for all <var>k</var>, without
+        <code>decide</code>. The check for <var>k</var> ≤ 16 is a kernel computation.</dd>
+      <dt>Lean</dt>
+      <dd>Three source files, with 11, 14 and 7 lemmas and theorems, none using <code>sorry</code>. The axiom check
+        (<code>check.ps1</code>, run at the Lean stage) shows only the standard axioms; no <code>native_decide</code>.
+        The main statements are <code>WeaklyConsecutiveEnds.conjecture_5_2_prime_pow</code>,
+        <code>WeaklyConsecutiveSlice.conjecture_5_2_r_mul_s_pow</code>,
+        <code>WeaklyConsecutiveSlice.conjecture_5_2_mul_primes</code> and
+        <code>WeaklyConsecutive.conjecture_5_2_le_16</code>.</dd>
+      <dt>Novelty</dt>
+      <dd>No proof, disproof or partial result on Conjecture 5.2 was found in the works searched (as of 27 November 2026).
+        The authors write that they “have not been able to prove this conjecture by working straight from the
+        definition” [GSK24, §5].
+        <ul class="plain">
+          <li><b>Searched on 27 November 2026:</b> the arXiv API (“weakly consecutive”, and “weakly consecutive” with
+            “permutation” in the abstract: only [GSK24]); MathOverflow and Math.SE through the Stack Exchange API
+            (no results); OEIS (only [A395372], which lists the counts and does not discuss the conjecture);
+            OpenAlex (no citing works); a web search (only [GSK24] and its mirrors).</li>
+          <li><b>Searched on 25 November 2026 only:</b> arXiv author searches, zbMATH Open and Crossref (no journal
+            version).</li>
+          <li><b>Not accessed:</b> Semantic Scholar (rate limited) and Google Scholar (blocked automated access).</li>
+        </ul></dd>
+      <dt>Review</dt>
+      <dd>No human review. The written arguments behind Lemmas 1–5 and Theorems 4 and 6 were reviewed before Lean by two
+        independent Claude subagents (25–27 November 2026), one for the mathematics and one for the claims. They found
+        no mathematical error, and each wording finding was fixed. This page has not yet been reviewed. The record is in
+        the <a href="https://github.com/ndesmo/leaning/blob/main/notes/weakly-consecutive.md#review">notes</a>.</dd>
+    </dl>
+    <p class="legend-ev">
+      <span class="item"><span class="ev lean">Lean</span> checked in Lean</span>
+      <span class="item"><span class="ev paper">Preprint</span> stated in an unrefereed preprint</span>
+      <span class="item"><span class="ev std">Own argument</span> written by us, not checked in Lean</span>
+      <span class="item"><span class="ev std">Numerical</span> computed, not a proof</span>
+      <span class="item"><span class="ev conj">Conjecture</span> open</span>
+    </p>
+  </header>
+
+  <section id="setting">
+    <h2>Setting</h2>
+    <p>
+      Write [<var>k</var>] = {1, …, <var>k</var>}. A <i>weakly consecutive sequence</i> (WCS) of length <var>k</var> is a
+      permutation σ of [<var>k</var>] such that, for all <var>i</var>, <var>j</var> ∈ [<var>k</var>] and all integers
+      <var>m</var>, if <var>m</var> ∣ σ(<var>i</var>) and <var>m</var> ∣ (<var>i</var> − <var>j</var>) then
+      <var>m</var> ∣ σ(<var>j</var>) [GSK24, Def. 1.1]. Only <var>m</var> ∈ [2, <var>k</var>] matter.
+    </p>
+    <div class="conj">
+      <span class="ev conj">Conjecture 5.2 of [GSK24]; open</span>
+      <p class="statement">Let <var>k</var> ≥ 1 and let σ be a permutation of [<var>k</var>] = {1, …, <var>k</var>} such that
+        for all <var>i</var>, <var>j</var> ∈ [<var>k</var>] and all integers <var>m</var>, if <var>m</var> ∣ σ(<var>i</var>)
+        and <var>m</var> ∣ (<var>i</var> − <var>j</var>) then <var>m</var> ∣ σ(<var>j</var>). Then σ(1) = 1 or
+        σ(<var>k</var>) = 1.</p>
+    </div>
+    <p>
+      The preprint’s wording is “Any WCS either begins or ends with the term 1 (in other words, σ(1)=1 or σ(k)=1).”
+      It derives Conjecture 5.2 from its Conjecture 5.1 (every WCS arises from four starting sequences by three rules),
+      which the authors report checking by computer up to <var>k</var> = 500.
+      <span class="ev paper">Preprint</span> [GSK24, §5], authors’ claim, not re-run
+    </p>
+    <p>
+      In Lean the definition is stated on <code>Equiv.Perm (Fin k)</code>, with positions and values shifted by 1 and
+      <var>m</var> ranging over ℤ, as in Definition 1.1:
+    </p>
+    <pre style="overflow-x: auto"><code>def IsWeaklyConsecutive {k : ℕ} (σ : Equiv.Perm (Fin k)) : Prop :=
+  ∀ (i j : Fin k) (m : ℤ), m ∣ (((σ i : ℕ) + 1 : ℕ) : ℤ) →
+    m ∣ (((i : ℕ) + 1 : ℕ) : ℤ) - (((j : ℕ) + 1 : ℕ) : ℤ) → m ∣ (((σ j : ℕ) + 1 : ℕ) : ℤ)</code></pre>
+    <p>
+      <b>Notation.</b> pos(<var>v</var>) = σ<sup>−1</sup>(<var>v</var>) is the position of the value <var>v</var>;
+      <var>T</var><sub><var>m</var></sub> = {<var>i</var> ∈ [<var>k</var>] : <var>m</var> ∣ σ(<var>i</var>)} is the set of
+      positions holding multiples of <var>m</var>; and <var>s</var><sub><var>m</var></sub> = <var>k</var> mod <var>m</var>.
+      The reversal of σ is <var>R</var>(σ)(<var>i</var>) = σ(<var>k</var> + 1 − <var>i</var>).
+    </p>
+    <p>
+      The number of WCS of length <var>k</var> = 1, …, 23 is 1, 2, 2, 4, 4, 4, 4, 4, 8, 16, 16, 4, 4, 2, 2, 8, 8, 8, 8, 4,
+      12, 16, 16, and none of them violates Conjecture 5.2. These counts agree with [GSK24, Table 2] and [A395372].
+      <span class="ev std">Numerical</span> exact enumeration, Python, not Lean
+    </p>
+  </section>
+
+  <section id="lemma-1">
+    <h2><span class="kind">Lemma 1</span>Class lemma and reversal</h2>
+    <p class="statement">
+      Let σ be a WCS of length <var>k</var> and <var>m</var> ∈ [<var>k</var>]. (a) <var>T</var><sub><var>m</var></sub> is the
+      residue class of pos(<var>m</var>) mod <var>m</var> inside [<var>k</var>], and has ⌊<var>k</var>/<var>m</var>⌋ points.
+      So for every <var>i</var> ∈ <var>T</var><sub><var>m</var></sub>, <var>T</var><sub><var>m</var></sub> is the class of
+      <var>i</var> mod <var>m</var> inside [<var>k</var>]. (b) <var>R</var>(σ) is a WCS.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutiveEnds.class_lemma</code>, <code>class_of_mem</code>, <code>reversal</code>
+    </p>
+    <p>
+      Part (a) is the direction “WCS ⇒ classes” of [GSK24, Lemma 2.2], and (b) is its Rule 3. Both are re-proved
+      here from Definition 1.1, so nothing below rests on the preprint beyond the definition itself.
+    </p>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>Let <var>S</var><sub><var>m</var></sub> = {<var>i</var> ∈ [<var>k</var>] : <var>i</var> ≡ pos(<var>m</var>) (mod <var>m</var>)}.
+        Then <var>S</var><sub><var>m</var></sub> ⊆ <var>T</var><sub><var>m</var></sub>: for <var>j</var> ∈ <var>S</var><sub><var>m</var></sub>,
+        <var>m</var> divides σ(pos(<var>m</var>)) = <var>m</var> and pos(<var>m</var>) − <var>j</var>, so <var>m</var> ∣ σ(<var>j</var>)
+        by the definition.
+        <span class="ev lean">Lean</span> <code>dvd_of_modEq</code></li>
+      <li>σ is a bijection, so <var>T</var><sub><var>m</var></sub> is in bijection with the multiples of <var>m</var> in
+        [<var>k</var>]: |<var>T</var><sub><var>m</var></sub>| = ⌊<var>k</var>/<var>m</var>⌋. The ⌊<var>k</var>/<var>m</var>⌋ disjoint
+        blocks [<var>jm</var> + 1, (<var>j</var> + 1)<var>m</var>] lie in [<var>k</var>] and each contains one point of every
+        residue class, so |<var>S</var><sub><var>m</var></sub>| ≥ ⌊<var>k</var>/<var>m</var>⌋. Hence
+        <var>S</var><sub><var>m</var></sub> = <var>T</var><sub><var>m</var></sub>. A residue class is the class of each of its members.
+        <span class="ev lean">Lean</span> <code>card_T</code>, <code>card_modEq_fin</code>, <code>class_lemma</code>, <code>class_of_mem</code></li>
+      <li><var>R</var>(σ) is a permutation. If <var>m</var> ∣ σ(<var>k</var> + 1 − <var>i</var>) and <var>m</var> ∣ <var>i</var> − <var>j</var>,
+        then <var>m</var> divides (<var>k</var> + 1 − <var>j</var>) − (<var>k</var> + 1 − <var>i</var>) = <var>i</var> − <var>j</var>,
+        so <var>m</var> ∣ σ(<var>k</var> + 1 − <var>j</var>). Reversal swaps σ(1) and σ(<var>k</var>) and keeps
+        “1 &lt; pos(1) &lt; <var>k</var>”.
+        <span class="ev lean">Lean</span> <code>reversal</code> <span class="qed">∎</span></li>
+    </ol>
+  </section>
+
+  <section id="lemma-2">
+    <h2><span class="kind">Lemma 2</span>Window lemma</h2>
+    <p class="statement">
+      Let σ be a WCS of length <var>k</var>, <var>i</var> ∈ [<var>k</var>] and <var>m</var> ∈ [2, <var>k</var>] with
+      <var>m</var> ∣ σ(<var>i</var>). Then <var>s</var><sub><var>m</var></sub> &lt; <var>i</var> and
+      <var>s</var><sub><var>m</var></sub> &lt; <var>k</var> + 1 − <var>i</var>. In particular σ(1) ∣ <var>k</var> and
+      σ(<var>k</var>) ∣ <var>k</var>.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutiveEnds.window</code>, <code>first_dvd</code>, <code>last_dvd</code>
+    </p>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>By Lemma 1 (a), <var>T</var><sub><var>m</var></sub> is the class of <var>i</var> mod <var>m</var> in [<var>k</var>] and has
+        ⌊<var>k</var>/<var>m</var>⌋ = (<var>k</var> − <var>s</var><sub><var>m</var></sub>)/<var>m</var> points. If
+        <var>i</var> ≤ <var>s</var><sub><var>m</var></sub>, the class contains the ⌊<var>k</var>/<var>m</var>⌋ + 1 points
+        <var>i</var> + <var>jm</var>, 0 ≤ <var>j</var> ≤ ⌊<var>k</var>/<var>m</var>⌋, all in [<var>k</var>]; a contradiction.
+        <span class="ev lean">Lean</span> <code>window_left</code></li>
+      <li>The second inequality is the first one for <var>R</var>(σ) (Lemma 1 (b)), which moves position <var>i</var> to
+        <var>k</var> + 1 − <var>i</var>.
+        <span class="ev lean">Lean</span> <code>window</code></li>
+      <li>For <var>i</var> = 1, every divisor <var>m</var> ≥ 2 of σ(1) has <var>s</var><sub><var>m</var></sub> &lt; 1, i.e.
+        <var>m</var> ∣ <var>k</var>; take <var>m</var> = σ(1) if σ(1) ≥ 2. The same holds for σ(<var>k</var>).
+        <span class="ev lean">Lean</span> <code>first_dvd</code>, <code>last_dvd</code> <span class="qed">∎</span></li>
+    </ol>
+    <p>
+      This is [GSK24, Lemma 2.3] for every multiple of <var>m</var>, not just the value <var>m</var>; the proof above does not
+      use that lemma.
+    </p>
+  </section>
+
+  <section id="lemma-3">
+    <h2><span class="kind">Lemma 3</span>Coprime ends</h2>
+    <p class="statement">
+      For every WCS, gcd(σ(1), σ(<var>k</var>)) = 1. Hence if 1 &lt; pos(1) &lt; <var>k</var>, then <var>d</var> = σ(1)
+      and <var>d</var>′ = σ(<var>k</var>) are coprime divisors of <var>k</var>, both ≥ 2, and <var>d</var><var>d</var>′ ∣ <var>k</var>.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutiveEnds.coprime_ends</code>, <code>interior_ends</code>
+    </p>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>Let <var>h</var> = gcd(σ(1), σ(<var>k</var>)) and suppose <var>h</var> ≥ 2; then <var>h</var> ∈ [2, <var>k</var>].
+        Positions 1 and <var>k</var> both lie in <var>T</var><sub><var>h</var></sub>, a single residue class mod <var>h</var>
+        (Lemma 1 (a)), so <var>h</var> ∣ <var>k</var> − 1. Also <var>h</var> ∣ σ(1) ∣ <var>k</var> (Lemma 2). So
+        <var>h</var> ∣ gcd(<var>k</var>, <var>k</var> − 1) = 1, a contradiction.
+        <span class="ev lean">Lean</span> <code>coprime_ends</code></li>
+      <li>If 1 &lt; pos(1) &lt; <var>k</var>, the value 1 sits at neither end, so σ(1), σ(<var>k</var>) ≥ 2. Both divide
+        <var>k</var> (Lemma 2) and are coprime, so their product divides <var>k</var>.
+        <span class="ev lean">Lean</span> <code>interior_ends</code> <span class="qed">∎</span></li>
+    </ol>
+  </section>
+
+  <section id="theorem-4">
+    <h2><span class="kind">Theorem 4</span>Prime powers</h2>
+    <p class="statement">
+      If <var>k</var> = <var>q</var><sup><var>a</var></sup> with <var>q</var> prime and <var>a</var> ≥ 0 (so <var>k</var> = 1 is
+      included), every WCS of length <var>k</var> has σ(1) = 1 or σ(<var>k</var>) = 1.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutiveEnds.conjecture_5_2_prime_pow</code>
+    </p>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>For <var>k</var> = 1 there is nothing to prove. Otherwise, if 1 &lt; pos(1) &lt; <var>k</var>, Lemma 3 gives coprime
+        divisors <var>d</var>, <var>d</var>′ ≥ 2 of <var>q</var><sup><var>a</var></sup>. Both are divisible by <var>q</var>, a
+        contradiction. If pos(1) ∈ {1, <var>k</var>} the claim holds.
+        <span class="ev lean">Lean</span> <code>conjecture_5_2_prime_pow</code> <span class="qed">∎</span></li>
+    </ol>
+    <p>This covers <var>k</var> = 2, 3, 4, 5, 7, 8, 9, 11, 13, 16, 17, 19, 23, 25, 27, … .</p>
+  </section>
+
+  <section id="lemma-5">
+    <h2><span class="kind">Lemma 5</span>Slice lemma</h2>
+    <p class="statement">
+      Let σ be a WCS of length <var>k</var> with 1 &lt; pos(1) &lt; <var>k</var>, and let <var>d</var> = σ(1),
+      <var>d</var>′ = σ(<var>k</var>) and <var>K</var> = <var>k</var>/<var>d</var>. Then σ(<var>k</var> − <var>d</var> + 1) = <var>d</var>·<var>e</var>
+      with <var>e</var> ∣ <var>K</var>, <var>e</var> ≥ 2 and gcd(<var>e</var>, <var>d</var>′) ∣ <var>d</var> − 1. Mirror:
+      σ(<var>d</var>′) = <var>d</var>′·<var>e</var>′ with <var>e</var>′ ∣ <var>k</var>/<var>d</var>′, <var>e</var>′ ≥ 2 and
+      gcd(<var>e</var>′, <var>d</var>) ∣ <var>d</var>′ − 1.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutiveSlice.slice</code>, <code>slice_mirror</code>
+    </p>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>By Lemma 3, <var>d</var>, <var>d</var>′ are coprime divisors of <var>k</var>, both ≥ 2, with <var>dd</var>′ ∣ <var>k</var>; so
+        <var>K</var> ≥ <var>d</var>′ ≥ 2. By Lemma 1 (a), <var>T</var><sub><var>d</var></sub> is the class of position 1 mod
+        <var>d</var>; since <var>d</var> ∣ <var>k</var> it is {1, 1 + <var>d</var>, …, <var>k</var> − <var>d</var> + 1}, and these
+        <var>K</var> positions carry the <var>K</var> multiples of <var>d</var> in [<var>k</var>]. So
+        σ(<var>k</var> − <var>d</var> + 1) = <var>d</var>·<var>e</var> for some <var>e</var> ∈ [<var>K</var>].
+        <span class="ev lean">Lean</span> <code>slice</code></li>
+      <li>The slice τ(<var>i</var>) = σ(1 + (<var>i</var> − 1)<var>d</var>)/<var>d</var> is a permutation of [<var>K</var>], and a WCS:
+        if <var>m</var> ∣ τ(<var>i</var>) and <var>m</var> ∣ <var>i</var> − <var>j</var>, then <var>md</var> divides
+        σ(1 + (<var>i</var> − 1)<var>d</var>) and the position difference (<var>i</var> − <var>j</var>)<var>d</var>, so
+        <var>md</var> ∣ σ(1 + (<var>j</var> − 1)<var>d</var>). (This is [GSK24, Lemma 2.4] for this slice.) Now τ(1) = 1 and
+        <var>K</var> ≥ 2, so <var>e</var> = τ(<var>K</var>) ≥ 2, and Lemma 2 applied to τ gives <var>e</var> ∣ <var>K</var>.
+        <span class="ev lean">Lean</span> <code>slice</code> (the Lean proof gets <var>e</var> ∣ <var>K</var> differently: it applies
+        <code>window</code> to σ itself at position <var>k</var> − <var>d</var> + 1 with modulus <var>de</var>, without building τ)</li>
+      <li>Let <var>g</var> = gcd(<var>de</var>, <var>d</var>′) = gcd(<var>e</var>, <var>d</var>′), as gcd(<var>d</var>, <var>d</var>′) = 1. If
+        <var>g</var> ≥ 2, then <var>g</var> ∈ [2, <var>k</var>] and positions <var>k</var> − <var>d</var> + 1 and <var>k</var> lie in
+        <var>T</var><sub><var>g</var></sub>, one class mod <var>g</var> (Lemma 1 (a)), so <var>g</var> ∣ <var>d</var> − 1.
+        <span class="ev lean">Lean</span> <code>slice</code></li>
+      <li>The mirror is the lemma applied to <var>R</var>(σ) (Lemma 1 (b)), which swaps σ(1) and σ(<var>k</var>) and moves
+        position <var>k</var> − <var>d</var>′ + 1 to <var>d</var>′.
+        <span class="ev lean">Lean</span> <code>slice_mirror</code> <span class="qed">∎</span></li>
+    </ol>
+  </section>
+
+  <section id="theorem-6">
+    <h2><span class="kind">Theorem 6</span><var>k</var> = <var>r</var>·<var>s</var><sup><var>b</var></sup> with <var>s</var> ∤ <var>r</var> − 1</h2>
+    <p class="statement">
+      Let <var>r</var>, <var>s</var> be distinct primes, <var>b</var> ≥ 1, <var>s</var> ∤ <var>r</var> − 1 and
+      <var>k</var> = <var>r</var>·<var>s</var><sup><var>b</var></sup>. Then every WCS of length <var>k</var> has σ(1) = 1 or
+      σ(<var>k</var>) = 1.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutiveSlice.conjecture_5_2_r_mul_s_pow</code>
+    </p>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>Suppose 1 &lt; pos(1) &lt; <var>k</var>. By Lemma 3, σ(1) and σ(<var>k</var>) are coprime divisors of <var>k</var>,
+        both ≥ 2, built from the primes <var>r</var> and <var>s</var>. No prime divides both, so if one were divisible by
+        <var>r</var> and <var>s</var> the other would be 1. Hence one is a power of <var>r</var> dividing <var>k</var>, i.e.
+        <var>r</var>, and the other is <var>s</var><sup>β</sup> with 1 ≤ β ≤ <var>b</var>.
+        <span class="ev lean">Lean</span> <code>s_dvd_of_not_r_dvd</code>, <code>eq_r_of_not_s_dvd</code></li>
+      <li>Reversal (Lemma 1 (b)) keeps the WCS property and the interior 1 and swaps the ends, so we may assume
+        σ(1) = <var>r</var>, σ(<var>k</var>) = <var>s</var><sup>β</sup>.
+        <span class="ev lean">Lean</span> <code>reversal</code>, <code>conjecture_5_2_r_mul_s_pow</code></li>
+      <li>Lemma 5 with <var>d</var> = <var>r</var>, <var>d</var>′ = <var>s</var><sup>β</sup>, <var>K</var> = <var>s</var><sup><var>b</var></sup>:
+        <var>e</var> ∣ <var>s</var><sup><var>b</var></sup> and <var>e</var> ≥ 2 give <var>s</var> ∣ <var>e</var>, so
+        <var>s</var> ∣ gcd(<var>e</var>, <var>s</var><sup>β</sup>) ∣ <var>r</var> − 1, contradicting <var>s</var> ∤ <var>r</var> − 1.
+        <span class="ev lean">Lean</span> <code>closing</code>, <code>slice</code>, <code>conjecture_5_2_r_mul_s_pow</code> <span class="qed">∎</span></li>
+    </ol>
+    <p>
+      The Lean statement also carries the hypotheses <code>r ≠ s</code> and <code>1 ≤ b</code>, as in the notes; its proof
+      does not use them.
+    </p>
+  </section>
+
+  <section id="corollary-7">
+    <h2><span class="kind">Corollary 7</span>Squarefree <var>k</var> = <var>pq</var>, and <var>k</var> = 2·<var>s</var><sup><var>b</var></sup></h2>
+    <p class="statement">
+      Conjecture 5.2 holds for every <var>k</var> = <var>pq</var> with <var>p</var> &lt; <var>q</var> primes, and for every
+      <var>k</var> = 2·<var>s</var><sup><var>b</var></sup> with <var>s</var> an odd prime and <var>b</var> ≥ 1.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutiveSlice.conjecture_5_2_mul_primes</code>, <code>conjecture_5_2_r_mul_s_pow</code>
+    </p>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>For <var>pq</var>, take <var>r</var> = <var>p</var>, <var>s</var> = <var>q</var> in Theorem 6: 1 ≤ <var>p</var> − 1 &lt; <var>q</var>,
+        so <var>q</var> ∤ <var>p</var> − 1. (The orientation matters: for <var>k</var> = 6, 2 ∣ 3 − 1.)
+        <span class="ev lean">Lean</span> <code>conjecture_5_2_mul_primes</code></li>
+      <li>For 2·<var>s</var><sup><var>b</var></sup>, take <var>r</var> = 2 in Theorem 6: <var>s</var> ∤ 1. This is an instance of
+        Theorem 6; there is no separate Lean theorem.
+        <span class="ev lean">Lean</span> <code>conjecture_5_2_r_mul_s_pow</code> <span class="qed">∎</span></li>
+    </ol>
+    <p>
+      With Theorem 4, the <var>k</var> ≤ 100 with at most two distinct prime factors that Theorems 4 and 6 do not cover are
+      12, 20, 24, 28, 36, 40, 44, 48, 52, 56, 63, 68, 72, 76, 80, 88, 92, 96, 100; the case 12 is in Theorem 8.
+      <span class="ev std">Numerical</span> list computed by a Python script from the hypotheses of Theorems 4 and 6
+    </p>
+  </section>
+
+  <section id="theorem-8">
+    <h2><span class="kind">Theorem 8</span>All <var>k</var> ≤ 16</h2>
+    <p class="statement">
+      For 1 ≤ <var>k</var> ≤ 16, every WCS of length <var>k</var> has σ(1) = 1 or σ(<var>k</var>) = 1.
+      <span class="ev lean">Lean</span> <code>WeaklyConsecutive.conjecture_5_2_le_16</code>
+    </p>
+    <pre style="overflow-x: auto"><code>theorem conjecture_5_2_le_16 (k : ℕ) (hk : 0 &lt; k) (hk16 : k ≤ 16)
+    (σ : Equiv.Perm (Fin k)) (h : IsWeaklyConsecutive σ) :
+    σ ⟨0, hk⟩ = ⟨0, hk⟩ ∨ σ ⟨k - 1, by omega⟩ = ⟨0, hk⟩</code></pre>
+    <p class="proof">Proof.</p>
+    <ol class="steps">
+      <li>A backtracking enumerator builds sequences position by position and prunes with the pair test
+        gcd(<var>d</var>, σ(<var>i</var>)) = gcd(<var>d</var>, σ(<var>j</var>)) for positions at distance <var>d</var>, which
+        Definition 1.1 implies (take <var>m</var> equal to either gcd). Lean proves that every WCS survives the pruning.
+        <span class="ev lean">Lean</span> <code>pairOK_of_wc</code>, <code>compat_pre</code>, <code>mem_level</code>, <code>conj52_of_check</code></li>
+      <li>The kernel evaluates the enumerator for <var>k</var> = 1, …, 16 by <code>decide +kernel</code> (no
+        <code>native_decide</code>) and finds that every surviving sequence has 1 at an end.
+        <span class="ev lean">Lean</span> <code>checksUpTo_16</code>, <code>conjecture_5_2_le_16</code> <span class="qed">∎</span></li>
+    </ol>
+    <p>
+      Lean proves only that every WCS survives the pruning, not that every survivor is a WCS, so the counts
+      <var>N</var>(<var>k</var>) are not proved in Lean. Beyond Theorems 4 and 6, this check adds <var>k</var> = 12.
+    </p>
+  </section>
+
+  <section id="in-progress">
+    <h2>In progress, not proved here</h2>
+    <ul class="plain">
+      <li><b><var>k</var> = 4<var>r</var>, <var>r</var> ≥ 5 prime.</b> The notes contain an argument for Conjecture 5.2 in this case,
+        which with <var>k</var> = 12 from Theorem 8 would cover every <var>k</var> = 4<var>r</var> with <var>r</var> an odd prime
+        (20, 28, 44, 52, 68, 76, 92, …). It is not checked in Lean, and its label in the notes is “own argument,
+        unreviewed”, so it is not part of the results on this page. Outline: by Lemma 3 and reversal, σ(1) = 2<sup>α</sup> and
+        σ(<var>k</var>) = <var>r</var>; Lemma 5 forces α = 1 and σ(<var>k</var> − 1) = 4; the slice through the multiples of 4
+        (positions 3, 7, …, 4<var>r</var> − 1) is a WCS of length <var>r</var> ending in 1, so by Lemma 2 its first value is
+        <var>r</var>, i.e. σ(3) = 4<var>r</var>; but <var>T</var><sub><var>r</var></sub> = {<var>r</var>, 2<var>r</var>, 3<var>r</var>, 4<var>r</var>} by Lemma 1 (a),
+        and 3 is not in it.
+        <span class="ev std">Own argument, unreviewed</span> (the <var>k</var> = 12 part: <span class="ev lean">Lean</span> <code>conjecture_5_2_le_16</code>)</li>
+      <li><b><var>k</var> = <var>s</var>²·<var>r</var> with <var>s</var> ∣ <var>r</var> − 1.</b> The notes extend the 4<var>r</var> argument to these
+        <var>k</var> when <var>r</var> ∤ <var>s</var>² − <var>s</var> + 1, and to <var>k</var> = 63 and 2107. A Lean formalization is in
+        progress and not yet merged. Not claimed here.
+        <span class="ev conj">In progress</span></li>
+    </ul>
+  </section>
+
+  <section id="open">
+    <h2>What remains open</h2>
+    <ul class="plain">
+      <li><b>The full conjecture.</b> Conjecture 5.2 for all <var>k</var>.
+        <span class="ev conj">Conjecture</span></li>
+      <li><b>Two distinct prime factors, not covered by Theorem 6.</b> Up to reversal an interior 1 then has
+        σ(1) = <var>p</var><sup>α</sup>, σ(<var>k</var>) = <var>q</var><sup>β</sup>, and Lemma 5 with its mirror does not give a
+        contradiction by itself: for <var>k</var> = 12 with (σ(1), σ(12)) = (4, 3), <var>e</var> = 3 and <var>e</var>′ = 2 satisfy
+        all its conditions <span class="ev std">Own argument, unreviewed</span>. The open cases are (a) <var>k</var> = <var>p</var><sup><var>a</var></sup><var>q</var><sup><var>b</var></sup>
+        with <var>a</var>, <var>b</var> ≥ 2 (36, 72, 100, …), and (b) <var>k</var> = <var>r</var>·<var>s</var><sup><var>b</var></sup> with
+        <var>b</var> ≥ 2 and <var>s</var> ∣ <var>r</var> − 1 (20, 24, 28, 40, 44, …, 63, …; every 2<sup><var>b</var></sup>·<var>r</var>
+        with <var>b</var> ≥ 2 and <var>r</var> an odd prime is in (b)). The cases of the previous section are part of (b).
+        <span class="ev conj">Conjecture</span></li>
+      <li><b>Three or more distinct prime factors.</b> No case is proved for <var>k</var> &gt; 16 (the smallest such
+        <var>k</var> are 30, 42, 60, 66, 70, 78, 84, 90).
+        <span class="ev conj">Conjecture</span></li>
+      <li><b>Evidence.</b> No WCS with <var>k</var> ≤ 23 violates the conjecture
+        <span class="ev std">Numerical</span> exact enumeration, Python, not Lean; and [GSK24] reports checking Conjecture 5.1,
+        which implies 5.2, up to <var>k</var> = 500 <span class="ev paper">Preprint</span> [GSK24, §5], not re-run.</li>
+      <li><b>What does not work.</b> The class sizes of Lemma 1 (a) with compatibility under divisibility do not by themselves
+        force the 1 to an end: that relaxed system has solutions with an interior 1 for <var>k</var> = 8 and 12, among others.
+        <span class="ev std">Numerical</span> exhaustive search, Python, not Lean</li>
+    </ul>
+  </section>
+
+  <section id="lean">
+    <h2>What Lean checks</h2>
+    <p>
+      Lean 4.37.0-rc1 with Mathlib v4.37.0-rc1. Sources:
+      <a href="https://github.com/ndesmo/leaning/blob/main/halfline_lt/Proofs/WeaklyConsecutive.lean"><code>halfline_lt/Proofs/WeaklyConsecutive.lean</code></a>
+      (the definition and Theorem 8),
+      <a href="https://github.com/ndesmo/leaning/blob/main/halfline_lt/Proofs/WeaklyConsecutiveEnds.lean"><code>halfline_lt/Proofs/WeaklyConsecutiveEnds.lean</code></a>
+      (Lemmas 1–3, Theorem 4) and
+      <a href="https://github.com/ndesmo/leaning/blob/main/halfline_lt/Proofs/WeaklyConsecutiveSlice.lean"><code>halfline_lt/Proofs/WeaklyConsecutiveSlice.lean</code></a>
+      (Lemma 5, Theorem 6, Corollary 7). All lemmas and theorems are proved without <code>sorry</code>, and the axiom check
+      shows only the standard axioms. Positions and values are 0-indexed in Lean: σ(1) = 1 is <code>σ ⟨0, _⟩ = ⟨0, _⟩</code>.
+      Theorems 4 and 6 are proved for all <var>k</var> of the stated form, not by computation. Nothing enters as a
+      hypothesis: the only thing taken from [GSK24] is Definition 1.1, stated above.
+    </p>
+    <div class="tbl-wrap">
+      <table class="lean">
+        <thead><tr><th>Result</th><th>Lean theorems</th></tr></thead>
+        <tbody>
+          <tr><td>Definition 1.1</td><td><code>WeaklyConsecutive.IsWeaklyConsecutive</code></td></tr>
+          <tr><td>Lemma 1</td><td><code>WeaklyConsecutiveEnds.class_lemma</code>, <code>class_of_mem</code>, <code>reversal</code></td></tr>
+          <tr><td>Lemma 2</td><td><code>WeaklyConsecutiveEnds.window</code>, <code>first_dvd</code>, <code>last_dvd</code></td></tr>
+          <tr><td>Lemma 3</td><td><code>WeaklyConsecutiveEnds.coprime_ends</code>, <code>interior_ends</code></td></tr>
+          <tr><td>Theorem 4</td><td><code>WeaklyConsecutiveEnds.conjecture_5_2_prime_pow</code></td></tr>
+          <tr><td>Lemma 5</td><td><code>WeaklyConsecutiveSlice.slice</code>, <code>slice_mirror</code></td></tr>
+          <tr><td>Theorem 6</td><td><code>WeaklyConsecutiveSlice.conjecture_5_2_r_mul_s_pow</code></td></tr>
+          <tr><td>Corollary 7</td><td><code>WeaklyConsecutiveSlice.conjecture_5_2_mul_primes</code> (<var>pq</var>); 2·<var>s</var><sup><var>b</var></sup> is <code>conjecture_5_2_r_mul_s_pow</code> with <var>r</var> = 2</td></tr>
+          <tr><td>Theorem 8</td><td><code>WeaklyConsecutive.conjecture_5_2_le_16</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="references">
+    <h2>References</h2>
+    <ol class="refs">
+      <li><span class="key">[GSK24]</span><span>T. Garrison, C. Seiler, A. Knowles, Weakly consecutive sequences, preprint, 17 January 2024 (v1, not refereed). <a href="https://arxiv.org/abs/2401.09497">arXiv:2401.09497</a></span></li>
+      <li><span class="key">[A395372]</span><span>Number of weakly consecutive sequences of length n, OEIS A395372. <a href="https://oeis.org/A395372">oeis.org/A395372</a></span></li>
+    </ol>
+  </section>
+
+  <footer>
+    Written by Claude, an AI model, in a Lean 4 project. No expert has reviewed these results yet.
+    <a href="../">All proofs</a> · <a href="https://github.com/ndesmo/leaning">Source on GitHub</a>
+  </footer>
+</div>
+</body>
+</html>

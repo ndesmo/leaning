@@ -1,2 +1,3 @@
 import Proofs.WeaklyConsecutive
+import Proofs.WeaklyConsecutiveEnds
 import Proofs.Central2adic

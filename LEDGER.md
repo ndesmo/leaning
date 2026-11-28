@@ -74,6 +74,8 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   via σ(1), σ(k) being coprime divisors of k. Gap: k with two or more distinct prime factors; class-size
   counting alone (A3's plan) cannot work: the size-only relaxation admits an interior 1 (Python search, notes A6.5).
 - Lean 2026-11-25 (#47): Conjecture 5.2 for k ≤ 16 by `decide +kernel` (`conjecture_5_2_le_16`).
+- Lean 2026-11-27 (#81): A6.0–A6.3 for all k (class lemma, reversal, window lemma, coprime ends,
+  Conjecture 5.2 for prime-power k: `conjecture_5_2_prime_pow`), `Proofs/WeaklyConsecutiveEnds.lean`.
 - Attack stage 2026-11-26 (#68): a slice lemma (the slice through position 1 starts with 1, so
   its last value divides its length) gives Conjecture 5.2 for k = r·s^b with r, s distinct
   primes and s ∤ r − 1, including every squarefree k = pq and every 2·s^b (own argument,
@@ -93,7 +95,7 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
 |---|---|---|---|
 | WC1 (#21) | **Conjecture 5.2** for all k | open | notes, Statement |
 | WC1a (#68) | **Conjecture 5.2 for k with 2 distinct prime factors** (k = r·s^b with s ∤ r − 1, incl. all pq: A7.2; k = 4r: A7.4 + Lean k = 12; k = s²·r with r ∤ s² − s + 1, and 63, 2107: A7.5; own argument, unreviewed; GSK24 citations re-proved, #80) | partial; open for a, b ≥ 2, r·s^b with b ≥ 3, s ∣ r − 1, and b = 2 exceptions (e.g. 26533) | notes, A7.3, A7.5 |
-| WC1c | Conjecture 5.2 for prime-power k | own argument, unreviewed (GSK24 citations re-proved, #80) | notes, A6.3 |
+| WC1c | Conjecture 5.2 for prime-power k | [Lean] `conjecture_5_2_prime_pow` (#81, `halfline_lt/Proofs/WeaklyConsecutiveEnds.lean`) | notes, A6.3 |
 | WC1b | Conjecture 5.2 for k with ≥ 3 distinct prime factors | open | notes, A6.5 |
 | WC2 | Lean check of 5.2 for small k by `decide`, plus Lemmas 2.2–2.4 of the paper | small-k part done (k ≤ 16, [Lean], `halfline_lt/Proofs/WeaklyConsecutive.lean`); Lemmas 2.2–2.4 not formalized | notes, A5, Log 2026-11-25 (Lean) |
 

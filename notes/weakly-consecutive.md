@@ -36,8 +36,8 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | σ is a WCS iff S_m^σ = T_m^σ for all m ∈ [k] | [preprint: GSK24, Lemma 2.2] | Literature |
 | For a WCS, m ∈ [k] and every x ∈ [k] with m ∣ x, σ^{-1}(x) ∈ [(k mod m) + 1, k − (k mod m)] (in particular for x = m) | [preprint: GSK24, Lemma 2.3, read with m ∣ x] + [own argument, unreviewed: the reading and a re-derivation] | Literature, item 4 |
 | Division slices D_d(σ) of a WCS are WCS | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed: the reading m = k] | Literature, item 5 |
-| Reversal preserves WCS | [preprint: GSK24, Rule 3]; re-proved from Def. 1.1 [own argument, unreviewed] | Literature; Attack ideas, A6.0 (b) |
-| Class lemma: for a WCS and m ∈ [k], T_m is the residue class of σ^{-1}(m) mod m inside [k], of size ⌊k/m⌋ (direction WCS ⇒ classes of GSK24 Lemma 2.2) | [own argument, unreviewed] | Attack ideas, A6.0 (a) |
+| Reversal preserves WCS | [preprint: GSK24, Rule 3]; re-proved from Def. 1.1 [Lean] `WeaklyConsecutiveEnds.reversal` | Literature; Attack ideas, A6.0 (b) |
+| Class lemma: for a WCS and m ∈ [k], T_m is the residue class of σ^{-1}(m) mod m inside [k], of size ⌊k/m⌋ (direction WCS ⇒ classes of GSK24 Lemma 2.2) | [Lean] `WeaklyConsecutiveEnds.class_lemma`, `class_of_mem` | Attack ideas, A6.0 (a) |
 | Conjecture 5.2 holds for every k ≤ 16: every WCS σ of [k] (Def. 1.1 verbatim, m ∈ ℤ) has σ(1) = 1 or σ(k) = 1 (`conjecture_5_2_le_16`) | [Lean] (`halfline_lt/Proofs/WeaklyConsecutive.lean`; kernel `decide +kernel` on a pruned enumerator proved complete, no `native_decide`) | Log 2026-11-25 (Lean) |
 | N(k) for k = 1..23 is 1, 2, 2, 4, 4, 4, 4, 4, 8, 16, 16, 4, 4, 2, 2, 8, 8, 8, 8, 4, 12, 16, 16, and no WCS with 16 < k ≤ 23 violates Conjecture 5.2 | [numerical, exact enumeration, Python, not Lean] (the counts are not proved in Lean for any k: the enumerator's soundness is not formalized) | Log 2026-11-25 |
 | σ^{-1}(1) is the unique position not in ⋃_{p ≤ k prime} T_p; so Conjecture 5.2 ⇔ for every WCS the prime classes T_p cover {2, …, k − 1} | [own argument, unreviewed] | Attack ideas, A1 |
@@ -46,9 +46,9 @@ such that for all i, j ∈ [k] and all integers m, if m ∣ σ(i) and m ∣ (i �
 | For every m ∈ (k/3, k/2] (prime or not), T_m = {ρ, ρ + m} with ρ ∈ (k − 2m, m], and σ^{-1}(m) ∈ {ρ, ρ + m} | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A3 |
 | For odd k, every even value sits at an even position, so σ^{-1}(1) is odd | [preprint: GSK24, Lemmas 2.2, 2.3] + [own argument, unreviewed] | Attack ideas, A3 |
 | If Conjecture 5.2 holds for all lengths ≤ ⌊k/2⌋, then for every WCS of length k and every d ∈ [2, k], σ^{-1}(d) is the first or the last element of T_d | [preprint: GSK24, Lemma 2.4] + [own argument, unreviewed] | Attack ideas, A4 |
-| Window lemma: if m ∈ [2, k] divides σ(i) then k mod m < min(i, k + 1 − i); hence σ(1) ∣ k and σ(k) ∣ k | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A6.1 |
-| gcd(σ(1), σ(k)) = 1 for every WCS; so if 1 < σ^{-1}(1) < k, σ(1) and σ(k) are coprime divisors of k, both ≥ 2 | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A6.2 |
-| Conjecture 5.2 holds when k is a prime power (or k = 1) | [own argument, unreviewed] (GSK24 input re-proved, A6.0, A8) | Attack ideas, A6.3 |
+| Window lemma: if m ∈ [2, k] divides σ(i) then k mod m < min(i, k + 1 − i); hence σ(1) ∣ k and σ(k) ∣ k | [Lean] `WeaklyConsecutiveEnds.window`, `first_dvd`, `last_dvd` | Attack ideas, A6.1 |
+| gcd(σ(1), σ(k)) = 1 for every WCS; so if 1 < σ^{-1}(1) < k, σ(1) and σ(k) are coprime divisors of k, both ≥ 2 | [Lean] `WeaklyConsecutiveEnds.coprime_ends`, `interior_ends` | Attack ideas, A6.2 |
+| Conjecture 5.2 holds when k is a prime power (or k = 1) | [Lean] `WeaklyConsecutiveEnds.conjecture_5_2_prime_pow` | Attack ideas, A6.3 |
 | σ is a WCS iff σ(i) = λ(Y + i) for some integer Y (unique mod lcm(1..k)), λ(N) = lcm{m ∈ [k] : m ∣ N}; and iff (a) λ ≤ k on [Y + 1, Y + k] and (b) (Y mod m) + (k mod m) < m for all m ∈ [2, k] | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] | Attack ideas, A6.4 |
 | For m ∈ [2, k] dividing k + 1, T_m = {m, 2m, …}; hence gcd(σ^{-1}(1), k + 1) = 1 | [preprint: GSK24, Lemma 2.2] + [own argument, unreviewed] (via A6.4) | Attack ideas, A6.4 |
 | gcd(σ(i), i − σ^{-1}(1)) = 1 for all i ≠ σ^{-1}(1) | [own argument, unreviewed] | Attack ideas, A6.4 |
@@ -202,7 +202,7 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
   p = pos(1), s_m = k mod m. The direction "WCS ⇒ classes" of Lemma 2.2 of [GSK24] and Rule 3
   (reversal) are used throughout; both are re-proved in A6.0, so A6.1–A6.3 and A7 do not rest on
   the preprint (citation check #80, A8).
-  - **A6.0. Class lemma and reversal.** [own argument, unreviewed] (Added 2026-11-27, #80.)
+  - **A6.0. Class lemma and reversal.** [own argument, unreviewed]; [Lean] `WeaklyConsecutiveEnds.class_lemma`, `class_of_mem`, `reversal` (Added 2026-11-27, #80.)
     Let σ be a WCS of length k ≥ 1 and m ∈ [k].
     - *(a) Class lemma.* T_m = {i ∈ [k] : i ≡ pos(m) (mod m)}, and |T_m| = ⌊k/m⌋. Consequently,
       for every i ∈ T_m, T_m is the class of i mod m inside [k]; any two points of T_m are
@@ -220,7 +220,7 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
       so m ∣ σ(k + 1 − j) = R(σ)(j) by Def. 1.1. ∎ R maps position i to k + 1 − i, keeps the
       multiset of values, swaps σ(1) and σ(k), and keeps "1 < pos(1) < k". (This is [GSK24] Rule 3,
       re-proved.)
-  - **A6.1. Window lemma.** [own argument, unreviewed] Let σ be a WCS, i ∈ [k], m ∈ [2, k] with
+  - **A6.1. Window lemma.** [own argument, unreviewed]; [Lean] `WeaklyConsecutiveEnds.window`, `first_dvd`, `last_dvd` Let σ be a WCS, i ∈ [k], m ∈ [2, k] with
     m ∣ σ(i). Then s_m < i and s_m < k + 1 − i. *Proof.* T_m is the class of i mod m inside [k]
     and has ⌊k/m⌋ = (k − s_m)/m points (A6.0 (a)). If i ≤ s_m, the class of i contains the ⌊k/m⌋ + 1
     points i + jm, j = 0, …, ⌊k/m⌋, all in [k] (the last is i + ⌊k/m⌋·m ≤ s_m + k − s_m = k), a
@@ -230,12 +230,12 @@ inside [k], of size ⌊k/m⌋ (Lemma 2.2).
     The proof above does not use Lemma 2.3; it is a remark on the relation only.)
     - *Corollary (end values).* σ(1) ∣ k and σ(k) ∣ k: every divisor m ≥ 2 of σ(1) has
       s_m < 1, i.e. m ∣ k; take m = σ(1) (if σ(1) ≥ 2). Same for σ(k).
-  - **A6.2. Coprime ends.** [own argument, unreviewed] For every WCS, gcd(σ(1), σ(k)) = 1.
+  - **A6.2. Coprime ends.** [own argument, unreviewed]; [Lean] `WeaklyConsecutiveEnds.coprime_ends`, `interior_ends` For every WCS, gcd(σ(1), σ(k)) = 1.
     *Proof.* Let h = gcd(σ(1), σ(k)). If h ≥ 2 (then h ≤ σ(1) ≤ k, so h ∈ [2, k]), positions 1 and
     k both lie in T_h, a single residue class mod h (A6.0 (a)), so h ∣ k − 1; and h ∣ σ(1) ∣ k by A6.1. So h ∣ gcd(k, k − 1) = 1. ∎
     - *Corollary.* If 1 < p < k, then σ(1) and σ(k) are both ≥ 2 (the value 1 occurs once), so
       d = σ(1) and d′ = σ(k) are **coprime divisors of k, both ≥ 2**, and d·d′ ∣ k.
-  - **A6.3. Prime powers.** [own argument, unreviewed] *If k = q^a is a prime power (q prime,
+  - **A6.3. Prime powers.** [own argument, unreviewed]; [Lean] `WeaklyConsecutiveEnds.conjecture_5_2_prime_pow` *If k = q^a is a prime power (q prime,
     a ≥ 1), or k = 1, every WCS of length k has σ(1) = 1 or σ(k) = 1.* *Proof.* k = 1 is trivial.
     Otherwise, if 1 < p < k, A6.2 gives coprime divisors d, d′ ≥ 2 of q^a; both are divisible by
     q, contradiction. If p ∈ {1, k} there is nothing to prove. ∎ This covers k = 2, 3, 4, 5, 7, 8,
@@ -705,3 +705,7 @@ No mathematical error found; two wording points, both fixed:
   T_m = multiples of m meets T_{s²} with m·s² > k (own argument, unreviewed). Newly covered
   k ≤ 100: 63. `search/weakly-consecutive/wc_s2r_check.py` lists the exceptions for s < 60
   [numerical, Python, not Lean]; 26533 = 13²·157 stays open. Not attempted: b ≥ 3, A7.3 (a). Not yet reviewed.
+- **2026-11-27.** Lean stage for A6.0–A6.3 (#81): `halfline_lt/Proofs/WeaklyConsecutiveEnds.lean`
+  proves the class lemma, reversal, the window lemma and its corollary, coprime ends and its
+  corollary, and Conjecture 5.2 for every k = q^a (q prime, a ≥ 0, so k = 1 included), for all k,
+  not by `decide`. `check.ps1`: CLEAN, standard axioms only. Ledger rows relabelled [Lean].

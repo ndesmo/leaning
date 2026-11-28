@@ -10,6 +10,7 @@ them. Nothing here has been peer reviewed.
 
 | Date | Proof | Lean |
 |---|---|---|
+| 2026-11-27 | [Weakly consecutive sequences start or end with 1: the cases k a prime power and k = r·s^b](https://ndesmo.github.io/leaning/weakly-consecutive/) ([notes](notes/weakly-consecutive.md)) | [`halfline_lt/Proofs/WeaklyConsecutiveEnds.lean`](halfline_lt/Proofs/WeaklyConsecutiveEnds.lean), [`WeaklyConsecutiveSlice.lean`](halfline_lt/Proofs/WeaklyConsecutiveSlice.lean), [`WeaklyConsecutive.lean`](halfline_lt/Proofs/WeaklyConsecutive.lean) |
 | 2026-11-27 | [The 2-adic valuation of the central coefficients of (1 + x + ⋯ + x^(q−1))^n](https://ndesmo.github.io/leaning/central-2adic/) ([notes](notes/central-2adic.md)) | [`halfline_lt/Proofs/Central2adic.lean`](halfline_lt/Proofs/Central2adic.lean) |
 | 2026-11-25 | [Sharp Lieb–Thirring bounds on the Neumann half-line](https://ndesmo.github.io/leaning/halfline-lieb-thirring/) ([RESULTS.md](RESULTS.md)) | [`halfline_lt/HalflineLt/Spec.lean`](halfline_lt/HalflineLt/Spec.lean) |
 

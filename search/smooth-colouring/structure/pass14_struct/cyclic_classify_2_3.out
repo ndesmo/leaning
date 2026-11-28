@@ -1,0 +1,8 @@
+N=36 |B|=6; factorizations with both factors aperiodic: 0
+aperiodic tiles B (containing 0) by (S_B, (Phi_{p^2q}|B, Phi_{pq^2}|B), complement types):
+  ((2, 3), (False, False), ('P',)) 7020
+  ((2, 3), (False, True), ('P', 'p')) 270
+  ((2, 3), (True, False), ('P', 'q')) 468
+  ((2, 3), (True, True), ('P', 'p', 'q')) 18
+  ((2, 9), (False, True), ('p-notCs',)) 90
+  ((3, 4), (True, False), ('q-notDt',)) 936

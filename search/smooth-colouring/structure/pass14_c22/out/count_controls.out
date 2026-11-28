@@ -1,0 +1,22 @@
+COUNT 10 tasks_done=10/10 nodes~10 time=0.0s
+BRUTE n=6 p=2 x=1 q=3 y=1 r=1 cap=1 count=10
+COUNT 10 tasks_done=10/10 nodes~10 time=0.0s
+BRUTE n=6 p=2 x=2 q=3 y=2 r=1 cap=1 count=10
+COUNT 105216 tasks_done=320/320 nodes~9608 time=0.0s
+BRUTE n=30 p=2 x=1 q=3 y=1 r=5 cap=1 count=105216
+COUNT 105216 tasks_done=320/320 nodes~9608 time=0.0s
+BRUTE n=30 p=3 x=1 q=5 y=1 r=2 cap=1 count=105216
+COUNT 417856 tasks_done=96/96 nodes~33396 time=0.0s
+BRUTE n=30 p=2 x=2 q=3 y=0 r=5 cap=3 count=417856
+COUNT 795456 tasks_done=304/304 nodes~58448 time=0.0s
+BRUTE n=30 p=2 x=0 q=3 y=2 r=5 cap=2 count=795456
+COUNT 114432 tasks_done=464/464 nodes~11144 time=0.0s
+BRUTE n=30 p=2 x=2 q=3 y=1 r=5 cap=1 count=114432
+COUNT 123648 tasks_done=608/608 nodes~12680 time=0.0s
+BRUTE n=30 p=2 x=1 q=3 y=2 r=5 cap=1 count=123648
+COUNT 105216 tasks_done=320/320 nodes~9608 time=0.0s
+BRUTE n=30 p=3 x=2 q=5 y=1 r=2 cap=1 count=105216
+COUNT 151296 tasks_done=1040/1040 nodes~17288 time=0.0s
+BRUTE n=30 p=2 x=2 q=3 y=2 r=5 cap=1 count=151296
+COUNT 105216 tasks_done=320/320 nodes~9608 time=0.0s
+BRUTE n=30 p=3 x=2 q=5 y=2 r=2 cap=1 count=105216

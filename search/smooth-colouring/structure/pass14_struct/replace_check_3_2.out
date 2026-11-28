@@ -1,0 +1,2 @@
+Z36: S_B={p,q^2} aperiodic tiles tested 936, replacement worked for all complements: 936, no order-q period: 0
+S_B={p,q}, Phi_pq2 | B, Phi_p2q not | B: B mod <g_p> has no order-q period in 468 cases (expected: all)

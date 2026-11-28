@@ -851,3 +851,52 @@ Next ideas, ranked:
    Then run /review and open the finite-level PR with the two tiers.
 2. Implement the (c_{2,2}) search on Z9×Z25×Z13, with controls at n = 30 and n = 105.
 3. L2 per-n runs at 217, 235 and 247, and 205/41 with `--nosym`.
+
+### 2026-11-28: pass 14
+
+The gtile7 hd = 243 run was resumed, plus two parallel subagents: an exact (c_{2,2}) search
+and a structural attack on the mixed m_π = 15 gap. There is no PR this pass.
+
+1. **gtile7 hd = 243 (p = 3, level 4) at n = 195, the second program for the top p = 3 level.**
+   - The pass-13 driver was still running with 4 workers. I replaced it with `run_b.sh` at 14
+     workers, skipping the 4 parts still running under the old driver.
+   - **206 of 400 parts are done, all NONE.**
+   - The driver is still running detached. Resume it from `independent/` with
+     `sh ../general/out/g7_n195_hd243/run.sh 16 400`; it skips finished parts. Do this only
+     after checking with `tasklist` that no gtile7_p13.exe is running, or the parts will
+     collide.
+2. **(c_{x,y}) exact search** (`structure/pass14_c22/`, README has commands).
+   - Label: [numerical: single program c22.rs, run with and without Aut(G) symmetry breaking;
+     count controls against an independent brute force `brute_c.py` agree in 11 cases at
+     n ≤ 30; positive controls checked by the independent `check_colouring.py`].
+   - (c_{2,2}) on Z9×Z25×Z13 at n = 195 is **NONE**: 3583/3583 tasks with symmetry breaking and
+     176088/176088 without, no timeout.
+   - (c_{3,2}) and (c_{2,3}) are NONE as well, with symmetry breaking only, all tasks complete.
+   - Consistency: (c_{1,1}), (c_{2,1}) and (c_{1,2}) are NONE, which agrees with CCP and the
+     (b_1) NONEs.
+   - Genuine (2,2) witnesses exist at n = 30 and 42. At n = 105 there is none: only lifts
+     exist, and genuine (2,2) is NONE there.
+   - [own argument, unreviewed] (c_{2,2}) is not implied by the excluded (b) levels, so this
+     NONE is a new exclusion.
+3. **Mixed gap, structural** (`structure/pass14_struct/NOTE.md`) [own argument, unreviewed].
+   - Theorem 4 covers cyclic H = Z9×Z25 with B′ aperiodic. Exactly one of three outcomes holds:
+     (i) a periodic replacement B″ exists, which reduces to the closed prime cases;
+     (ii) every fibre is a coset of P, which is (c_{2,2}) and is now excluded numerically;
+     (iii) a residual case R, where S_{B′} = {3, 5} and the fibres are C_s/D_t shapes, the
+     Prop-2 families.
+   - It uses Coven–Meyerowitz B1/B2, read in the source. It also uses Sands 1957 "good groups"
+     for Z225 and Z75, an **[unverified citation]** taken from memory.
+   - It was checked exhaustively on the Z36 analogue (`cyclic_classify.py`, `replace_check.py`).
+   - Prop 6 reduces the pure-C_s part of R to a finite test over F_3, which has not been run.
+   - The non-cyclic H (Z3²×Z25, Z9×Z5², Z3²×Z5²) are untouched, and they are not good groups.
+
+Dead ends: Lemma 2 replacement provably cannot give a periodic B″ in the pure-C_s part of R
+(Prop 5).
+
+Next ideas, ranked:
+1. Finish gtile7 hd = 243, then hd = 625. Then run /review and open the finite-level PR with the
+   two tiers.
+2. Run the Prop-6 F_3 test on pass-13 samples and search R directly. Verify Sands 1957 from the
+   source, or replace it via CM Lemma 2.4.
+3. A second program for (c_{2,2}) at 195, for example a CP-SAT model in ortools. Then push to
+   (c_{3,3}) and (c_{4,2}).

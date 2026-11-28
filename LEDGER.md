@@ -88,6 +88,12 @@ Each gap has a GitHub issue (number in brackets). Approval, priority and progres
   notes A7.4: A7.1 forces σ(1) = 2, σ(k − 1) = 4 up to reversal, the slice of T_4 forces
   σ(3) = 4r, contradicting T_r = multiples of r); with k = 12 from Lean, every k = 4r is done.
   Failed: extending the chain to 2^b·r, b ≥ 3 (the second slice need not end in a multiple of r).
+- Page stage 2026-11-27 (#83/#107): page `docs/weakly-consecutive/index.html`, listed in the site
+  index and the README. It presents A6.0–A6.3, A7.1–A7.2 (k = r·s^b with s ∤ r − 1, all k = pq) and
+  `conjecture_5_2_le_16` as [Lean]; the counts N(k), k ≤ 23, and the uncovered k ≤ 100 as [numerical];
+  A7.4 (k = 4r) as own argument, unreviewed, and A7.5 as in progress, neither claimed. /review: two
+  fresh reviewers found no mathematical error and 9 wording points; the PR reviewer found one
+  overclaim (OEIS scope) and 3 minor points; all fixed (notes, Review).
   Remaining gap: A7.3 (a) and (b) with k ≠ 4r (e.g. (a) 36, 72, 100; (b) 24, 40, 63).
 - Attack stage 2026-11-27 (#68, later): Conjecture 5.2 for k = s²·r, s ∣ r − 1, when
   r ∤ s² − s + 1, and for k = 63 and 2107 (own argument, unreviewed; notes A7.5: A7.4's chain with

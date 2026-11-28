@@ -313,8 +313,8 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         <ul class="plain">
           <li><b>Searched on 27 November 2026:</b> the arXiv API (“weakly consecutive”, and “weakly consecutive” with
             “permutation” in the abstract: only [GSK24]); MathOverflow and Math.SE through the Stack Exchange API
-            (no results); OEIS (nine hits; only [A395372] concerns WCS, and it lists the counts and does not discuss the conjecture; the
-            other eight were not opened);
+            (no results); OEIS (nine hits; only [A395372] was identified as concerning WCS, and it lists the counts and does not discuss
+            the conjecture; the other eight, well-known composition and ordering sequences, were not opened);
             OpenAlex (no citing works); a web search (only [GSK24] and its mirrors).</li>
           <li><b>Searched on 25 November 2026 only:</b> arXiv author searches, zbMATH Open and Crossref (no journal
             version).</li>
@@ -325,7 +325,8 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
         independent Claude subagents (25–27 November 2026), one for the mathematics and one for the claims. They found
         no mathematical error, and each wording finding was fixed. This page was reviewed by two independent Claude
         subagents on 27 November 2026 (mathematics; claims and Lean); they found no mathematical error and nine wording
-        points, all fixed. The record is in
+        points, all fixed. The reviewer pass on PR #107 found one overclaim in the OEIS search scope and three minor
+        points (the pruning's distinctness check, the remainder notation, this line), all fixed. The record is in
         the <a href="https://github.com/ndesmo/leaning/blob/main/notes/weakly-consecutive.md#review">notes</a>.</dd>
     </dl>
     <p class="legend-ev">
@@ -370,7 +371,7 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     <p>
       <b>Notation.</b> pos(<var>v</var>) = σ<sup>−1</sup>(<var>v</var>) is the position of the value <var>v</var>;
       <var>T</var><sub><var>m</var></sub> = {<var>i</var> ∈ [<var>k</var>] : <var>m</var> ∣ σ(<var>i</var>)} is the set of
-      positions holding multiples of <var>m</var>; and <var>s</var><sub><var>m</var></sub> = <var>k</var> mod <var>m</var>.
+      positions holding multiples of <var>m</var>; and <var>ρ</var><sub><var>m</var></sub> = <var>k</var> mod <var>m</var>.
       The reversal of σ is <var>R</var>(σ)(<var>i</var>) = σ(<var>k</var> + 1 − <var>i</var>).
     </p>
     <p>
@@ -418,22 +419,22 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     <h2><span class="kind">Lemma 2</span>Window lemma</h2>
     <p class="statement">
       Let σ be a WCS of length <var>k</var>, <var>i</var> ∈ [<var>k</var>] and <var>m</var> ∈ [2, <var>k</var>] with
-      <var>m</var> ∣ σ(<var>i</var>). Then <var>s</var><sub><var>m</var></sub> &lt; <var>i</var> and
-      <var>s</var><sub><var>m</var></sub> &lt; <var>k</var> + 1 − <var>i</var>. In particular σ(1) ∣ <var>k</var> and
+      <var>m</var> ∣ σ(<var>i</var>). Then <var>ρ</var><sub><var>m</var></sub> &lt; <var>i</var> and
+      <var>ρ</var><sub><var>m</var></sub> &lt; <var>k</var> + 1 − <var>i</var>. In particular σ(1) ∣ <var>k</var> and
       σ(<var>k</var>) ∣ <var>k</var>.
       <span class="ev lean">Lean</span> <code>WeaklyConsecutiveEnds.window</code>, <code>first_dvd</code>, <code>last_dvd</code>
     </p>
     <p class="proof">Proof.</p>
     <ol class="steps">
       <li>By Lemma 1 (a), <var>T</var><sub><var>m</var></sub> is the class of <var>i</var> mod <var>m</var> in [<var>k</var>] and has
-        ⌊<var>k</var>/<var>m</var>⌋ = (<var>k</var> − <var>s</var><sub><var>m</var></sub>)/<var>m</var> points. If
-        <var>i</var> ≤ <var>s</var><sub><var>m</var></sub>, the class contains the ⌊<var>k</var>/<var>m</var>⌋ + 1 points
+        ⌊<var>k</var>/<var>m</var>⌋ = (<var>k</var> − <var>ρ</var><sub><var>m</var></sub>)/<var>m</var> points. If
+        <var>i</var> ≤ <var>ρ</var><sub><var>m</var></sub>, the class contains the ⌊<var>k</var>/<var>m</var>⌋ + 1 points
         <var>i</var> + <var>jm</var>, 0 ≤ <var>j</var> ≤ ⌊<var>k</var>/<var>m</var>⌋, all in [<var>k</var>]; a contradiction.
         <span class="ev lean">Lean</span> <code>window_left</code></li>
       <li>The second inequality is the first one for <var>R</var>(σ) (Lemma 1 (b)), which moves position <var>i</var> to
         <var>k</var> + 1 − <var>i</var>.
         <span class="ev lean">Lean</span> <code>window</code></li>
-      <li>For <var>i</var> = 1, every divisor <var>m</var> ≥ 2 of σ(1) has <var>s</var><sub><var>m</var></sub> &lt; 1, i.e.
+      <li>For <var>i</var> = 1, every divisor <var>m</var> ≥ 2 of σ(1) has <var>ρ</var><sub><var>m</var></sub> &lt; 1, i.e.
         <var>m</var> ∣ <var>k</var>; take <var>m</var> = σ(1) if σ(1) ≥ 2. The same holds for σ(<var>k</var>).
         <span class="ev lean">Lean</span> <code>first_dvd</code>, <code>last_dvd</code> <span class="qed">∎</span></li>
     </ol>
@@ -583,9 +584,10 @@ footer { padding-top: 2rem; border-top: 1px solid var(--rule); font-family: var(
     σ ⟨0, hk⟩ = ⟨0, hk⟩ ∨ σ ⟨k - 1, by omega⟩ = ⟨0, hk⟩</code></pre>
     <p class="proof">Proof.</p>
     <ol class="steps">
-      <li>A backtracking enumerator builds sequences position by position and prunes with the pair test
-        gcd(<var>d</var>, σ(<var>i</var>)) = gcd(<var>d</var>, σ(<var>j</var>)) for positions at distance <var>d</var>, which
-        Definition 1.1 implies (take <var>m</var> equal to either gcd). Lean proves that every WCS survives the pruning.
+      <li>A backtracking enumerator builds sequences position by position and prunes with the pair test: for positions
+        <var>i</var> ≠ <var>j</var> at distance <var>d</var>, σ(<var>i</var>) ≠ σ(<var>j</var>) (so survivors are permutations) and
+        gcd(<var>d</var>, σ(<var>i</var>)) = gcd(<var>d</var>, σ(<var>j</var>)), which Definition 1.1 implies (take <var>m</var>
+        equal to either gcd). Lean proves that every WCS survives the pruning.
         <span class="ev lean">Lean</span> <code>pairOK_of_wc</code>, <code>compat_pre</code>, <code>mem_level</code>, <code>conj52_of_check</code></li>
       <li>The kernel evaluates the enumerator for <var>k</var> = 1, …, 16 by <code>decide +kernel</code> (no
         <code>native_decide</code>) and finds that every surviving sequence has 1 at an end.

@@ -694,6 +694,18 @@ for k ≤ 18. Nine wording points (one raised by both), all fixed in the page:
 No theorem statement or proof step in Lean changed, so no Lean re-check or second review was run.
 Masthead Review line updated.
 
+### Review of PR #107 (reviewer-loop on 05dd0a0, 2026-11-28)
+1. (blocker, overclaim) Novelty said only A395372 "concerns WCS" although eight OEIS hits were not
+   opened. Fixed: "only [A395372] was identified as concerning WCS (the other eight, well-known
+   composition and ordering sequences, were not opened)".
+2. LEDGER had no page-stage entry. Fixed: added "Page stage 2026-11-27 (#83/#107)".
+3. Theorem 8 step 1 omitted the distinctness check in `pairOK` (`!(Nat.beq a b)`). Fixed: the step
+   now states σ(i) ≠ σ(j) as part of the pair test.
+4. s_m = k mod m clashed with the prime s from Theorem 6 on. Fixed: renamed the remainder ρ_m on
+   the page (6 occurrences).
+5. Masthead Review line. Fixed: it now also reports this pass.
+No Lean or theorem statement changed.
+
 ## Log
 
 - **2026-11-25.** Literature stage. Re-checked openness (search scope above): nothing found after
@@ -771,3 +783,4 @@ Masthead Review line updated.
   as [Lean]; A7.4 only as [own argument, unreviewed] under "In progress, not proved here"; A7.5 as
   in progress (Lean PR not merged); A7.3 and ≥ 3 prime factors as open. Novelty re-checked the same
   day (Literature, re-check). Page not yet reviewed.
+- **2026-11-28.** Addressed the PR #107 reviewer comment (1 blocker, 4 minor; all fixed, see Review).

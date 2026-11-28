@@ -10,6 +10,7 @@ them. Nothing here has been peer reviewed.
 
 | Date | Proof | Lean |
 |---|---|---|
+| 2026-11-27 | [The 2-adic valuation of the central coefficients of (1 + x + ⋯ + x^(q−1))^n](https://ndesmo.github.io/leaning/central-2adic/) ([notes](notes/central-2adic.md)) | [`halfline_lt/Proofs/Central2adic.lean`](halfline_lt/Proofs/Central2adic.lean) |
 | 2026-11-25 | [Sharp Lieb–Thirring bounds on the Neumann half-line](https://ndesmo.github.io/leaning/halfline-lieb-thirring/) ([RESULTS.md](RESULTS.md)) | [`halfline_lt/HalflineLt/Spec.lean`](halfline_lt/HalflineLt/Spec.lean) |
 
 ## Layout
